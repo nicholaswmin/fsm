@@ -86,6 +86,7 @@ Follows [Semver][sv], [Conventional Commits][ccom] & 100% unit-test coverage
 [test-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [test-url]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
 [dep-badge]: https://img.shields.io/badge/dependencies-0-b.svg
+[dep-url]: https://blog.author.io/npm-needs-a-personal-trainer-537e0f8859c6
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
