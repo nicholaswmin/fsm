@@ -17,19 +17,20 @@ npm i @nicholaswmin/fsm
 > ... and that's pretty much it
 
 ```js
-const gate = new StateMachine({
+import FSM from '@nicholaswmin/fsm'
+
+const gate = new FSM({
   init: 'locked',
   states: {
-    locked:   { lock: { to: 'unlocked',  actions: ['open']  } },
-    unlocked: { unlock: { to: 'locked',  actions: ['close'] } }
+    locked: { unlock: { to: 'unlocked', actions: ['open']  } },
+    unlocked: { lock: { to: 'locked', actions: ['close']  } }
   },
   
   actions: {
-    open:  () => console.log('opening ...'),
-    close: () => console.log('closing ...')
+    open:  () => console.log('open ...'),
+    close: () => console.log('close ...')
   }
 })
-
 
 // transition state
 gate.transition('unlock')
