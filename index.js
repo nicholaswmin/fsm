@@ -25,9 +25,8 @@ class FSM {
     
     const hasTransition = state => Object.keys(state).includes(name)
     const exists = Object.values(this.states).some(hasTransition)
-    const current = this.states[this.state]
-    const allowed = Object.values(current).map(({ to }) => to)
-    const transition = current[name]
+    const allowed = Object.values(this.states[this.state]).map(({ to }) => to)
+    const transition = this.states[this.state][name]
 
     if (!exists)
       throw new TransitionError(`transition: ${name} does not exist`)
@@ -38,14 +37,10 @@ class FSM {
         `Curr. state: "${this.state}" can transition to: "${allowed.join(', ')}"`
       ].join('. '))
 
-    const old = this.state
-    const latest = transition.to
-    const { actions } = transition
-
-    this.#state = latest
-
-    actions.forEach(name => this.actions[name].call(this, old, latest))
+    transition.actions.forEach(name => this.actions[name].call(this))
     
+    this.#state = transition.to
+
     return this
   }
 }

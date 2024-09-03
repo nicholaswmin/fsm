@@ -1,12 +1,10 @@
-[![test-url][test-badge]][test-url] [![coverage-workflow][coverage-badge]][coverage-report] [![dep-url][dep-badge]][dep-url] 
+[![test-url][test-badge]][test-url] [![cov-url][cov-badge]][cov-url]
 
 # fsm
 
-> minimal [Finite-state machine][fsm]
+> [~1kb][size-url], minimal [Finite-state machine][fsm]
 
 ## Install
-
-> [~1kb][dep-url], zero-dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -104,11 +102,9 @@ node --run test
 [test-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [test-url]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
 
-[coverage-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg?branch=main
-[coverage-report]: https://coveralls.io/github/nicholaswmin/fsm?branch=main
-
-[dep-badge]: https://img.shields.io/badge/dependencies-0-b.svg
-[dep-url]: https://bundlephobia.com/package/@nicholaswmin/fsm
+[cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg?branch=main
+[cov-url]: https://coveralls.io/github/nicholaswmin/fsm?branch=main
+[size-url]: https://bundlephobia.com/package/@nicholaswmin/fsm
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 
