@@ -14,7 +14,7 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> simply throws on an invalid transition
+> throws on invalid transitions
 
 ```js
 import FSM from '@nicholaswmin/fsm'
@@ -62,7 +62,7 @@ Current `state`
 ### `fsm.transition(name)` 
 
 Transition to another state, if allowed.  
-Otherwise a`TransitionError` is thrown.
+Otherwise a `TransitionError` is thrown.
 
 
 | name    | type     | desc.       |
@@ -79,8 +79,8 @@ gate.transition('unlock').transition('lock')
 
 ## Safeguards
 
-To safeguard against runtime errors, input arguments are validated, 
-then both the arguments & FSM are frozen via `Object.freeze`.
+input arguments are strongly validated, then both arguments & FSM are 
+frozen via `Object.freeze`.
 
 ## Test 
 
