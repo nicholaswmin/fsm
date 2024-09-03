@@ -30,9 +30,10 @@ const gate = new StateMachine({
   }
 })
 
-// initial state: 'locked'
 
+// transition state
 gate.transition('unlock')
+
 console.log(gate.state)
 // state: 'unlocked'
 
@@ -43,17 +44,15 @@ gate.transition('unlock')
 
 ## API 
 
-### `new FSM({ init, states, actions })`
+#### `new FSM({ init, states, actions })`
 
 Construct a new `FSM`, see example above for details.
 
-### `fsm.transition(name)` 
+#### `fsm.transition(name)` 
 
 Transition from one state to another, if allowed.
 
-`name`: `String` : The transition name
-
-### `fsm.state` 
+#### `fsm.state` 
 
 The current `state` 
 
@@ -93,7 +92,7 @@ node --run test
 
 ## Contributing
 
-Follows [Semver][sv], [Conventional Commits][ccom] & 100% unit-test coverage
+Follows [Semver][sv], [Conventional Commits][ccom]
 
 ## Authors
 
