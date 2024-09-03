@@ -25,6 +25,7 @@ jobs:
 
     - run: npm ci
     - run: node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info \"test/**/*.test.js\"
-    - run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz && ./coveralls report lcov.info
+    - run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz
+    - run: ./coveralls report lcov.info
       env:
         NODE_ENV: test
