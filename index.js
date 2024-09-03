@@ -1,7 +1,5 @@
 import { TransitionError } from './src/errors.js'
-import {  
-  vString, vInit, vStates, vActions, initExists, vActionsMatchStates
-} from './src/validate.js'
+import { validate, hasState, statesHaveActions } from './src/validate.js'
 
 class FSM {
   #state = null
@@ -11,17 +9,17 @@ class FSM {
   get state() { return this.#state }
 
   constructor({ init, states, actions }) {
-    this.#state = vInit(init)
-    this.#states = vStates(states)
-    this.#actions = vActions(actions)
+    this.#state = validate.init(init)
+    this.#states = validate.states(states)
+    this.#actions = validate.actions(actions)
     
-    initExists(init, vActionsMatchStates(this.#states, this.#actions)) 
+    hasState(init, statesHaveActions(this.#states, this.#actions)) 
 
     ;[this.#states, this.#actions, this].map(Object.freeze)
   }
   
   transition(name) { 
-    name = vString(name, 'transition name')
+    name = validate.string(name, 'transition name')
     
     const hasTransition = state => Object.keys(state).includes(name)
     const exists = Object.values(this.#states).some(hasTransition)

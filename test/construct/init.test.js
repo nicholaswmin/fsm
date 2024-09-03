@@ -55,8 +55,8 @@ test('#construct parameter: "init"', async t => {
         },
         actions: {  open:  () => {} }
       }), {
-        name: 'RangeError',
-        message: /"init" state: "foo" is not a valid state/ 
+        name: 'TypeError',
+        message: /state: "foo" does not exist/ 
       })
     })
   })

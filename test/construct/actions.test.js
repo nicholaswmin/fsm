@@ -79,7 +79,7 @@ test('#construct parameter: "actions"', async t => {
         }
       }), {
         name: 'RangeError',
-        message: /action: "open" not used in any state actions/
+        message: /action: "open" not used in a transition/
       })
     })
   })
