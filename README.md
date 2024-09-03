@@ -1,8 +1,8 @@
 [![test-url][test-badge]][test-url] [![cov-url][cov-badge]][cov-url]
 
-# :infinity: fsm
+# fsm
 
-> [~1kb][size-url], minimal [Finite-state machine][fsm]
+> [~1kb][size], minimal [Finite-state machine][fsm]
 
 ## Install
 
@@ -45,11 +45,11 @@ gate.transition('unlock')
 
 ### `new FSM({ init, states, actions })`
 
-| name      | type     | description                              |
-|-----------|----------|------------------------------------------|
-| `init`    | `String` | Initial State                            |
-| `states`  | `Object` | List of possible `states`                |
-| `actions` | `Object` | List of actions, each being a `Function` |
+| name      | type     | description                |
+|-----------|----------|----------------------------|
+| `init`    | `String` | Initial State              |
+| `states`  | `Object` | List of possible `states`  |
+| `actions` | `Object` | List of `actions`          |
 
 Construct an `FSM`, see example above.
 
@@ -77,8 +77,8 @@ gate.transition('unlock').transition('lock')
 
 ## Integrity safeguards
 
-To safeguard against runtime errors, the input arguments are extensively
-validated, then both the arguments & the FSM are [`frozen`][obj-freeze].
+To safeguard against runtime errors, the input arguments are validated, 
+then both the arguments & the FSM are [`frozen`][obj-freeze].
 
 ## Test 
 
@@ -101,7 +101,7 @@ node --run test
 
 [cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg?branch=main
 [cov-url]: https://coveralls.io/github/nicholaswmin/fsm?branch=main
-[size-url]: https://bundlephobia.com/package/@nicholaswmin/fsm
+[size]: https://bundlephobia.com/package/@nicholaswmin/fsm
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 [obj-freeze]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
