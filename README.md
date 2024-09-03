@@ -2,9 +2,11 @@
 
 # fsm
 
-> [~1kb][size], minimal [Finite-state machine][fsm]
+> minimal [Finite-state machine][fsm]
 
 ## Install
+
+> [~1kb][size], zero dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
