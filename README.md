@@ -40,9 +40,10 @@ gate.transition('unlock')
 // throws: `InvalidTransitionError`
 ```
 
+
 ## API 
 
-### `new FSM({ init, states, actions })
+### `new FSM({ init, states, actions })`
 
 Construct a new `FSM`, see example above for details.
 
