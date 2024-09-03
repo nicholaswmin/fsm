@@ -59,10 +59,8 @@ Current `state`
 
 ### `fsm.transition(name)` 
 
-Transition to another state, if allowed. 
-
-If not, or if the transition does not exist at all, 
-a `TransitionError` is thrown
+Transition to another state, if allowed.  
+Otherwise a`TransitionError` is thrown.
 
 
 | name      | type     | description                              |
