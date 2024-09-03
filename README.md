@@ -41,10 +41,10 @@ gate.transition('unlock')
 
 ## Setup correctness
 
-There;s an emphasis on setup *correctness*.   
+There's a specific emphasis on setup *correctness*.   
 
-Extensive validations ensure the FSM is setup with correct `states` & `actions`,
-as much as possible.
+Fairly extensive validations ensure the FSM is setup with correct 
+`states` & `actions`, as much as possible.
 
 For example: 
 
