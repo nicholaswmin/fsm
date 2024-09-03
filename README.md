@@ -43,7 +43,7 @@ gate.transition('unlock')
 
 ## API 
 
-#### `new FSM({ init, states, actions })`
+### `new FSM({ init, states, actions })`
 
 | name      | type     | description                              |
 |-----------|----------|------------------------------------------|
@@ -65,11 +65,11 @@ A `transition` is described as an `Object` in the following format:
 
 Construct an `FSM`, see example above.
 
-#### `fsm.state` 
+### `fsm.state` 
 
 Current `state` 
 
-#### `fsm.transition(name)` 
+### `fsm.transition(name)` 
 
 Transition to another state, if allowed.
 
