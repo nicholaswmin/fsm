@@ -1,7 +1,7 @@
-import { TransitionError } from './src/err.js'
+import { TransitionError } from './src/errors.js'
 import {  
-  vString, vInit, vStates, vActions, initExists, vActionsMatchStates, deepFreeze
-} from './src/valid.js'
+  vString, vInit, vStates, vActions, initExists, vActionsMatchStates
+} from './src/validate.js'
 
 class FSM {
   #state = null
@@ -12,13 +12,12 @@ class FSM {
 
   constructor({ init, states, actions }) {
     this.#state = vInit(init)
-    this.#states = deepFreeze(vStates(states, actions))
-    this.#actions = deepFreeze(vActions(actions, this.#states))
+    this.#states = vStates(states)
+    this.#actions = vActions(actions)
     
-    vActionsMatchStates(this.#states, this.#actions)
-    initExists(init, this.#states) 
+    initExists(init, vActionsMatchStates(this.#states, this.#actions)) 
 
-    Object.freeze(this)
+    ;[this.#states, this.#actions, this].map(Object.freeze)
   }
   
   transition(name) { 
