@@ -6,7 +6,7 @@
 
 ## Install
 
-> [~1kb][size], zero dependencies
+> [~1kb][size], 0-dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -27,19 +27,19 @@ const gate = new FSM({
   },
   
   actions: {
-    open:  () => console.log('opened gate'),
-    close: () => console.log('closed gate')
+    open:  () => console.log('opened'),
+    close: () => console.log('closed')
   }
 })
 
-// transition to another state ...
+// transition state
 gate.transition('unlock')
 
 console.log(gate.state)
-// state: 'unlocked' ...
+// state: 'unlocked'
 
 gate.transition('unlock')
-// throws: `TransitionError`
+// `TransitionError`
 ```
 
 
@@ -47,7 +47,7 @@ gate.transition('unlock')
 
 ### `new FSM({ init, states, actions })`
 
-| name      | type     | description                |
+| name      | type     | desc.                      |
 |-----------|----------|----------------------------|
 | `init`    | `String` | Initial State              |
 | `states`  | `Object` | List of possible `states`  |
@@ -65,22 +65,22 @@ Transition to another state, if allowed.
 Otherwise a`TransitionError` is thrown.
 
 
-| name    | type     | description      |
-|---------|----------|------------------|
-| `name`  | `String` | Transition name  |
+| name    | type     | desc.       |
+|---------|----------|-------------|
+| `name`  | `String` | transition  |
 
 
-Calls can be chained, like so: 
+calls can be chained: 
 
 ```js
 gate.transition('unlock').transition('lock')
 ```
 
 
-## Integrity safeguards
+## Safeguards
 
-To safeguard against runtime errors, the input arguments are validated, 
-then both the arguments & the FSM are [`frozen`][obj-freeze].
+To safeguard against runtime errors, input arguments are validated, 
+then both the arguments & FSM are frozen via `Object.freeze`.
 
 ## Test 
 
@@ -88,11 +88,11 @@ then both the arguments & the FSM are [`frozen`][obj-freeze].
 node --run test
 ```
 
-> tests are excluded from `npm publish`
+> excluded from `npm publish`
 
 ## Authors
 
-[@nicholaswmin][nicholaswmin]
+[@nicholaswmin][author]
 
 ## License 
 
@@ -101,12 +101,11 @@ node --run test
 [test-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [test-url]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
 
-[cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg?branch=main
-[cov-url]: https://coveralls.io/github/nicholaswmin/fsm?branch=main
+[cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
+[cov-url]: https://coveralls.io/github/nicholaswmin/fsm
 [size]: https://bundlephobia.com/package/@nicholaswmin/fsm
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
-[obj-freeze]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
 
-[nicholaswmin]: https://github.com/nicholaswmin
+[author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
