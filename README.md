@@ -63,9 +63,9 @@ Transition to another state, if allowed.
 Otherwise a`TransitionError` is thrown.
 
 
-| name      | type     | description                              |
-|-----------|----------|------------------------------------------|
-| `name`    | `String` | Transition name                          |
+| name    | type     | description      |
+|---------|----------|------------------|
+| `name`  | `String` | Transition name  |
 
 
 Calls can be chained, like so: 
