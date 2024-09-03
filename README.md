@@ -1,10 +1,12 @@
 [![test-url][test-badge]][test-url] [![cov-url][cov-badge]][cov-url]
 
-# :infinity: fsm
+# fsm
 
-> [~1kb][size-url], minimal [Finite-state machine][fsm]
+> minimal [Finite-state machine][fsm]
 
 ## Install
+
+> [~1kb][size], 0-dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -12,7 +14,7 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> simply throws on an invalid transition
+> throws on invalid transitions
 
 ```js
 import FSM from '@nicholaswmin/fsm'
@@ -25,63 +27,60 @@ const gate = new FSM({
   },
   
   actions: {
-    open:  () => console.log('opened gate'),
-    close: () => console.log('closed gate')
+    open:  () => console.log('opened'),
+    close: () => console.log('closed')
   }
 })
 
-// transition state ...
+// transition state
 gate.transition('unlock')
 
 console.log(gate.state)
-// state: 'unlocked' ...
+// state: 'unlocked'
 
 gate.transition('unlock')
-// throws: `TransitionError`
+// `TransitionError`
 ```
 
 
 ## API 
 
-#### `new FSM({ init, states, actions })`
+### `new FSM({ init, states, actions })`
+
+| name      | type     | desc.                      |
+|-----------|----------|----------------------------|
+| `init`    | `String` | Initial State              |
+| `states`  | `Object` | List of possible `states`  |
+| `actions` | `Object` | List of `actions`          |
 
 Construct an `FSM`, see example above.
 
-#### `fsm.transition(name)` 
-
-Transition to another state, if allowed.
-
-#### `fsm.state` 
+### `fsm.state` 
 
 Current `state` 
 
+### `fsm.transition(name)` 
 
-## Setup validations
+Transition to another state, if allowed.  
+Otherwise a `TransitionError` is thrown.
 
-Prioritizes a small scope, small filesize & *setup correctness*, so it's 
-fairly strict about it's setup:
+
+| name    | type     | desc.       |
+|---------|----------|-------------|
+| `name`  | `String` | transition  |
+
+
+calls can be chained: 
 
 ```js
-const gate = new FSM({
-  init: 'locked',
-  states: {
-    locked: { 
-      // ... 
-      unlock: {  
-        actions: ['open'] // <-- declares `open` ...
-      }
-    }
-  },
-  
-  actions: {
-    close: () => { } // <-- (!) ... but only `close` defined
-  }
-})
-
-// Throws:
-// RangeError: state.0.transition.0.actions.0: "open" not present in actions
+gate.transition('unlock').transition('lock')
 ```
 
+
+## Safeguards
+
+input arguments are strongly validated, then both arguments & FSM are 
+frozen via `Object.freeze`.
 
 ## Test 
 
@@ -89,11 +88,11 @@ const gate = new FSM({
 node --run test
 ```
 
-> tests are excluded from `npm publish`
+> excluded from `npm publish`
 
 ## Authors
 
-[@nicholaswmin][nicholaswmin]
+[@nicholaswmin][author]
 
 ## License 
 
@@ -102,11 +101,11 @@ node --run test
 [test-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [test-url]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
 
-[cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg?branch=main
-[cov-url]: https://coveralls.io/github/nicholaswmin/fsm?branch=main
-[size-url]: https://bundlephobia.com/package/@nicholaswmin/fsm
+[cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
+[cov-url]: https://coveralls.io/github/nicholaswmin/fsm
+[size]: https://bundlephobia.com/package/@nicholaswmin/fsm
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 
-[nicholaswmin]: https://github.com/nicholaswmin
+[author]: https://github.com/nicholaswmin
 [license]: ./LICENSE

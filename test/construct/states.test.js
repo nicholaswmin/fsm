@@ -16,7 +16,7 @@ test('#construct parameter: "states"', async t => {
           actions: {  open:  () => {} }
         }), {
           name: 'TypeError',
-          message: /"states" parameter is missing/ 
+          message: /states is missing/ 
         })
       })
     })
@@ -29,7 +29,7 @@ test('#construct parameter: "states"', async t => {
           actions: {  open:  () => {} }
         }), {
           name: 'TypeError',
-          message: /states must be an Object/ 
+          message: /states exp. object/ 
         })
       })
     })
@@ -42,7 +42,7 @@ test('#construct parameter: "states"', async t => {
           actions: {  open:  () => {} }
         }), {
           name: 'RangeError',
-          message: /states object must have some states/ 
+          message: /no states found/ 
         })
       })
     })
@@ -57,7 +57,7 @@ test('#construct parameter: "states"', async t => {
           actions: {  open:  () => {} }
         }), {
           name: 'RangeError',
-          message: /state.0 must have transitions, has 0/ 
+          message: /state.0 has no transitions/ 
         })
       })
 
@@ -70,11 +70,11 @@ test('#construct parameter: "states"', async t => {
           actions: {  open:  () => {} }
         }), {
           name: 'TypeError',
-          message: /state.0.transition.0 must be an Object, got: number/ 
+          message: /state.0.transition.0 exp. object, got: number/ 
         })
       })
     })
-    
+
     await t.test('transition lacks "actions" property', async t => {
       await t.test('throws descriptive TypeError', t => {
         t.assert.throws(() => new FSM({ 
@@ -85,7 +85,7 @@ test('#construct parameter: "states"', async t => {
           actions: {  open:  () => {} }
         }), {
           name: 'TypeError',
-          message: /state.0.transition.0.actions must be an Array, is: undef/ 
+          message: /state.0.transition.0.actions exp. array/ 
         })
       })
       
@@ -99,7 +99,7 @@ test('#construct parameter: "states"', async t => {
             actions: {  open:  () => {} }
           }), {
             name: 'TypeError',
-            message: /state.0.transition.0.actions must be an Array/ 
+            message: /state.0.transition.0.actions exp. array/ 
           })
         })
       })
@@ -114,7 +114,7 @@ test('#construct parameter: "states"', async t => {
             actions: {  open:  () => {} }
           }), {
             name: 'RangeError',
-            message: /state.0.transition.0 must have some actions, has 0/ 
+            message: /state.0.transition.0 has no actions/ 
           })
         })
       })
@@ -129,7 +129,7 @@ test('#construct parameter: "states"', async t => {
             actions: {  open:  () => {} }
           }), {
             name: 'TypeError',
-            message: /"state.0.transition.0.actions.0" must be a valid String/ 
+            message: /state.0.transition.0.actions.0 exp. string/ 
           })
         })
       })
@@ -143,8 +143,8 @@ test('#construct parameter: "states"', async t => {
             },
             actions: { close:  () => {} }
           }), {
-            name: 'RangeError',
-            message: /0.transition.0.actions.0: "open" not present in actions/ 
+            name: 'TypeError',
+            message: /state.0.transition.0.actions.0: open not present/ 
           })
         })
       })

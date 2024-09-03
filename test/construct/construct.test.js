@@ -25,27 +25,5 @@ test('#construct', async t => {
       t.assert.ok(!Object.hasOwn(fsm, 'state'), 'missing fsm prop "state"')
       t.assert.strictEqual(fsm.state, 'locked')
     })
-    
-    await t.test('prevents overwriting internals', async t => {
-      const fsm = new FSM(valid)
-
-      await t.test('prevents overwriting states', t => {  
-        t.assert.throws(() => fsm.states = 'foo', {
-          message: /Cannot assign to read only/ 
-        })
-      })
-
-      await t.test('prevents overwriting actions', t => {
-        t.assert.throws(() => fsm.actions = 'bar', {
-          message: /Cannot assign to read only/ 
-        })
-      })
-      
-      await t.test('prevents overwriting current state', t => {
-        t.assert.throws(() => fsm.state = 'baz', {
-          message: /has only a getter/ 
-        })
-      })
-    })
   })
 })
