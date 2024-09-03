@@ -1,4 +1,4 @@
-[![test-url][test-badge]][test-url] [![dep-url][dep-badge]][dep-url] 
+[![test-url][test-badge]][test-url] [![coverage-workflow][coverage-badge]][coverage-report] [![dep-url][dep-badge]][dep-url] 
 
 # fsm
 
@@ -83,17 +83,12 @@ const gate = new FSM({
 // Throws: TypeError: "state.0.actions.0" must be a valid String, got: number
 ```
 
+
 ## Test 
 
 ```bash
 node --run test
 ```
-
-> code coverage output at: `test/lcov.info`
-
-## Contributing
-
-Follows [Semver][sv], [Conventional Commits][ccom]
 
 ## Authors
 
@@ -105,6 +100,10 @@ Follows [Semver][sv], [Conventional Commits][ccom]
 
 [test-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [test-url]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
+
+[coverage-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg?branch=main
+[coverage-report]: https://coveralls.io/github/nicholaswmin/fsm?branch=main
+
 [dep-badge]: https://img.shields.io/badge/dependencies-0-b.svg
 [dep-url]: https://blog.author.io/npm-needs-a-personal-trainer-537e0f8859c6
 
