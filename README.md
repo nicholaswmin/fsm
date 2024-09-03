@@ -77,7 +77,7 @@ gate.transition('unlock').transition('lock')
 
 ## Integrity safeguards
 
-To safeguards against runtime errors, the input arguments are extensively
+To safeguard against runtime errors, the input arguments are extensively
 validated, then both the arguments & the FSM are [`frozen`][obj-freeze].
 
 ## Test 
