@@ -56,31 +56,12 @@ Transition to another state, if allowed.
 Current `state` 
 
 
-## Setup validations
+## Strict setup
 
-Prioritizes a small scope, small filesize & *setup correctness*, so it's 
-fairly strict about it's setup:
+The setup includes validations which serve to minimize runtime errors.  
 
-```js
-const gate = new FSM({
-  init: 'locked',
-  states: {
-    locked: { 
-      // ... 
-      unlock: {  
-        actions: ['open'] // <-- declares `open` ...
-      }
-    }
-  },
-  
-  actions: {
-    close: () => { } // <-- (!) ... but only `close` defined
-  }
-})
-
-// Throws:
-// RangeError: state.0.transition.0.actions.0: "open" not present in actions
-```
+Additionally, once setup, both the `arguments` & the FSM itself are 
+[`frozen`][obj-freeze], making it impossible to modify any of it's interals.
 
 
 ## Test 
@@ -107,6 +88,7 @@ node --run test
 [size-url]: https://bundlephobia.com/package/@nicholaswmin/fsm
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
+[obj-freeze]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
 
 [nicholaswmin]: https://github.com/nicholaswmin
 [license]: ./LICENSE

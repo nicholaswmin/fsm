@@ -102,7 +102,7 @@ const vActionsPresent = (v, actions = {}) => {
     Object.values(s).map((t, j) => {
       t.actions.forEach((action, k) => {
         if (!inActions(action))
-          throw new RangeError([
+          throw new TypeError([
             `state.${i}.transition.${j}.actions.${k}:`,
              `"${action}" not present in actions`
           ].join(' ')) 
@@ -138,4 +138,16 @@ const vActionsMatchStates = (states, actions) => {
   vActionsUtilised(actions, states)
 }
 
-export { vString, vInit, vActions, vStates, initExists, vActionsMatchStates }
+const deepFreeze = obj => {
+  Object.freeze(obj)
+
+  for (const key in obj)
+    if (obj[key].length)
+      return deepFreeze(obj)
+  
+  return obj
+}
+
+export { 
+  vString, vInit, vActions, vStates, initExists, vActionsMatchStates, deepFreeze 
+}

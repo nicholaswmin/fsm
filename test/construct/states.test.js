@@ -74,7 +74,7 @@ test('#construct parameter: "states"', async t => {
         })
       })
     })
-    
+
     await t.test('transition lacks "actions" property', async t => {
       await t.test('throws descriptive TypeError', t => {
         t.assert.throws(() => new FSM({ 
@@ -143,7 +143,7 @@ test('#construct parameter: "states"', async t => {
             },
             actions: { close:  () => {} }
           }), {
-            name: 'RangeError',
+            name: 'TypeError',
             message: /0.transition.0.actions.0: "open" not present in actions/ 
           })
         })
