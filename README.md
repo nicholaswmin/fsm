@@ -1,6 +1,6 @@
 [![test-url][test-badge]][test-url] [![cov-url][cov-badge]][cov-url]
 
-# fsm
+# :infinity: fsm
 
 > [~1kb][size-url], minimal [Finite-state machine][fsm]
 
