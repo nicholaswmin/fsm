@@ -22,8 +22,8 @@ test('#construct', async t => {
     await t.test('has set initial state', t => {
       const fsm = new FSM(valid)
 
-      t.assert.ok(!Object.hasOwn(fsm, 'current'), 'missing fsm prop "current"')
-      t.assert.strictEqual(fsm.current, 'locked')
+      t.assert.ok(!Object.hasOwn(fsm, 'state'), 'missing fsm prop "state"')
+      t.assert.strictEqual(fsm.state, 'locked')
     })
     
     await t.test('prevents overwriting internals', async t => {
@@ -42,7 +42,7 @@ test('#construct', async t => {
       })
       
       await t.test('prevents overwriting current state', t => {
-        t.assert.throws(() => fsm.current = 'baz', {
+        t.assert.throws(() => fsm.state = 'baz', {
           message: /has only a getter/ 
         })
       })

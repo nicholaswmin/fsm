@@ -1,8 +1,8 @@
 class InvalidTransitionError extends Error {
-  constructor({ transitionName, current, to }) {
+  constructor({ transitionName, state, to }) {
     super([
       `Invalid transition: "${transitionName}"`,
-      `Current state: "${current}" can only transition to: "${to}"`
+      `Current state: "${state}" can only transition to: "${to}"`
     ].join('. '))
     this.error = this.constructor.name
     this.name = this.constructor.name

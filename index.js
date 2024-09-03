@@ -3,10 +3,10 @@ import {
   vString, vInit, vStates, vActions, initExists, vActionsMatchStates 
 } from './src/valid.js'
 
-class StateMachine {
-  #current
+class FSM {
+  #current = null
 
-  get current() { return this.#current }
+  get state() { return this.#current }
 
   constructor({ init, states, actions }) {
     this.#current = vInit(init)
@@ -25,7 +25,7 @@ class StateMachine {
     
     const hasTransition = state => Object.keys(state).includes(transitionName)
     const exists = Object.values(this.states).some(hasTransition)
-    const current = this.states[this.current]
+    const current = this.states[this.state]
     const transition = current[transitionName]
     
     if (!exists)
@@ -35,12 +35,11 @@ class StateMachine {
     
     if (!transition) 
       throw new InvalidTransitionError({ 
-        transitionName, 
-        current: this.current, 
+        transitionName, state: this.state, 
         to: Object.values(current).at(0).to
       })
 
-    const old = this.current
+    const old = this.state
     const latest = transition.to
     this.#current = latest
     transition.actions.forEach(name => 
@@ -50,4 +49,4 @@ class StateMachine {
   }
 }
 
-export default StateMachine
+export default FSM

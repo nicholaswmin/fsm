@@ -30,23 +30,42 @@ const gate = new StateMachine({
   }
 })
 
-// state: 'locked'
+// initial state: 'locked'
 
 gate.transition('unlock')
+console.log(gate.state)
 // state: 'unlocked'
 
 gate.transition('unlock')
 // throws: `InvalidTransitionError`
 ```
 
+## API 
+
+### `new FSM({ init, states, actions })
+
+Construct a new `FSM`, see example above for details.
+
+### `fsm.transition(name)` 
+
+Transition from one state to another, if allowed.
+
+`name`: `String` : The transition name
+
+### `fsm.state` 
+
+The current `state` 
+
+
 ## Setup correctness
 
-There's a specific emphasis on setup *correctness*.   
+This FSM prioritizes small scope, small size and a specific emphasis on 
+setup *correctness*. 
 
-Fairly extensive validations ensure the FSM is setup with correct 
-`states` & `actions`, as much as possible.
+Validations ensure the FSM is setup with correct `states` & `actions`, 
+as much as possible.
 
-For example: 
+Example: 
 
 ```js
 const gate = new FSM({
