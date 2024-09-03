@@ -2,17 +2,24 @@
   "name": "@nicholaswmin/fsm",
   "type": "module",
   "sideEffects": false,
-  "version": "1.2.7",
-  "description": "minimal Finite-state machine",
-  "main": "index.js",
+  "version": "1.9.0",
+  "description": "finite-state machine",
+  "main": "src/index.js",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test --experimental-test-coverage \"test/**/*.test.js\""
+    "test": "node --test --experimental-test-coverage \"test/**/*.test.js\"",
+    "lint": "npx -y eslint \"**/*.js\" --no-config-lookup",
+    "test:mutation": "npx -y @stryker-mutator/core run --reporters dots,clear-text",
+    "test:size": "npm i -D size-limit @size-limit/file @size-limit/webpack && npx size-limit; npm r -D size-limit @size-limit/file @size-limit/webpack "
   },
-  "files": [
-    "src/"
+  "size-limit": [
+    {
+      "limit": "999 B",
+      "path": "src/*.js",
+      "gzip": true
+    }
   ],
   "repository": {
     "type": "git",
@@ -23,7 +30,7 @@
     "finite-state-machine"
   ],
   "author": "@nicholaswmin",
-  "license": "MIT-0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nicholaswmin/fsm/issues"
   },

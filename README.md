@@ -1,12 +1,25 @@
-[![test-url][test-badge]][test-url] [![cov-url][cov-badge]][cov-url]
+[![tests][testb]][tests] [![cov][covb]][cov]
 
 # fsm
 
-> minimal [Finite-state machine][fsm]
+> a [finite-state machine][fsm] 
 
-## Install
+> A state machine, is a mathematical model of computation.  
+> It is an abstract machine that can be in one of a finite number of
+> `states` at any given time.   
+> The change from one state to another is called a `transition`.
 
-> [~1kb][size], 0-dependencies
+Finite-state machines are modelling constructs which allow expressing a piece 
+of logic *declaratively*, in a concise yet precise manner. They can only exist 
+in *one, always-valid* state at any given time, rendering them inherently safe, 
+by design.[^1]
+
+This minimal implementation allows constructing production-grade FSMs which 
+are expressive, simple and robust.  
+
+## Install 
+
+`~ 850 bytes` gzipped, zero-dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -14,81 +27,281 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> throws on invalid transitions
+> canonical FSM example, a [turnstile mechanism][turn]
 
 ```js
-import FSM from '@nicholaswmin/fsm'
+import { Sync as FSM } from '@nicholaswmin/fsm'
 
-const gate = new FSM({
-  init: 'locked',
-  states: {
-    locked: { unlock: { to: 'unlocked', actions: ['open']  } },
-    unlocked: { lock: { to: 'locked', actions: ['close']  } }
-  },
-  
-  actions: {
-    open:  () => console.log('opened'),
-    close: () => console.log('closed')
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+
+turnstile.coin()
+// state: opened
+
+turnstile.push()
+// state: closed
+```
+
+## Transition methods
+
+> transition from one `state` to another, if allowed.
+
+They are created from the provided `states`, which renders an expressive 
+& domain-specific API.
+
+For example, this: 
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+```
+
+creates methods:
+
+```js
+turnstile.coin()
+// state: opened
+
+turnstile.push()
+// state: closed
+```
+
+> note: transition methods are chainable:
+
+```js
+turnstile.coin().push()
+// state: closed
+```
+
+### Invalid transitions
+
+Attempting to trigger a transition which isn't listed under the current
+state will throw an `Error`.
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+
+turnstile.push()
+// Error: push() not allowed in state:closed
+
+```
+
+## Hooks
+
+The 2nd argument accepts an object, optionally implementing hook methods.  
+Hooks are called at specific transition phases, optionally altering the 
+transition behavior.
+
+Same example:
+
+```js
+closed: { coin: 'opened' },
+opened: { push: 'closed' }
+```
+
+### Transition hooks 
+ 
+> called when transition is triggered, *before* the state changes:
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onCoin() {
+    console.log('coin dropped!, state:', this.state)
   }
 })
 
-// transition state
-gate.transition('unlock')
+turnstile.onCoin()
+// coin dropped!, state: closed
 
-console.log(gate.state)
-// state: 'unlocked'
-
-gate.transition('unlock')
-// `TransitionError`
+console.log(turnstile.state)
+// state: opened
 ```
 
+### State hooks 
+
+> called when a transition completes, *after* the state changes:
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onClosed() {
+    console.log('closed')
+  },
+  onOpened() {
+    console.log('opened')
+  }
+})
+
+turnstile.coin()
+// opened!
+
+turnstile.push()
+// closed!
+
+```
+
+## Transition cancellations
+
+Transition hooks may cancel a transition by explicitly returning `false`.
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onCoin(coin) {
+    return coin >= 50
+  }
+})
+
+turnstile.coin(30)
+// state: closed 
+
+turnstile.coin(50)
+// state: opened
+```
+
+> note: `undefined`, `null`, `0` etc. are *falsy* values but not `false`.
+
+## Passing arguments 
+
+Transition methods can pass variadic arguments to relevant hooks [^2]:
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onCoin: () => console.log(arg1, arg2)
+})
+
+turnstile.insertCoin('foo', 'bar')
+
+// foo, bar
+
+```
+
+## Asynchronous transitions
+
+Asynchronous FSMs can be constructed from the exported `Async` FSM:
+
+```js
+import { Async as FSM } from '@nicholaswmin/fsm'
+
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  async onCoin: coins => {
+    // a whatever async call ...
+    await db('select * from....'')
+      
+    // decided to cancel the transition
+    return false
+  }
+})
+
+console.log(turnstile.state)
+// state: closed
+
+await turnstile.coin()
+// state: closed 
+```
+
+> note: transition hooks *must* be marked as `async`.  
+> ... and of course, transition methods must be called with `await`.
+
+## Subclassing
+
+Instead of providing a `ctx` argument, any hooks should be implemented as 
+methods directly on the subclass itself. 
+
+```js
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+  
+  onCoin() {
+    console.log('coin dropped!')
+  }
+}
+
+const turnstile = new Turnstile()
+
+turnstile.coin()
+// coin dropped!
+
+console.log(turnstile.state)
+// state: opened
+```
 
 ## API 
 
-### `new FSM({ init, states, actions })`
+### `new FSM(states, ctx)`
 
-| name      | type     | desc.                      |
-|-----------|----------|----------------------------|
-| `init`    | `String` | Initial State              |
-| `states`  | `Object` | List of possible `states`  |
-| `actions` | `Object` | List of `actions`          |
+Construct an `FSM`
 
-Construct an `FSM`, see example above.
+| name     | type     | desc.                           | default  |
+|----------|----------|---------------------------------|----------|
+| `states` | `object` | a [state-transition table][stt] | required |
+| `ctx`    | `object` | implements transition hooks     | `this`   |
 
-### `fsm.state` 
-
-Current `state` 
-
-### `fsm.transition(name)` 
-
-Transition to another state, if allowed.  
-Otherwise a `TransitionError` is thrown.
-
-
-| name    | type     | desc.       |
-|---------|----------|-------------|
-| `name`  | `String` | transition  |
-
-
-calls can be chained: 
+`states` must have the following shape:
 
 ```js
-gate.transition('unlock').transition('lock')
+state: { transition: 'state' },
+state: { transition: 'state' }
 ```
 
+> each `state` can list zero, one or multiple transitions.  
+> 1st state is set as the *initial* state.  
 
-## Safeguards
+### `.state` 
 
-input arguments are strongly validated, then both arguments & FSM are 
-frozen via `Object.freeze`.
+The current `state`. Read-only.
+
+
+## Guards
+
+This implementation attempts to shift errors at *contruction-time* rather 
+than *run-time*.  
+It does so by validating it's state-transition table against `undefined`, 
+invalidly-typed or unreasonable `states` inputs.
+
+It also freezes it's internals to guard against accidental modifications 
+by-reference, via it's arguments. 
+
+As such, `FSM` instances should be considered *immutable*.
 
 ## Test 
+
+> unit-tests & coverage:
 
 ```bash
 node --run test
 ```
 
-> excluded from `npm publish`
+> mutation testing:
+
+```bash
+node --run test:mutation
+```
 
 ## Authors
 
@@ -96,16 +309,36 @@ node --run test
 
 ## License 
 
-[MIT-0][license]
+[The MIT License][license]
 
-[test-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
-[test-url]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
+### Footnotes 
 
-[cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
-[cov-url]: https://coveralls.io/github/nicholaswmin/fsm
-[size]: https://bundlephobia.com/package/@nicholaswmin/fsm
+[^1]: There are variants of state machines which can have multiple states, 
+      i.e the [*Non-deterministic finite automaton*][ndfsm], where "automaton"
+      is just a fancy term from automata theory for "automatic machine".    
+      This documentation describes a specific type of state machine, the 
+      [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.
 
+[^2]: Just a fancy term for: "takes an infinite number of arguments".   
+      Also called function of "n-arity" where "arity" = number of arguments.   
+      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
+      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
+      n-ary/variadic: `f = (...args) => {}`
+      
+
+[testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
+[tests]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
+
+[covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
+[cov]: https://coveralls.io/github/nicholaswmin/fsm
+[size]: https://bundlephobia.com/package/@nicholaswmin/fsm@latest
+
+[turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
+[stt]: https://en.wikipedia.org/wiki/State-transition_table
+[dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
+[ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
 
+[profs]: https://github.com/TheProfs
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
