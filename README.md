@@ -58,7 +58,7 @@ A `transition` is described as an `Object` in the following format:
 | name      | type                 | description                              |
 |-----------|----------------------|------------------------------------------|
 | `to`      | `String`             | State it can transition to               |
-| `actions` | `Array` of `String`s | List of `actions` to call on transition. |
+| `actions` | `Array` of `Strings` | List of `actions` to call on transition. |
 
 > A transition's `actions` must also be defined as `Functions` in the `actions`
 > argument.
