@@ -1,37 +1,35 @@
 import test from 'node:test'
+import { fsm } from '../../src/index.js'
 
-import StateMachine from '../../index.js'
-
-test('#transition is chainable', async t => {
-  const openFn = t.mock.fn(), closeFn = t.mock.fn()
-  const gate = new StateMachine({
-    init: 'locked',
-    states: {
-      locked: { unlock: { to: 'unlocked', actions: ['open'] } },
-      unlocked: { lock: { to: 'locked', actions: ['close'] } }
-    },
-
-    actions: {
-      open: () => openFn(),
-      close: () => closeFn()
-    }
-  })
-
-
-  await t.test('chaining .transition() calls', async t => {
-    t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
-
-    await t.test('does not throw', t => {
-      t.assert.doesNotThrow(() => gate.transition('unlock').transition('lock'))
+test('#transitionFn() 1:1 transition:state', async t => {
+  let turnstile
+  
+  await t.test('calling 2 distinct & allowed transitions', async t => {
+    t.beforeEach(() => {
+      turnstile = fsm({
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
+      })
     })
 
-    await t.test('transitions to final state', t => {
-      t.assert.strictEqual(gate.state, 'locked')
+    await t.test('instantiates', t => {  
+      t.assert.strictEqual(turnstile.state, 'closed')
     })
-
-    await t.test('invokes state actions', t => {
-      t.assert.strictEqual(openFn.mock.callCount(), 1)
-      t.assert.strictEqual(closeFn.mock.callCount(), 1)
+    
+    await t.test('calling transition method', async t => {      
+      t.beforeEach(() => turnstile.coin())
+  
+      await t.test('transitions to defined state', t => {  
+        t.assert.strictEqual(turnstile.state, 'opened')
+      })
+      
+      await t.test('calling next transition method', async t => {      
+        t.beforeEach(() => turnstile.push())
+        
+        await t.test('transitions to defined state', t => {  
+          t.assert.strictEqual(turnstile.state, 'closed')
+        })
+      })
     })
   })
 })
