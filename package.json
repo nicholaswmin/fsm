@@ -1,14 +1,14 @@
 {
   "name": "@nicholaswmin/fsm",
   "type": "module",
-  "version": "0.9.0",
-  "description": "a bare-minimum Finite-State Machine",
-  "main": "index.js",
+  "version": "1.13.1",
+  "description": "finite-state machine",
+  "exports": "./src/index.js",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test --experimental-test-coverage --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=test/lcov.info \"test/**/*.test.js\""
+    "test": "node --test --experimental-test-coverage"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,6 @@
   },
   "keywords": [
     "fsm",
-    "finite-state",
     "finite-state-machine"
   ],
   "author": "@nicholaswmin",

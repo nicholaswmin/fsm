@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # draft prototyping 
 scratch/
+scratch.js
 
 # Constants
 constants.json
@@ -101,7 +102,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+dist/
 
 # Gatsby files
 .cache/
@@ -140,3 +141,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# stryker temp files
+.stryker-tmp
