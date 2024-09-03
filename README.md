@@ -51,6 +51,17 @@ gate.transition('unlock')
 | `states`  | `Object` | List of `states` and their `transitions` |
 | `actions` | `Object` | List of actions, each being a `Function` |
 
+Each `state` is as an Object, with each key being a possible `transition`.  
+A `transition` is described by an `Object` in the following format:
+
+| name      | type                 | description                              |
+|-----------|----------------------|------------------------------------------|
+| `to`      | `String`             | State it can transition to               |
+| `actions` | `Array` of `String`s | List of `actions` to call on transition. |
+
+> A transition's `actions` must also be defined as `Functions` in the `actions`
+> argument.
+
 Construct an `FSM`, see example above.
 
 #### `fsm.state` 
