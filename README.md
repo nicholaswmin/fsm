@@ -48,11 +48,12 @@ gate.transition('unlock')
 | name      | type     | description                              |
 |-----------|----------|------------------------------------------|
 | `init`    | `String` | Initial State                            |
-| `states`  | `Object` | List of `states` and their `transitions` |
+| `states`  | `Object` | List of possible `states`                |
 | `actions` | `Object` | List of actions, each being a `Function` |
 
-Each `state` is as an Object, with each key being a possible `transition`.  
-A `transition` is described by an `Object` in the following format:
+Each `state` is an `Object`, with each `key` being a possible `transition`. 
+
+A `transition` is described as an `Object` in the following format:
 
 | name      | type                 | description                              |
 |-----------|----------------------|------------------------------------------|
