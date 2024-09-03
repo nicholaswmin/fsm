@@ -8,15 +8,13 @@ const isTransition = (v, i, j) => {
   if (!Object.hasOwn(v, 'actions'))
     new TypeError(`${name} missing actions property`)
   
-  if (!Array.isArray(v.actions))
+  if (!!v.actions && !Array.isArray(v.actions))
     throw new TypeError(
       `${name}.actions exp. array, got: ${typeof v.actions}`
     )
   
-  if (!v.actions.length)
-    throw new RangeError(`${name} has no actions`)
-  
-  v.actions.forEach((a, i) => validate.string(a, `${name}.actions.${i}`))
+  if (!!v.actions)
+    v.actions.forEach((a, i) => validate.string(a, `${name}.actions.${i}`))
       
   return v
 }
@@ -34,7 +32,7 @@ const actionsPresent = (v, actions = {}) => {
   
   Object.values(v).forEach((s, i) => {
     Object.values(s).map((t, j) => {
-      t.actions.forEach((action, k) => {
+      !!t.actions && t.actions.forEach((action, k) => {
         if (!inActions(action))
           throw new TypeError([
             `state.${i}.transition.${j}.actions.${k}:`,
@@ -51,7 +49,7 @@ const actionsUtilised = (v, states = {}) => {
   const stateHasActions = v => 
     Object.values(states)
       .some(s => Object.values(s)
-        .some(t => t.actions.includes(v)))
+        .some(t => !!t.actions && t.actions.includes(v)))
 
   Object.values(v).map((fn, i) => {
     if (!stateHasActions(fn.name))

@@ -75,20 +75,7 @@ test('#construct parameter: "states"', async t => {
       })
     })
 
-    await t.test('transition lacks "actions" property', async t => {
-      await t.test('throws descriptive TypeError', t => {
-        t.assert.throws(() => new FSM({ 
-          init: 'foo',
-          states: {
-            locked:   { unlock: { to: 'unlocked' } },
-          },
-          actions: {  open:  () => {} }
-        }), {
-          name: 'TypeError',
-          message: /state.0.transition.0.actions exp. array/ 
-        })
-      })
-      
+    await t.test('transition has "actions" property', async t => {      
       await t.test('"state.actions" is not an Array', async t => {
         await t.test('throws descriptive TypeError', t => {
           t.assert.throws(() => new FSM({ 
@@ -106,16 +93,14 @@ test('#construct parameter: "states"', async t => {
       
       await t.test('"state.actions[0]" has 0 actions', async t => {
         await t.test('throws descriptive TypeError', t => {
-          t.assert.throws(() => new FSM({ 
-            init: 'foo',
+          t.assert.doesNotThrow(() => new FSM({ 
+            init: 'locked',
             states: {
-              locked: { unlock: { to: 'unlocked', actions: [] } }
+              locked: { unlock: { to: 'unlocked', actions: [] } },
+              unlocked: { lock: { to: 'locked', actions: ['close'] } }
             },
-            actions: {  open:  () => {} }
-          }), {
-            name: 'RangeError',
-            message: /state.0.transition.0 has no actions/ 
-          })
+            actions: {  close:  () => {} }
+          }))
         })
       })
       

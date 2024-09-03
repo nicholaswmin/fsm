@@ -6,7 +6,7 @@
 
 ## Install
 
-> [~1kb][size], 0-dependencies
+> [~1kb][size], zero dependencies
 
 ```bash
 npm i @nicholaswmin/fsm

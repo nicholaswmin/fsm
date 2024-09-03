@@ -9,7 +9,7 @@ test('#transition', async t => {
     states: {
       locked: { 
         unlock: { to: 'unlocked', actions: ['open']  },
-        pick:   { to: 'unlocked', actions: ['open']  } 
+        pick:   { to: 'unlocked' } 
       },
       unlocked: { lock: { to: 'locked', actions: ['close']  } },
     },

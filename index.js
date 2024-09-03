@@ -36,7 +36,8 @@ class FSM {
         `Curr. state: "${this.state}" can transition to: ${allowed.join(', ')}`
       ].join('. '))
     
-    transition.actions.forEach(name => this.#actions[name].call(this))
+    if (Object.hasOwn(transition, 'actions'))
+      transition.actions.forEach(name => this.#actions[name].call(this))
     
     this.#state = transition.to
 
