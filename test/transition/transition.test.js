@@ -7,8 +7,11 @@ test('#transition', async t => {
   const gate = new StateMachine({
     init: 'locked',
     states: {
-      locked: { unlock: { to: 'unlocked', actions: ['open']  } },
-      unlocked: { lock: { to: 'locked', actions: ['close']  } }
+      locked: { 
+        unlock: { to: 'unlocked', actions: ['open']  },
+        pick:   { to: 'unlocked', actions: ['open']  } 
+      },
+      unlocked: { lock: { to: 'locked', actions: ['close']  } },
     },
     
     actions: {
@@ -23,7 +26,7 @@ test('#transition', async t => {
   })
 
   
-  await t.test('transition is allowed', async t => {
+  await t.test('can transition to current state', async t => {
     t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
     
     await t.test('transitions to new state', t => {
@@ -35,10 +38,15 @@ test('#transition', async t => {
       t.assert.strictEqual(openFn.mock.callCount(), 1)
       t.assert.strictEqual(closeFn.mock.callCount(), 0)
     })
+    
+    await t.test('allows call chaining', t => {
+      t.assert.doesNotThrow(() => gate.transition('lock').transition('pick'))
+      t.assert.strictEqual(gate.state, 'unlocked')
+    })
   })
   
 
-  await t.test('transition not allowed', async t => {
+  await t.test('cannot transition from current state', async t => {
     t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
 
     await t.test('throws a InvalidTransitionError', t => {

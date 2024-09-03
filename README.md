@@ -30,7 +30,7 @@ const gate = new FSM({
   }
 })
 
-// transition state ...
+// transition to another state ...
 gate.transition('unlock')
 
 console.log(gate.state)
@@ -45,23 +45,40 @@ gate.transition('unlock')
 
 #### `new FSM({ init, states, actions })`
 
+| name      | type     | description                              |
+|-----------|----------|------------------------------------------|
+| `init`    | `String` | Initial State                            |
+| `states`  | `Object` | List of `states` and their `transitions` |
+| `actions` | `Object` | List of actions, each being a `Function` |
+
 Construct an `FSM`, see example above.
-
-#### `fsm.transition(name)` 
-
-Transition to another state, if allowed.
 
 #### `fsm.state` 
 
 Current `state` 
 
+#### `fsm.transition(name)` 
 
-## Strict setup
+Transition to another state, if allowed.
 
-The setup includes validations which serve to minimize runtime errors.  
 
-Additionally, once setup, both the `arguments` & the FSM itself are 
-[`frozen`][obj-freeze], making it impossible to modify any of it's interals.
+| name      | type     | description                              |
+|-----------|----------|------------------------------------------|
+| `name`    | `String` | Transition name                          |
+
+
+Calls can be chained, like so: 
+
+```js
+gate.transition('unlock').transition('lock')
+```
+
+
+## Integrity safeguards
+
+As safeguards against runtime errors, the setup involves fairly extensive
+validations, as well as recursively [`freezing`][obj-freeze] both 
+the arguments & the FSM itself.
 
 
 ## Test 
