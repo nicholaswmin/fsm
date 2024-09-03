@@ -7,7 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  report-coverage:
+  upload-coverage:
+    name: coverage
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
@@ -24,8 +25,14 @@ jobs:
         cache: 'npm'
 
     - run: npm ci
+
     - run: node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info test/**/*.test.js
-    - run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz
-    - run: ./coveralls report lcov.info
+      name: Run tests with Node Test Runner, output LCOV file
       env:
         NODE_ENV: test
+
+    - run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz
+      name: Download Coveralls Universal Reporter 
+
+    - run: ./coveralls report lcov.info
+      name: Upload LCOV to Coveralls using Universal Reporter

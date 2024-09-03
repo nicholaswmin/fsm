@@ -1,4 +1,4 @@
-name: tests
+name: test:lint
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
-    name: unit
+  lint:
+    name: lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
@@ -21,8 +21,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
-    - run: node --run test
-      name: Run unit tests
-      env:
-        NODE_ENV: test
+
+    - run: npx -y eslint **/*.js --no-config-lookup
+      name: Run ESLint with defaults
