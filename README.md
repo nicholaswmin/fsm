@@ -2,7 +2,7 @@
 
 # fsm
 
-> a bare-minimum [finite-state machine] with an emphasis on 
+> a bare-minimum [finite-state machine][fsm] with an emphasis on 
 > [correctness](#setup-correctness)
 
 ## Install
