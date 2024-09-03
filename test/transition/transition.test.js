@@ -19,7 +19,7 @@ test('#transition', async t => {
   
   
   await t.test('starts in init state', async t => {
-    t.assert.strictEqual(gate.current, 'locked')
+    t.assert.strictEqual(gate.state, 'locked')
   })
 
   
@@ -28,7 +28,7 @@ test('#transition', async t => {
     
     await t.test('transitions to new state', t => {
       t.assert.doesNotThrow(() => gate.transition('unlock'))
-      t.assert.strictEqual(gate.current, 'unlocked')
+      t.assert.strictEqual(gate.state, 'unlocked')
     })
     
     await t.test('invokes the new state action', t => {
@@ -77,7 +77,7 @@ test('#transition', async t => {
 
     await t.test('transitions to new state', t => {
       t.assert.doesNotThrow(() => gate.transition('lock'))
-      t.assert.strictEqual(gate.current, 'locked')
+      t.assert.strictEqual(gate.state, 'locked')
     })
     
     await t.test('invokes the new state action', t => {
