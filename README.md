@@ -6,13 +6,15 @@
 
 ## Install
 
+> [~1kb][dep-url], zero-dependencies
+
 ```bash
 npm i @nicholaswmin/fsm
 ```
 
 ## Example
 
-> throws on invalid transitions ... & that's pretty much it.
+> simply throws on an invalid transition
 
 ```js
 import FSM from '@nicholaswmin/fsm'
@@ -25,19 +27,19 @@ const gate = new FSM({
   },
   
   actions: {
-    open:  () => console.log('open ...'),
-    close: () => console.log('close ...')
+    open:  () => console.log('opened gate'),
+    close: () => console.log('closed gate')
   }
 })
 
-// transition state
+// transition state ...
 gate.transition('unlock')
 
 console.log(gate.state)
-// state: 'unlocked'
+// state: 'unlocked' ...
 
 gate.transition('unlock')
-// throws: `InvalidTransitionError`
+// throws: `TransitionError`
 ```
 
 
@@ -45,21 +47,21 @@ gate.transition('unlock')
 
 #### `new FSM({ init, states, actions })`
 
-Construct a new `FSM`, see example above for details.
+Construct an `FSM`, see example above.
 
 #### `fsm.transition(name)` 
 
-Transition from one state to another, if allowed.
+Transition to another state, if allowed.
 
 #### `fsm.state` 
 
-The current `state` 
+Current `state` 
 
 
-## Correctness
+## Setup validations
 
-Prioritizes a small scope, small filesize & *setup correctness*,   
-so it's strict about its setup:
+Prioritizes a small scope, small filesize & *setup correctness*, so it's 
+fairly strict about it's setup:
 
 ```js
 const gate = new FSM({

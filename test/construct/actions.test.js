@@ -70,12 +70,16 @@ test('#construct parameter: "actions"', async t => {
         init: 'locked',
         states: {
           locked: { unlock: { to: 'unlocked', actions: ['open']  } },
-          unlocked: { lock: { to: 'locked', actions: ['close']  } }
+          locked: { unlock: { to: 'unlocked', actions: ['close']  } },
         },
-        actions: { foo:  () => {} }
+        actions: { 
+          open:  () => {},
+          close:  () => {},
+          foo:  () => {}
+        }
       }), {
         name: 'RangeError',
-        message: /state.0.transition.0.actions.0: "open" not present in actions/
+        message: /action: "open" not used in any state actions/
       })
     })
   })

@@ -7,31 +7,30 @@ const vString = (v, name) => {
         : new RangeError(`string: "${name}" must have length, is empty`)
       : new TypeError(`"${name}" must be a valid String, got: ${typeof v}`)
   
-  if (err) 
-    throw err 
+  if (err) throw err 
   
   return v
 }
 
-const isTransition = (v, i) => {
-  const name = `state.${i}`  
-  const err = typeof v === 'object'
-    ? Object.hasOwn(v, 'to')
-      ? vString(v.to, `${name}.to`)
-        ? Object.hasOwn(v, 'actions')
-          ? Array.isArray(v.actions)
-            ? vString(v.actions[0], `${name}.actions.0`)
-              ? null
-              : vString(v.actions[0], `${name}.actions.0`)
-            : new TypeError(
-              `${name}.actions must be an Array, is: ${typeof v.actions}`
-            )
-          : new TypeError(`${name} must have an "actions" property`)
-        : vString(v.to, `${name}.to`)
-      : new TypeError(`${name} must have a "to" property`)
-    : new TypeError(`${name} must be an object, got: ${typeof v}`)
-    
-  if (err) throw err
+const isTransition = (v, i, j) => {
+  const name = `state.${i}.transition.${i}`  
+
+  vString(v.to, `${name}.to`)
+  
+  if (!Object.hasOwn(v, 'actions'))
+    new TypeError(`${name} must have an "actions" property`)
+  
+  if (!Array.isArray(v.actions))
+    throw new TypeError(
+      `${name}.actions must be an Array, is: ${typeof v.actions}`
+    )
+  
+  if (!v.actions.length)
+    throw new RangeError(`${name} must have some actions, has 0`)
+  
+  v.actions.forEach((a, i) => vString(a, `${name}.actions.${i}`))
+      
+  return v
 }
 
 const isAction = (v, i) => {
@@ -47,7 +46,7 @@ const vActions = v => {
     throw new TypeError('"actions" parameter is missing')
   
   if (typeof v === 'object')
-    if (Object.keys(v).length === 0)
+    if (!Object.keys(v).length)
       throw new RangeError('"actions" object must have some actions, has none')
     else 
       Object.values(v).forEach((action, i) => isAction(action, i))
@@ -66,10 +65,10 @@ const vStates = v => {
         throw new RangeError('states object must have some states, has none')
       else
         Object.values(v).forEach((s, i) => {
-          if (Object.values(s).length === 0)
+          if (!Object.values(s).length)
             throw new RangeError(`state.${i} must have transitions, has 0`)
           else 
-            Object.values(v).forEach((s, i) => {
+            Object.values(v).forEach((s, i) => 
               Object.values(s).forEach((t, j) => {
                 if (typeof t !== 'object')
                   throw new TypeError([
@@ -77,9 +76,8 @@ const vStates = v => {
                     `got: ${typeof t}`
                   ].join(', '))
                 else 
-                isTransition(t, j)
-              })
-            })
+                  isTransition(t, i, j)
+            }))
         })
     else 
      throw new TypeError(`states must be an Object, got: ${typeof v}`)

@@ -43,8 +43,8 @@ test('#transition', async t => {
 
     await t.test('throws a InvalidTransitionError', t => {
       t.assert.throws(() => gate.transition('unlock'), {
-        name: 'InvalidTransitionError',
-        message: /can only transition/ 
+        name: 'TransitionError',
+        message: /can transition to/ 
       })
     })
 
@@ -60,8 +60,8 @@ test('#transition', async t => {
 
     await t.test('throws a descriptive UnknownTransitionError', t => {
       t.assert.throws(() => gate.transition('foo'), {
-        error: 'UnknownTransitionError',
-        message: /"foo" does not exist/ 
+        error: 'TransitionError',
+        message: /foo does not exist/ 
       })
     })
     

@@ -20,7 +20,7 @@ test('#transition: function parameters', async t => {
     await t.test('throws a descriptive TypeError', t => {
       t.assert.throws(() => gate.transition(), {
         name: 'TypeError',
-        message: /"transitionName" is missing/
+        message: /"transition name" is missing/
       })
     })
   })
@@ -30,7 +30,7 @@ test('#transition: function parameters', async t => {
     await t.test('throws a descriptive TypeError', t => {
       t.assert.throws(() => gate.transition(1), {
         name: 'TypeError',
-        message: /"transitionName" must be a valid String/
+        message: /"transition name" must be a valid String/
       })
     })
   })
@@ -40,7 +40,7 @@ test('#transition: function parameters', async t => {
     await t.test('throws a descriptive RangeError', t => {
       t.assert.throws(() => gate.transition(''), {
         name: 'RangeError',
-        message: /"transitionName" must have length/
+        message: /"transition name" must have length/
       })
     })
   })

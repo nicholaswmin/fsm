@@ -1,15 +1,15 @@
-import { UnknownTransitionError, InvalidTransitionError } from './src/err.js'
+import { TransitionError } from './src/err.js'
 import {  
   vString, vInit, vStates, vActions, initExists, vActionsMatchStates 
 } from './src/valid.js'
 
 class FSM {
-  #current = null
+  #state = null
 
-  get state() { return this.#current }
+  get state() { return this.#state }
 
   constructor({ init, states, actions }) {
-    this.#current = vInit(init)
+    this.#state = vInit(init)
 
     Object.defineProperties(this, {
       states:  { value: vStates(states, actions)  },
@@ -17,33 +17,34 @@ class FSM {
     })
     
     vActionsMatchStates(states, actions)
-    initExists(init, states)
+    initExists(init, states) 
   }
   
-  transition(transitionName) { 
-    transitionName = vString(transitionName, 'transitionName')
+  transition(name) { 
+    name = vString(name, 'transition name')
     
-    const hasTransition = state => Object.keys(state).includes(transitionName)
+    const hasTransition = state => Object.keys(state).includes(name)
     const exists = Object.values(this.states).some(hasTransition)
     const current = this.states[this.state]
-    const transition = current[transitionName]
-    
+    const allowed = Object.values(current).map(({ to }) => to)
+    const transition = current[name]
+
     if (!exists)
-      throw new UnknownTransitionError({ 
-        transitionName 
-      })
+      throw new TransitionError(`transition: ${name} does not exist`)
     
     if (!transition) 
-      throw new InvalidTransitionError({ 
-        transitionName, state: this.state, 
-        to: Object.values(current).at(0).to
-      })
+      throw new TransitionError([
+        `Invalid transition: "${name}"`,
+        `Curr. state: "${this.state}" can transition to: "${allowed.join(', ')}"`
+      ].join('. '))
 
     const old = this.state
     const latest = transition.to
-    this.#current = latest
-    transition.actions.forEach(name => 
-      this.actions[name].call(this, old, latest))
+    const { actions } = transition
+
+    this.#state = latest
+
+    actions.forEach(name => this.actions[name].call(this, old, latest))
     
     return this
   }
