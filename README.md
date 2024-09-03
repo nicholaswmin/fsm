@@ -49,7 +49,7 @@ gate.transition('unlock')
 
 | name      | type     | desc.                      |
 |-----------|----------|----------------------------|
-| `init`    | `String` | Initial State              |
+| `init`    | `String` | Initial `state`            |
 | `states`  | `Object` | List of possible `states`  |
 | `actions` | `Object` | List of `actions`          |
 
@@ -103,9 +103,11 @@ node --run test
 
 [cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
 [cov]: https://coveralls.io/github/nicholaswmin/fsm
-[size]: https://bundlephobia.com/package/@nicholaswmin/fsm
+[size]: https://bundlephobia.com/package/@nicholaswmin/fsm@latest
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
+[state-table]: https://en.wikipedia.org/wiki/State-transition_table
+[nyt]: https://www.nytimes.com/1883/12/15/archives/decapitated-by-an-elevator.html
 
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
