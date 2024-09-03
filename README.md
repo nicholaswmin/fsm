@@ -1,4 +1,4 @@
-[![test-url][test-badge]][test-url] [![cov-url][cov-badge]][cov-url]
+[![tests][tests-badge]][tests] [![cov][cov-badge]][cov]
 
 # fsm
 
@@ -98,11 +98,11 @@ node --run test
 
 [MIT-0][license]
 
-[test-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
-[test-url]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
+[tests-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml/badge.svg
+[tests]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml
 
 [cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
-[cov-url]: https://coveralls.io/github/nicholaswmin/fsm
+[cov]: https://coveralls.io/github/nicholaswmin/fsm
 [size]: https://bundlephobia.com/package/@nicholaswmin/fsm
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
