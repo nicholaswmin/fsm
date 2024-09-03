@@ -11,7 +11,7 @@ test('#construct parameter: "actions"', async t => {
         }
       }), {
         name: 'TypeError',
-        message: /"actions" parameter is missing/ 
+        message: /actions missing/ 
       })
     })
   })
@@ -27,7 +27,7 @@ test('#construct parameter: "actions"', async t => {
         actions: ''
       }), {
         name: 'TypeError',
-        message: /"actions" must be an Object/ 
+        message: /actions exp. object/ 
       })
     })
   })
@@ -43,7 +43,7 @@ test('#construct parameter: "actions"', async t => {
         actions: {}
       }), {
         name: 'RangeError',
-        message: /"actions" object must have some actions/ 
+        message: /no actions/ 
       })
     })
   })
@@ -59,7 +59,7 @@ test('#construct parameter: "actions"', async t => {
         actions: { open:  '' }
       }), {
         name: 'TypeError',
-        message: /action.0 must be a Function/ 
+        message: /action.0 exp. function/ 
       })
     })
   })
@@ -79,7 +79,7 @@ test('#construct parameter: "actions"', async t => {
         }
       }), {
         name: 'RangeError',
-        message: /action: "open" not used in a transition/
+        message: /action: open not used in a transition/
       })
     })
   })

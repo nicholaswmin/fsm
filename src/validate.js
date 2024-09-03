@@ -6,15 +6,15 @@ const isTransition = (v, i, j) => {
   validate.string(v.to, `${name}.to`)
   
   if (!Object.hasOwn(v, 'actions'))
-    new TypeError(`${name} must have an "actions" property`)
+    new TypeError(`${name} missing actions property`)
   
   if (!Array.isArray(v.actions))
     throw new TypeError(
-      `${name}.actions must be an Array, is: ${typeof v.actions}`
+      `${name}.actions exp. array, got: ${typeof v.actions}`
     )
   
   if (!v.actions.length)
-    throw new RangeError(`${name} must have some actions, has 0`)
+    throw new RangeError(`${name} has no actions`)
   
   v.actions.forEach((a, i) => validate.string(a, `${name}.actions.${i}`))
       
@@ -23,7 +23,7 @@ const isTransition = (v, i, j) => {
 
 const isAction = (v, i) => {
   const err = typeof v !== 'function'
-    ? new TypeError(`action.${i} must be a Function, got: ${typeof v}`)
+    ? new TypeError(`action.${i} exp. function, got: ${typeof v}`)
     : null
   
   if (err) throw err 
@@ -38,7 +38,7 @@ const actionsPresent = (v, actions = {}) => {
         if (!inActions(action))
           throw new TypeError([
             `state.${i}.transition.${j}.actions.${k}:`,
-             `"${action}" not present in actions`
+             `${action} not present in actions`
           ].join(' ')) 
       })
     })
@@ -55,7 +55,7 @@ const actionsUtilised = (v, states = {}) => {
 
   Object.values(v).map((fn, i) => {
     if (!stateHasActions(fn.name))
-      throw new RangeError(`action: "${fn.name}" not used in a transition`)
+      throw new RangeError(`action: ${fn.name} not used in a transition`)
   })
   
   return v
@@ -63,7 +63,7 @@ const actionsUtilised = (v, states = {}) => {
 
 const hasState = (state, states) => {
   if (!!!states[state])
-    throw new TypeError(`state: "${state}" does not exist`)
+    throw new TypeError(`state: ${state} does not exist`)
 }
 
 const statesHaveActions = (states, actions) => {
@@ -75,49 +75,49 @@ const statesHaveActions = (states, actions) => {
 
 validate.string = (v, name) => {
   if (typeof v === 'undefined')
-    throw new TypeError(`"${name}" is missing`)
+    throw new TypeError(`${name} is missing`)
   
   if (typeof v !== 'string')
-    throw new TypeError(`"${name}" must be a valid String, got: ${typeof v}`)
+    throw new TypeError(`${name} exp. string, got: ${typeof v}`)
   
   if (v.length < 1)
-    throw new RangeError(`string: "${name}" must have length, is empty`)
+    throw new RangeError(`${name} is empty`)
 
   return v
 }
 
 validate.actions = v => {
   if (typeof v === 'undefined')
-    throw new TypeError('"actions" parameter is missing')
+    throw new TypeError('actions missing')
   
   if (typeof v === 'object')
     if (!Object.keys(v).length)
-      throw new RangeError('"actions" object must have some actions, has none')
+      throw new RangeError('no actions found')
     else 
       Object.values(v).forEach((action, i) => isAction(action, i))
   else 
-    throw new TypeError(`"actions" must be an Object, got: ${typeof v}`)
+    throw new TypeError(`actions exp. object, got: ${typeof v}`)
 
   return v
 }
 
 validate.states = v => {
   if (typeof v === 'undefined')
-    throw new TypeError('"states" parameter is missing')
+    throw new TypeError('states is missing')
   else 
     if (typeof v === 'object') 
       if (Object.keys(v).length === 0)
-        throw new RangeError('states object must have some states, has none')
+        throw new RangeError('no states found')
       else
         Object.values(v).forEach((s, i) => {
           if (!Object.values(s).length)
-            throw new RangeError(`state.${i} must have transitions, has 0`)
+            throw new RangeError(`state.${i} has no transitions`)
           else 
             Object.values(v).forEach((s, i) => 
               Object.values(s).forEach((t, j) => {
                 if (typeof t !== 'object')
                   throw new TypeError([
-                    `state.${i}.transition.${j} must be an Object`, 
+                    `state.${i}.transition.${j} exp. object`, 
                     `got: ${typeof t}`
                   ].join(', '))
                 else 
@@ -125,14 +125,14 @@ validate.states = v => {
             }))
         })
     else 
-     throw new TypeError(`states must be an Object, got: ${typeof v}`)
+     throw new TypeError(`states exp. object, got: ${typeof v}`)
 
   return v
 }
 
 validate.init = v => {
   if (typeof v === 'undefined')
-    throw new TypeError('"init" parameter missing')
+    throw new TypeError('init missing')
 
   return validate.string(v, 'init')
 }

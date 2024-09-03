@@ -36,7 +36,6 @@ class FSM {
         `Curr. state: "${this.state}" can transition to: ${allowed.join(', ')}`
       ].join('. '))
     
-    console.log(this.#actions)
     transition.actions.forEach(name => this.#actions[name].call(this))
     
     this.#state = transition.to

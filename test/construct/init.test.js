@@ -11,7 +11,7 @@ test('#construct parameter: "init"', async t => {
         actions: {  open:  () => {} }
       }), {
         name: 'TypeError',
-        message: /"init" parameter missing/ 
+        message: /init missing/ 
       })
     })
   })
@@ -26,7 +26,7 @@ test('#construct parameter: "init"', async t => {
         actions: {  open:  () => {} }
       }), {
         name: 'TypeError',
-        message: /"init" must be a valid String/ 
+        message: /init exp. string/ 
       })
     })
   })
@@ -41,7 +41,7 @@ test('#construct parameter: "init"', async t => {
         actions: {  open:  () => {} }
       }), {
         name: 'RangeError',
-        message: /"init" must have length/ 
+        message: /init is empty/ 
       })
     })
   })
@@ -56,7 +56,7 @@ test('#construct parameter: "init"', async t => {
         actions: {  open:  () => {} }
       }), {
         name: 'TypeError',
-        message: /state: "foo" does not exist/ 
+        message: /state: foo does not exist/ 
       })
     })
   })
