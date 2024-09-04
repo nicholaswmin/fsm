@@ -5,7 +5,7 @@ test('#construct', async t => {
   const valid = {
     init: 'locked',
     states: {
-      locked:   { unlock: { to: 'unlocked', actions: ['op en']  } },
+      locked:   { unlock: { to: 'unlocked', actions: ['open']  } },
       unlocked: { lock: { to: 'locked', actions: ['close']     } }
     },
     actions: { 
