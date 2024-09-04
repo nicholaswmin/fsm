@@ -14,7 +14,7 @@ const isTransition = (v, i, j) => {
     )
   
   if (!!v.actions)
-    v.actions.forEach((a, i) => validate.string(a, `${name}.actions.${i}`))
+    v.actions.map((a, i) => validate.string(a, `${name}.actions.${i}`))
       
   return v
 }
@@ -78,7 +78,7 @@ validate.string = (v, name) => {
   if (typeof v !== 'string')
     throw new TypeError(`${name} exp. string, got: ${typeof v}`)
   
-  if (v.length < 1)
+  if (v.trim().length < 1)
     throw new RangeError(`${name} is empty`)
 
   return v

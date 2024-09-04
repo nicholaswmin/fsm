@@ -19,8 +19,8 @@ class FSM {
   }
   
   transition(name) { 
-    name = validate.string(name, 'transition name')
-    
+    name = validate.string(name, 'transition name') && name.trim()
+
     const hasTransition = state => Object.keys(state).includes(name)
     const exists = Object.values(this.#states).some(hasTransition)
     const current = this.#states[this.#state]

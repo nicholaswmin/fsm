@@ -38,10 +38,17 @@ test('#transition: function parameters', async t => {
 
   await t.test('transition name is an empty string', async t => {    
     await t.test('throws a descriptive RangeError', t => {
-      t.assert.throws(() => gate.transition(''), {
+      t.assert.throws(() => gate.transition(' '), {
         name: 'RangeError',
         message: /transition name is empty/
       })
+    })
+  })
+  
+  await t.test('tolerates transition name padded with spaces', async t => {    
+    await t.test('throws a descriptive RangeError', t => {
+      t.assert.doesNotThrow(() => gate.transition(' unlock  '))
+      t.assert.strictEqual(gate.state, 'unlocked')
     })
   })
 })
