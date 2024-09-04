@@ -91,11 +91,12 @@ The validation errors should contain informative & descriptive error messages.
 For example: 
 
 ```js
-// ... rest of arguments ommited for brevity
+// ... rest ommited for brevity
 
 states: {
-  locked: { unlock: { to: 'unlocked', actions: [' open']  } } // <-- oops
-}
+  locked: { 
+    unlock: { 
+      to: 'unlocked', actions: [' open'] // <-- oops
 
 // throws: 
 // TypeError: state.0.transition.0.actions.0 string cannot contain whitespace
