@@ -81,11 +81,10 @@ gate.transition('unlock').transition('lock')
 
 Despite it's simple design, this FSM is designed & intended for production use. 
 
-In addition to an extensive test suite, it places a lot of emphasis in 
-catching as many issues as possible at *construction-time*, rather than 
-*run-time*. 
+In addition to an extensive test suite, it emphasizes catching issues 
+at *construction-time*, rather than *run-time*. 
 
-As a result, the constructor arguments are (fairly) strictly validated.  
+As a result, constructor arguments are strictly validated.  
 The validation errors contain descriptive error messages.
 
 For example: 
