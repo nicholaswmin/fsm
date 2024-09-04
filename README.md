@@ -85,7 +85,7 @@ In addition to an extensive test suite, it places a lot of emphasis in
 catching as many issues as possible at *construction-time*, rather than 
 *run-time*. 
 
-As a result, the constructor arguments are (fairly) strictly validated.
+As a result, the constructor arguments are (fairly) strictly validated.  
 The validation errors should contain informative & descriptive error messages.
 
 For example: 
