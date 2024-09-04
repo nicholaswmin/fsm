@@ -88,8 +88,21 @@ catching as many issues as possible at *construction-time*, rather than
 As a result, the constructor arguments are (fairly) strictly validated.
 The validation errors should contain informative & descriptive error messages.
 
+For example: 
+
+```js
+// ... rest of arguments ommited for brevity
+
+states: {
+  locked: { unlock: { to: 'unlocked', actions: [' open']  } } // <-- oops
+}
+
+// throws: 
+// TypeError: state.0.transition.0.actions.0 string cannot contain whitespace
+```
+
 Additionally, to protect against accidental meddling with it's internals 
-by-reference, all arguments & the FSM itself are frozen and rendered
+*by-reference*, all arguments & the FSM itself are frozen and rendered
 immutable via `Object.freeze`. 
 
 ## Test 
