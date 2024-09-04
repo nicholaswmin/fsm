@@ -79,7 +79,7 @@ gate.transition('unlock').transition('lock')
 
 ## Safeguards
 
-input arguments are strongly validated, then both arguments & FSM are 
+constructor arguments are validated, then both arguments & FSM are 
 frozen via `Object.freeze`.
 
 ## Test 
