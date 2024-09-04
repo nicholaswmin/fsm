@@ -45,7 +45,7 @@ test('#transition: function parameters', async t => {
     })
   })
   
-  await t.test('transition name is a padded with spaces string', async t => {    
+  await t.test('transition name is a padded with whitespace', async t => {    
     await t.test('trims whitespaces and matches with transition', t => {
       t.assert.doesNotThrow(() => gate.transition(' unlock  '))
       t.assert.strictEqual(gate.state, 'unlocked')
