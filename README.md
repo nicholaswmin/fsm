@@ -77,7 +77,7 @@ gate.transition('unlock').transition('lock')
 ```
 
 
-## Integrity safefuards
+## Integrity safeguards
 
 Despite it's simple design, this FSM is designed & intended for production use. 
 
