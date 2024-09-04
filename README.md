@@ -79,13 +79,10 @@ gate.transition('unlock').transition('lock')
 
 ## Integrity safeguards
 
-Despite it's simple design, this FSM is designed & intended for production use. 
+Despite it's simple design, this FSM is designed for production use. 
 
-In addition to an extensive test suite, it emphasizes catching issues 
-at *construction-time*, rather than *run-time*. 
-
-As a result, constructor arguments are strictly validated, with validation 
-errors containing descriptive error messages.
+In addition to an extensive test suite, it's constructor arguments are 
+strictly validated, with errors containing descriptive error messages.
 
 For example: 
 
