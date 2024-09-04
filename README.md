@@ -86,7 +86,7 @@ catching as many issues as possible at *construction-time*, rather than
 *run-time*. 
 
 As a result, the constructor arguments are (fairly) strictly validated.  
-The validation errors should contain informative & descriptive error messages.
+The validation errors contain descriptive error messages.
 
 For example: 
 
@@ -102,9 +102,8 @@ states: {
 // TypeError: state.0.transition.0.actions.0 string cannot contain whitespace
 ```
 
-Additionally, to protect against accidental meddling with it's internals 
-*by-reference*, all arguments & the FSM itself are frozen and rendered
-immutable via `Object.freeze`. 
+Additionally, to protect against meddling with it's internals *by-reference*,   
+the arguments & the FSM are frozen & rendered immutable via `Object.freeze`. 
 
 ## Test 
 
