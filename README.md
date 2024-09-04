@@ -84,8 +84,8 @@ Despite it's simple design, this FSM is designed & intended for production use.
 In addition to an extensive test suite, it emphasizes catching issues 
 at *construction-time*, rather than *run-time*. 
 
-As a result, constructor arguments are strictly validated.  
-The validation errors contain descriptive error messages.
+As a result, constructor arguments are strictly validated, with validation 
+errors containing descriptive error messages.
 
 For example: 
 
