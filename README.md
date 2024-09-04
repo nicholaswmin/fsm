@@ -2,7 +2,7 @@
 
 # fsm
 
-> minimal [Finite-state machine][fsm]
+> minimal [finite-state machine][fsm]
 
 ## Install
 
@@ -14,7 +14,7 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> throws on invalid transitions
+> just throws on invalid transitions
 
 ```js
 import FSM from '@nicholaswmin/fsm'
@@ -77,10 +77,20 @@ gate.transition('unlock').transition('lock')
 ```
 
 
-## Safeguards
+## Integrity safefuards
 
-constructor arguments are validated, then both arguments & FSM are 
-frozen via `Object.freeze`.
+Despite it's simple design, this FSM is designed & intended for production use. 
+
+In addition to an extensive test suite, it places a lot of emphasis in 
+catching as many issues as possible at *construction-time*, rather than 
+*run-time*. 
+
+As a result, the constructor arguments are (fairly) strictly validated.
+The validation errors should contain informative & descriptive error messages.
+
+Additionally, to protect against accidental meddling with it's internals 
+by-reference, all arguments & the FSM itself are frozen and rendered
+immutable via `Object.freeze`. 
 
 ## Test 
 

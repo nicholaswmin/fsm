@@ -74,6 +74,54 @@ test('#construct parameter: "states"', async t => {
         })
       })
     })
+    
+    
+    await t.test('transition has "to" property', async t => {    
+      await t.test('"state.to" is missing', async t => {
+        await t.test('throws descriptive TypeError', t => {
+          t.assert.throws(() => new FSM({ 
+            init: 'foo',
+            states: {
+              locked:   { unlock: { actions: [] } },
+            },
+            actions: {  open:  () => {} }
+          }), {
+            name: 'TypeError',
+            message: /state.0.transition.0.to is missing/ 
+          })
+        })
+      })  
+
+      await t.test('"state.to" is not a String', async t => {
+        await t.test('throws descriptive TypeError', t => {
+          t.assert.throws(() => new FSM({ 
+            init: 'foo',
+            states: {
+              locked:   { unlock: { to: 33, actions: [] } },
+            },
+            actions: {  open:  () => {} }
+          }), {
+            name: 'TypeError',
+            message: /state.0.transition.0.to exp. string/ 
+          })
+        })
+        
+        await t.test('"state.to" has whitespace', async t => {
+          await t.test('throws descriptive TypeError', t => {
+            t.assert.throws(() => new FSM({ 
+              init: 'foo',
+              states: {
+                locked:   { unlock: { to: ' open ', actions: [] } },
+              },
+              actions: {  open:  () => {} }
+            }), {
+              name: 'TypeError',
+              message: /whitespace/ 
+            })
+          })
+        })
+      })
+    })
 
     await t.test('transition has "actions" property', async t => {      
       await t.test('"state.actions" is not an Array', async t => {
@@ -115,6 +163,21 @@ test('#construct parameter: "states"', async t => {
           }), {
             name: 'TypeError',
             message: /state.0.transition.0.actions.0 exp. string/ 
+          })
+        })
+      })
+      
+      await t.test('"state.actions[0]" action has whitespace', async t => {
+        await t.test('throws descriptive TypeError', t => {
+          t.assert.throws(() => new FSM({ 
+            init: 'foo',
+            states: {
+              locked: { unlock: { to: 'unlocked', actions: [' open'] } }
+            },
+            actions: {  open:  () => {} }
+          }), {
+            name: 'TypeError',
+            message: /cannot contain whitespace/ 
           })
         })
       })

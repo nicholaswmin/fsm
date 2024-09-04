@@ -78,6 +78,9 @@ validate.string = (v, name) => {
   if (typeof v !== 'string')
     throw new TypeError(`${name} exp. string, got: ${typeof v}`)
   
+  if (v.includes(' '))
+    throw new TypeError(`${name} string cannot contain whitespace`)
+
   if (v.trim().length < 1)
     throw new RangeError(`${name} is empty`)
 

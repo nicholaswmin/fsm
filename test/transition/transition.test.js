@@ -49,7 +49,7 @@ test('#transition', async t => {
   await t.test('cannot transition from current state', async t => {
     t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
 
-    await t.test('throws a InvalidTransitionError', t => {
+    await t.test('throws a TransitionError', t => {
       t.assert.throws(() => gate.transition('unlock'), {
         name: 'TransitionError',
         message: /can transition to/ 
