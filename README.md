@@ -40,7 +40,7 @@ class Gate extends FSM {
 }
 ```
 
-then:
+... usage:
 
 ```js
 const gate = new Gate()
@@ -55,7 +55,7 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
-> another example: standalone, w/o subclassing:
+... another example: standalone, w/o subclassing:
 
 ```js
 const gate = new FSM({
@@ -70,8 +70,8 @@ const gate = new FSM({
 })
 ```
 
-requires a 2nd argument, `ctx`, which should implement *every* method
-listed as a transition `action`.
+> requires a 2nd argument, `ctx`, which should implement *every* method
+> listed as a transition `action`.
 
 ## API 
 
