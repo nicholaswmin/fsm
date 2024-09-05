@@ -1,5 +1,5 @@
 import test from 'node:test'
-import FSM from '../../../index.js'
+import FSM from '../../../src/fsm.js'
 
 class Gate extends FSM {
   constructor() { super() }
@@ -12,8 +12,8 @@ test('#construction parameter: "ctx"', async t => {
     class Gate extends FSM {
       constructor() { 
         super({
-          locked:   {  unlock: { to: 'unlocked', actions: ['open']  }},
-          unlocked: { lock: { to: 'locked',  actions: ['open']  } }
+          locked:   {  unlock: { to: 'unlocked', runs: ['open']  }},
+          unlocked: { lock: { to: 'locked',  runs: ['open']  } }
         })
       }
 
@@ -25,7 +25,7 @@ test('#construction parameter: "ctx"', async t => {
     })
     
     await t.test('defaults to instance "this"', async t => {
-      await t.test('looks up action methods on instance "this"', t => {    
+      await t.test('looks up run methods on instance "this"', t => {    
         const gate = new Gate()
   
         gate.transition('unlock')
@@ -60,8 +60,8 @@ test('#construction parameter: "ctx"', async t => {
       Gate = class Gate extends FSM {
         constructor() { 
           super({
-            locked:   {  unlock: { to: 'unlocked', actions: ['open']  }},
-            unlocked: { lock: { to: 'locked',  actions: ['open']  } }
+            locked:   {  unlock: { to: 'unlocked', runs: ['open']  }},
+            unlocked: { lock: { to: 'locked',  runs: ['open']  } }
           }, ctx)
         }
   
@@ -82,7 +82,7 @@ test('#construction parameter: "ctx"', async t => {
       })
     })
     
-    await t.test('actions as properties instead of methods', async t => {
+    await t.test('runs as properties instead of methods', async t => {
       t.before(() => {
         ctx = {
           open: 'foo'
@@ -92,7 +92,7 @@ test('#construction parameter: "ctx"', async t => {
       await t.test('throws TypeError', async t => {
         t.assert.throws(() => new Gate(), {
           name: 'TypeError',
-          message: /state.0.transitions.0.actions.0: exp. function/
+          message: /not found/
         })
       })
     })
@@ -107,7 +107,7 @@ test('#construction parameter: "ctx"', async t => {
       })
 
       await t.test('sets context to provided "ctx"', async t => {
-        await t.test('looks up action methods on provided "ctx"', t => {    
+        await t.test('looks up run methods on provided "ctx"', t => {    
           const gate = new Gate()
     
           gate.transition('unlock')

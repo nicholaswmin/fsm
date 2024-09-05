@@ -1,6 +1,6 @@
 import test from 'node:test'
 
-import FSM from '../../index.js'
+import FSM from '../../src/fsm.js'
 
 test('#transition', async t => {
   const open = t.mock.fn(), close = t.mock.fn(), pick = t.mock.fn()
@@ -9,8 +9,8 @@ test('#transition', async t => {
     constructor() {
       super({
         locked:   { 
-          unlock: { to: 'unlocked', actions: ['open']  },
-          pick:   { to: 'unlocked', actions: ['open', 'pick']  } 
+          unlock: { to: 'unlocked', runs: ['open']  },
+          pick:   { to: 'unlocked', runs: ['open', 'pick']  } 
         },
         unlocked: { lock: { to: 'locked' } }
       })
@@ -37,7 +37,7 @@ test('#transition', async t => {
       t.assert.strictEqual(gate.state, 'unlocked')
     })
     
-    await t.test('invokes all actions from new state', t => {
+    await t.test('invokes all runs from new state', t => {
       t.assert.strictEqual(open.mock.callCount(), 1)
       t.assert.strictEqual(pick.mock.callCount(), 1)
 
@@ -66,7 +66,7 @@ test('#transition', async t => {
     
     await t.test('error message includes passed transition', t => {
       t.assert.throws(() => gate.transition('lock'), {
-        message: /Transition: "lock" not allowed. / 
+        message: /"lock" not allowed. / 
       })
     })
     
@@ -76,24 +76,24 @@ test('#transition', async t => {
       })
     })
 
-    await t.test('does not invoke any actions', t => {
+    await t.test('does not invoke any runs', t => {
       t.assert.strictEqual(open.mock.callCount(), 0)
       t.assert.strictEqual(close.mock.callCount(), 0)
     })
   })
   
 
-  await t.test('transition does not exist', async t => {    
+  await t.test('transition missing', async t => {    
     t.before(t => [open, close, pick].map(({ mock }) => mock.resetCalls()))
 
     await t.test('throws TransitionError', t => {
       t.assert.throws(() => gate.transition('foo'), {
         error: 'TransitionError',
-        message: /foo does not exist/ 
+        message: /foo missing/ 
       })
     })
     
-    await t.test('does not invoke any actions', t => {
+    await t.test('does not invoke any runs', t => {
       t.assert.strictEqual(open.mock.callCount(), 0)
       t.assert.strictEqual(close.mock.callCount(), 0)
     })
@@ -108,7 +108,7 @@ test('#transition', async t => {
       t.assert.strictEqual(gate.state, 'locked')
     })
     
-    await t.test('invokes new state actions, if they exist', t => {
+    await t.test('invokes new state runs, if they exist', t => {
       t.assert.strictEqual(open.mock.callCount(), 0)
     })
   })

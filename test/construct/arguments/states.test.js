@@ -1,5 +1,5 @@
 import test from 'node:test'
-import FSM from '../../../index.js'
+import FSM from '../../../src/fsm.js'
 
 class Gate extends FSM {
   constructor() { super() }
@@ -66,7 +66,7 @@ test('#construction parameter: "states"', async t => {
         }
       }), {
         name: 'TypeError',
-        message: /state.0.transitions.0 exp. object, got: number/ 
+        message: /transition.0 exp. object, is: number/ 
       })
     })
   })
@@ -77,12 +77,12 @@ test('#construction parameter: "states"', async t => {
         t.assert.throws(() => new (class Gate extends FSM {
           constructor() { 
             super({
-              locked: { unlock: { actions: ['foo'] } }
+              locked: { unlock: { runs: ['foo'] } }
             }) 
           }
         }), {
           name: 'TypeError',
-          message: /state.0.transitions.0 missing: .to/ 
+          message: /transition.0 missing: .to/ 
         })
       })
     })  
@@ -92,12 +92,12 @@ test('#construction parameter: "states"', async t => {
         t.assert.throws(() => new (class Gate extends FSM {
           constructor() { 
             super({
-              locked: { unlock: { to: 3, actions: ['foo'] } }
+              locked: { unlock: { to: 3, runs: ['foo'] } }
             }) 
           }
         }), {
           name: 'TypeError',
-          message: /state.0.transitions.0.to exp. string, got: number/ 
+          message: /transition.0.to exp. string, is: number/ 
         })
       })
       
@@ -106,25 +106,41 @@ test('#construction parameter: "states"', async t => {
           t.assert.throws(() => new (class Gate extends FSM {
             constructor() { 
               super({
-                locked: { unlock: { to: ' open', actions: ['foo'] } }
+                locked: { unlock: { to: ' open', runs: ['foo'] } }
               }) 
             }
           }), {
             name: 'RangeError',
-            message: /whitespace/ 
+            message: /has space/ 
+          })
+        })
+      })
+      
+      await t.test('"transition.to" not listed as a state', async t => {
+        await t.test('throws descriptive TypeError', t => {
+          t.assert.throws(() => new (class Gate extends FSM {
+            constructor() { 
+              super({
+                locked: { unlock: { to: 'open', runs: [] } }
+              }) 
+            }
+          }), {
+            name: 'RangeError',
+            message: /state "open" missing/ 
           })
         })
       })
     })
   })
 
-  await t.test('"transition.actions" property', async t => {      
+  await t.test('"transition.runs" property', async t => {      
     await t.test('not set', async t => {
       await t.test('allows it', t => {
         t.assert.doesNotThrow(() => new (class Gate extends FSM {
           constructor() { 
             super({
-              locked: { unlock: { to: 'open' } }
+              locked: { unlock: { to: 'unlocked' } },
+              unlocked: { unlock: { to: 'locked' } }
             }) 
           }
         }))
@@ -137,12 +153,12 @@ test('#construction parameter: "states"', async t => {
           t.assert.throws(() => new (class Gate extends FSM {
             constructor() { 
               super({
-                locked: { unlock: { to: 'open', actions: 30 } }
+                locked: { unlock: { to: 'open', runs: 30 } }
               }) 
             }
           }), {
             name: 'TypeError',
-            message: /state.0.transitions.0.actions exp. array/ 
+            message: /runs exp. array/ 
           })
         })
       })
@@ -152,7 +168,8 @@ test('#construction parameter: "states"', async t => {
           t.assert.doesNotThrow(() => new (class Gate extends FSM {
             constructor() { 
               super({
-                locked: { unlock: { to: 'open', actions: [] } }
+                locked: { unlock: { to: 'unlocked', runs: [] } },
+                unlocked: { unlock: { to: 'locked', runs: [] } }
               }) 
             }
           }))
@@ -160,18 +177,18 @@ test('#construction parameter: "states"', async t => {
       })
     })
     
-    await t.test('includes action', async t => {
+    await t.test('includes run', async t => {
       await t.test('not a string', async t => {
         await t.test('throws descriptive TypeError', t => {
           t.assert.throws(() => new (class Gate extends FSM {
             constructor() { 
               super({
-                locked: { unlock: { to: 'open', actions: [5] } }
+                locked: { unlock: { to: 'open', runs: [5] } }
               }) 
             }
           }), {
             name: 'TypeError',
-            message: /state.0.transitions.0.actions.0 exp. string/ 
+            message: /run.0 exp. string/ 
           })
         })
       })
@@ -181,12 +198,12 @@ test('#construction parameter: "states"', async t => {
           t.assert.throws(() => new (class Gate extends FSM {
             constructor() { 
               super({
-                locked: { unlock: { to: 'open', actions: ['fooFn '] } }
+                locked: { unlock: { to: 'open', runs: ['fooFn '] } }
               }) 
             }
           }), {
             name: 'RangeError',
-            message: /has whitespace/ 
+            message: /has space/ 
           })
         })
       })
@@ -197,12 +214,12 @@ test('#construction parameter: "states"', async t => {
           t.assert.throws(() => new (class Gate extends FSM {
             constructor() { 
               super({
-                locked: { unlock: { to: 'open', actions: ['fooFn'] } }
+                locked: { unlock: { to: 'open', runs: ['fooFn'] } }
               }) 
             }
           }), {
             name: 'TypeError',
-            message: /transitions.0.actions.0: missing: .fooFn()/ 
+            message: /not found/ 
           })
         })
       })
@@ -212,14 +229,14 @@ test('#construction parameter: "states"', async t => {
           t.assert.throws(() => new (class Gate extends FSM {
             constructor() { 
               super({
-                locked: { unlock: { to: 'open', actions: ['fooFn'] } }
+                locked: { unlock: { to: 'open', runs: ['fooFn'] } }
               }) 
               
               this.fooFn = 'foo!'
             }
           }), {
             name: 'TypeError',
-            message: /transitions.0.actions.0: missing: .fooFn()/ 
+            message: /not found/ 
           })
         })
       })

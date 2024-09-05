@@ -1,6 +1,6 @@
 import test from 'node:test'
 
-import FSM from '../../index.js'
+import FSM from '../../src/fsm.js'
 
 test('Integrity', async t => {
   await t.test('prevents overwriting internals', async t => {
@@ -11,8 +11,8 @@ test('Integrity', async t => {
     }
     
     const args = {
-      locked: {  pick: { to: 'unlocked', actions: ['open']  }  },
-      unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+      locked: {  pick: { to: 'unlocked', runs: ['open']  }  },
+      unlocked: { lock: { to: 'locked',  runs: ['close']  } }
     }
     
     const gate = new Gate(args)
@@ -32,7 +32,7 @@ test('Integrity', async t => {
     
     await t.test('prevents meddling by-reference', t => {  
       t.assert.throws(() => {
-        args.locked.pick.actions = ['nonExistentFn']
+        args.locked.pick.runs = ['nonExistentFn']
       }, {
         message: /Cannot assign to read only/
       })

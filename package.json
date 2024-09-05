@@ -2,19 +2,17 @@
   "name": "@nicholaswmin/fsm",
   "type": "module",
   "sideEffects": false,
-  "version": "1.6.3",
+  "version": "1.8.4",
   "description": "finite-state machine",
-  "main": "index.js",
+  "main": "src/fsm.js",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
+    "lint": "npx -y eslint \"**/*.js\" --no-config-lookup",
     "test": "node --test --experimental-test-coverage \"test/**/*.test.js\"",
     "test:mutation": "npx -y @stryker-mutator/core run --reporters dots,clear-text"
   },
-  "files": [
-    "src"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nicholaswmin/fsm.git"

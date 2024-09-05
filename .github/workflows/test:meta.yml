@@ -21,6 +21,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: node --run test
+    - run: npm audit
+    - run: node --run lint
+    - run: node --run test:mutation
       env:
         NODE_ENV: test

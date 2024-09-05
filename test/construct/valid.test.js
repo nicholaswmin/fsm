@@ -1,23 +1,23 @@
 import test from 'node:test'
-import FSM from '../../index.js'
+import FSM from '../../src/fsm.js'
 
 test('#construct: with valid arguments', async t => {
   const args = {
     locked:   { 
-      unlock: { to: 'unlocked', actions: ['open']  },
-      pick:   { to: 'unlocked', actions: ['open']  } 
+      unlock: { to: 'unlocked', runs: ['open']  },
+      pick:   { to: 'unlocked', runs: ['open']  } 
     },
-    unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+    unlocked: { lock: { to: 'locked',  runs: ['close']  } }
   }
   
   class Gate extends FSM {
     constructor() {
       super({
         locked:   { 
-          unlock: { to: 'unlocked', actions: ['open']  },
-          pick:   { to: 'unlocked', actions: ['open']  } 
+          unlock: { to: 'unlocked', runs: ['open']  },
+          pick:   { to: 'unlocked', runs: ['open']  } 
         },
-        unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+        unlocked: { lock: { to: 'locked',  runs: ['close']  } }
       })
     }
     

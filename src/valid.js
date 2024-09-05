@@ -1,102 +1,103 @@
-const valid =  {}
+const vd =  {}
 
-valid.shape = (v, name, defs = []) => {
-  valid.type(v, 'object', name)
+vd.shape = (v, name, defs = []) => {
+  vd.type(v, 'object', name)
 
   if (!Object.keys(v).length) 
-    throw new RangeError(`${name} empty`)
+    throw RangeError(`${name} empty`)
 
-  defs.forEach(({ key, type, required }) => { 
+  defs.forEach(({ key, type, optional }) => { 
     if (!Object.hasOwn(v, key))
-      if (!required)
-        return v[key]
+      if (optional)
+        return
       else
-        throw new TypeError(`${name} missing: .${key}`)
+        throw TypeError(`${name} missing: .${key}`)
 
     if (type !== 'array')
-      return valid[type](v[key], `${name}.${key}`) 
+      return vd[type](v[key], `${name}.${key}`) 
     
     if (!Array.isArray(v[key]))
-      throw new TypeError(`${name}.${key} exp. array, got: ${typeof v}`)
+      throw TypeError(`${name}.${key} exp. array, is: ${typeof v}`)
   })
   
   return v
 }
 
-valid.type = (v, type, name) => {
-  v = valid.defined(v, name)
+vd.type = (v, type, name) => {
+  v = vd.defined(v, name)
 
   if (typeof v !== type)
-    throw new TypeError(`${name} exp. ${type}, got: ${typeof v}`)
+    throw TypeError(`${name} exp. ${type}, is: ${typeof v}`)
   
   return v
 }
 
-valid.defined = (v, name) => {
-  if (typeof v === 'undefined')
-    throw new TypeError(`${name} missing`)
+vd.defined = (v, name) => {
+  if (!v && v != 0)
+    throw TypeError(`${name} missing`)
 
   return v
 }
 
-valid.string = (v, name) => {
-  v = valid.type(v, 'string', name)
+vd.string = (v, name) => {
+  v = vd.type(v, 'string', name)
   
   if (v.includes(' '))
-    throw new RangeError(`${name} has whitespace`)
+    throw RangeError(`${name} has space`)
 
   if (!v.length)
-    throw new RangeError(`${name} empty`)
+    throw RangeError(`${name} empty`)
 
   return v
 }
 
-valid.action = function(action, k, prev) {
-  const name = `${prev}.actions.${k}`
-  const method = this[action]
+vd.run = function(run, k, prev) {
+  const name = `run.${k}`
+  const method = this[run]
 
-  valid.string(action, name)
+  vd.string(run, name)
 
-  if (!method)
-    throw new TypeError(`${name}: missing: .${action}()`)
-  
-  if (typeof method !== 'function')
-    throw new TypeError(`${name}: exp. function, got: ${typeof method}`)
+  if (!method || typeof method !== 'function')
+    throw TypeError(`${name}: ${run}() not found`)
 
-  return Object.freeze(action)
+  return Object.freeze(run)
 }
 
-valid.transition = function(transition, i, j) {
-  const name = `state.${i}.transitions.${j}`
+vd.transition = function(v, transition, i, j) {
+  const name = `transition.${j}`,
+    { runs, to } = transition
 
-  valid.shape(transition, name, [
-    { key: 'to', type: 'string', required: true },
-    { key: 'actions', type: 'array', required: false }
+  vd.shape(transition, name, [
+    { key: 'to', type: 'string' },
+    { key: 'runs', type: 'array', optional: true }
   ])
 
-  Object.values(transition.actions || {})
-    .map((action, k) => valid.action.call(this, action, k, name))
+  Object.values(runs || {})
+    .map((run, k) => vd.run.call(this, run, k, name))
+
+  if (!v[to])
+    throw RangeError(`state "${to}" missing`)
   
   Object.freeze(transition)
 }
 
-valid.state = function(state, i) {
-  valid.shape(state, `state.${i}`)
+vd.state = function(v, state, i) {
+  vd.shape(state, `state.${i}`)
 
   Object.values(state)
     .forEach((transition, j) => 
-      valid.transition.call(this, transition, i, j))
+      vd.transition.call(this, v, transition, i, j))
   
   return Object.freeze(state)
 }
 
-valid.states = function(v) {
-  valid.defined(v, 'states')
-  valid.shape(v, 'states')
+vd.states = function(v) {
+  vd.defined(v, 'states')
+  vd.shape(v, 'states')
 
-  Object.values(v).forEach((state, i) => valid.state.call(this, state, i))
+  Object.values(v).forEach((state, i) => vd.state.call(this, v, state, i))
 
   return Object.freeze(v)
 }
 
-export { valid }
+export default vd

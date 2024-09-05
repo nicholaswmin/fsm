@@ -1,13 +1,13 @@
 import test from 'node:test'
 
-import FSM from '../../index.js'
+import FSM from '../../src/fsm.js'
 
 test('#transition: function parameters', async t => {
   class Gate extends FSM {
     constructor() {
       super({
-        locked:   { unlock: { to: 'unlocked', actions: ['open']  } },
-        unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+        locked:   { unlock: { to: 'unlocked', runs: ['open']  } },
+        unlocked: { lock: { to: 'locked',  runs: ['close']  } }
       })
     }
     
@@ -51,7 +51,7 @@ test('#transition: function parameters', async t => {
     await t.test('throws a descriptive TypeError', t => {
       t.assert.throws(() => gate.transition(' unlock'), {
         name: 'RangeError',
-        message: /whitespace/
+        message: /has space/
       })
     })
   })

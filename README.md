@@ -4,14 +4,14 @@
 
 > a [finite-state machine][fsm]
 
-> A mathematical model of computation.  
-> It is an abstract machine that can be in exactly one of a finite number of
+> ... is a mathematical model of computation.  
+> It is an abstract machine that can be in *one* of a finite number of
 > *states* at any given time.   
 > The change from one state to another is called a *transition*.
 
 Ever ruminated if the elevator you just stepped in could malfunction and 
 decapitate you?   
-It won't. It's modelled as an FSM which allows it to `move` only if state is: 
+It wont. It's modelled as an FSM which only allows it to: `move` if state is: 
 `doors-closed`.
 
 This implementation is remarkably simple, well-tested & safe against 
@@ -36,10 +36,12 @@ class Gate extends FSM {
   constructor() {
     super({
       locked:   { 
-        unlock: { to: 'unlocked', actions: ['open']  },
-        pick:   { to: 'unlocked', actions: ['open']  } 
+        unlock: { to: 'unlocked', runs: ['open'] },
+        pick:   { to: 'unlocked', runs: ['open'] } 
       },
-      unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+      unlocked: { 
+        lock: { to: 'locked',  runs: ['close'] } 
+      }
     })
   }
   
@@ -63,15 +65,17 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
-> another example: standalone, w/o subclassing:
+> same as above but standalone:
 
 ```js
 const gate = new FSM({
   locked:   { 
-    pick:   { to: 'unlocked', actions: ['open']  },
-    unlock: { to: 'unlocked', actions: ['open']  }
+    unlock: { to: 'unlocked', runs: ['open'] },
+    pick:   { to: 'unlocked', runs: ['open'] } 
   },
-  unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+  unlocked: { 
+    lock: { to: 'locked',  runs: ['close'] } 
+  }
 }, {
   open:  () => { console.log('opened ..') },
   close: () => { console.log('closed ..') }
@@ -83,14 +87,15 @@ const gate = new FSM({
 
 ### `new FSM(states, ctx)`
 
-Construct an `FSM`, see example above.
+Construct an `FSM`
 
-| name     | type     | desc.                          | default  | required  |
-|----------|----------|--------------------------------|----------|-----------|
-| `states` | `object` | list of possible `states`      | n/a      | yes       |
-| `ctx`    | `object` | implements transition actions  | `this`   | no        |
+| name     | type     | desc.                               | default  |
+|----------|----------|-------------------------------------|----------|
+| `states` | `object` | the [state-transition table][stt]   | required |
+| `ctx`    | `object` | obj. implementing transition `runs` | `this`   |
 
-> 1st state in `states` is set as the *initial* state.  
+> 1st state is set as the *initial* state.  
+
 
 ### `.state` 
 
@@ -103,16 +108,18 @@ Transition to another state, if allowed.
 Otherwise a `TransitionError` is thrown.
 
 
-| name     | type     | desc.           | required |
-|----------|----------|-----------------|----------|
-| `name`   | `string` | transition name | yes      |
+| name     | type     | desc.           |
+|----------|----------|-----------------|
+| `name`   | `string` | transition name |
 
 
 calls can be chained: 
 
 ```js
-gate.transition('unlock').transition('lock')
+gate.transition('unlock')
+    .transition('lock')
 ```
+
 
 ## Test 
 
@@ -128,11 +135,10 @@ node --run test
 node --run test:mutation
 ```
 
-> tests are excluded from `npm publish`
-
 ## Authors
 
 [@nicholaswmin][author]
+
 
 ## License 
 

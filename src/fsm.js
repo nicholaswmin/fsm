@@ -1,4 +1,4 @@
-import { valid } from './valid.js'
+import valid from './valid.js'
 
 class TransitionError extends Error {
   constructor(message) {
@@ -36,16 +36,16 @@ class FSM {
     const transition = this.#states[this.#state][name]
 
     if (!exists)
-      throw new TransitionError(`transition: ${name} does not exist`)
+      throw new TransitionError(`transition: ${name} missing`)
     
     if (!transition) 
       throw new TransitionError([
-        `Transition: "${name}" not allowed`,
-        `Current state: "${this.state}" can only: ${allowedTs}`
+        `"${name}" not allowed`,
+        `state: "${this.state}" can: ${allowedTs}`
       ].join('. '))
     
-    if (Object.hasOwn(transition, 'actions'))
-      transition.actions.forEach(name => this.#ctx[name].call(this.#ctx))
+    if (Object.hasOwn(transition, 'runs'))
+      transition.runs.forEach(name => this.#ctx[name].call(this.#ctx))
     
     this.#state = transition.to
 
