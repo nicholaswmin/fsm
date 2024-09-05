@@ -82,7 +82,8 @@ Construct an `FSM`, see example above.
 | `ctx`    | `Object` | should implement all transition actions | `this`   | 
 
 > 1st listed state is set as the initial state.  
-> the `ctx` object should not be passed if you're subclassing the FSM.
+
+> the `ctx` object is only required when instantiating as a standalone unit
 
 ### `fsm.state` 
 
