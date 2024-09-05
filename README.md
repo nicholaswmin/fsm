@@ -76,14 +76,13 @@ listed in every transition `actions`.
 
 Construct an `FSM`, see example above.
 
-| name     | type     | description                       | default  |
-|----------|----------|-----------------------------------|----------|
-| `states` | `Object` | List of all possible `states`     | required |
-| `ctx`    | `Object` | List of all methods listened      |          |
-|          |          | to in `state.transition.actions`  |          |         
+| name     | type     | description                             | default  |
+|----------|----------|-----------------------------------------|----------|
+| `states` | `Object` | list of all possible `states`           | required |
+| `ctx`    | `Object` | should implement all transition actions | `this`   | 
 
-> 1st listed state is set as the initial state.
-
+> 1st listed state is set as the initial state.  
+> the `ctx` object should not be passed if you're subclassing the FSM.
 
 ### `fsm.state` 
 
