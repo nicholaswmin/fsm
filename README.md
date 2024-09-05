@@ -80,17 +80,17 @@ listed as a transition `action`.
 
 Construct an `FSM`, see example above.
 
-| name     | type     | desc.                                | default  |
-|----------|----------|--------------------------------------|----------|
-| `states` | `Object` | list of possible `states`            | required |
-| `ctx`    | `Object` | obj. implementing transition actions | `this`   | 
+| name     | type     | desc.                          | default  | required  |
+|----------|----------|--------------------------------|----------|-----------|
+| `states` | `object` | list of possible `states`      | n/a      | yes       |
+| `ctx`    | `object` | implements transition actions  | `this`   | no        |
 
 > 1st state in `states` is set as the *initial* state.  
 
-
 ### `.state` 
 
-The *current* `state` 
+The current `state`.  
+Read-only
 
 
 ### `.transition(name)` 
@@ -99,13 +99,12 @@ Transition to another state, if allowed.
 Otherwise a `TransitionError` is thrown.
 
 
-| name    | type     | desc.       |
-|---------|----------|-------------|
-| `name`  | `String` | transition  |
+| name     | type     | desc.           | required |
+|----------|----------|-----------------|----------|
+| `name`   | `string` | transition name | yes      |
 
 
 calls can be chained: 
-
 
 ```js
 gate.transition('unlock').transition('lock')
