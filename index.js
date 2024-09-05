@@ -1,5 +1,12 @@
-import { TransitionError } from './src/errors.js'
 import { vd } from './src/validate.js'
+
+class TransitionError extends Error {
+  constructor(message) {
+    super(message)
+    this.error = this.constructor.name
+    this.name = this.constructor.name
+  }
+}
 
 class FSM {
   #ctx = this
