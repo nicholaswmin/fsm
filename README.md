@@ -55,7 +55,7 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
-> standalone, w/o subclassing:
+> another example: standalone, w/o subclassing:
 
 ```js
 const gate = new FSM({
