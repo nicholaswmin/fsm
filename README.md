@@ -1,4 +1,4 @@
-[![tests][testb]][tests] [![cov][cov-b]][cov]
+[![tests][testb]][tests] [![cov][covb]][cov]
 
 # fsm
 
