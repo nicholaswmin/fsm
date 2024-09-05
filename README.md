@@ -6,8 +6,8 @@
 
 > A finite-state machine is a mathematical model of computation.  
 > It is an abstract machine that can be in exactly one of a finite number of
-> *states* at any given time. The change from one state to another is called a 
-> *transition*.
+> *states* at any given time.   
+> The change from one state to another is called a *transition*.
 
 ## Install
 
