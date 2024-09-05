@@ -14,7 +14,7 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> implementing a gate as an FSM:
+> a gate as an FSM:
 
 ```js
 import FSM from '@nicholaswmin/fsm'
@@ -30,8 +30,8 @@ class Gate extends FSM {
     })
   }
   
-  open()  { console.log('gate opened ...') }
-  close() { console.log('gate closed ...') }
+  open()  { console.log('opened ..') }
+  close() { console.log('closed ..') }
 }
 ```
 
