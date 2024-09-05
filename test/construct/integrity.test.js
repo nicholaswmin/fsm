@@ -2,52 +2,42 @@ import test from 'node:test'
 
 import FSM from '../../index.js'
 
-const valid = {
-  init: 'locked',
-  states: {
-    locked: { unlock: { to: 'unlocked', actions: ['open'] } },
-    unlocked: { lock: { to: 'locked', actions: ['close'] } }
-  },
-  actions: { 
-    open:  () => {},
-    close: () => {}
-  }
-}
-
-test('FSM integrity', async t => {
+test('Integrity', async t => {
   await t.test('prevents overwriting internals', async t => {
-    const fsm = new FSM(valid)
+    class Gate extends FSM {
+      constructor(args) { super(args) }
+      open()  { console.log('gate opened ...') }
+      close() { console.log('gate closed ...') }
+    }
+    
+    const args = {
+      locked: {  pick: { to: 'unlocked', actions: ['open']  }  },
+      unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+    }
+    
+    const gate = new Gate(args)
 
-    await t.test('prevents "states" modifications', t => {  
-      t.assert.throws(() => fsm.states = 'foo', {
-        message: /object is not extensible/ 
-      })
-    })
-    
-    await t.test('prevents "action" modifications', t => {
-      t.assert.throws(() => fsm.actions = 'bar', {
-        message: /object is not extensible/ 
-      })
-    })
-    
-    await t.test('prevents FSM modifications', t => {
-      t.assert.throws(() => fsm.transition = 'foo', {
-        message: /object is not extensible/ 
-      })
-    })
-    
-    await t.test('prevents "state" modifications', t => {
-      t.assert.throws(() => fsm.state = 'baz', {
+    await t.test('prevents meddling with internals', t => {  
+      t.assert.throws(() => gate.state = 'foo', {
         message: /has only a getter/ 
       })
     })
+
     
-    await t.test('prevents modifications by reference', t => {  
+    await t.test('prevents method overrides', t => {
+      t.assert.throws(() => gate.transition = 'foo', {
+        message: /object is not extensible/ 
+      })
+    })
+    
+    await t.test('prevents meddling by-reference', t => {  
       t.assert.throws(() => {
-        valid.actions.open = () => { throw new Error('overriden') }
+        args.locked.pick.actions = ['nonExistentFn']
       }, {
         message: /Cannot assign to read only/
       })
+      
+      t.assert.doesNotThrow(() => gate.transition('pick'))
     })
   })
 })

@@ -1,96 +1,100 @@
 import test from 'node:test'
 
-import StateMachine from '../../index.js'
+import FSM from '../../index.js'
 
 test('#transition', async t => {
-  const openFn = t.mock.fn(), closeFn = t.mock.fn()
-  const gate = new StateMachine({
-    init: 'locked',
-    states: {
-      locked: { 
-        unlock: { to: 'unlocked', actions: ['open']  },
-        pick:   { to: 'unlocked' } 
-      },
-      unlocked: { lock: { to: 'locked', actions: ['close']  } },
-    },
-    
-    actions: {
-      open:  () => openFn(),
-      close: () => closeFn()
+  const open = t.mock.fn(), close = t.mock.fn(), pick = t.mock.fn()
+
+  class Gate extends FSM {
+    constructor() {
+      super({
+        locked:   { 
+          unlock: { to: 'unlocked', actions: ['open']  },
+          pick:   { to: 'unlocked', actions: ['open', 'pick']  } 
+        },
+        unlocked: { lock: { to: 'locked' } }
+      })
     }
-  })
+    
+    open()  { open()  }
+    pick()  { pick()  }
+    close() { close() }
+  }
   
+  const gate = new Gate()
   
-  await t.test('starts in init state', async t => {
+
+  await t.test('has initial state', async t => {
     t.assert.strictEqual(gate.state, 'locked')
   })
 
   
-  await t.test('can transition to current state', async t => {
-    t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
+  await t.test('current state allows attempted transition', async t => {
+    t.before(t => [open, close, pick].map(({ mock }) => mock.resetCalls()))
     
     await t.test('transitions to new state', t => {
-      t.assert.doesNotThrow(() => gate.transition('unlock'))
+      t.assert.doesNotThrow(() => gate.transition('pick'))
       t.assert.strictEqual(gate.state, 'unlocked')
     })
     
-    await t.test('invokes the new state action', t => {
-      t.assert.strictEqual(openFn.mock.callCount(), 1)
-      t.assert.strictEqual(closeFn.mock.callCount(), 0)
+    await t.test('invokes all actions from new state', t => {
+      t.assert.strictEqual(open.mock.callCount(), 1)
+      t.assert.strictEqual(pick.mock.callCount(), 1)
+
+      t.assert.strictEqual(close.mock.callCount(), 0)
     })
     
     await t.test('allows call chaining', t => {
-      t.assert.doesNotThrow(() => gate.transition('lock').transition('pick'))
+      t.assert.doesNotThrow(() => gate.transition('lock').transition('unlock'))
       t.assert.strictEqual(gate.state, 'unlocked')
     })
   })
   
 
-  await t.test('cannot transition from current state', async t => {
-    t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
+  await t.test('current state does not allow attempted transition', async t => {
+    t.before(t => [open, close, pick].map(({ mock }) => mock.resetCalls()))
 
-    await t.test('throws a TransitionError', t => {
+    await t.test('throws TransitionError', t => {
       t.assert.throws(() => gate.transition('unlock'), {
         name: 'TransitionError',
         message: /can transition to/ 
       })
     })
 
-    await t.test('does not invoke action', t => {
-      t.assert.strictEqual(openFn.mock.callCount(), 0)
-      t.assert.strictEqual(closeFn.mock.callCount(), 0)
+    await t.test('does not invoke any actions', t => {
+      t.assert.strictEqual(open.mock.callCount(), 0)
+      t.assert.strictEqual(close.mock.callCount(), 0)
     })
   })
   
 
   await t.test('transition does not exist', async t => {    
-    t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
+    t.before(t => [open, close, pick].map(({ mock }) => mock.resetCalls()))
 
-    await t.test('throws a descriptive UnknownTransitionError', t => {
+    await t.test('throws TransitionError', t => {
       t.assert.throws(() => gate.transition('foo'), {
         error: 'TransitionError',
         message: /foo does not exist/ 
       })
     })
     
-    await t.test('does not invoke action again', t => {
-      t.assert.strictEqual(openFn.mock.callCount(), 0)
-      t.assert.strictEqual(closeFn.mock.callCount(), 0)
+    await t.test('does not invoke any actions', t => {
+      t.assert.strictEqual(open.mock.callCount(), 0)
+      t.assert.strictEqual(close.mock.callCount(), 0)
     })
   })
   
 
   await t.test('transition name matches previous state', async t => {    
-    t.before(t => openFn.mock.resetCalls(), closeFn.mock.resetCalls())
+    t.before(t => [open, close, pick].map(({ mock }) => mock.resetCalls()))
 
     await t.test('transitions to new state', t => {
       t.assert.doesNotThrow(() => gate.transition('lock'))
       t.assert.strictEqual(gate.state, 'locked')
     })
     
-    await t.test('invokes the new state action', t => {
-      t.assert.strictEqual(openFn.mock.callCount(), 0)
-      t.assert.strictEqual(closeFn.mock.callCount(), 1)
+    await t.test('invokes new state actions, if they exist', t => {
+      t.assert.strictEqual(open.mock.callCount(), 0)
     })
   })
 })

@@ -1,141 +1,110 @@
-const validate =  {}
+const valid =  {}
 
-const isTransition = (v, i, j) => {
-  const name = `state.${i}.transition.${i}`  
+valid.shape = (v, name, defs = []) => {
+  valid.object(v, name)
 
-  validate.string(v.to, `${name}.to`)
-  
-  if (!Object.hasOwn(v, 'actions'))
-    new TypeError(`${name} missing actions property`)
-  
-  if (!!v.actions && !Array.isArray(v.actions))
-    throw new TypeError(
-      `${name}.actions exp. array, got: ${typeof v.actions}`
-    )
-  
-  if (!!v.actions)
-    v.actions.map((a, i) => validate.string(a, `${name}.actions.${i}`))
-      
-  return v
-}
+  if (!Object.keys(v).length) 
+    throw new RangeError(`${name} empty`)
 
-const isAction = (v, i) => {
-  const err = typeof v !== 'function'
-    ? new TypeError(`action.${i} exp. function, got: ${typeof v}`)
-    : null
-  
-  if (err) throw err 
-}
-
-const actionsPresent = (v, actions = {}) => {
-  const inActions = v => Object.keys(actions).includes(v)
-  
-  Object.values(v).forEach((s, i) => {
-    Object.values(s).map((t, j) => {
-      !!t.actions && t.actions.forEach((action, k) => {
-        if (!inActions(action))
-          throw new TypeError([
-            `state.${i}.transition.${j}.actions.${k}:`,
-             `${action} not present in actions`
-          ].join(' ')) 
-      })
-    })
+  defs.forEach(({ key, type, required }) => {
+    if (!Object.hasOwn(v, key))
+      if (!required)
+        return v[key]
+      else
+        throw new TypeError(`${name} missing property: "${key}"`)
+    
+    if (type !== 'array')
+      return !!valid[type] 
+        ? valid[type](v[key], `${name}.${key}`) 
+        : valid.type(v[key], type, `${name}.${key}`)
+    
+    if (!Array.isArray(v[key]))
+      throw new TypeError(`${name}.${key} exp. array, got: ${typeof v}`)
   })
   
   return v
 }
 
-const actionsUtilised = (v, states = {}) => {
-  const stateHasActions = v => 
-    Object.values(states)
-      .some(s => Object.values(s)
-        .some(t => !!t.actions && t.actions.includes(v)))
+valid.type = (v, type, name) => {
+  v = valid.defined(v, name)
 
-  Object.values(v).map((fn, i) => {
-    if (!stateHasActions(fn.name))
-      throw new RangeError(`action: ${fn.name} not used in a transition`)
-  })
+  if (typeof v !== type)
+    throw new TypeError(`${name} exp. ${type}, got: ${typeof v}`)
   
   return v
 }
 
-const hasState = (state, states) => {
-  if (!!!states[state])
-    throw new TypeError(`state: ${state} does not exist`)
-}
-
-const statesHaveActions = (states, actions) => {
-  actionsPresent(states, actions)
-  actionsUtilised(actions, states)
-  
-  return states
-}
-
-validate.string = (v, name) => {
+valid.defined = (v, name) => {
   if (typeof v === 'undefined')
-    throw new TypeError(`${name} is missing`)
-  
-  if (typeof v !== 'string')
-    throw new TypeError(`${name} exp. string, got: ${typeof v}`)
+    throw new TypeError(`${name} missing`)
+
+  return v
+}
+
+valid.string = (v, name) => {
+  v = valid.type(v, 'string', name)
   
   if (v.includes(' '))
-    throw new TypeError(`${name} string cannot contain whitespace`)
+    throw new RangeError(`${name} has whitespace`)
 
-  if (v.trim().length < 1)
-    throw new RangeError(`${name} is empty`)
+  if (!v.length)
+    throw new RangeError(`${name} empty`)
 
   return v
 }
 
-validate.actions = v => {
-  if (typeof v === 'undefined')
-    throw new TypeError('actions missing')
+valid.object = (v, name) => {
+  v = valid.type(v, 'object', name)
   
-  if (typeof v === 'object')
-    if (!Object.keys(v).length)
-      throw new RangeError('no actions found')
-    else 
-      Object.values(v).forEach((action, i) => isAction(action, i))
-  else 
-    throw new TypeError(`actions exp. object, got: ${typeof v}`)
-
   return v
 }
 
-validate.states = v => {
-  if (typeof v === 'undefined')
-    throw new TypeError('states is missing')
-  else 
-    if (typeof v === 'object') 
-      if (Object.keys(v).length === 0)
-        throw new RangeError('no states found')
-      else
-        Object.values(v).forEach((s, i) => {
-          if (!Object.values(s).length)
-            throw new RangeError(`state.${i} has no transitions`)
-          else 
-            Object.values(v).forEach((s, i) => 
-              Object.values(s).forEach((t, j) => {
-                if (typeof t !== 'object')
-                  throw new TypeError([
-                    `state.${i}.transition.${j} exp. object`, 
-                    `got: ${typeof t}`
-                  ].join(', '))
-                else 
-                  isTransition(t, i, j)
-            }))
-        })
-    else 
-     throw new TypeError(`states exp. object, got: ${typeof v}`)
+valid.action = function(action, k, prev) {
+  const name = `${prev}.actions.${k}`
+  const method = this[action]
 
-  return v
+  valid.string(action, name)
+
+  if (!method)
+    throw new TypeError(`${name}: missing method: this.${action}()`)
+  
+  if (typeof method !== 'function')
+    throw new TypeError(`${name}: exp. function, got: ${typeof method}`)
+
+  return Object.freeze(action)
 }
 
-validate.init = v => {
-  if (typeof v === 'undefined')
-    throw new TypeError('init missing')
+valid.transition = function(transition, i, j) {
+  const name = `state.${i}.transitions.${j}`
 
-  return validate.string(v, 'init')
+  valid.shape(transition, name, [
+    { key: 'to', type: 'string', required: true },
+    { key: 'actions', type: 'array', required: false }
+  ])
+
+  Object.values(transition.actions || {})
+    .map((action, k) => valid.action.call(this, action, k, name))
+  
+  Object.freeze(transition)
 }
 
-export { validate, hasState, statesHaveActions }
+valid.state = function(state, i) {
+  valid.shape(state, `state.${i}`)
+
+  Object.values(state)
+    .forEach((transition, j) => 
+      valid.transition.call(this, transition, i, j))
+  
+  return Object.freeze(state)
+}
+
+valid.states = function(v) {
+  valid.defined(v, 'states')
+  valid.shape(v, 'states')
+
+  Object.values(v).forEach((state, i) => valid.state.call(this, state, i))
+
+  return Object.freeze(v)
+}
+
+export { valid }

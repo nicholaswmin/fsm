@@ -14,23 +14,31 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> just throws on invalid transitions
+> implementing a gate/door as an FSM:
 
 ```js
 import FSM from '@nicholaswmin/fsm'
 
-const gate = new FSM({
-  init: 'locked',
-  states: {
-    locked: { unlock: { to: 'unlocked', actions: ['open']  } },
-    unlocked: { lock: { to: 'locked', actions: ['close']  } }
-  },
-  
-  actions: {
-    open:  () => console.log('opened'),
-    close: () => console.log('closed')
+class Gate extends FSM {
+  constructor() {
+    super({
+      locked:   { 
+        unlock: { to: 'unlocked', actions: ['open']  },
+        pick:   { to: 'unlocked', actions: ['open']  } 
+      },
+      unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+    })
   }
-})
+  
+  open()  { console.log('gate opened ...') }
+  close() { console.log('gate closed ...') }
+}
+```
+
+then:
+
+```js
+const gate = new Gate()
 
 // transition state
 gate.transition('unlock')
@@ -42,22 +50,45 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
+... or standalone, w/o subclassing:
+
+```js
+const gate = new FSM({
+  locked:   { 
+    unlock: { to: 'unlocked', actions: ['open']  },
+    pick:   { to: 'unlocked', actions: ['open']  } 
+  },
+  unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+}, {
+  open:  () => { console.log('gate opened ...') },
+  close: () => { console.log('gate closed ...') }
+})
+```
+
+requires passing a 2nd argument, `ctx`, which should implement *every* method
+listed in every transition `actions`.
+
 
 ## API 
 
+
 ### `new FSM({ init, states, actions })`
 
-| name      | type     | desc.                      |
-|-----------|----------|----------------------------|
-| `init`    | `String` | Initial `state`            |
-| `states`  | `Object` | List of possible `states`  |
-| `actions` | `Object` | List of `actions`          |
-
 Construct an `FSM`, see example above.
+
+| name     | type     | description                       | default  |
+|----------|----------|-----------------------------------|----------|
+| `states` | `Object` | List of all possible `states`     | required |
+| `ctx`    | `Object` | List of all methods listened      |          |
+|          |          | to in `state.transition.actions`  |          |         
+
+> 1st listed state is set as the initial state.
+
 
 ### `fsm.state` 
 
 Current `state` 
+
 
 ### `fsm.transition(name)` 
 
@@ -72,6 +103,7 @@ Otherwise a `TransitionError` is thrown.
 
 calls can be chained: 
 
+
 ```js
 gate.transition('unlock').transition('lock')
 ```
@@ -79,27 +111,15 @@ gate.transition('unlock').transition('lock')
 
 ## Integrity safeguards
 
-Despite it's simple design, this FSM is designed for production use. 
+While this FSM does few things it strives to perform them as correctly
+as possible with an emphasis on catching errors on construction-time rather
+than run-time.
 
 In addition to an extensive test suite, it's constructor arguments are 
-strictly validated, with errors containing descriptive error messages.
+validated for type, shape, mapping actions to defined methods etc..
 
-For example: 
-
-```js
-// ... rest ommited for brevity
-
-states: {
-  locked: { 
-    unlock: { 
-      to: 'unlocked', actions: [' open'] // <-- oops
-
-// throws: 
-// TypeError: state.0.transition.0.actions.0 string cannot contain whitespace
-```
-
-Additionally, to protect against meddling with it's internals *by-reference*,   
-the arguments & the FSM are frozen & rendered immutable via `Object.freeze`. 
+Additionally, & to protect against accidental meddling with it's internals, 
+both the arguments & the FSM itself are rendered immutable via `Object.freeze`. 
 
 ## Test 
 
@@ -107,7 +127,7 @@ the arguments & the FSM are frozen & rendered immutable via `Object.freeze`.
 node --run test
 ```
 
-> excluded from `npm publish`
+> tests are excluded from `npm publish`
 
 ## Authors
 
@@ -125,8 +145,6 @@ node --run test
 [size]: https://bundlephobia.com/package/@nicholaswmin/fsm@latest
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
-[state-table]: https://en.wikipedia.org/wiki/State-transition_table
-[nyt]: https://www.nytimes.com/1883/12/15/archives/decapitated-by-an-elevator.html
 
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE

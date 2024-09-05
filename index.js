@@ -1,25 +1,24 @@
 import { TransitionError } from './src/errors.js'
-import { validate, hasState, statesHaveActions } from './src/validate.js'
+import { valid } from './src/validate.js'
 
 class FSM {
+  #ctx = this
   #state = null
   #states = null
   #actions = null
 
   get state() { return this.#state }
 
-  constructor({ init, states, actions }) {
-    this.#state = validate.init(init)
-    this.#states = validate.states(states)
-    this.#actions = validate.actions(actions)
-    
-    hasState(init, statesHaveActions(this.#states, this.#actions)) 
+  constructor(states, ctx = this) {
+    this.#ctx = valid.object(ctx, 'ctx')
+    this.#states = valid.states.call(ctx, states)
+    this.#state = Object.keys(this.#states).at(0)
 
-    ;[this.#states, this.#actions, this].map(Object.freeze)
+    Object.freeze(this)
   }
   
   transition(name) { 
-    name = validate.string(name, 'transition name')
+    name = valid.string(name, 'transition name')
 
     const hasTransition = state => Object.keys(state).includes(name)
     const exists = Object.values(this.#states).some(hasTransition)
@@ -37,7 +36,7 @@ class FSM {
       ].join('. '))
     
     if (Object.hasOwn(transition, 'actions'))
-      transition.actions.forEach(name => this.#actions[name].call(this))
+      transition.actions.forEach(name => this.#ctx[name].call(this.#ctx))
     
     this.#state = transition.to
 

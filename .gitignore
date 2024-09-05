@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # draft prototyping 
 scratch/
+scratch.js
 
 # Constants
 constants.json
