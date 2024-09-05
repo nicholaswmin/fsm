@@ -2,7 +2,7 @@
   "name": "@nicholaswmin/fsm",
   "type": "module",
   "sideEffects": false,
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "finite-state machine",
   "main": "index.js",
   "engines": {
@@ -19,7 +19,8 @@
     "url": "git+https://github.com/nicholaswmin/fsm.git"
   },
   "keywords": [
-    "fsm"
+    "fsm",
+    "finite-state-machine"
   ],
   "author": "@nicholaswmin",
   "license": "MIT",

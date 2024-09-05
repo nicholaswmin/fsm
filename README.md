@@ -55,6 +55,24 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
+... or standalone, w/o subclassing:
+
+```js
+const gate = new FSM({
+  locked:   { 
+    pick:   { to: 'unlocked', actions: ['open']  },
+    unlock: { to: 'unlocked', actions: ['open']  }
+  },
+  unlocked: { lock: { to: 'locked',  actions: ['close']  } }
+}, {
+  open:  () => { console.log('gate opened ...') },
+  close: () => { console.log('gate closed ...') }
+})
+```
+
+requires a 2nd argument, `ctx`, which should implement *every* method
+listed as a transition `action`.
+
 ## API 
 
 
@@ -67,14 +85,12 @@ Construct an `FSM`, see example above.
 | `states` | `Object` | list of possible `states`            | required |
 | `ctx`    | `Object` | obj. implementing transition actions | `this`   | 
 
-> 1st listed state is set as the initial state.  
-
-> the `ctx` object is only required when instantiating as a standalone unit.
+> 1st state in `states` is set as the *initial* state.  
 
 
 ### `.state` 
 
-read *current* `state` 
+The *current* `state` 
 
 
 ### `.transition(name)` 
@@ -109,7 +125,7 @@ node --run test
 
 ## License 
 
-MIT
+[MIT][license]
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml
@@ -121,3 +137,4 @@ MIT
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 
 [author]: https://github.com/nicholaswmin
+[license]: ./LICENSE
