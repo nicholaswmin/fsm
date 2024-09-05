@@ -83,11 +83,12 @@ Construct an `FSM`, see example above.
 
 > 1st listed state is set as the initial state.  
 
-> the `ctx` object is only required when instantiating as a standalone unit
+> the `ctx` object is only required when instantiating as a standalone unit.
+
 
 ### `fsm.state` 
 
-Current `state` 
+The current `state` 
 
 
 ### `fsm.transition(name)` 
