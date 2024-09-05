@@ -6,7 +6,7 @@
 
 ## Install
 
-> [~1kb][size], zero dependencies
+> [1kb][size], zero dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -14,7 +14,7 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> implementing a gate/door as an FSM:
+> implementing a gate as an FSM:
 
 ```js
 import FSM from '@nicholaswmin/fsm'
@@ -55,8 +55,8 @@ gate.transition('unlock')
 ```js
 const gate = new FSM({
   locked:   { 
-    unlock: { to: 'unlocked', actions: ['open']  },
-    pick:   { to: 'unlocked', actions: ['open']  } 
+    pick:   { to: 'unlocked', actions: ['open']  },
+    unlock: { to: 'unlocked', actions: ['open']  }
   },
   unlocked: { lock: { to: 'locked',  actions: ['close']  } }
 }, {
@@ -65,33 +65,33 @@ const gate = new FSM({
 })
 ```
 
-requires passing a 2nd argument, `ctx`, which should implement *every* method
-listed in every transition `actions`.
+requires a 2nd argument, `ctx`, which should implement *every* method
+listed in transition `actions`.
 
 
 ## API 
 
 
-### `new FSM({ init, states, actions })`
+### `new FSM(states, ctx)`
 
 Construct an `FSM`, see example above.
 
-| name     | type     | description                             | default  |
-|----------|----------|-----------------------------------------|----------|
-| `states` | `Object` | list of all possible `states`           | required |
-| `ctx`    | `Object` | should implement all transition actions | `this`   | 
+| name     | type     | desc.                                    | default  |
+|----------|----------|------------------------------------------|----------|
+| `states` | `Object` | list of all possible `states`            | required |
+| `ctx`    | `Object` | obj. implementing all transition actions | `this`   | 
 
 > 1st listed state is set as the initial state.  
 
 > the `ctx` object is only required when instantiating as a standalone unit.
 
 
-### `fsm.state` 
+### `.state` 
 
-The current `state` 
+stores the *current* `state` 
 
 
-### `fsm.transition(name)` 
+### `.transition(name)` 
 
 Transition to another state, if allowed.  
 Otherwise a `TransitionError` is thrown.
