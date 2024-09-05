@@ -112,15 +112,11 @@ gate.transition('unlock').transition('lock')
 
 ## Integrity safeguards
 
-While this FSM does few things it strives to perform them as correctly
-as possible with an emphasis on catching errors on construction-time rather
+This FSM places an emphasis on catching errors on construction-time rather
 than run-time.
 
-In addition to an extensive test suite, it's constructor arguments are 
-validated for type, shape, mapping actions to defined methods etc..
-
-Additionally, & to protect against accidental meddling with it's internals, 
-both the arguments & the FSM itself are rendered immutable via `Object.freeze`. 
+To protect against meddling with it's internals, both the arguments & the 
+FSM itself are rendered immutable via `Object.freeze`. 
 
 ## Test 
 

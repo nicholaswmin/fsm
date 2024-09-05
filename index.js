@@ -5,7 +5,6 @@ class FSM {
   #ctx = this
   #state = null
   #states = null
-  #actions = null
 
   get state() { return this.#state }
 
