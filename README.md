@@ -90,12 +90,6 @@ calls can be chained:
 gate.transition('unlock').transition('lock')
 ```
 
-
-## Integrity safeguards
-
-To protect against meddling with it's internals, both the arguments & the 
-FSM itself are rendered immutable via `Object.freeze`. 
-
 ## Test 
 
 ```bash
