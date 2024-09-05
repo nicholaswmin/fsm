@@ -82,7 +82,7 @@ test('#construction parameter: "states"', async t => {
           }
         }), {
           name: 'TypeError',
-          message: /state.0.transitions.0 missing property: "to"/ 
+          message: /state.0.transitions.0 missing property: to/ 
         })
       })
     })  

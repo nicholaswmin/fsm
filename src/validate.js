@@ -1,7 +1,7 @@
-const valid =  {}
+const vd =  {}
 
-valid.shape = (v, name, defs = []) => {
-  valid.object(v, name)
+vd.shape = (v, name, defs = []) => {
+  vd.object(v, name)
 
   if (!Object.keys(v).length) 
     throw new RangeError(`${name} empty`)
@@ -14,9 +14,9 @@ valid.shape = (v, name, defs = []) => {
         throw new TypeError(`${name} missing property: ${key}`)
     
     if (type !== 'array')
-      return !!valid[type] 
-        ? valid[type](v[key], `${name}.${key}`) 
-        : valid.type(v[key], type, `${name}.${key}`)
+      return !!vd[type] 
+        ? vd[type](v[key], `${name}.${key}`) 
+        : vd.type(v[key], type, `${name}.${key}`)
     
     if (!Array.isArray(v[key]))
       throw new TypeError(`${name}.${key} exp. array, got: ${typeof v}`)
@@ -25,8 +25,8 @@ valid.shape = (v, name, defs = []) => {
   return v
 }
 
-valid.type = (v, type, name) => {
-  v = valid.defined(v, name)
+vd.type = (v, type, name) => {
+  v = vd.defined(v, name)
 
   if (typeof v !== type)
     throw new TypeError(`${name} exp. ${type}, got: ${typeof v}`)
@@ -34,15 +34,15 @@ valid.type = (v, type, name) => {
   return v
 }
 
-valid.defined = (v, name) => {
+vd.defined = (v, name) => {
   if (typeof v === 'undefined')
     throw new TypeError(`${name} missing`)
 
   return v
 }
 
-valid.string = (v, name) => {
-  v = valid.type(v, 'string', name)
+vd.string = (v, name) => {
+  v = vd.type(v, 'string', name)
   
   if (v.includes(' '))
     throw new RangeError(`${name} has whitespace`)
@@ -53,17 +53,17 @@ valid.string = (v, name) => {
   return v
 }
 
-valid.object = (v, name) => {
-  v = valid.type(v, 'object', name)
+vd.object = (v, name) => {
+  v = vd.type(v, 'object', name)
   
   return v
 }
 
-valid.action = function(action, k, prev) {
+vd.action = function(action, k, prev) {
   const name = `${prev}.actions.${k}`
   const method = this[action]
 
-  valid.string(action, name)
+  vd.string(action, name)
 
   if (!method)
     throw new TypeError(`${name}: missing method: this.${action}()`)
@@ -74,37 +74,37 @@ valid.action = function(action, k, prev) {
   return Object.freeze(action)
 }
 
-valid.transition = function(transition, i, j) {
+vd.transition = function(transition, i, j) {
   const name = `state.${i}.transitions.${j}`
 
-  valid.shape(transition, name, [
+  vd.shape(transition, name, [
     { key: 'to', type: 'string', required: true },
     { key: 'actions', type: 'array', required: false }
   ])
 
   Object.values(transition.actions || {})
-    .map((action, k) => valid.action.call(this, action, k, name))
+    .map((action, k) => vd.action.call(this, action, k, name))
   
   Object.freeze(transition)
 }
 
-valid.state = function(state, i) {
-  valid.shape(state, `state.${i}`)
+vd.state = function(state, i) {
+  vd.shape(state, `state.${i}`)
 
   Object.values(state)
     .forEach((transition, j) => 
-      valid.transition.call(this, transition, i, j))
+      vd.transition.call(this, transition, i, j))
   
   return Object.freeze(state)
 }
 
-valid.states = function(v) {
-  valid.defined(v, 'states')
-  valid.shape(v, 'states')
+vd.states = function(v) {
+  vd.defined(v, 'states')
+  vd.shape(v, 'states')
 
-  Object.values(v).forEach((state, i) => valid.state.call(this, state, i))
+  Object.values(v).forEach((state, i) => vd.state.call(this, state, i))
 
   return Object.freeze(v)
 }
 
-export { valid }
+export { vd }

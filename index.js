@@ -1,5 +1,5 @@
 import { TransitionError } from './src/errors.js'
-import { valid } from './src/validate.js'
+import { vd } from './src/validate.js'
 
 class FSM {
   #ctx = this
@@ -9,15 +9,15 @@ class FSM {
   get state() { return this.#state }
 
   constructor(states, ctx = this) {
-    this.#ctx = valid.object(ctx, 'ctx')
-    this.#states = valid.states.call(ctx, states)
+    this.#ctx = vd.object(ctx, 'ctx')
+    this.#states = vd.states.call(ctx, states)
     this.#state = Object.keys(this.#states).at(0)
 
     Object.freeze(this)
   }
   
   transition(name) { 
-    name = valid.string(name, 'transition name')
+    name = vd.string(name, 'transition name')
 
     const hasTransition = state => Object.keys(state).includes(name)
     const exists = Object.values(this.#states).some(hasTransition)

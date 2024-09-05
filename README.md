@@ -1,12 +1,12 @@
-[![tests][tests-badge]][tests] [![cov][cov-badge]][cov]
+[![tests][testb]][tests] [![cov][cov-b]][cov]
 
 # fsm
 
-> minimal [finite-state machine][fsm]
+> tiny [finite-state machine][fsm]
 
 ## Install
 
-> [1kb][size], zero dependencies
+> [1kb][size], 0 dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -40,7 +40,7 @@ then:
 ```js
 const gate = new Gate()
 
-// transition state
+// transition
 gate.transition('unlock')
 
 console.log(gate.state)
@@ -57,10 +57,10 @@ gate.transition('unlock')
 
 Construct an `FSM`, see example above.
 
-| name     | type     | desc.                                    | default  |
-|----------|----------|------------------------------------------|----------|
-| `states` | `Object` | list of all possible `states`            | required |
-| `ctx`    | `Object` | obj. implementing all transition actions | `this`   | 
+| name     | type     | desc.                                | default  |
+|----------|----------|--------------------------------------|----------|
+| `states` | `Object` | list of possible `states`            | required |
+| `ctx`    | `Object` | obj. implementing transition actions | `this`   | 
 
 > 1st listed state is set as the initial state.  
 
@@ -69,7 +69,7 @@ Construct an `FSM`, see example above.
 
 ### `.state` 
 
-stores the *current* `state` 
+read *current* `state` 
 
 
 ### `.transition(name)` 
@@ -93,9 +93,6 @@ gate.transition('unlock').transition('lock')
 
 ## Integrity safeguards
 
-This FSM places an emphasis on catching errors on construction-time rather
-than run-time.
-
 To protect against meddling with it's internals, both the arguments & the 
 FSM itself are rendered immutable via `Object.freeze`. 
 
@@ -113,16 +110,15 @@ node --run test
 
 ## License 
 
-[MIT-0][license]
+MIT
 
-[tests-badge]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml/badge.svg
+[testb]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml
 
-[cov-badge]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
+[covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
 [cov]: https://coveralls.io/github/nicholaswmin/fsm
 [size]: https://bundlephobia.com/package/@nicholaswmin/fsm@latest
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 
 [author]: https://github.com/nicholaswmin
-[license]: ./LICENSE

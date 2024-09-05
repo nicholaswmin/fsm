@@ -2,14 +2,14 @@
   "name": "@nicholaswmin/fsm",
   "type": "module",
   "sideEffects": false,
-  "version": "1.4.3",
-  "description": "minimal finite-state machine",
+  "version": "1.4.4",
+  "description": "finite-state machine",
   "main": "index.js",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test --experimental-test-coverage \"test/**/*.test.js\""
+    "test": "node --test \"test/**/*.test.js\""
   },
   "files": [
     "src/"
@@ -19,8 +19,7 @@
     "url": "git+https://github.com/nicholaswmin/fsm.git"
   },
   "keywords": [
-    "fsm",
-    "finite-state-machine"
+    "fsm"
   ],
   "author": "@nicholaswmin",
   "license": "MIT-0",
