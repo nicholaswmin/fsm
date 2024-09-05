@@ -2,7 +2,7 @@
   "name": "@nicholaswmin/fsm",
   "type": "module",
   "sideEffects": false,
-  "version": "1.5",
+  "version": "1.4.9",
   "description": "finite-state machine",
   "main": "index.js",
   "engines": {
