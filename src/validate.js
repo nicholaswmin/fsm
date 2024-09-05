@@ -11,7 +11,7 @@ valid.shape = (v, name, defs = []) => {
       if (!required)
         return v[key]
       else
-        throw new TypeError(`${name} missing property: "${key}"`)
+        throw new TypeError(`${name} missing property: ${key}`)
     
     if (type !== 'array')
       return !!valid[type] 

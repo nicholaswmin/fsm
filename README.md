@@ -50,25 +50,6 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
-... or standalone, w/o subclassing:
-
-```js
-const gate = new FSM({
-  locked:   { 
-    pick:   { to: 'unlocked', actions: ['open']  },
-    unlock: { to: 'unlocked', actions: ['open']  }
-  },
-  unlocked: { lock: { to: 'locked',  actions: ['close']  } }
-}, {
-  open:  () => { console.log('gate opened ...') },
-  close: () => { console.log('gate closed ...') }
-})
-```
-
-requires a 2nd argument, `ctx`, which should implement *every* method
-listed in transition `actions`.
-
-
 ## API 
 
 
