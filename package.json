@@ -2,7 +2,7 @@
   "name": "@nicholaswmin/fsm",
   "type": "module",
   "sideEffects": false,
-  "version": "1.4.9",
+  "version": "1.5.1",
   "description": "finite-state machine",
   "main": "index.js",
   "engines": {
@@ -22,7 +22,7 @@
     "fsm"
   ],
   "author": "@nicholaswmin",
-  "license": "MIT-0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nicholaswmin/fsm/issues"
   },

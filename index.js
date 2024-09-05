@@ -1,4 +1,4 @@
-import { vd } from './src/validate.js'
+import { vd } from './valid.js'
 
 class TransitionError extends Error {
   constructor(message) {
