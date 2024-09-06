@@ -138,9 +138,10 @@ So while it attempts to guarantee that you will be able to transition
 to *a state*, it cannot guarantee whether you'll be allowed to transition 
 to *the state you intended*.
 
-It's up to you to verify that you haven't unwittingly created a never-ending 
-roundabout of transitions since doing so would limit the applicability of
-this implementation.
+To avoid footgunning yourself into a awkward scenario of stupidly going around 
+in circles within a never-ending roundabout of transitions, you should verify
+that your `states` and `transitions` form a directed-graph that matches your 
+intented use case.
 
 ## Test 
 
