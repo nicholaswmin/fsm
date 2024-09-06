@@ -15,7 +15,7 @@ It wont. It's modelled as an FSM which only allows it to: `move` if state is:
 `doors-closed`.
 
 This implementation is remarkably simple, well-tested & safe against 
-invalid [transition-tables][stt].
+invalid [transition tables][stt].
 
 ## Install
 
@@ -65,7 +65,7 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
-> same as above but standalone:
+> example w/o subclassing:
 
 ```js
 const gate = new FSM({
@@ -95,6 +95,8 @@ Construct an `FSM`
 | `ctx`    | `object` | obj. implementing transition `runs` | `this`   |
 
 > 1st state is set as the *initial* state.  
+
+> `ctx` is only required for standalone FSM's
 
 
 ### `.state` 
