@@ -127,6 +127,22 @@ gate.transition('unlock')
     .transition('lock')
 ```
 
+## Guards
+
+This implementation validates it's state-transition table against undefined
+or invalidly typed `states`, `transition` and `runs`.  
+It also freezes it's internals to guard against accidental modifications 
+by-reference, via it's arguments. 
+
+In short, it guarantees that you will be able to transition to *a state* and 
+any specified `runs` will be invoked. 
+
+It doesn't guarantee whether you'll be allowed to transition to *the state 
+you intended*.
+
+It's up to you to verify that you haven't unwittingly created a never-ending 
+roundabout of transitions since doing so would limit the applicability of
+this implementation.
 
 ## Test 
 
