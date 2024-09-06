@@ -136,12 +136,12 @@ arguments.
 
 So while it attempts to guarantee that you will be able to transition 
 to *a state*, it cannot guarantee whether you'll be allowed to transition 
-to *the state you intended*.
+to *the state you intended*; partly because it's not a mind-reader.
 
-To avoid footgunning yourself into an awkward scenario of stupidly going around 
-in circles within a never-ending roundabout of transitions, you should verify
-that your `states` and `transitions` form a directed-graph that matches your 
-intented use case.
+FSMs can easily become footguns in a specific case of stupidly going around 
+in circles within a never-ending roundabout of transitions, so you should 
+carefully verify that your `states` and `transitions` form a directed-graph 
+that matches your intented use case.
 
 ## Test 
 
