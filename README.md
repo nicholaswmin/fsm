@@ -65,7 +65,7 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
-> example w/o subclassing:
+> an example w/o subclassing:
 
 ```js
 const gate = new FSM({
@@ -81,6 +81,10 @@ const gate = new FSM({
   close: () => { console.log('closed ..') }
 })
 ```
+
+> Note: FSM's are good candidates for subclassing even when following 
+> the [Composition over Inheritance principle][coi] because they tend to be 
+> fundamental properties.
 
 ## API 
 
@@ -155,6 +159,7 @@ node --run test:mutation
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 [stt]: https://en.wikipedia.org/wiki/State-transition_table
+[coi]: https://en.wikipedia.org/wiki/Composition_over_inheritance
 
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
