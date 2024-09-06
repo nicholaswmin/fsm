@@ -2,7 +2,7 @@
   "name": "@nicholaswmin/fsm",
   "type": "module",
   "sideEffects": false,
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "finite-state machine",
   "main": "src/fsm.js",
   "engines": {
