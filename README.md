@@ -82,9 +82,9 @@ const gate = new FSM({
 })
 ```
 
-> Note: FSM's are good candidates for subclassing even when following 
-> the [Composition over Inheritance principle][coi] because they tend to be 
-> fundamental properties.
+> Advice: FSM's are usually good candidates for subclassing even when following 
+> the [Composition over Inheritance principle][coi] because they tend to be a 
+> fundamental attribute of an entity.
 
 ## API 
 
