@@ -65,7 +65,11 @@ gate.transition('unlock')
 // `TransitionError`
 ```
 
-> an example w/o subclassing:
+> note: FSM's are usually good candidates for subclassing even when following 
+> the [Composition over Inheritance principle][coi] because they tend to be a 
+> fundamental attribute of an entity.
+
+... but you can instantiate it standalone, like so:
 
 ```js
 const gate = new FSM({
@@ -81,10 +85,6 @@ const gate = new FSM({
   close: () => { console.log('closed ..') }
 })
 ```
-
-> Advice: FSM's are usually good candidates for subclassing even when following 
-> the [Composition over Inheritance principle][coi] because they tend to be a 
-> fundamental attribute of an entity.
 
 ## API 
 
