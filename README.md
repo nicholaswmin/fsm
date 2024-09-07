@@ -221,7 +221,7 @@ node --run test:mutation
 [license]: ./LICENSE
 
 [^1]: FSMs require presetting a state-transition table, listing all `states` &  
-      which `transitions` are allowed when it's the current `state`.
+      which `transitions` are allowed from it when it's the current `state`.
        
 [^2]: Attempting a `transition` to a `state` which isn't listed as allowed
       in the *current* `state` is refused. The `state` stays the same.
