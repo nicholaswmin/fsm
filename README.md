@@ -228,12 +228,14 @@ node --run test:mutation
       A finite-state machine forces you to predefine an expected behavior 
       in a declarative format. At runtime it functions as a guardrail against 
       attempts to deviate from that behavior.
+
       In cases like so, it refuses attempts to put it in an invalid state and 
       raises errors, rather than silently tolerating invalid states, 
       which alerts you of the problem.   
       This sends you back to the drawing board, then rinse and repeat until you 
       have something that matches the expected behavior and the actual 
       behavior. 
+
       These characteristics result in better-informed designs which feel 
       predictable, safer and more robust while also self-documenting their own 
       behavior in a clear and unambigious format.
