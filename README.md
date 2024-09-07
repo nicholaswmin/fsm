@@ -224,8 +224,8 @@ node --run test:mutation
       which `transitions` are allowed from it when it's the current `state`.
        
 [^2]: Attempting a `transition` to a `state` which isn't listed as allowed
-      in the *current* `state` is refused. The `state` stays the same.
-      The refusal to transition to an invalid `state` according to some rules 
+      in the *current* `state` is refused & the current `state` stays the same.  
+      The refusal to transition to an invalid `state` according to some rules   
       is the 1 and only responsibility of a state machine.  
 
 
