@@ -77,9 +77,12 @@ test('#construction parameter: "states"', async t => {
         t.assert.throws(() => new (class Gate extends FSM {
           constructor() { 
             super({
-              locked: { unlock: { runs: ['foo'] } }
+              locked: { unlock: { to: 'locked', runs: ['open'] } },
+              unlocked: { lock: { runs: ['open'] } }
             }) 
           }
+          
+          open() {}
         }), {
           name: 'TypeError',
           message: /transition.0 missing: .to/ 

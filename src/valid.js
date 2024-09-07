@@ -1,103 +1,88 @@
-const vd =  {}
+const rangeErr = msg => {
+  throw RangeError(msg)
+}, 
 
-vd.shape = (v, name, defs = []) => {
-  vd.type(v, 'object', name)
+typeErr = msg => {
+  throw TypeError(msg)
+}, 
 
-  if (!Object.keys(v).length) 
-    throw RangeError(`${name} empty`)
+shape = (v, name, defs = []) => {
+  if (!Object.keys(valid.type(v, 'object', name)).length) 
+    rangeErr(`${name} empty`)
 
-  defs.forEach(({ key, type, optional }) => { 
-    if (!Object.hasOwn(v, key))
-      if (optional)
-        return
-      else
-        throw TypeError(`${name} missing: .${key}`)
-
-    if (type !== 'array')
-      return vd[type](v[key], `${name}.${key}`) 
-    
-    if (!Array.isArray(v[key]))
-      throw TypeError(`${name}.${key} exp. array, is: ${typeof v}`)
-  })
+  defs.forEach(({ key, type, optional }) => !v[key] 
+    ? optional
+      ? v
+      : typeErr(`${name} missing: .${key}`)
+    : valid[type](v[key], `${name}.${key}`))
   
   return v
-}
+}, 
 
-vd.type = (v, type, name) => {
-  v = vd.defined(v, name)
+defined = (v, name) => typeof v === 'undefined' 
+  ? typeErr(`${name} missing`) 
+  : v
+,
 
-  if (typeof v !== type)
-    throw TypeError(`${name} exp. ${type}, is: ${typeof v}`)
-  
-  return v
-}
+run = function(run, k, prev) {
+  const name = `run.${k}`, method = this[run]
 
-vd.defined = (v, name) => {
-  if (!v && v != 0)
-    throw TypeError(`${name} missing`)
-
-  return v
-}
-
-vd.string = (v, name) => {
-  v = vd.type(v, 'string', name)
-  
-  if (v.includes(' '))
-    throw RangeError(`${name} has space`)
-
-  if (!v.length)
-    throw RangeError(`${name} empty`)
-
-  return v
-}
-
-vd.run = function(run, k, prev) {
-  const name = `run.${k}`
-  const method = this[run]
-
-  vd.string(run, name)
+  valid.string(run, name)
 
   if (!method || typeof method !== 'function')
     throw TypeError(`${name}: ${run}() not found`)
 
-  return Object.freeze(run)
-}
+  Object.freeze(run)
+},
 
-vd.transition = function(v, transition, i, j) {
+transition = function(transition, j) {
   const name = `transition.${j}`,
     { runs, to } = transition
 
-  vd.shape(transition, name, [
+  shape(transition, name, [
     { key: 'to', type: 'string' },
     { key: 'runs', type: 'array', optional: true }
   ])
+  
+  if (runs && runs.map)
+    runs.map(run, this)
 
-  Object.values(runs || {})
-    .map((run, k) => vd.run.call(this, run, k, name))
-
-  if (!v[to])
+  if (!this.states[to])
     throw RangeError(`state "${to}" missing`)
   
   Object.freeze(transition)
-}
+},
 
-vd.state = function(v, state, i) {
-  vd.shape(state, `state.${i}`)
+state = function(state, i) {
+  shape(state, `state.${i}`)
 
-  Object.values(state)
-    .forEach((transition, j) => 
-      vd.transition.call(this, v, transition, i, j))
+  Object.values(state).forEach(transition, this)
   
   return Object.freeze(state)
 }
 
-vd.states = function(v) {
-  vd.defined(v, 'states')
-  vd.shape(v, 'states')
+const valid =  {
+  array: (v, name) => !Array.isArray(v) 
+    ? typeErr(`${name} exp. array, is: ${typeof v}`)
+    : v,
 
-  Object.values(v).forEach((state, i) => vd.state.call(this, v, state, i))
+  type: (v, type, name) => typeof defined(v, name) !== type 
+    ? typeErr(`${name} exp. ${type}, is: ${typeof v}`)
+    : v,
+    
+  string: (v, name) => valid.type(v, 'string', name).includes(' ') 
+    ? rangeErr(`${name} has space`) 
+    : !v.length
+      ? rangeErr(`${name} empty`)
+      : v,
 
-  return Object.freeze(v)
+  states: function(states) {
+    this.states = shape(states, 'states')
+  
+    Object.values(states).forEach(state, this)
+  
+    return Object.freeze(states)
+  }
 }
 
-export default vd
+export default valid

@@ -4,17 +4,12 @@
 
 > a [finite-state machine][fsm]
 
-> ... is a mathematical model of compu[^1].tation.  
+> ... a mathematical model of computation.  
 > It is an abstract machine that can be in one of a finite number of
 > *states* at any given time.   
-> The change from one state to another is called a *transition*[^2].
+> The change from one state to another is called a *transition*.
 
-Ever ruminated if that elevator you just stepped in could malfunction and 
-decapitate you?   
-It wont. It's modelled as an FSM whi[^3].ch only allows it to *transition to*: `move` 
-from a *state* of: `doors-closed`.
-
-This implementation aims to be re[^5].marka[^4]bly simple, well-tested & safe against 
+This implementation is remarkably simple, well-tested & safe against 
 invalid [transition tables][stt].
 
 ## Install
@@ -178,7 +173,7 @@ or invalidly-typed `states`, `transition` and `runs`.
 It also freezes it's internals to guard against accidental modifications 
 by-reference, via it's arguments. 
 
-This attempts to ensure that at runtime you'll be able to transition 
+This att[^1]emp[^2]ts to ensu[^3]re that at runtime you'll be able to transition 
 to *a state* but it wont guarantee that'll be your *intended state*.
 
 
@@ -220,7 +215,7 @@ node --run test:mutation
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
 
-[^1]: FSMs require presetting a state-transition table.   
+[^1]: FSMs require passing a [state-transition table][stt].   
       This table lists all possible `states`, each `state` listing which 
       `transition` to another `state` is allowed from it,   
       asasuming it's the current `state`.
