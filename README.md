@@ -4,17 +4,17 @@
 
 > a [finite-state machine][fsm]
 
-> ... is a mathematical model of computation.  
+> ... is a mathematical model of compu[^1].tation.  
 > It is an abstract machine that can be in one of a finite number of
 > *states* at any given time.   
-> The change from one state to another is called a *transition*[^1].
+> The change from one state to another is called a *transition*[^2].
 
 Ever ruminated if that elevator you just stepped in could malfunction and 
 decapitate you?   
-It wont. It's modelled as an FSM which only allows it to *transition to*: `move` 
+It wont. It's modelled as an FSM whi[^3].ch only allows it to *transition to*: `move` 
 from a *state* of: `doors-closed`.
 
-This implementation aims to be remarkably simple, well-tested & safe against 
+This implementation aims to be re[^5].marka[^4]bly simple, well-tested & safe against 
 invalid [transition tables][stt].
 
 ## Install
@@ -220,16 +220,26 @@ node --run test:mutation
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
 
-[^1]: FSMs require presetting a state-transition table, listing all `states` &  
-      which `transitions` are allowed from it when it's the current `state`.
+[^1]: FSMs require presetting a state-transition table.   
+      This table lists all possible `states`, each `state` listing which 
+      `transition` to another `state` is allowed from it,   
+      asasuming it's the current `state`.
+
+[^2]: Passing a state-transition table as an argument turns a *state machine**,
+      into a *finite-state* machine.   
+      Whatever the number of `states` in that table, they are not *infinite*, 
+      making this state-machine, *finite*.
        
 [^2]: Attempting a `transition` to a `state` which isn't listed as allowed
-      in the *current* `state` is refused & the current `state` stays the same.  
-      The refusal to transition to an invalid `state` according to some rules   
-      is the 1 and only responsibility of a state machine.  
+      in the *current* `state` is refused. The current `state` stays the same. 
 
+[^3]: The refusal to transition to an invalid `state` according to some rules 
+      is the 1 and only responsibility of a state machine.   
+      An FSM which has ended in `>1 state` or in an `invalid state` has failed
+      it's only job.
 
-[^2]: Fancy word for: "takes an infinite number of arguments". Also called a 
-      function of "n-arity" where "arity" = number of arguments. i.e:
-      nullary: `f = () => {}`, unary: `f = x => {}`, binary: `f = (x, y) => {}`,
-      ternary `f = (a,b,c) => {}` ...  n-ary/variadic: `f = (...args) => {}`
+[^4]: Fancy word for: "takes an infinite number of arguments".   
+      Also called function of "n-arity" where "arity" = number of arguments.   
+      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,   
+      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}` ...   
+      n-ary/variadic: `f = (...args) => {}`
