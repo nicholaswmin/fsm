@@ -16,9 +16,9 @@ test('#transition', async t => {
       })
     }
     
-    open()  { open()  }
-    pick()  { pick()  }
-    close() { close() }
+    open(...args)  { open(...args)  }
+    pick(...args)  { pick(...args)  }
+    close(...args) { close(...args) }
   }
   
   const gate = new Gate()
@@ -33,7 +33,7 @@ test('#transition', async t => {
     t.before(t => [open, close, pick].map(({ mock }) => mock.resetCalls()))
     
     await t.test('transitions to new state', t => {
-      t.assert.doesNotThrow(() => gate.transition('pick'))
+      gate.transition('pick', 1, '2', { foo: 3 })
       t.assert.strictEqual(gate.state, 'unlocked')
     })
     
@@ -42,6 +42,13 @@ test('#transition', async t => {
       t.assert.strictEqual(pick.mock.callCount(), 1)
 
       t.assert.strictEqual(close.mock.callCount(), 0)
+    })
+    
+    await t.test('invokes runs variadicaly', async t => {
+      t.assert.strictEqual(pick.mock.calls.at(0).arguments.length, 3)
+      t.assert.strictEqual(pick.mock.calls.at(0).arguments[0], 1)
+      t.assert.strictEqual(pick.mock.calls.at(0).arguments[1], '2')
+      t.assert.deepStrictEqual(pick.mock.calls.at(0).arguments[2], { foo: 3 })
     })
     
     await t.test('allows call chaining', t => {

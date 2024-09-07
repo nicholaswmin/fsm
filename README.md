@@ -5,16 +5,16 @@
 > a [finite-state machine][fsm]
 
 > ... is a mathematical model of computation.  
-> It is an abstract machine that can be in *one* of a finite number of
+> It is an abstract machine that can be in one of a finite number of
 > *states* at any given time.   
-> The change from one state to another is called a *transition*.
+> The change from one state to another is called a *transition*[^1].
 
-Ever ruminated if the elevator you just stepped in could malfunction and 
+Ever ruminated if that elevator you just stepped in could malfunction and 
 decapitate you?   
-It wont. It's modelled as an FSM which only allows it to: `move` if state is: 
-`doors-closed`.
+It wont. It's modelled as an FSM which only allows it to *transition to*: `move` 
+from a *state* of: `doors-closed`.
 
-This implementation is remarkably simple, well-tested & safe against 
+This implementation aims to be remarkably simple, well-tested & safe against 
 invalid [transition tables][stt].
 
 ## Install
@@ -67,84 +67,121 @@ gate.transition('unlock')
 
 ### Standalone
 
-> FSM's tend to be a fundamental attribute so subclassing makes a lot of sense, 
-> even when following the [Composition over Inheritance][coi] principle.
+> Eww, inheritance ... ?
 
-... but it also works standalone, like so:
+Stick to [*Composition over Inheritance*][coi], by instantiating it 
+standalons & assigning it as a member.
+
+Pass `this`/or an object implementing any `runs` methods, as the 2nd argument.
 
 ```js
-const gate = new FSM({
-  locked:   { 
-    unlock: { to: 'unlocked', runs: ['open'] },
-    pick:   { to: 'unlocked', runs: ['open'] } 
-  },
-  unlocked: { 
-    lock: { to: 'locked',  runs: ['close'] } 
+class Gate {
+  // optional: 
+  // allow reading state with `gate.state`
+  get state() { return this.fsm.state }
+
+  constructor() {
+    this.fsm = new FSM({
+      locked:   { 
+        unlock: { to: 'unlocked', runs: ['open'] },
+        pick:   { to: 'unlocked', runs: ['open'] } 
+      },
+      unlocked: { 
+        lock: { to: 'locked',  runs: ['close'] } 
+      }
+    }, this)
   }
-}, {
-  open:  () => { console.log('opened ..') },
-  close: () => { console.log('closed ..') }
-})
+
+  open()  { console.log('opened ..') }
+  close() { console.log('closed ..') }
+}
+
+const gate = new Gate()
+
+gate.fsm.transition('unlock')
+gate.state // 'unlocked'
 ```
 
-## API 
 
+## Usage 
 
 ### `new FSM(states, ctx)`
 
 Construct an `FSM`
 
-| name     | type     | desc.                               | default  |
-|----------|----------|-------------------------------------|----------|
-| `states` | `object` | the [state-transition table][stt]   | required |
-| `ctx`    | `object` | obj. implementing transition `runs` | `this`   |
+| name     | type     | desc.                           | default  |
+|----------|----------|---------------------------------|----------|
+| `states` | `object` | a [state-transition table][stt] | required |
+| `ctx`    | `object` | implements transition `runs`    | `this`   |
 
 > 1st state is set as the *initial* state.  
-
-> `ctx` is only required for standalone FSM's
 
 
 ### `.state` 
 
 The current `state`.  
+Read-only.
 
 
-### `.transition(name)` 
+### `.transition(name, arg1, arg2, ...)` 
 
-Transition to another state, if allowed.  
+Transition to another state, if allowed.   
 Otherwise a `TransitionError` is thrown.
 
+Passes arguments to listed `runs`, assumed to be variadic[^2].
 
-| name     | type     | desc.           |
-|----------|----------|-----------------|
-| `name`   | `string` | transition name |
+| name     | type     | desc.              |
+|----------|----------|------------------- |
+| `name`   | `string` | transition name    |
+| `arg*`   | `any`    | arbitrary argument |
 
-
-calls can be chained: 
+Additionally, it's chainable: 
 
 ```js
-gate.transition('unlock')
+const last = gate.transition('unlock')
     .transition('lock')
+    .state
+
+console.lost(last)
+// 'locked'
+```
+
+### `static .fromJSON(json)` 
+
+Revives a serialised FSM from a `JSON`.
+
+| name     | type     | desc.                        |
+|----------|----------|----------------------------- |
+| `json`   | `string` | `JSON.stringify(fsm)` value  |
+
+#### Example:
+
+```js
+const gate = (new Gate).transition('unlock')
+const json = JSON.stringify(gate)
+
+console.log(gate.state)
+// 'unlocked'
+
+// some time passes ...
+
+const revived = FSM.fromJSON(json)
+
+console.log(revived instanceof FSM, revived.state)
+// true, 'unlocked'
 ```
 
 ## Guards
 
-This implementation validates it's state-transition table against undefined
-or invalidly typed `states`, `transition` and `runs`. It also freezes it's 
-internals to guard against accidental modifications by-reference, via it's 
-arguments. 
+This implementation validates it's state-transition table against `undefined`
+or invalidly-typed `states`, `transition` and `runs`. 
+It also freezes it's internals to guard against accidental modifications 
+by-reference, via it's arguments. 
 
-So while it attempts to guarantee that you will be able to transition 
-to *a state*, it cannot guarantee whether you'll be allowed to transition 
-to *the state you intended*.
+This attempts to ensure that at runtime you'll be able to transition 
+to *a state* but it wont guarantee that'll be your *intended state*.
 
-Modelling something as an FSM can vastly enhance the readability and safety
-of your logic but it can also become a footgun by locking you into a 
-hopeless, never-ending roundabout of transitions.
 
-You can avoid this by taking 5 minutes to verify that your provided 
-state-transition table forms a directed-graph which matches the intented 
-use case.
 
 ## Test 
 
@@ -165,9 +202,10 @@ node --run test:mutation
 [@nicholaswmin][author]
 
 
+
 ## License 
 
-[MIT][license]
+[The MIT License][license]
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml
@@ -178,7 +216,29 @@ node --run test:mutation
 
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 [stt]: https://en.wikipedia.org/wiki/State-transition_table
-[coi]: https://en.wikipedia.org/wiki/Composition_over_inheritance
 
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
+
+[^1]: state-machines are mathematical models of computation, like Turing
+      machines. For practical purposes, nobody cares.
+
+      Simplifying even more:
+       
+      A finite-state machine forces you to predefine an expected behavior 
+      in a declarative format. At runtime it functions as a guardrail against 
+      attempts to deviate from that behavior.
+      In cases like so, it refuses attempts to put it in an invalid state and 
+      raises errors, rather than silently tolerating invalid states, 
+      which alerts you of the problem.   
+      This sends you back to the drawing board, then rinse and repeat until you 
+      have something that matches the expected behavior and the actual 
+      behavior. 
+      These characteristics result in better-informed designs which feel 
+      predictable, safer and more robust while also self-documenting their own 
+      behavior in a clear and unambigious format.
+      
+[^2]: Fancy word for: "takes an infinite number of arguments". Also called a 
+      function of "n-arity" where "arity" = number of arguments. i.e:
+      nullary: `f = () => {}`, unary: `f = x => {}`, binary: `f = (x, y) => {}`,
+      ternary `f = (a,b,c) => {}` ...  n-ary/variadic: `f = (...args) => {}`

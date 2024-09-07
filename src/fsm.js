@@ -12,18 +12,19 @@ class FSM {
   #ctx = this
   #state = null
   #states = null
+  static #json = null
 
   get state() { return this.#state }
 
   constructor(states, ctx = this) {
     this.#ctx = valid.type(ctx, 'object', 'ctx')
-    this.#states = valid.states.call(ctx, states)
+    this.#states = valid.states.call(ctx, JSON.parse(FSM.#json) || states)
     this.#state = Object.keys(this.#states).at(0)
 
     Object.freeze(this)
   }
   
-  transition(name) { 
+  transition(name, ...args) { 
     name = valid.string(name, 'transition')
 
     const hasTransition = state => Object.keys(state).includes(name)
@@ -45,11 +46,25 @@ class FSM {
       ].join('. '))
     
     if (Object.hasOwn(transition, 'runs'))
-      transition.runs.forEach(name => this.#ctx[name].call(this.#ctx))
+      transition.runs.forEach(name => this.#ctx[name].call(this.#ctx, ...args))
     
     this.#state = transition.to
 
     return this
+  }
+  
+  toJSON() {
+    return { 
+      [this.#state]: this.#states[this.#state], ...this.#states 
+    }
+  }
+  
+  static fromJSON(json, ctx) { 
+    FSM.#json = json
+    const instance = new this(undefined, ctx)
+    FSM.#json = null 
+    
+    return instance
   }
 }
 
