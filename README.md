@@ -220,26 +220,15 @@ node --run test:mutation
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
 
-[^1]: state-machines are mathematical models of computation, like Turing
-      machines. For practical purposes, nobody cares.
-
-      Simplifying even more:
+[^1]: FSMs require presetting a state-transition table, listing all `states` &  
+      which `transitions` are allowed when it's the current `state`.
        
-      A finite-state machine forces you to predefine an expected behavior 
-      in a declarative format. At runtime it functions as a guardrail against 
-      attempts to deviate from that behavior.
+[^2]: Attempting a `transition` to a `state` which isn't listed as allowed
+      in the *current* `state` is refused. The `state` stays the same.
+      The refusal to transition to an invalid `state` according to some rules 
+      is the 1 and only responsibility of a state machine.  
 
-      In cases like so, it refuses attempts to put it in an invalid state and 
-      raises errors, rather than silently tolerating invalid states, 
-      which alerts you of the problem.   
-      This sends you back to the drawing board, then rinse and repeat until you 
-      have something that matches the expected behavior and the actual 
-      behavior. 
 
-      These characteristics result in better-informed designs which feel 
-      predictable, safer and more robust while also self-documenting their own 
-      behavior in a clear and unambigious format.
-      
 [^2]: Fancy word for: "takes an infinite number of arguments". Also called a 
       function of "n-arity" where "arity" = number of arguments. i.e:
       nullary: `f = () => {}`, unary: `f = x => {}`, binary: `f = (x, y) => {}`,
