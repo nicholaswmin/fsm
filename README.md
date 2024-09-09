@@ -2,14 +2,12 @@
 
 # fsm
 
-> a [finite-state machine][fsm]
-
-> ... a mathematical model of computation.  
+> a [finite-state machine][fsm] is a mathematical model of computation.   
 > It is an abstract machine that can be in one of a finite number of
 > *states* at any given time.   
 > The change from one state to another is called a *transition*.
 
-This implementation is remarkably simple, well-tested & safe against 
+This implementation is simple, well-tested & safe against 
 invalid [transition tables][stt].
 
 ## Install
@@ -62,9 +60,7 @@ gate.transition('unlock')
 
 ### Standalone
 
-> Eww, inheritance ... ?
-
-Stick to [*Composition over Inheritance*][coi], by instantiating it 
+If you're sticking to *Composition over Inheritance*, just instantiate it 
 standalons & assigning it as a member.
 
 Pass `this`/or an object implementing any `runs` methods, as the 2nd argument.
@@ -97,8 +93,25 @@ gate.fsm.transition('unlock')
 gate.state // 'unlocked'
 ```
 
+or entirely standalone:
 
-## Usage 
+```js
+const gate = new FSM({
+  locked:   { 
+    unlock: { to: 'unlocked', runs: ['open'] },
+    pick:   { to: 'unlocked', runs: ['open'] } 
+  },
+  unlocked: { 
+    lock: { to: 'locked',  runs: ['close'] } 
+  }
+}, {
+  open()  { console.log('opened ..') }
+  close() { console.log('closed ..') }
+})
+```
+
+
+## Docs 
 
 ### `new FSM(states, ctx)`
 
@@ -172,10 +185,6 @@ This implementation validates it's state-transition table against `undefined`
 or invalidly-typed `states`, `transition` and `runs`. 
 It also freezes it's internals to guard against accidental modifications 
 by-reference, via it's arguments. 
-
-This att[^1]emp[^2]ts to ensu[^3]re that at runtime you'll be able to transition 
-to *a state* but it wont guarantee that'll be your *intended state*.
-
 
 
 ## Test 
