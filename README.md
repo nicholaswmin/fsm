@@ -146,7 +146,10 @@ Passes arguments to listed `runs`, assumed to be variadic[^2].
 Additionally, it's chainable: 
 
 ```js
-const last = gate.transition('unlock')
+const last = gate
+    .transition('unlock')
+    .transition('lock')
+    .transition('unlock')
     .transition('lock')
     .state
 
@@ -154,7 +157,7 @@ console.lost(last)
 // 'locked'
 ```
 
-### `static .fromJSON(json)` 
+### `static.fromJSON(json)` 
 
 Revives a serialised FSM from a `JSON`.
 
