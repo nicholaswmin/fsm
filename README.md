@@ -142,7 +142,7 @@ turnstile.insertCoin([5, 5, 5, 5, 5])
 > note: the transition hook must explicitly return `false`, not a falsy value.  
 > i.e `undefined` or `0` are falsy but not `false`.
 
-### Arguments 
+## Arguments 
 
 The transition methods can pass variadic arguments to relevant hooks:
 
