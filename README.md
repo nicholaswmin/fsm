@@ -180,7 +180,7 @@ turnstile.coin(50)
 ## Passing arguments 
 
 Transition methods can pass arguments to relevant hooks, assumed to be
-variadic[^2]:
+variadic: [^2]
 
 ```js
 const turnstile = new FSM({
