@@ -149,8 +149,8 @@ turnstile.insertCoin([5, 5, 5, 5, 5])
 
 ### Hook arguments 
 
-The transition methods allow variadic[^2] arguments to the relevant transition 
-hooks:
+The transition methods allow passing variadic arguments to the relevant 
+transition/state hooks:
 
 ```js
 const turnstile = new FSM({
