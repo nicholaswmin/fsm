@@ -10,12 +10,11 @@
 > The change from one state to another is called a `transition`.
 
 Finite-state machines are modelling constructs which allow expressing a piece 
-of logic *declaratively*, in a concise yet precise manner. They can only exist 
-in *one, always-valid* state at any given time, rendering them inherently safe, 
-by design.[^1]
+of logic *declaratively*.   
+They can only exist in *one*, *always-valid* state at any given time, 
+rendering them inherently safe, by design.[^1]
 
-This minimal implementation allows constructing production-grade FSMs which 
-are expressive, simple and robust.  
+This implementation allows constructing production-grade FSMs which are expressive, simple and robust.  
 
 ## Install 
 
