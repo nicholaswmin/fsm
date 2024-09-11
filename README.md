@@ -280,13 +280,13 @@ The current `state`. Read-only.
 
 ## Guards
 
-This implementation attempts to shift errors at *contruction-time* rather 
-than *run-time*.  
+This implementation attempts to shift errors at *contruction time* rather 
+than *run time*.  
 It does so by validating it's state-transition table against `undefined`, 
-invalidly-typed or unreasonable `states` inputs.
+invalidly typed or unreasonable `states` inputs.
 
 It also freezes it's internals to guard against accidental modifications 
-by-reference, via it's arguments. 
+by reference, via it's arguments. 
 
 As such, `FSM` instances should be considered *immutable*.
 
