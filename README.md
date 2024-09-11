@@ -48,8 +48,8 @@ turnstile.push()
 
 > transition from one `state` to another, if allowed.
 
-They are created from the provided `states`, which renders an expressive 
-& domain-specific API.
+They are created based on the transition names given in the `states` argument.   
+This renders an expressive & domain-specific API.
 
 For example, this: 
 
@@ -70,12 +70,14 @@ turnstile.push()
 // state: closed
 ```
 
-> note: transition methods are chainable:
+which are also be chainable:
 
 ```js
 turnstile.coin().push()
 // state: closed
 ```
+
+> note: method-chaining is only supported on the syncronous `SyncFSM`.
 
 ### Invalid transitions
 
@@ -90,16 +92,28 @@ const turnstile = new FSM({
 
 turnstile.push()
 // Error: push() not allowed in state:closed
-
 ```
 
 ## Hooks
 
-The 2nd argument accepts an object, optionally implementing hook methods.  
-Hooks are called at specific transition phases, optionally altering the 
-transition behavior.
+Hooks are functions/methods which are called at specific transition phases, 
+optionally altering the transition behavior.
 
-Same example:
+Each transition adds: 
+
+- 1 transition hook, named as: `on<TransitionName>`
+- 1 state-change hook, named as: `on<StateName>`
+
+where `TransitionName`, `StateName` are the given transition and state names,
+respectively.
+ 
+The 2nd argument accepts an object, optionally implementing some or all hooks.    
+The `FSM` looks up for these hook methods on an object which should be provided
+as the 2nd argument `ctx`. 
+
+The following section provides an example.
+
+Assuming these transitions:
 
 ```js
 closed: { coin: 'opened' },
