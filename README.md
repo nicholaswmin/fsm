@@ -259,6 +259,6 @@ Follows [Semver][sv], [Conventional Commits][ccom]
 
 [^2]: Fancy word for: "takes an infinite number of arguments".   
       Also called function of "n-arity" where "arity" = number of arguments.   
-      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,   
-      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}` ...   
+      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
+      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
       n-ary/variadic: `f = (...args) => {}`
