@@ -59,10 +59,7 @@ const turnstile = new FSM({
 })
 ```
 
-creates an FSM with: 
-
-2 *transition methods*  
-> allow transitions from one state to another, if allowed from current state.
+creates an FSM with the following methods:
 
 ```js
 turnstile.insertCoin()
