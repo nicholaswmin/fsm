@@ -11,9 +11,8 @@
   "scripts": {
     "test": "node --test --experimental-test-coverage \"test/**/*.test.js\"",
     "lint": "npx -y eslint \"**/*.js\" --no-config-lookup",
-    "build": "npm i -D webpack-cli && npx webpack --output-filename ./fsm.js --output-library-type module --experiments-output-module --mode production; npm r -D webpack-cli",
     "test:mutation": "npx -y @stryker-mutator/core run --reporters dots,clear-text",
-    "test:size": "npm i -D size-limit @size-limit/file && npx size-limit; npm r -D size-limit @size-limit/file"
+    "test:size": "npm i -D size-limit @size-limit/file @size-limit/webpack && npx size-limit; npm r -D size-limit @size-limit/file @size-limit/webpack "
   },
   "size-limit": [
     {

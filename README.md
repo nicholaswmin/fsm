@@ -247,20 +247,6 @@ node --run test:mutation
 
 > "must", "must not" etc. follow [RFC:2119][rfc2119].
 
-### Build 
-
-Bundle to `dist/`
-
-```bash 
-node --run build
-```
-
-### Lint
-
-```bash 
-node --run lint
-```
-
 ## Authors
 
 [@nicholaswmin][author]
