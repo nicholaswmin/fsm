@@ -166,15 +166,13 @@ const turnstile = new FSM({
 })
 
 turnstile.insertCoin([5, 5, 5])
-// onInsertCoin() returned false, 
-// state: stays 'locked'
+// state: still 'locked'
 
 turnstile.insertCoin([5, 5, 5, 5, 5])
-// onInsertCoin() returned `true`, 
 // state: 'unlocked'
 ```
 
-> i.e `undefined` or `0` are falsy but not `false`.
+> note: `undefined` or `0` are falsy values but not `false`.
 
 ## Arguments 
 
