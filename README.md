@@ -14,11 +14,11 @@ of logic *declaratively*.
 They can only exist in *one*, *always-valid* state at any given time, 
 rendering them inherently safe, by design.[^1]
 
-This implementation allows constructing production-grade FSMs which are expressive, simple and robust.  
+This implementation allows constructing simple, robust & expressive FSMs.
+
+Minimal, bundles `~ 850 bytes`, zero dependencies.
 
 ## Install 
-
-`~ 850 bytes` gzipped, zero-dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -331,7 +331,6 @@ node --run test:mutation
 
 [covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
 [cov]: https://coveralls.io/github/nicholaswmin/fsm
-[size]: https://bundlephobia.com/package/@nicholaswmin/fsm@latest
 
 [turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
