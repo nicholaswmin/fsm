@@ -176,7 +176,7 @@ turnstile.insertCoin([5, 5, 5, 5, 5])
 
 ## Arguments 
 
-Transition methods can pass variadic arguments to relevant hooks:
+Transition methods can pass variadic arguments to relevant hooks [^2]:
 
 ```js
 const turnstile = new FSM({
@@ -281,7 +281,7 @@ node --run test:mutation
       This documentation describes a specific type of state machine, the 
       [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.
 
-[^2]: Fancy word for: "takes an infinite number of arguments".   
+[^2]: Just a fancy term for: "takes an infinite number of arguments".   
       Also called function of "n-arity" where "arity" = number of arguments.   
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
