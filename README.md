@@ -31,7 +31,7 @@ Used in production at [Bitpaper][profs], open-sourced here.
 npm i @nicholaswmin/fsm
 ```
 
-or use the compiled file at: `./dist/fsm.js`
+> compiled module at: `./dist/fsm.js`
 
 ## Example
 
