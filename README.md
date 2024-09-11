@@ -52,7 +52,7 @@ turnstile.push()
 // state: locked
 ```
 
-## Transition Methods & Hooks
+## Transition methods
 
 Transition methods and hooks are automatically created from the provided 
 `input`.  
@@ -82,7 +82,7 @@ turnstile.push()
 // state: 'locked'
 ```
 
-## Hooks
+## Transition hooks
 
 2nd argument accepts an object implementing transition/state-change hooks.
 
@@ -129,7 +129,7 @@ const turnstile = new FSM({
 > `function`.
 
 
-### Arguments 
+### Method arguments 
 
 The transition methods allow variadic[^2] arguments to the relevant transition 
 hooks:
