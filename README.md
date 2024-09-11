@@ -62,7 +62,7 @@ const turnstile = new FSM({
 })
 ```
 
-creates an FSM with these methods:
+creates these methods:
 
 ```js
 turnstile.insertCoin()
