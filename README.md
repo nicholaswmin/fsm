@@ -77,7 +77,6 @@ turnstile.push()
 Attempting to trigger a transition which isn't allowed under the current
 state will throw an `Error`.
 
-
 ```js
 const turnstile = new FSM({
   locked:   { insertCoin: 'unlocked' },
