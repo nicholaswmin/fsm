@@ -1,6 +1,3 @@
-// this test runs at the end of `node --run build`, only.   
-// not meant to be run with unit-tests, hence the `.not-test.js` extension.
-
 import test from 'node:test'
 
 import packageJSON from '../../package.json' with { 'type': 'json' }
