@@ -13,19 +13,17 @@ Finite-state machines are a practical method to express a piece of logic
 *declaratively*, in a structured and concise manner that even a 5-year old can 
 understand.
 
-By definition, state machines can only exist in *one, always-valid*[^1] state at 
-any  given time, which renders them inherently safe, by-design.
+Additionally, state machines can only exist in *one, always-valid* state at any 
+given time, which renders them inherently safe, by design.[^1]
 
-This implementation:
+This implementation is remarkably small, extremely simple and robust.   
+Does one thing, one thing only & does it well.
 
-- is remarkably small. `~ 850 bytes`, zero dependencies & a minimal API.   
-  It does one thing, one thing only & does it well.
-- has strict validations & a comprehensive test-suite.
-- allows synchronous & asynchronous transitions.
-
-Used in production at [Bitpaper][profs], open-sourced here.
+Used in production at [Bitpaper][profs].
 
 ## Install 
+
+`~ 850 bytes`, no dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
