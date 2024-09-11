@@ -110,8 +110,6 @@ locked:   { insertCoin: 'unlocked', push: 'locked' },
 unlocked: { insertCoin: 'unlocked', push: 'locked' }
 ```
 
-creates:
-
 ### Transition hooks 
  
 > called when transition is triggered, *before* the state changes:
@@ -140,9 +138,20 @@ const turnstile = new FSM({
 })
 ```
 
-> note: lambdas/arrow functions lexically bind their `this` value, so if you 
-> need to read i.e: `this.state` from within a hook you *must* use a regular 
-> `function`.
+> note: lambda functions lexically bind their `this` value, so if you need to 
+> read i.e: `this.state` from within a hook you *must* use a regular 
+> `function`:
+
+```js
+const turnstile = new FSM({
+  locked:   { insertCoin: 'unlocked', push: 'locked' },
+  unlocked: { insertCoin: 'unlocked', push: 'locked' }
+}, {
+  onInsertCoin: function() {
+    console.log('current state', this.state)
+  }
+})
+```
 
 ## Transition cancellations
 
