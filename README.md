@@ -76,7 +76,7 @@ turnstile.coin().push()
 // state: closed
 ```
 
-> note: method-chaining is only supported on the syncronous `SyncFSM`.
+> note: method-chaining is only supported on `Sync` FSM.
 
 ### Invalid transitions
 
