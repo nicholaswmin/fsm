@@ -31,8 +31,6 @@ Used in production at [Bitpaper][profs], open-sourced here.
 npm i @nicholaswmin/fsm
 ```
 
-> compiled module at: `./dist/fsm.js`
-
 ## Example
 
 > canonical FSM example, a [turnstile mechanism][turn]
