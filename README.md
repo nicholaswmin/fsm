@@ -48,8 +48,10 @@ turnstile.push()
 
 ## Transition methods
 
-Transition methods and hooks are automatically created from the provided 
-`states`, which renders an expressive & domain-specific API.
+> allow transitioning from one `state` to another, if current state allows so. 
+
+They are created from the provided `states`, which renders an expressive 
+& domain-specific API.
 
 For example, this: 
 
