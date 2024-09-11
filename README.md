@@ -50,7 +50,7 @@ turnstile.push()
 Transition methods and hooks are automatically created from the provided 
 `states`, which renders an expressive & domain-specific API.
 
-For example, this input: 
+For example, this: 
 
 ```js
 const turnstile = new FSM({
@@ -59,7 +59,7 @@ const turnstile = new FSM({
 })
 ```
 
-creates an FSM with the following methods:
+creates an FSM with these methods:
 
 ```js
 turnstile.insertCoin()
@@ -69,14 +69,41 @@ turnstile.push()
 // state: 'locked'
 ```
 
+### Non-allowed transitions
+
+Attempting to trigger a transition which isn't allowed under the current
+state will throw an `Error`.
+
+
+```js
+const turnstile = new FSM({
+  locked:   { insertCoin: 'unlocked' },
+  unlocked: { push: 'locked' }
+})
+
+turnstile.push()
+// Error: 'push' now allowed in `state:locked`
+
+turnstile.insertCoin()
+// state: unlocked 
+
+turnstile.push()
+// state: locked
+```
+
+transition methods are chainable:
+
+```js
+turnstile.insertCoin().push()
+```
+
 ## Hooks
 
-2nd argument accepts an object implementing hook methods.
+The 2nd argument accepts an object implementing hook methods.  
+Hooks are called at specific transition phases, optionally altering the 
+transition behavior.
 
-These hooks are called in specific transition phases & can optionally alter
-the behavior of the transition.
-
-The same example:
+Same example:
 
 ```js
 locked:   { insertCoin: 'unlocked', push: 'locked' },
@@ -87,7 +114,7 @@ creates:
 
 ### Transition hooks 
  
-> called when transition is triggered, but *before* the state changes:
+> called when transition is triggered, *before* the state changes:
 
 ```js
 const turnstile = new FSM({
@@ -101,7 +128,7 @@ const turnstile = new FSM({
 
 ### State hooks 
 
-> called when the transition completes, *after* the state changes:
+> called when a transition completes, *after* the state changes:
 
 ```js
 const turnstile = new FSM({
@@ -119,8 +146,7 @@ const turnstile = new FSM({
 
 ## Transition cancellations
 
-A transition hook can optionally *cancel* a transition by explicitly returning
-`false`.
+Transition hooks can *cancel* a transition by explicitly returning `false`.
 
 ```js
 const turnstile = new FSM({
@@ -139,12 +165,11 @@ turnstile.insertCoin([5, 5, 5, 5, 5])
 // state: 'unlocked'
 ```
 
-> note: the transition hook must explicitly return `false`, not a falsy value.  
 > i.e `undefined` or `0` are falsy but not `false`.
 
 ## Arguments 
 
-The transition methods can pass variadic arguments to relevant hooks:
+Transition methods can pass variadic arguments to relevant hooks:
 
 ```js
 const turnstile = new FSM({
@@ -241,6 +266,21 @@ node --run test:mutation
 
 [The MIT License][license]
 
+## Footnotes 
+
+[^1]: There are variants of state machines which can have multiple states, 
+      i.e the [*Non-deterministic finite automaton*][ndfsm], where "automaton"
+      is just a fancy term from automata theory for "automatic machine".    
+      This documentation describes a specific type of state machine, the 
+      [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.
+
+[^2]: Fancy word for: "takes an infinite number of arguments".   
+      Also called function of "n-arity" where "arity" = number of arguments.   
+      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
+      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
+      n-ary/variadic: `f = (...args) => {}`
+      
+
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
 
@@ -257,16 +297,3 @@ node --run test:mutation
 [profs]: https://github.com/TheProfs
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
-
-[^1]: There are variants of state machines which can have multiple states, 
-      called [*Non-deterministic finite automatons*][ndfsm], where "automaton"
-      is just a fancy term from automata theory for "automatic machine".    
-      This documentation is concerned about a specific variant of state machine, 
-      the [*Deterministic finite automaton*][dfsm] which can only exist in 
-      one-state at any point in time.
-
-[^2]: Fancy word for: "takes an infinite number of arguments".   
-      Also called function of "n-arity" where "arity" = number of arguments.   
-      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
-      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
-      n-ary/variadic: `f = (...args) => {}`
