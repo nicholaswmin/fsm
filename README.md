@@ -216,7 +216,21 @@ node --run test:mutation
 - must not have any runtime dependencies, should not have any dev. dependencies.
 - must be < 1000 bytes, gzipped.
 
-> "must", "must not", "should" etc. follow [RFC:2119][rfc2119].
+> "must", "must not" etc. follow [RFC:2119][rfc2119].
+
+### Build 
+
+Bundle to `dist/`
+
+```bash 
+npm --run build
+```
+
+### Lint
+
+```bash 
+npm --run lint
+```
 
 ## Authors
 
@@ -226,8 +240,8 @@ node --run test:mutation
 
 [The MIT License][license]
 
-[testb]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml/badge.svg
-[tests]: https://github.com/nicholaswmin/fsm/actions/workflows/tests.yml
+[testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
+[tests]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
 
 [covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
 [cov]: https://coveralls.io/github/nicholaswmin/fsm

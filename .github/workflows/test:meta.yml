@@ -23,6 +23,7 @@ jobs:
     - run: npm ci
     - run: npm audit
     - run: node --run lint
+    - run: node --run test:size
     - run: node --run test:mutation
       env:
         NODE_ENV: test
