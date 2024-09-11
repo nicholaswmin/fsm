@@ -278,15 +278,18 @@ state: { transition: 'state' }
 The current `state`. Read-only.
 
 
-## Guards
+## Validations
 
 This implementation attempts to shift errors at *contruction time* rather 
 than *run time*.  
+
 It does so by validating it's state-transition table against `undefined`, 
 invalidly typed or unreasonable inputs.
+Validation errors contain exact paths and clear, unambiguous descriptions of 
+the error.
 
-It also freezes it's internals to guard against accidental modifications 
-by reference, via it's arguments. 
+Additionally, this implementation freezes it's internals to guard against
+accidental modifications by reference, via it's arguments. 
 
 As such, `FSM` instances should be considered *immutable*.
 
