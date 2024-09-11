@@ -1,7 +1,7 @@
 import test from 'node:test'
 import { Sync as FSM } from '../../src/index.js'
 
-test('#constructor adds transitio-methods', async t => {
+test('#constructor adds transition-methods', async t => {
   let turnstile
 
 

@@ -122,12 +122,12 @@ const turnstile = new FSM({
   unlocked: { insertCoin: 'unlocked', push: 'locked' }
 }, {
   onInsertCoin() {
-    console.log('onInsertCoin called, state:', this.state)
+    console.log('got a coin, state:', this.state)
   }
 })
 
 turnstile.insertCoin()
-// onInsertCoin called, state: locked
+// got a coin, state: 'locked'
 ```
 
 ### State hooks 
@@ -187,12 +187,12 @@ const turnstile = new FSM({
   locked:   { insertCoin: 'unlocked', push: 'locked' },
   unlocked: { insertCoin: 'unlocked', push: 'locked' }
 }, {
-  onInsertCoin: () => console.log('onInsertCoin', arg1, arg2)
+  onInsertCoin: () => console.log('got a coin', arg1, arg2)
 })
 
 turnstile.insertCoin('foo', 'bar')
 
-// 'onInsertCoin', 'foo', 'bar'
+// 'got a coin', 'foo', 'bar'
 
 ```
 
@@ -227,6 +227,36 @@ turnstile.push()
 
 > note: transition hooks *must* be marked as `async`. 
 > ... and of course, transition methods must be called with `await`.
+
+## Subclassing
+
+Works out of the box. 
+
+Instead of providing a `ctx` argument, any hooks should be implemented as 
+methods directly on the subclass itself. 
+
+```js
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      locked:   { insertCoin: 'unlocked', push: 'locked' },
+      unlocked: { insertCoin: 'unlocked', push: 'locked' }
+    })
+  }
+  
+  onInsertCoin() {
+    console.log('got a coin')
+  }
+}
+
+const turnstile = new Turnstile()
+
+turnstile.insertCoin()
+// got a coin
+
+console.log(turnstile.state)
+// state: unlocked
+```
 
 ## API 
 
