@@ -11,10 +11,8 @@
 
 Finite-state machines are a practical method to express a piece of logic 
 *declaratively*, in a structured and concise manner that even a 5-year old can 
-understand.
-
-Additionally, state machines can only exist in *one, always-valid* state at any 
-given time, which renders them inherently safe, by design.[^1]
+understand. They can only exist in *one, always-valid* state at any given time, 
+which renders them inherently safe, by design.[^1]
 
 This implementation is remarkably small, extremely minimal, 
 well-tested & robust.  
