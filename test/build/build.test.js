@@ -1,6 +1,9 @@
-import test from 'node:test'
+// verifies that the compiled "main" file from "package.json" actually runs.
 
+import test from 'node:test'
+ // eslint-disable-next-line
 import packageJSON from '../../package.json' with { 'type': 'json' }
+
 const { Sync, Async } = await import(`../../${packageJSON.main}`)
 
 test('build: importing from dist/ runs OK', async t => {
