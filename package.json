@@ -4,15 +4,24 @@
   "sideEffects": false,
   "version": "1.8.8",
   "description": "finite-state machine",
-  "main": "src/fsm.js",
+  "main": "dist/fsm.js",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "lint": "npx -y eslint \"**/*.js\" --no-config-lookup",
+    "build": "npm i -D webpack-cli && npx webpack --output-filename ./fsm.js --output-library-type module --experiments-output-module --mode production; npm r -D webpack-cli",
     "test": "node --test --experimental-test-coverage \"test/**/*.test.js\"",
-    "test:mutation": "npx -y @stryker-mutator/core run --reporters dots,clear-text"
+    "test:mutation": "npx -y @stryker-mutator/core run --reporters dots,clear-text",
+    "test:lint": "npx -y eslint \"**/*.js\" --no-config-lookup",
+    "test:size": "npm i -D size-limit @size-limit/file && npx size-limit; npm r -D size-limit @size-limit/file"
   },
+  "size-limit": [
+    {
+      "limit": "999 B",
+      "path": "dist/fsm.js",
+      "gzip": true
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nicholaswmin/fsm.git"
