@@ -33,8 +33,8 @@ npm i @nicholaswmin/fsm
 import { Sync as FSM } from '@nicholaswmin/fsm'
 
 const turnstile = new FSM({
-  locked:   { insertCoint: 'unlocked', push: 'locked' },
-  unlocked: { insertCoint: 'unlocked', push: 'locked' }
+  locked:   { insertCoin: 'unlocked', push: 'locked' },
+  unlocked: { insertCoin: 'unlocked', push: 'locked' }
 })
 
 // state: locked
@@ -120,9 +120,13 @@ const turnstile = new FSM({
   locked:   { insertCoin: 'unlocked', push: 'locked' },
   unlocked: { insertCoin: 'unlocked', push: 'locked' }
 }, {
-  onInsertCoin: () => console.log('coin dropped!'),
-  onPush: () => console.log('pushed!')
+  onInsertCoin() {
+    console.log('onInsertCoin called, state:', this.state)
+  }
 })
+
+turnstile.insertCoin()
+// onInsertCoin called, state: locked
 ```
 
 ### State hooks 
@@ -134,24 +138,20 @@ const turnstile = new FSM({
   locked:   { insertCoin: 'unlocked', push: 'locked' },
   unlocked: { insertCoin: 'unlocked', push: 'locked' }
 }, {
-  onLocked: () => console.log('locked!'),
-  onUnlocked: () => console.log('unlocked!')
-})
-```
-
-> note: lambda functions lexically bind their `this` value, so if you need to 
-> read i.e: `this.state` from within a hook you *must* use a regular 
-> `function`:
-
-```js
-const turnstile = new FSM({
-  locked:   { insertCoin: 'unlocked', push: 'locked' },
-  unlocked: { insertCoin: 'unlocked', push: 'locked' }
-}, {
-  onInsertCoin: function() {
-    console.log('current state', this.state)
+  onLocked() {
+    console.log('onLocked, state', this.state)
+  },
+  onUnlocked() {
+    console.log('onUnlocked, state', this.state)
   }
 })
+
+turnstile.insertCoin()
+// onUnlocked, state: 'unlocked'
+
+turnstile.push()
+// onLocked, state: 'locked'
+
 ```
 
 ## Transition cancellations
@@ -163,13 +163,15 @@ const turnstile = new FSM({
   locked:   { insertCoin: 'unlocked', push: 'locked' },
   unlocked: { insertCoin: 'unlocked', push: 'locked' }
 }, {
-  onInsertCoin: () => coins => coins.length < 5
+  onInsertCoin(coins) {
+    return coins.length >= 3
+  }
 })
 
-turnstile.insertCoin([5, 5, 5])
+turnstile.insertCoin([5, 5])
 // state: still 'locked'
 
-turnstile.insertCoin([5, 5, 5, 5, 5])
+turnstile.insertCoin([5, 5, 5, 5])
 // state: 'unlocked'
 ```
 
@@ -184,12 +186,12 @@ const turnstile = new FSM({
   locked:   { insertCoin: 'unlocked', push: 'locked' },
   unlocked: { insertCoin: 'unlocked', push: 'locked' }
 }, {
-  onInsertCoin: () => console.log('coin', arg1, arg2)
+  onInsertCoin: () => console.log('onInsertCoin', arg1, arg2)
 })
 
 turnstile.insertCoin('foo', 'bar')
 
-// 'coin', 'foo', 'bar'
+// 'onInsertCoin', 'foo', 'bar'
 
 ```
 
@@ -221,6 +223,9 @@ await turnstile.addCoin()
 turnstile.push()
 // state: locked
 ```
+
+> note: transition hooks *must* be marked as `async`. 
+> ... and of course, transition methods must be called with `await`.
 
 ## API 
 

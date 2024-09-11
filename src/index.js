@@ -18,13 +18,13 @@ class FSM {
   }
   
   add([ tr, state ]) {
-    this[tr] = () => this.can(tr).fn(tr, state)
+    this[tr] = (...args) => this.can(tr).fn(tr, ...args)
   } 
   
-  transition(tr) {
+  transition(tr, ...args) {
     const state = this.states[this.#state][tr]
     this.#state = state
-    this[this.fnName(state)]?.()
+    this[this.fnName(state)]?.(...args)
     
     return this
   }
@@ -41,15 +41,15 @@ class FSM {
 }
 
 class Async extends FSM {
-  async fn(tr, state) {
-    return await this[this.fnName(tr)]?.() === false 
+  async fn(tr, ...args) {
+    return await this[this.fnName(tr)]?.(...args) === false 
       ? this : this.transition(tr)
   } 
 }
 
 class Sync extends FSM  {
-  fn(tr, state) {
-    return this[this.fnName(tr)]?.() === false 
+  fn(tr, ...args) {
+    return this[this.fnName(tr)]?.(...args) === false 
       ? this : this.transition(tr)
   } 
 }
