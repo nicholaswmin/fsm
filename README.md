@@ -18,16 +18,20 @@ any  given time, which renders them inherently safe, by-design.
 
 This implementation:
 
-- is remarkably small. `~ 850 bytes`, zero dependencies.
-- has a minimal API. Does one-thing, one-thing only and does it well.
+- is remarkably small. `~ 850 bytes`, zero dependencies & a minimal API.   
+  It does one thing, one thing only & does it well.
 - has strict validations & a comprehensive test-suite.
-- allows synchronous and asynchronous transitions.
+- allows synchronous & asynchronous transitions.
 
 Used in production at [Bitpaper][profs], open-sourced here.
+
+## Install 
 
 ```bash
 npm i @nicholaswmin/fsm
 ```
+
+or use the compiled file at: `./dist/fsm.js`
 
 ## Example
 
