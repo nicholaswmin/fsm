@@ -108,13 +108,6 @@ i.e: `onCoin` and `onOpened` for a transition and state hook respectively.
  
 The 2nd argument `ctx` accepts an object which can implement some or all hooks.    
 
-Assuming these transitions:
-
-```js
-closed: { coin: 'opened' },
-opened: { push: 'closed' }
-```
-
 ### Transition hooks 
  
 > called when transition is triggered, *before* the state changes:
