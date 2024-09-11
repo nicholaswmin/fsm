@@ -14,14 +14,11 @@ Finite-state machines are a practical method to express a piece of logic
 understand. They can only exist in *one, always-valid* state at any given time, 
 which renders them inherently safe, by design.[^1]
 
-This implementation is remarkably small, extremely minimal, 
-well-tested & robust.  
-
-It aims to do one thing & do it well.
+This implementation is remarkably small, minimal, well-tested & robust.  
 
 ## Install 
 
-`~ 850 bytes`, no dependencies
+`~ 850 bytes` gzipped, zero-dependencies
 
 ```bash
 npm i @nicholaswmin/fsm
