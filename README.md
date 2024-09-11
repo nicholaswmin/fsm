@@ -83,15 +83,19 @@ turnstile.push()
 ```
 
 2 *transition hooks*  
-> called immediately *before* a transition is triggered:
+> called when transition is triggered, but *before* the state changes:
 
 ```js
 turnstile.onInsertCoin = () => console.log('coin dropped!')
 turnstile.onPush = () => console.log('turnstile pushed!')
 ```
 
+> note: lambdas/arrow functions lexically bind their `this` value, so if you 
+> need to read i.e: `this.state` from within a hook you *must* use a regular 
+> `function`.
+
 2 *state hooks*  
-> called after a transition completes & the state changes:
+> called when the transition completes, *after* the state changes:
 
 ```js
 turnstile.onLocked = () => console.log('turnstile locked!')
@@ -238,6 +242,9 @@ Follows [Semver][sv], [Conventional Commits][ccom]
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
 [rfc2119]: https://www.ietf.org/rfc/rfc2119.txt
+
+[ccom]: https://www.conventionalcommits.org/en/v1.0.0/
+[sv]: https://semver.org/
 
 [profs]: https://github.com/TheProfs
 [author]: https://github.com/nicholaswmin
