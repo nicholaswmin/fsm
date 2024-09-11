@@ -82,25 +82,52 @@ turnstile.push()
 // state: 'locked'
 ```
 
+## Hooks
+
+2nd argument accepts an object implementing transition/state-change hooks.
+
+These hooks are called in specific transition phases & can optionally alter
+the behavior of the transition.
+
+For the same example:
+
+```js
+locked:   { insertCoin: 'unlocked', push: 'locked' },
+unlocked: { insertCoin: 'unlocked', push: 'locked' }
+```
+
+adds:
+
 2 *transition hooks*  
 > called when transition is triggered, but *before* the state changes:
 
 ```js
-turnstile.onInsertCoin = () => console.log('coin dropped!')
-turnstile.onPush = () => console.log('turnstile pushed!')
+const turnstile = new FSM({
+  locked:   { insertCoin: 'unlocked', push: 'locked' },
+  unlocked: { insertCoin: 'unlocked', push: 'locked' }
+}, {
+  onInsertCoin: () => console.log('coin dropped!'),
+  onPush: () => console.log('pushed!')
+})
+```
+
+2 *state hooks*  
+> called when the transition completes, *after* the state changes:
+
+```js
+const turnstile = new FSM({
+  locked:   { insertCoin: 'unlocked', push: 'locked' },
+  unlocked: { insertCoin: 'unlocked', push: 'locked' }
+}, {
+  onLocked: () => console.log('locked!'),
+  onUnlocked: () => console.log('unlocked!')
+})
 ```
 
 > note: lambdas/arrow functions lexically bind their `this` value, so if you 
 > need to read i.e: `this.state` from within a hook you *must* use a regular 
 > `function`.
 
-2 *state hooks*  
-> called when the transition completes, *after* the state changes:
-
-```js
-turnstile.onLocked = () => console.log('turnstile locked!')
-turnstile.onUnlocked = () => console.log('turnstile unlocked!')
-```
 
 ### Arguments 
 
@@ -108,32 +135,43 @@ The transition methods allow variadic[^2] arguments to the relevant transition
 hooks:
 
 ```js
+const turnstile = new FSM({
+  locked:   { insertCoin: 'unlocked', push: 'locked' },
+  unlocked: { insertCoin: 'unlocked', push: 'locked' }
+}, {
+  onInsertCoin: () => console.log('coin', arg1, arg2)
+})
+
 turnstile.insertCoin('foo', 'bar')
 
-turnstile.onInsertCoin = (arg1, arg2) => console.log(arg1, arg2)
-// foo, bar
+// 'coin', 'foo', 'bar'
 
-turnstile.onUnlocked = (arg1, arg2) => console.log(arg1, arg2)
-// foo, bar
 ```
 
-## Rejecting a state change
+## Cancelling transitions
 
-A transition hook can optionally reject a state change by explicitly returning
+A transition hook can optionally *cancel* a transition by explicitly returning
 `false`.
 
 ```js
-turnstile.onCoin = coins => coins.length < 5
+const turnstile = new FSM({
+  locked:   { insertCoin: 'unlocked', push: 'locked' },
+  unlocked: { insertCoin: 'unlocked', push: 'locked' }
+}, {
+  onInsertCoin: () => coins => coins.length < 5
+})
 
 turnstile.insertCoin([5, 5, 5])
-
-// state: 'locked' 
-// change was cancelled
+// onInsertCoin() returned false, 
+// state: stays 'locked'
 
 turnstile.insertCoin([5, 5, 5, 5, 5])
-
+// onInsertCoin() returned `true`, 
 // state: 'unlocked'
 ```
+
+> note: the transition hook must explicitly return `false`, not a falsy value.  
+> i.e `undefined` or `0` are falsy but not `false`.
 
 ## `async/await`
 
@@ -145,13 +183,14 @@ import { Async as FSM } from '@nicholaswmin/fsm'
 const turnstile = new FSM({
   locked:   { insertCoin: 'unlocked', push: 'locked' },
   unlocked: { insertCoin: 'unlocked', push: 'locked' }
+}, {
+  async onCoin: coins => {
+    // a whatever async call ...
+    await db('select * from....'')
+    
+    return false
+  }
 })
-
-turnstile.onCoin = async coins => {
-  await db('select * from....'') // an async call, whatever ...
-  
-  return false
-}
 
 console.log(turnstile.state)
 // initial state: locked
@@ -172,10 +211,9 @@ Construct an `FSM`
 | name     | type     | desc.                           | default  |
 |----------|----------|---------------------------------|----------|
 | `states` | `object` | a [state-transition table][stt] | required |
-| `ctx`    | `object` | implements transition `runs`    | `this`   |
+| `ctx`    | `object` | implements transition hooks     | `this`   |
 
 > 1st state is set as the *initial* state.  
-
 
 ### `.state` 
 
@@ -187,7 +225,7 @@ Read-only.
 ## Guards
 
 This implementation attempts to shift errors at *contruction-time* rather 
-than give you a nasty surprise at *run-time*.
+than surprise your with `RefenreceError` at *run-time*.
 
 It does so by validating it's state-transition table against `undefined`, 
 invalidly-typed or unreasonable `states` inputs.
