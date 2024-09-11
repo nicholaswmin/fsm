@@ -55,10 +55,7 @@ turnstile.push()
 ## Transition methods
 
 Transition methods and hooks are automatically created from the provided 
-`input`.  
-
-This renders an expressive & idiomatic API, dictated by the input you provide 
-upon instantiation.
+`states`, which renders an expressive & domain-specific API.
 
 For example, this input: 
 
@@ -202,7 +199,7 @@ turnstile.push()
 // state: locked
 ```
 
-## Docs 
+## API 
 
 ### `new FSM(states, ctx)`
 
@@ -225,8 +222,7 @@ Read-only.
 ## Guards
 
 This implementation attempts to shift errors at *contruction-time* rather 
-than surprise your with `RefenreceError` at *run-time*.
-
+than *run-time*.  
 It does so by validating it's state-transition table against `undefined`, 
 invalidly-typed or unreasonable `states` inputs.
 
