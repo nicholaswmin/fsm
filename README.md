@@ -29,7 +29,6 @@ npm i @nicholaswmin/fsm
 > canonical FSM example, a [turnstile mechanism][turn]
 
 ```js
-// or `{ Async as FSM }` for the `async` version
 import { Sync as FSM } from '@nicholaswmin/fsm'
 
 const turnstile = new FSM({
@@ -37,8 +36,7 @@ const turnstile = new FSM({
   unlocked: { insertCoint: 'unlocked', push: 'locked' }
 })
 
-console.log(turnstile.state)
-// initial state: locked
+// state: locked
 
 turnstile.insertCoin()
 // state: unlocked
