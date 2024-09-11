@@ -50,7 +50,7 @@ class Async extends FSM {
 class Sync extends FSM  {
   fn(tr, ...args) {
     return this[this.fnName(tr)]?.(...args) === false 
-      ? this : this.transition(tr)
+      ? this : this.transition(tr, ...args)
   } 
 }
 
