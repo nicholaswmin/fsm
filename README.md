@@ -172,7 +172,7 @@ turnstile.insertCoin([5, 5, 5, 5, 5])
 // state: 'unlocked'
 ```
 
-> note: `undefined` or `0` are falsy values but not `false`.
+> note: `undefined`, `null`, `0` etc are falsy values but not `false`.
 
 ## Arguments 
 
