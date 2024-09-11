@@ -263,13 +263,13 @@ node --run test:mutation
 Bundle to `dist/`
 
 ```bash 
-npm --run build
+node --run build
 ```
 
 ### Lint
 
 ```bash 
-npm --run lint
+node --run lint
 ```
 
 ## Authors
