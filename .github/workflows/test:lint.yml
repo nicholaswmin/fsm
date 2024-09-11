@@ -1,4 +1,4 @@
-name: test:mutation
+name: test:meta
 
 on:
   push:
@@ -21,6 +21,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npx -y @stryker-mutator/core run --reporters dots,clear-text
-      env:
-        NODE_ENV: test
+    - run: npx -y eslint \"**/*.js\" --no-config-lookup

@@ -1,0 +1,38 @@
+name: test:size
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        node-version: [latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm i -D webpack-cli
+    - run: >
+        npx webpack --mode production \
+        --output-library-type module \
+        --experiments-output-module
+    - run: gzip dist/main.mjs
+    - run: >
+        size=$(stat -f%z dist/main.mjs.gz); \ 
+          test $size -lt ${BYTE_LIMIT} && \
+          echo "size ${size} bytes is ok" || \
+          echo "size ${size} bytes > limit ${BYTE_LIMIT} bytes" >&2; \ 
+          exit 1;  
+    - run: npm r -D webpack-cli; rm -rf dist/
+      env:
+        BYTE_LIMIT: 999
