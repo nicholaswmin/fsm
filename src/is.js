@@ -14,7 +14,7 @@ is.space = (val, n) => val.includes(' ') ? has.err.range(n, 'has spaces') : val
 is.empty = (val, n) => val.length === 0 || Object.keys(val).length === 0
     ? has.err.range(n) : val
 
-is.object = (val, n) => is.type(val, 'object', n) 
+is.object = (val, n) => is.type(val, 'object', n) && val !== null
   ? Array.isArray(val)
     ? has.err.type(val, n, 'object', 'array')
     : val : val

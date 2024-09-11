@@ -7,8 +7,8 @@ test('#constructor initial state', async t => {
 
   t.beforeEach(() => {
     turnstile = new FSM({ 
-      locked:   { coin: 'unlocked', push: 'locked' },
-      unlocked: { coin: 'unlocked', push: 'locked' }
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
     })
   })
  
@@ -24,7 +24,7 @@ test('#constructor initial state', async t => {
   
 
   await t.test('initial state set as 1st in "states"', t => {
-    t.assert.strictEqual(turnstile.state, 'locked')
+    t.assert.strictEqual(turnstile.state, 'closed')
   })
   
 
@@ -40,7 +40,7 @@ test('#constructor initial state', async t => {
       })
       
       await t.test('state does not change', t => {  
-        t.assert.strictEqual(turnstile.state, 'locked')
+        t.assert.strictEqual(turnstile.state, 'closed')
       })
     })
   })

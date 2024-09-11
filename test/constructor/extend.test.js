@@ -5,8 +5,8 @@ test('#constructor extending to subclass', async t => {
   class Turnstile extends FSM {
     constructor() {
       super({
-        locked: { coin: 'unlocked', push: 'locked' },
-        unlocked: { coin: 'unlocked', push: 'locked' }
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
       })
     }
   }
@@ -22,7 +22,7 @@ test('#constructor extending to subclass', async t => {
   })
 
   await t.test('initial state set as 1st in "states"', t => {
-    t.assert.strictEqual(turnstile.state, 'locked')
+    t.assert.strictEqual(turnstile.state, 'closed')
   })
 
   await t.test('adds transition-methods', async t => {
@@ -34,8 +34,8 @@ test('#constructor extending to subclass', async t => {
     class Turnstile extends FSM {
       constructor() {
         super({
-          locked: { coin: 'unlocked', push: 'locked' },
-          unlocked: { coin: 'unlocked', push: 'locked' }
+          closed: { coin: 'opened' },
+          opened: { push: 'closed' }
         })
       }
       

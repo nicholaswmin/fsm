@@ -7,8 +7,8 @@ test('#constructor adds transition-methods', async t => {
 
   t.beforeEach(() => {
     turnstile = new FSM({ 
-      locked:   { coin: 'unlocked', push: 'locked' },
-      unlocked: { coin: 'unlocked', push: 'locked' }
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
     })
   })
  
@@ -39,8 +39,9 @@ test('#constructor adds transition-methods', async t => {
   await t.test('transition-method defined in multiple states', async t => {
     t.beforeEach(() => {
       turnstile = new FSM({ 
-        locked:   { coin: 'unlocked', push: 'locked' },
-        unlocked: { coin: 'unlocked', push: 'locked', coin: 'unlocked' }
+        closed: { coin: 'opened', break: 'broken' },
+        opened: { push: 'closed'                  },
+        broken: { fix : 'closed', push:  'opened' }
       })
     })
     
@@ -48,6 +49,29 @@ test('#constructor adds transition-methods', async t => {
     await t.test('adds only 1 method for all occurences', t => {
       t.assert.strictEqual(typeof turnstile.push, 'function')
       t.assert.strictEqual(typeof turnstile.coin, 'function')
+    })
+  })
+  
+  await t.test('overwriting passed argument deep-property', async t => {  
+    let args = null
+
+    t.before(() => {
+      args = {
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
+      }
+
+      turnstile = new FSM(args)
+
+      args.opened.coin = 'foo'
+    })
+
+    await t.test('state-changing methods work', async t => {  
+      t.beforeEach(() => turnstile.coin())
+
+      await t.test('state changes', t => {  
+        t.assert.strictEqual(turnstile.state, 'opened')
+      })
     })
   })
 })

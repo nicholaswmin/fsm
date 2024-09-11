@@ -7,8 +7,8 @@ test('#argument: "states.<state>.<transition>"', async t => {
     await t.test('throws descriptive TypeError', t => {
       t.assert.throws(() => {
         new FSM({ 
-          locked:   { coin: 'unlocked', push: 'locked' },
-          unlocked: { coin: {},         push: 'locked' }
+          closed: { coin: 'opened' },
+          opened: { push: {}       }
         })
       }, {
         name: 'TypeError',
@@ -22,8 +22,8 @@ test('#argument: "states.<state>.<transition>"', async t => {
     await t.test('throws descriptive RangeError', t => {
       t.assert.throws(() => {
         new FSM({ 
-          locked:   { coin: 'unlocked', push: 'locked' },
-          unlocked: { coin: '',         push: 'locked' }
+          closed: { coin: 'opened' },
+          opened: { push: ''       }
         })
       }, {
         name: 'RangeError',
@@ -37,8 +37,8 @@ test('#argument: "states.<state>.<transition>"', async t => {
       await t.test('throws descriptive RangeError', t => {
         t.assert.throws(() => {
           new FSM({ 
-            locked:   { coin: 'unlocked', push: 'locked' },
-            unlocked: { coin: 'lock ed', push: 'locked' }
+            closed: { coin: 'ope ned' },
+            opened: { push: 'closed'  }
           })
         }, {
           name: 'RangeError',
@@ -51,8 +51,8 @@ test('#argument: "states.<state>.<transition>"', async t => {
       await t.test('throws descriptive RangeError', t => {
         t.assert.throws(() => {
           new FSM({ 
-            locked:   { coin: '  unlocked ', push: 'locked' },
-            unlocked: { coin: 'locked',      push: 'locked' }
+            closed: { coin: 'opened ' },
+            opened: { push: 'closed'  }
           })
         }, {
           name: 'RangeError',
@@ -65,12 +65,12 @@ test('#argument: "states.<state>.<transition>"', async t => {
       await t.test('throws descriptive TypeError', t => {
         t.assert.throws(() => {
           new FSM({ 
-            locked:   { coin: 'unlocked', push: 'locked' },
-            unlocked: { coin: 'foobared', push: 'locked' }
+            closed: { coin: 'opened' },
+            opened: { push: 'foobar'  }
           })
         }, {
           name: 'RangeError',
-          message: /foobared missing/ 
+          message: /foobar missing/ 
         })
       })
     })

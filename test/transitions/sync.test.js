@@ -1,40 +1,42 @@
 import test from 'node:test'
 import { Sync as FSM } from '../../src/index.js'
 
-test('#transitionFn() 1 to 1 state', async t => {
+test('#transitionFn() each transition maps to 1 state', async t => {
   let turnstile
 
   await t.test('calling 2 distinct allowed transitions, foo & bar', async t => {
     t.beforeEach(() => {
       turnstile = new FSM({ 
-        locked:     { coin: 'unlocked', push: 'locked' },
-        unlocked:   { coin: 'unlocked', push: 'locked' },
-        outoforder: { coin: 'unlocked', push: 'locked' }
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
       })
     })
 
     await t.test('inits in correct state', t => {  
-      t.assert.strictEqual(turnstile.state, 'locked')
+      t.assert.strictEqual(turnstile.state, 'closed')
     })
     
-    await t.test('calling transition-method foo()', async t => {      
-      t.beforeEach(() => {
-        turnstile.coin()
-      })
+    await t.test('calling transition method', async t => {      
+      t.beforeEach(() => turnstile.coin())
   
       await t.test('transitions to defined state', t => {  
-        t.assert.strictEqual(turnstile.state, 'unlocked')
+        t.assert.strictEqual(turnstile.state, 'opened')
+      })
+      
+      await t.test('calling next transition method', async t => {      
+        t.beforeEach(() => turnstile.push())
+    
+        await t.test('transitions to defined state', t => {  
+          t.assert.strictEqual(turnstile.state, 'closed')
+        })
       })
     })
     
-    await t.test('calling next transition-method: bar()', async t => {      
-      t.beforeEach(() => {
-        turnstile.coin()
-        turnstile.push()
-      })
+    await t.test('sync transition methods are chainable', async t => {      
+      t.beforeEach(() => turnstile.coin().push())
   
-      await t.test('transitions to next defined state', t => {  
-        t.assert.strictEqual(turnstile.state, 'locked')
+      await t.test('transitions to defined state', t => {  
+        t.assert.strictEqual(turnstile.state, 'closed')
       })
     })
   })
