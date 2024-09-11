@@ -95,22 +95,18 @@ turnstile.push()
 
 ## Hooks
 
-Hooks are functions/methods which are called at specific transition phases, 
-optionally altering the transition behavior.
+Hooks are functions/methods, called at specific transition phases, optionally 
+altering the transition behavior.
 
 Each transition adds: 
 
-- 1 transition hook, named as: `on<TransitionName>`
-- 1 state-change hook, named as: `on<StateName>`
+- 1 transition hook
+- 1 state hook
 
-where `TransitionName`, `StateName` are the given transition and state names,
-respectively.
+Each is named for the transition or the state prefixed with `on`,  
+i.e: `onCoin` and `onOpened` for a transition and state hook respectively.
  
-The 2nd argument accepts an object, optionally implementing some or all hooks.    
-The `FSM` looks up for these hook methods on an object which should be provided
-as the 2nd argument `ctx`. 
-
-The following section provides an example.
+The 2nd argument `ctx` accepts an object which can implement some or all hooks.    
 
 Assuming these transitions:
 
