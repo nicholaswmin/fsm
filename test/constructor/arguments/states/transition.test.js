@@ -47,6 +47,7 @@ test('#argument: "states.<state>.<transition>"', async t => {
       })
     })
     
+    
     await t.test('at beginning & end', async t => {
       await t.test('throws descriptive RangeError', t => {
         t.assert.throws(() => {
@@ -60,6 +61,7 @@ test('#argument: "states.<state>.<transition>"', async t => {
         })
       })
     })
+    
     
     await t.test('not defined as state', async t => {
       await t.test('throws descriptive TypeError', t => {

@@ -39,6 +39,7 @@ test('#constructor initial state', async t => {
         })
       })
       
+
       await t.test('state does not change', t => {  
         t.assert.strictEqual(turnstile.state, 'closed')
       })

@@ -17,18 +17,22 @@ test('#constructor extending to subclass', async t => {
     t.assert.ok(turnstile, 'turnstile is falsy')
   })
   
+
   await t.test('has .state property', t => {
     t.assert.ok(!!turnstile.state, 'Cannot find prop: "state"')
   })
+  
 
   await t.test('initial state set as 1st in "states"', t => {
     t.assert.strictEqual(turnstile.state, 'closed')
   })
 
+  
   await t.test('adds transition-methods', async t => {
     t.assert.strictEqual(typeof turnstile.coin, 'function')
     t.assert.strictEqual(typeof turnstile.push, 'function')
   })
+  
   
   await t.test('preexisting method matches transition-method name', async t => {
     class Turnstile extends FSM {

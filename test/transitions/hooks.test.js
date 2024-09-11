@@ -16,6 +16,7 @@ test('#transitionFn() calls hooks', async t => {
     })
   })
 
+  
   await t.test('calling transition method', async t => { 
     function captureState() { return this.state }
 
@@ -30,14 +31,17 @@ test('#transitionFn() calls hooks', async t => {
       onOpened.mock.restore()
     })
     
+    
     await t.test('calls transition hook', async t => {        
       await t.test('once', t => {
         t.assert.strictEqual(onCoin.mock.callCount(), 1)
       })
       
+      
       await t.test('before the state changes', t => {
         t.assert.strictEqual(onCoin.mock.calls[0].result, 'closed')
       })
+      
       
       await t.test('with variadic arguments', t => {
         t.assert.strictEqual(onCoin.mock.calls[0].arguments.length, 2)
@@ -45,29 +49,35 @@ test('#transitionFn() calls hooks', async t => {
         t.assert.ok(onCoin.mock.calls[0].arguments.includes('bar'))
       })
 
+      
       await t.test('with access to instance "this"', t => {
         t.assert.strictEqual(onCoin.mock.calls[0].this.constructor.name, 'Sync')
       })
     })
     
+    
     await t.test('transitions to defined state', t => {  
       t.assert.strictEqual(turnstile.state, 'opened')
     })
+    
     
     await t.test('calls state change hook', async t => {  
       await t.test('once', t => {
         t.assert.strictEqual(onOpened.mock.callCount(), 1)
       })
       
+      
       await t.test('after the state changes', t => {
         t.assert.strictEqual(onOpened.mock.calls[0].result, 'opened')
       })
+      
       
       await t.test('with variadic arguments', t => {
         t.assert.strictEqual(onOpened.mock.calls[0].arguments.length, 2)
         t.assert.ok(onOpened.mock.calls[0].arguments.includes('foo'))
         t.assert.ok(onOpened.mock.calls[0].arguments.includes('bar'))
       })
+      
 
       await t.test('with access to instance "this"', t => {
         t.assert.strictEqual(
@@ -75,6 +85,7 @@ test('#transitionFn() calls hooks', async t => {
         )
       })
     })
+    
     
     await t.test('does not call other transition hooks', t => {  
       t.assert.strictEqual(onPush.mock.callCount(), 0)

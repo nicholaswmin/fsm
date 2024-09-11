@@ -14,10 +14,12 @@ test('async #transitionFn()', async t => {
     }, { onCoin, onOpened })
   })
 
+  
   await t.test('transitioning via await transition-method', async t => {
     await t.test('inits in correct state', t => {  
       t.assert.strictEqual(turnstile.state, 'closed')
     })
+    
     
     await t.test('calling transition-method await foo()', async t => {        
       await t.test('transitions to defined state', async t => {  
@@ -37,11 +39,13 @@ test('async #transitionFn()', async t => {
         })
       })
         
+      
       await t.test('state does not change', async t => {  
         await turnstile.coin()
         t.assert.strictEqual(turnstile.state, 'closed')
       })   
 
+      
       await t.test('onStateChanged hook not called', t => {  
          t.assert.strictEqual(onOpened.mock.callCount(), 0)
       })

@@ -13,6 +13,7 @@ test('#argument: "states.<state>"', async t => {
     })
   })
 
+  
   await t.test('without transitions', async t => {
     await t.test('does not throw', t => {
       t.assert.doesNotThrow(() => {
@@ -20,6 +21,7 @@ test('#argument: "states.<state>"', async t => {
       })
     })
   })
+  
   
   await t.test('1 transition', async t => {
     await t.test('does not throw', t => {
@@ -30,6 +32,7 @@ test('#argument: "states.<state>"', async t => {
     })
   })
   
+
   await t.test('multiple transitions', async t => {
     await t.test('does not throw', t => {
       t.assert.doesNotThrow(() => {

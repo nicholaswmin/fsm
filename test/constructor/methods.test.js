@@ -21,10 +21,12 @@ test('#constructor adds transition methods', async t => {
   await t.test('adds transition-methods', async t => {
     t.assert.strictEqual(typeof turnstile.coin, 'function')
     
+
     await t.test('for each transition', t => {
       t.assert.strictEqual(typeof turnstile.push, 'function')
     })
 
+    
     await t.test('transition-methods cannot be modified', async t => {  
       t.assert.throws(() => {
         delete turnstile.coin
@@ -52,6 +54,7 @@ test('#constructor adds transition methods', async t => {
     })
   })
   
+
   await t.test('overwriting passed argument deep-property', async t => {  
     let args = null
 
@@ -66,6 +69,7 @@ test('#constructor adds transition methods', async t => {
       args.opened.coin = 'foo'
     })
 
+    
     await t.test('state-changing methods work', async t => {  
       t.beforeEach(() => turnstile.coin())
 
