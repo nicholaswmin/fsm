@@ -22,10 +22,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm i -D webpack-cli
-    - run: >
-        npx webpack --mode production\
-        --output-library-type module\
-        --experiments-output-module
+    - run: npx webpack --mode production --output-library-type module --experiments-output-module
     - run: gzip dist/main.mjs
     - run: >
         size=$(stat -f%z dist/main.mjs.gz);\ 
