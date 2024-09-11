@@ -10,11 +10,11 @@
 > The change from one state to another is called a *transition*.
 
 Finite-state machines are a practical method to express a piece of logic 
-**declaratively**, in a structured & concise manner that even a 5-year old can 
+*declaratively*, in a structured and concise manner that even a 5-year old can 
 understand.
 
-By definition, a state machine can only be in *one, always-valid*[^1] state at 
-any  given time, which renders it inherently safe, by-design.
+By definition, state machines can only exist in *one, always-valid*[^1] state at 
+any  given time, which renders them inherently safe, by-design.
 
 This implementation:
 
@@ -211,12 +211,9 @@ node --run test:mutation
 
 ## Contributing
 
-Follows [Semver][sv], [Conventional Commits][ccom]
-
-- must have > 90% unit-test coverage.
-- must have > 85% mutation-tests score.
-- must not have any runtime dependencies.
-  - should not have any dev. dependencies.
+- must follow [Semver][sv], should follow [Conventional Commits][ccom].
+- must have > 95% unit-test coverage, > 85% mutation-tests score.
+- must not have any runtime dependencies, should not have any dev. dependencies.
 - must be < 1000 bytes, gzipped.
 
 > "must", "must not", "should" etc. follow [RFC:2119][rfc2119].
