@@ -1,17 +1,14 @@
 // verifies that the compiled "main" file from "package.json" actually runs.
 
 import test from 'node:test'
-// eslint-disable-next-line
-import packageJSON from '../../package.json' with { 'type': 'json' }
-
-const { Sync, Async } = await import(`../../${packageJSON.main}`)
+import { Sync as SyncFSM, Async as AsyncFSM } from '../../dist/fsm.js'
 
 test('build: importing from dist/ runs OK', async t => {
   let turnstile = null, onCoin = t.mock.fn()
 
   await t.test('sync FSM', async t => {
     t.before(() => {
-      turnstile = new Sync({ 
+      turnstile = new SyncFSM({ 
         locked:     { coin: 'unlocked', push: 'locked' },
         unlocked:   { coin: 'unlocked', push: 'locked' }
       }, { onCoin })
@@ -24,7 +21,7 @@ test('build: importing from dist/ runs OK', async t => {
   
   await t.test('async FSM', async t => {
     t.before(() => {
-      turnstile = new Async({ 
+      turnstile = new AsyncFSM({ 
         locked:     { coin: 'unlocked', push: 'locked' },
         unlocked:   { coin: 'unlocked', push: 'locked' }
       }, { onCoin })
