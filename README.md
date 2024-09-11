@@ -76,14 +76,14 @@ turnstile.push()
 These hooks are called in specific transition phases & can optionally alter
 the behavior of the transition.
 
-For the same example:
+The same example:
 
 ```js
 locked:   { insertCoin: 'unlocked', push: 'locked' },
 unlocked: { insertCoin: 'unlocked', push: 'locked' }
 ```
 
-adds:
+creates:
 
 ### Transition hooks 
  
@@ -117,7 +117,7 @@ const turnstile = new FSM({
 > need to read i.e: `this.state` from within a hook you *must* use a regular 
 > `function`.
 
-## Cancelling transitions
+## Transition cancellations
 
 A transition hook can optionally *cancel* a transition by explicitly returning
 `false`.
@@ -142,7 +142,7 @@ turnstile.insertCoin([5, 5, 5, 5, 5])
 > note: the transition hook must explicitly return `false`, not a falsy value.  
 > i.e `undefined` or `0` are falsy but not `false`.
 
-### Hook arguments 
+### Arguments 
 
 The transition methods can pass variadic arguments to relevant hooks:
 
@@ -160,7 +160,7 @@ turnstile.insertCoin('foo', 'bar')
 
 ```
 
-## `async/await`
+## Asynchronous transitions
 
 Asynchronous FSMs can be constructed from the exported `Async` FSM:
 
