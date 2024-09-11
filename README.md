@@ -238,15 +238,6 @@ node --run test
 node --run test:mutation
 ```
 
-## Contributing
-
-- must follow [Semver][sv], should follow [Conventional Commits][ccom].
-- must have > 95% unit-test coverage, > 85% mutation-tests score.
-- must not have any runtime dependencies, should not have any dev. dependencies.
-- must be < 1000 bytes, gzipped.
-
-> "must", "must not" etc. follow [RFC:2119][rfc2119].
-
 ## Authors
 
 [@nicholaswmin][author]
@@ -267,10 +258,6 @@ node --run test:mutation
 [stt]: https://en.wikipedia.org/wiki/State-transition_table
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
-[rfc2119]: https://www.ietf.org/rfc/rfc2119.txt
-
-[ccom]: https://www.conventionalcommits.org/en/v1.0.0/
-[sv]: https://semver.org/
 
 [profs]: https://github.com/TheProfs
 [author]: https://github.com/nicholaswmin
