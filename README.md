@@ -16,10 +16,10 @@ understand.
 Additionally, state machines can only exist in *one, always-valid* state at any 
 given time, which renders them inherently safe, by design.[^1]
 
-This implementation is remarkably small, extremely simple and robust.   
-Does one thing, one thing only & does it well.
+This implementation is remarkably small, extremely minimal, 
+well-tested & robust.  
 
-Used in production at [Bitpaper][profs].
+It aims to do one thing & do it well.
 
 ## Install 
 
