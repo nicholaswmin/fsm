@@ -74,9 +74,9 @@ turnstile.push()
 // state: 'locked'
 ```
 
-## Transition hooks
+## Hooks
 
-2nd argument accepts an object implementing transition/state-change hooks.
+2nd argument accepts an object implementing hook methods.
 
 These hooks are called in specific transition phases & can optionally alter
 the behavior of the transition.
@@ -90,7 +90,8 @@ unlocked: { insertCoin: 'unlocked', push: 'locked' }
 
 adds:
 
-2 *transition hooks*  
+### Transition hooks 
+ 
 > called when transition is triggered, but *before* the state changes:
 
 ```js
@@ -103,7 +104,8 @@ const turnstile = new FSM({
 })
 ```
 
-2 *state hooks*  
+### State hooks 
+
 > called when the transition completes, *after* the state changes:
 
 ```js
@@ -119,26 +121,6 @@ const turnstile = new FSM({
 > note: lambdas/arrow functions lexically bind their `this` value, so if you 
 > need to read i.e: `this.state` from within a hook you *must* use a regular 
 > `function`.
-
-
-### Method arguments 
-
-The transition methods allow variadic[^2] arguments to the relevant transition 
-hooks:
-
-```js
-const turnstile = new FSM({
-  locked:   { insertCoin: 'unlocked', push: 'locked' },
-  unlocked: { insertCoin: 'unlocked', push: 'locked' }
-}, {
-  onInsertCoin: () => console.log('coin', arg1, arg2)
-})
-
-turnstile.insertCoin('foo', 'bar')
-
-// 'coin', 'foo', 'bar'
-
-```
 
 ## Cancelling transitions
 
@@ -164,6 +146,25 @@ turnstile.insertCoin([5, 5, 5, 5, 5])
 
 > note: the transition hook must explicitly return `false`, not a falsy value.  
 > i.e `undefined` or `0` are falsy but not `false`.
+
+### Hook arguments 
+
+The transition methods allow variadic[^2] arguments to the relevant transition 
+hooks:
+
+```js
+const turnstile = new FSM({
+  locked:   { insertCoin: 'unlocked', push: 'locked' },
+  unlocked: { insertCoin: 'unlocked', push: 'locked' }
+}, {
+  onInsertCoin: () => console.log('coin', arg1, arg2)
+})
+
+turnstile.insertCoin('foo', 'bar')
+
+// 'coin', 'foo', 'bar'
+
+```
 
 ## `async/await`
 
