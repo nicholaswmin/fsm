@@ -251,7 +251,7 @@ Follows [Semver][sv], [Conventional Commits][ccom]
 [license]: ./LICENSE
 
 [^1]: There are variants of state machines which can have multiple states, 
-      called [*Non-deterministric finite automatons*][ndfsm], where *automaton*
+      called [*Non-deterministic finite automatons*][ndfsm], where "automaton"
       is just a fancy term from automata theory for "automatic machine".    
       This documentation is concerned about a specific variant of state machine, 
       the [*Deterministic finite automaton*][dfsm] which can only exist in 
