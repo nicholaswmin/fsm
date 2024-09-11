@@ -222,13 +222,11 @@ await turnstile.coin()
 // state: closed 
 ```
 
-> note: transition hooks *must* be marked as `async`.  
-> ... and of course, transition methods must be called with `await`.
+> note: transition hooks *must* be marked as `async`
 
 ## Subclassing
 
-Instead of providing a `ctx` argument, any hooks should be implemented as 
-methods directly on the subclass itself. 
+skip the `ctx` argument & just implement any hooks as subclass methods. 
 
 ```js
 class Turnstile extends FSM {
