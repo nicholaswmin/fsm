@@ -42,13 +42,16 @@ jobs:
     # in their respective package.json fields
     - run: | 
         deps=$(npm pkg get dependencies);
-        depsCount=$($deps | tr -cd ':' | wc -c);
+        depsCount=$(echo "$deps" | tr -cd ':' | wc -c);
         echo "depsCount=$depsCount" >> "$GITHUB_OUTPUT";
         echo "depsCount=$depsCount" >> "$GITHUB_ENV";
-
-        ddepsCount=$(npm pkg get devDependencies | tr -cd ':' | wc -c);
+        echo "deps=$deps" >> "$GITHUB_ENV";
+        
+        ddeps=$(npm pkg get devDependencies);
+        depsCount=$(echo "$ddeps" | tr -cd ':' | wc -c);
         echo "ddepsCount=$ddepsCount" >> "$GITHUB_OUTPUT";
         echo "ddepsCount=$ddepsCount" >> "$GITHUB_ENV";
+        echo "ddeps=$ddeps" >> "$GITHUB_ENV";
       name: get dependencies and devDependencies count
       id: package
 
