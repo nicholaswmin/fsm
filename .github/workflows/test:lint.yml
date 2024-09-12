@@ -1,4 +1,4 @@
-name: test:meta
+name: test:lint
 
 on:
   push:
