@@ -1,4 +1,5 @@
-# Tests if filesize of module exceeds a limit
+# Tests ESM module filesize 
+# - Fails if they become too big
 # - Bundles, minifies and gzips the module before testing.
 name: test:size
 
