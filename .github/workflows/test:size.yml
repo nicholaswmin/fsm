@@ -52,10 +52,10 @@ jobs:
         echo "the value is ${{ steps.getsize.outputs.sz }}"
     - run: |
         echo "::error title=too big::size: ${sz} B > limit: ${MAX_B} B"; exit 1
-      if: ${{ fromJSON(steps.getsize.outputs.sz) }} > 999
+      if: fromJSON(steps.getsize.outputs.sz) > 999
       name: Limit Exceeded Error
       # sz <= limit, print sucess message
     - run: |
         echo "::notice title=size ok::size: ${sz} B <= limit: ${MAX_B} B"
-      if: ${{ fromJSON(steps.getsize.outputs.sz) }} <= 900
+      if: fromJSON(steps.getsize.outputs.sz) <= 900
       name: Print Success Message
