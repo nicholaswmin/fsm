@@ -37,7 +37,7 @@ jobs:
     - run: gzip "$DIST_PATH"
       name: Gzip minified bundle
       # get compressed bundle size in bytes 
-    - run: SIZE=$(wc -c < $DIST_PATH.gz | xargs); echo "$SIZE"" >> "$GITHUB_ENV"
+    - run: SIZE=$(wc -c < $DIST_PATH.gz | xargs); echo "$SIZE" >> "$GITHUB_ENV"
       name: Get compressed size in bytes
       # print bundle size
       # test size < limit, if above, print error message & exit 1
