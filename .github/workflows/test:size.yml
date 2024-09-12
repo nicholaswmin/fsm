@@ -19,7 +19,7 @@ jobs:
     env:
       # Settings
       ENTRY_PATH: src/index.js
-      OUTPUT_PATH: dist/index.js
+      DIST_PATH: dist/index.js
       LIMIT_BYTES: 999
     steps:
     - uses: actions/checkout@v4
@@ -34,10 +34,10 @@ jobs:
     - run: ncc build "$ENTRY_PATH" -o dist -m
       name: Bundle & minify module
       # compress bundle
-    - run: gzip "$OUTPUT_PATH"
+    - run: gzip "$DIST_PATH"
       name: Gzip minified bundle
       # get compressed bundle size in bytes 
-    - run: echo SIZE=$(wc -c < $OUTPUT_PATH.gz | xargs); >> "$GITHUB_ENV"
+    - run: SIZE=$(wc -c < $DIST_PATH.gz | xargs); echo "$SIZE"" >> "$GITHUB_ENV"
       name: Get compressed size in bytes
       # print bundle size
       # test size < limit, if above, print error message & exit 1
