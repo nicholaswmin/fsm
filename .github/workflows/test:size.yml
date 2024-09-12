@@ -8,8 +8,6 @@ on:
 
 jobs:
   test:
-    env:
-      BYTE_LIMIT: 999
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
@@ -22,9 +20,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+      env:
+        BYTE_LIMIT: 999
     - run: npm ci
     - run: npm i -D webpack-cli
+    # Bundle & minify src/index.js 
     - run: npx webpack --mode production --output-library-type module --experiments-output-module
+    # compress it
     - run: gzip dist/main.mjs
+    # Read gzip file size, compare with env. var BYTE_LIMIT & exit 1 if greater
     - run: size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]'); test "$size" -lt "$BYTE_LIMIT" && echo "size ${size} bytes within ${BYTE_LIMIT} bytes" || (echo "size ${size} bytes > ${BYTE_LIMIT} bytes limit" >&2 && exit 1);  
+    # Cleanup
     - run: npm r -D webpack-cli; rm -rf dist/
