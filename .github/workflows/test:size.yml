@@ -42,6 +42,6 @@ jobs:
         echo "size ${size} bytes within ${BYTE_LIMIT} bytes limit" ||
         (echo "size ${size} bytes > ${BYTE_LIMIT} bytes limit" >&2 && exit 1);
       env:
-        BYTE_LIMIT: 999
+        BYTE_LIMIT: 500
     # cleanup
     - run: npm r -D webpack-cli; rm -rf dist/
