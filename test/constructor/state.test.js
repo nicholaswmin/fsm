@@ -4,7 +4,6 @@ import { Sync as FSM } from '../../src/index.js'
 test('#constructor initial state', async t => {
   let turnstile
 
-
   t.beforeEach(() => {
     turnstile = new FSM({ 
       closed: { coin: 'opened' },
@@ -12,21 +11,17 @@ test('#constructor initial state', async t => {
     })
   })
  
-
   await t.test('instantiates', t => {
     t.assert.ok(turnstile)
   })
   
-
-  await t.test('has .state property', t => {
+  await t.test('exposes public .state', t => {
     t.assert.ok(!!turnstile.state, 'Cannot find prop: "state"')
   })
-  
 
-  await t.test('initial state set as 1st in "states"', t => {
+  await t.test('set to the current state', t => {
     t.assert.strictEqual(turnstile.state, 'closed')
   })
-  
 
   await t.test('is read-only', async t => {  
     await t.test('setting it externally', async t => {
@@ -38,7 +33,6 @@ test('#constructor initial state', async t => {
           message: /has only a getter/ 
         })
       })
-      
 
       await t.test('state does not change', t => {  
         t.assert.strictEqual(turnstile.state, 'closed')

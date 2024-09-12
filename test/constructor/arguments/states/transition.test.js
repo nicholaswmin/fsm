@@ -16,7 +16,6 @@ test('#argument: "states.<state>.<transition>"', async t => {
       })
     })
   })
-  
 
   await t.test('empty string', async t => {
     await t.test('throws descriptive RangeError', t => {
@@ -61,7 +60,6 @@ test('#argument: "states.<state>.<transition>"', async t => {
         })
       })
     })
-    
     
     await t.test('not defined as state', async t => {
       await t.test('throws descriptive TypeError', t => {
