@@ -19,7 +19,7 @@ jobs:
     env:
       ENTRY_PATH: src/index.js
       OUTPUT_PATH: dist/index.js
-      LIMIT_BYTES: 999
+      LIMIT_BYTES: 990
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
