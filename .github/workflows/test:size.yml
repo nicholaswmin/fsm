@@ -40,27 +40,27 @@ jobs:
       # compress bundle
     - run: gzip "$DIST_PATH"
       name: Gzip minifieds bundle
-      # output bundle size in bytes, as 'bytes', 
+      # output bundle size in bytes, as 'size', 
       # in both output and env
     - run: | 
-        bytes=$(wc -c < $DIST_PATH.gz | xargs);
-        echo "bytes=$bytes" >> "$GITHUB_OUTPUT";
-        echo "bytes=$bytes" >> "$GITHUB_ENV";
+        size=$(wc -c < $DIST_PATH.gz | xargs);
+        echo "size=$size" >> "$GITHUB_OUTPUT";
+        echo "size=$size" >> "$GITHUB_ENV";
       name: Get compressed size in bytes
       id: getsize
-      # print bytes
-    - run: echo "::notice title=report::bundled & gzipped size is ${bytes} B"
+      # print size
+    - run: echo "::notice title=report::bundled & gzipped size is ${size} B"
       name: Print compressed size
-      # bytes > limit, print error message, exit 1
+      # if size > limit, print error message, exit 1
     - run: |
-        echo "the value is ${{ steps.getsize.outputs.bytes }}"
+        echo "the value is ${{ steps.getsize.outputs.size }}"
     - run: |
-        echo "::error title=err::size: ${bytes} B > limit: ${LIMIT_BYTES} B"; \
+        echo "::error title=err::size: ${size} B > limit: ${LIMIT_BYTES} B"; \
         exit 1
-      if: fromJSON(steps.getsize.outputs.bytes) > fromJSON(env.LIMIT_BYTES)
+      if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.LIMIT_BYTES)
       name: Limit Exceeded Error
-      # bytes <= LIMIT_BYTES, print sucess message
+      # if size <= LIMIT_BYTES, print sucess message
     - run: |
-        echo "::notice title=ok::size: ${bytes} B <= limit: ${LIMIT_BYTES} B"
-      if: fromJSON(steps.getsize.outputs.bytes) <= fromJSON(env.LIMIT_BYTES)
+        echo "::notice title=ok::size: ${size} B <= limit: ${LIMIT_BYTES} B"
+      if: fromJSON(steps.getsize.outputs.size) <= fromJSON(env.LIMIT_BYTES)
       name: Print Success Message
