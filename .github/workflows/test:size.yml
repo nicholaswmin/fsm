@@ -30,6 +30,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm i -g @vercel/ncc
+      name: Install bundler (ncc)
       # bundle and minify module
     - run: ncc build "$ENTRY_PATH" -o dist -m
       name: Bundle & minify module
