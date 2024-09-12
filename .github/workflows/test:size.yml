@@ -28,9 +28,9 @@ jobs:
       # bundle filepath
       DIST_PATH: dist/index.js
       # max bundle size, bytes
-      MAX_BYTES: 5000
+      MAX_BYTES: 999
       # min bundle size, bytes
-      MIN_BYTES: 10
+      MIN_BYTES: 50
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
