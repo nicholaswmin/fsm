@@ -59,8 +59,8 @@ jobs:
     # else print OK message
     - run: |
         t="dependency count OK" && \
-        a="Lists ${depsNo} dependencies, limit is: ${MAX_DEPS}" \
-        b="Lists ${ddepsNo} devDependencies, limit is: ${MAX_DDEPS}" \
+        a="Lists ${depsCount} dependencies, limit is: ${MAX_DEPS}" \
+        b="Lists ${ddepsCount} devDependencies, limit is: ${MAX_DDEPS}" \
 
         echo "::notice title=${t}::${a}." && echo "::notice title=${t}::${b}."
 
