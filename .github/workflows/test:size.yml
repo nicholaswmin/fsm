@@ -55,5 +55,5 @@ jobs:
       # sz <= limit, print sucess message
     - run: |
         echo "::notice title=size ok::size: ${sz} B <= limit: ${MAX_B} B"
-      if: ${{ fromJSON(env.sz) }} <= 900
+      if: ${{ fromJSON(env.sz) }} <= 999
       name: Print Success Message
