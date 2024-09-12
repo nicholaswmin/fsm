@@ -22,7 +22,7 @@ jobs:
     env:
       # Settings
       # dependencies
-      MAX__DEPS: 0
+      MAX_DEPS: 0
       #devDependencies
       MAX_D_DEPS: 0
     steps:
@@ -41,19 +41,19 @@ jobs:
     # computed by counting the number of `:` occurrences
     # in their respective package.json fields
     - run: | 
-        depCount=$(npm pkg get dependencies | tr -cd ':' | wc -c);
-        echo "depCount=$depCount" >> "$GITHUB_OUTPUT";
-        echo "depCount=$depCount" >> "$GITHUB_ENV";
+        depsCount=$(npm pkg get dependencies | tr -cd ':' | wc -c);
+        echo "depsCount=$depsCount" >> "$GITHUB_OUTPUT";
+        echo "depsCount=$depsCount" >> "$GITHUB_ENV";
       name: get dependencies and devDependencies count
       id: package
 
     # if depsNo < MAX_DEPS, err message & exit 1
     - run: |
         t="too many dependencies" && \
-        e="Lists ${depCount} dependencies, max limit is: ${MAX_DEPS}." && \
+        e="Lists ${depsCount} dependencies, max limit is: ${MAX_DEPS}." && \
         echo "::error title=${t}::${e}." && exit 1
 
-      if: fromJSON(steps.package.outputs.depCount) > 0
+      if: fromJSON(steps.package.outputs.depsCount) > fromJSON(env.MAX_DEPS)
       name: Too Many Dependencies Error
 
     # else print OK message
