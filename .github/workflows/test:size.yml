@@ -41,7 +41,7 @@ jobs:
     - run: gzip "$DIST_PATH"
       name: Gzip minifieds bundle
       # output bundle size in bytes, as 'sz' 
-    - run: echo sz=$(wc -c < $DIST_PATH.gz | xargs) >> "$GITHUB_ENV"
+    - run: sz=$(wc -c < $DIST_PATH.gz | xargs); echo sz="${sz}" >> "$GITHUB_ENV"
       name: Get compressed size in bytes
       id: getsize
       # print sz
