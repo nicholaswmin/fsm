@@ -28,9 +28,9 @@ jobs:
     # entry point implicitly assumed: src/index.js
     - run: |
         npx webpack 
-          --mode production 
-          --output-library-type module 
-          --experiments-output-module
+        --mode production 
+        --output-library-type module 
+        --experiments-output-module
     # gzip it
     - run: gzip dist/main.mjs
     # get gzip size and compare > BYTE_LIMIT
