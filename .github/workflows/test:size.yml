@@ -1,0 +1,50 @@
+# Tests ESM module filesize 
+# - Fails if they become too big
+# - Bundles, minifies and gzips the module before testing.
+name: test:size
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        node-version: [latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm i -D webpack-cli
+    # bundle & minify using webpack. 
+    # entry point implicitly assumed: src/index.js
+    - run: >
+        npx webpack
+        --mode production
+        --output-library-type module
+        --experiments-output-module
+      name: Bundle and minify module
+    - run: gzip dist/main.mjs
+      name: Gzip minified bundle
+    - run: |
+        size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]');
+        echo "::notice title=size::file size is: ${size} bytes";
+        test "$size" -lt "$BYTE_LIMIT" &&
+        echo "::notice title=is ok::size within ${BYTE_LIMIT} bytes limit" ||
+        (echo "::error title=too big::size exceeds ${BYTE_LIMIT} bytes limit" 
+        >&2 && exit 1);
+      name: Compare gzipped file size with limit
+      env:
+        BYTE_LIMIT: 999
+    # cleanup
+    - run: npm r -D webpack-cli; rm -rf dist/
+      name: Remove dependencies and dist/ files

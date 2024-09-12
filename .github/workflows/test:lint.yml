@@ -1,4 +1,4 @@
-name: tests
+name: test:lint
 
 on:
   push:
@@ -21,7 +21,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: node --run test
-      name: Run unit tests with Node Test Runner
-      env:
-        NODE_ENV: test
+    - run: npx -y eslint **/*.js --no-config-lookup
+      name: Run ESLint with defaults
