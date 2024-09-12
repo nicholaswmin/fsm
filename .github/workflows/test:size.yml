@@ -42,11 +42,11 @@ jobs:
       name: Get compressed size in bytes
       id: getsize
       # print size
-    - run: echo "::notice title=size report::bundled & gzipped is ${size} bytes"
+    - run: echo "::notice title=report::bundled & gzipped size is ${size} B"
       name: Print compressed size
       # if size > limit, print error message
     - run: |
-        echo "::error title=size too big::${size} bytes > ${LIMIT_B} bytes"
+        echo "::error title=too big::size: ${size} B > limit: ${LIMIT_B} B"
       if: steps.getsize.outputs.size > env.LIMIT_B
       name: Print Limit Exceeded Error
       # if size > limit, exit 1
@@ -54,6 +54,6 @@ jobs:
       if: steps.getsize.outputs.size > env.LIMIT_B
       name: Exit 1
       # if size <= limit, print sucess message
-    - run: echo "::notice title=size ok::${size} bytes <= ${LIMIT_B} bytes"
+    - run: echo "::notice title=is ok::size:\ ${size} B <= limit:\ ${LIMIT_B} B"
       if: steps.getsize.outputs.size <= env.LIMIT_B
       name: Print Success Message
