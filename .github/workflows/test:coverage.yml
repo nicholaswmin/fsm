@@ -8,7 +8,7 @@ on:
 
 jobs:
   upload-coverage:
-    name: Upload code-coverage
+    name: coveralls
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:

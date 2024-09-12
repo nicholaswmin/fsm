@@ -15,7 +15,7 @@ on:
 
 jobs:
   bundle:
-    name: check bundle size
+    name: check filesize
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
