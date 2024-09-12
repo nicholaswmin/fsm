@@ -22,7 +22,7 @@ jobs:
     env:
       # Settings
       # dependencies
-      MAX_DEPS: 1
+      MAX_DEPS: 0
       #devDependencies
       MAX_DDEPS: 0
     steps:
