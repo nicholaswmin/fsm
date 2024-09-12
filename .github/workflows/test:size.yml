@@ -50,10 +50,10 @@ jobs:
       # sz > limit, print error message, exit 1
     - run: |
         echo "::error title=too big::size: ${sz} B > limit: ${MAX_B} B"; exit 1
-      if: 997 > 999
+      if: steps.getsize.outputs.sz > env.MAX_B
       name: Limit Exceeded Error
       # sz <= limit, print sucess message
     - run: |
         echo "::notice title=size ok::size: ${sz} B <= limit: ${MAX_B} B"
-      if: 997 <= 999
+      if: steps.getsize.outputs.sz <= env.MAX_B
       name: Print Success Message
