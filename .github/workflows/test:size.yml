@@ -16,6 +16,10 @@ jobs:
     strategy:
       matrix:
         node-version: [latest]
+    env:
+      ENTRY_PATH: src/index.js
+      OUTPUT_PATH: dist/index.js
+      LIMIT_BYTES: 999
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -24,27 +28,18 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm i -D webpack-cli
-    # bundle & minify using webpack. 
-    # entry point implicitly assumed: src/index.js
-    - run: >
-        npx webpack
-        --mode production
-        --output-library-type module
-        --experiments-output-module
-      name: Bundle and minify module
-    - run: gzip dist/main.mjs
+    - run: npm i -g ncc
+    - run: ncc build "$ENTRY_PATH" -o dist -m
+      name: Bundle & minify module
+    - run: gzip "$OUTPUT_PATH"
       name: Gzip minified bundle
     - run: |
-        size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]');
+        size=$(wc -c < $OUTPUT_PATH.gz | xargs);
         echo "::notice title=size::file size is: ${size} bytes";
         test "$size" -lt "$BYTE_LIMIT" &&
-        echo "::notice title=is ok::size within ${BYTE_LIMIT} bytes limit" ||
-        (echo "::error title=too big::size exceeds ${BYTE_LIMIT} bytes limit" 
+        echo "::notice title=is okay::size within ${LIMIT_BYTES} bytes limit" ||
+        (echo "::error title=too big::size exceeds ${LIMIT_BYTES} bytes limit" 
         >&2 && exit 1);
-      name: Compare gzipped file size with limit
-      env:
-        BYTE_LIMIT: 999
+      name: Compare gzipped file size
     # cleanup
-    - run: npm r -D webpack-cli; rm -rf dist/
-      name: Remove dependencies and dist/ files
+    - run: npm r -g ncc; rm -rf dist/
