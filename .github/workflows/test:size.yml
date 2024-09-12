@@ -46,8 +46,7 @@ jobs:
       name: Print compressed size
       # size > limit, print error message, exit 1
     - run: |
-        echo "::error title=size too big::size: ${size} B > limit: ${LIMIT_B} B"
-        && exit 1
+        echo "::error title=size too big::size: ${size} B > limit: ${LIMIT_B} B" && exit 1
       if: ${{ steps.getsize.outputs.size }} > ${{ env.LIMIT_B }}
       name: Limit Exceeded Error
       # size <= limit, print sucess message
