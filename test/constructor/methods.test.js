@@ -4,7 +4,6 @@ import { Sync as FSM } from '../../src/index.js'
 test('#constructor adds transition methods', async t => {
   let turnstile
 
-
   t.beforeEach(() => {
     turnstile = new FSM({ 
       closed: { coin: 'opened' },
@@ -12,21 +11,17 @@ test('#constructor adds transition methods', async t => {
     })
   })
  
-
   await t.test('instantiates', t => {
     t.assert.ok(turnstile)
   })
-  
 
   await t.test('adds transition-methods', async t => {
     t.assert.strictEqual(typeof turnstile.coin, 'function')
-    
 
     await t.test('for each transition', t => {
       t.assert.strictEqual(typeof turnstile.push, 'function')
     })
 
-    
     await t.test('transition-methods cannot be modified', async t => {  
       t.assert.throws(() => {
         delete turnstile.coin
@@ -46,16 +41,14 @@ test('#constructor adds transition methods', async t => {
         broken: { fix : 'closed', push:  'opened' }
       })
     })
-    
 
-    await t.test('adds only 1 method for all occurences', t => {
+    await t.test('adds 1 method per transition, regardless of states', t => {
       t.assert.strictEqual(typeof turnstile.push, 'function')
       t.assert.strictEqual(typeof turnstile.coin, 'function')
     })
   })
   
-
-  await t.test('overwriting passed argument deep-property', async t => {  
+  await t.test('overwriting deep property of passed argument', async t => {  
     let args = null
 
     t.before(() => {
@@ -69,7 +62,6 @@ test('#constructor adds transition methods', async t => {
       args.opened.coin = 'foo'
     })
 
-    
     await t.test('state-changing methods work', async t => {  
       t.beforeEach(() => turnstile.coin())
 

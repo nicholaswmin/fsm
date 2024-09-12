@@ -85,8 +85,14 @@ turnstile.coin().push()
 
 ### Invalid transitions
 
-Attempting to trigger a transition which isn't listed under the current
-state will throw an `Error`.
+Attempting to trigger a transition not listed under the current state:
+
+- returns `false`
+= state does not change  
+- no hook methods are run
+
+> example: current `state:closed` only lists the `coin` transition.  
+> attempting any other transition, i.e `push`, is invalid.
 
 ```js
 const turnstile = new FSM({
@@ -94,9 +100,28 @@ const turnstile = new FSM({
   opened: { push: 'closed' }
 })
 
-turnstile.push()
-// Error: push() not allowed in state:closed
+console.log('returned:', turnstile.push())
+// returned: false
+// state: 'closed'
 ```
+
+This behavior can be overriden, like so: 
+
+```js
+FSM.onInvalid = () => {
+  throw new Error('Transition not allowed')
+}
+
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+
+turnstile.push()
+```
+
+> note: `FSM.setOnInvalid` must be set *before* creating an instances.  
+> It does not retroactively alter the behavior of existing instances.
 
 ## Hooks
 

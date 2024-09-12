@@ -13,7 +13,6 @@ test('#argument: "states"', async t => {
       })
     })
   })
-  
 
   await t.test('not an object', async t => {
     await t.test('throws descriptive TypeError', t => {
@@ -25,9 +24,8 @@ test('#argument: "states"', async t => {
       })
     })
   })
-  
 
-  await t.test('without keys', async t => {
+  await t.test('without states', async t => {
     await t.test('throws descriptive RangeError', t => {
       t.assert.throws(() => {
         new FSM({})
