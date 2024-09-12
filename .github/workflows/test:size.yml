@@ -41,8 +41,7 @@ jobs:
     - run: gzip "$DIST_PATH"
       name: GZIP bundle
 
-      # output bundle size in bytes, as 'size', 
-      # in both output and env
+    # output bundle size in bytes, as 'size'
     - run: | 
         size=$(wc -c < $DIST_PATH.gz | xargs);
         echo "size=$size" >> "$GITHUB_OUTPUT";
@@ -50,13 +49,15 @@ jobs:
       name: Get GZIP size in bytes
       id: getsize
 
+    # if size > limit, err message & exit 1
     - run: |
         t="bundle size limit exceeded" && \
         echo "::error title=${t}::size: ${size} B > limit: ${LIMIT_BYTES} B"; \
         exit 1
       if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.LIMIT_BYTES)
       name: if size > limit, Size Exceeded Error
-      # if size <= LIMIT_BYTES, print sucess message
+
+    # else if size <= limit, sucess message & exit
     - run: |
         t="size limit OK" && \
         echo "::notice title=${t}::size: ${size} B <= limit: ${LIMIT_BYTES} B"
