@@ -36,7 +36,7 @@ jobs:
     - run: npm ci
 
     # output count of dependencies & devDependencies
-    # as 'deps_no' and 'ddeps_no' on both `output` and `env`
+    # as 'depsNo' and 'ddepsNo' on both `output` and `env`
     # 
     # computed by counting the number of `:` occurrences
     # in their respective package.json fields
@@ -44,37 +44,37 @@ jobs:
         depsNo=$(npm pkg get dependencies | tr -cd ':' | wc -c);
         ddepsNo=$(npm pkg get devDependencies | tr -cd ':' | wc -c);
 
-        "deps_no=${deps_no}" >> "$GITHUB_OUTPUT" &&
-        "ddeps_no=${ddeps_no}" >> "$GITHUB_OUTPUT" &&
+        "depsNo=${depsNo}" >> "$GITHUB_OUTPUT" &&
+        "ddepsNo=${ddepsNo}" >> "$GITHUB_OUTPUT" &&
 
-        "deps_no=${deps_no}" >> "$GITHUB_ENV" &&
-        "ddeps_no=${ddeps_no}" >> "$GITHUB_ENV"
+        "depsNo=${depsNo}" >> "$GITHUB_ENV" &&
+        "ddepsNo=${ddepsNo}" >> "$GITHUB_ENV"
       name: get dependencies and devDependencies count
       id: packageJSON
 
-    # if deps_no < MAX_DEPS, err message & exit 1
+    # if depsNo < MAX_DEPS, err message & exit 1
     - run: |
         t="too many dependencies" && \
-        e="Lists ${deps_no} dependencies, max limit is: ${MAX_DEPS}." && \
+        e="Lists ${depsNo} dependencies, max limit is: ${MAX_DEPS}." && \
         echo "::error title=${t}::${e}." && exit 1
 
-      if: fromJSON(steps.packageJSON.outputs.deps_no) > 0
+      if: fromJSON(steps.packageJSON.outputs.depsNo) > 0
       name: Too Many Dependencies Error
 
-    # if ddeps_no < MAX_D_DEPS, err message & exit 1
+    # if ddepsNo < MAX_D_DEPS, err message & exit 1
     - run: |
         t="too many devDependencies" && \
-        e="Lists ${ddeps_no} dependencies, limit is: ${MAX_DDEPS}" \
+        e="Lists ${ddepsNo} dependencies, limit is: ${MAX_DDEPS}" \
 
         echo "::error title=${t}::${e}." && exit 1
-      if: fromJSON(steps.packageJSON.outputs.ddeps_no) > 0
+      if: fromJSON(steps.packageJSON.outputs.ddepsNo) > 0
       name: Too Many devDependencies Error
 
     # else print OK message
     - run: |
         t="dependency count OK" && \
-        a="Lists ${deps_no} dependencies, limit is: ${MAX_DEPS}" \
-        b="Lists ${ddeps_no} devDependencies, limit is: ${MAX_DDEPS}" \
+        a="Lists ${depsNo} dependencies, limit is: ${MAX_DEPS}" \
+        b="Lists ${ddepsNo} devDependencies, limit is: ${MAX_DDEPS}" \
 
         echo "::notice title=${t}::${a}." && echo "::notice title=${t}::${b}."
 
