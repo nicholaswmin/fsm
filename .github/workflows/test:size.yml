@@ -14,8 +14,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  bundle:
-    name: check filesize
+  test:
+    name: size
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
