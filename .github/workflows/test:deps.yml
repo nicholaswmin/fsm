@@ -42,13 +42,8 @@ jobs:
     # in their respective package.json fields
     - run: | 
         depsNo=$(npm pkg get dependencies | tr -cd ':' | wc -c);
-        ddepsNo=$(npm pkg get devDependencies | tr -cd ':' | wc -c);
-
         "depsNo=${depsNo}" >> "$GITHUB_OUTPUT" &&
-        "ddepsNo=${ddepsNo}" >> "$GITHUB_OUTPUT" &&
-
-        "depsNo=${depsNo}" >> "$GITHUB_ENV" &&
-        "ddepsNo=${ddepsNo}" >> "$GITHUB_ENV"
+        "depsNo=${depsNo}" >> "$GITHUB_ENV"
       name: get dependencies and devDependencies count
       id: packageJSON
 
