@@ -26,5 +26,5 @@ jobs:
     - run: npm i -D webpack-cli
     - run: npx webpack --mode production --output-library-type module --experiments-output-module
     - run: gzip dist/main.mjs
-    - run: size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]'); test "$size" -lt "$BYTE_LIMIT" && echo "size ${size} bytes within ${BYTE_LIMIT} bytes limit" || (echo "size ${size} bytes > limit ${BYTE_LIMIT} bytes" >&2 && exit 1);  
+    - run: size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]'); test "$size" -lt "$BYTE_LIMIT" && echo "size ${size} bytes within ${BYTE_LIMIT} bytes" || (echo "size ${size} bytes > ${BYTE_LIMIT} bytes limit" >&2 && exit 1);  
     - run: npm r -D webpack-cli; rm -rf dist/
