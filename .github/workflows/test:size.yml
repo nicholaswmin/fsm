@@ -1,6 +1,10 @@
-# Tests ESM module filesize 
-# - Fails if they become too big
-# - Bundles, minifies and gzips the module before testing.
+# Tests if an ESM module filesize has gotten too big
+# 
+# - Shows error message and exits 1 if bundled module is above a set limit
+# - Detects possibly empty bundles, shows error, exits 1 as well
+# - Bundles, minifies and gzips the module before testing its size.
+# - Configure via its `.env`, found below.
+
 name: test:size
 
 on:
@@ -10,16 +14,23 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  bundle:
+    name: Bundle & check filesize
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
       matrix:
         node-version: [latest]
     env:
+      # Settings
+      # entry module filepath
       ENTRY_PATH: src/index.js
-      OUTPUT_PATH: dist/index.js
-      LIMIT_BYTES: 999
+      # bundle filepath
+      DIST_PATH: dist/index.js
+      # max bundle size, bytes
+      MAX_BYTES: 999
+      # min bundle size, bytes
+      MIN_BYTES: 50
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -27,19 +38,46 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
-    - run: npm i -g ncc
-    - run: ncc build "$ENTRY_PATH" -o dist -m
+
+    - run: npm i -g @vercel/ncc
+      name: Install @vercel/ncc bundler
+
+    - run: ncc build "$ENTRY_PATH" -o dist -m -q
       name: Bundle & minify module
-    - run: gzip "$OUTPUT_PATH"
-      name: Gzip minified bundle
+
+    - run: gzip "$DIST_PATH"
+      name: Compress bundle
+
+    # output bundle size in bytes, as 'size'
+    - run: | 
+        size=$(wc -c < $DIST_PATH.gz | xargs);
+        echo "size=$size" >> "$GITHUB_OUTPUT";
+        echo "size=$size" >> "$GITHUB_ENV";
+      name: Get compressed size, in bytes
+      id: getsize
+
+    # if size < min, err message & exit 1
     - run: |
-        size=$(wc -c < $OUTPUT_PATH.gz | xargs);
-        echo "::notice title=size::file size is: ${size} bytes";
-        test "$size" -lt "$BYTE_LIMIT" &&
-        echo "::notice title=is okay::size within ${LIMIT_BYTES} bytes limit" ||
-        (echo "::error title=too big::size exceeds ${LIMIT_BYTES} bytes limit" 
-        >&2 && exit 1);
-      name: Compare gzipped file size
-    # cleanup
-    - run: npm r -g ncc; rm -rf dist/
+        t="bundle size unreasonably small" && \
+        echo "::error title=${t}::size: ${size} B < min: ${MIN_BYTES} B." && \
+        echo "::error title=recommendation::is bundle possibly empty?" &&
+        exit 1
+      if: fromJSON(steps.getsize.outputs.size) < fromJSON(env.MIN_BYTES)
+      name: Possibly Empty Error
+
+    # if size > max, err message & exit 1
+    - run: |
+        t="bundle size max limit exceeded" && \
+        echo "::error title=${t}::size: ${size} B > max: ${MAX_BYTES} B"; \
+        exit 1
+      if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.MAX_BYTES)
+      name: Size Exceeded Error
+
+    # else if size <= max, sucess message & exit 0
+    - run: |
+        t="size limit OK" && \
+        echo "::notice title=${t}::size: ${size} B <= max: ${MAX_BYTES} B"
+      if: fromJSON(steps.getsize.outputs.size) <= fromJSON(env.MAX_BYTES)
+      name: Size OK Message

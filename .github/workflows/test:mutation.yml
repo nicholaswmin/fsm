@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: Run mutation testing
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
@@ -20,8 +21,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
+
     - run: npx -y @stryker-mutator/core run --reporters dots,clear-text
-      name: Run Stryker mutation tester with defaults
+      name: run Stryker with defaults
       env:
         NODE_ENV: test
