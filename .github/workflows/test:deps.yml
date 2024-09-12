@@ -61,7 +61,7 @@ jobs:
         tb="dependencies" && \
         e="Lists ${depsCount} dependencies. Max limit: ${MAX_DEPS}." && \
         echo "::error title=${ta}::${e}." && \
-        echo "::error title=${tb}::${{ steps.package.outputs.deps }}" && \
+        echo "::error title=${tb}::${{ fromJSON(steps.package.outputs.deps) }}" && \
         exit 1
 
       if: fromJSON(steps.package.outputs.depsCount) > fromJSON(env.MAX_DEPS)
