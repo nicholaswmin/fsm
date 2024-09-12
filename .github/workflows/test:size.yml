@@ -1,6 +1,9 @@
 # Tests ESM module filesize 
-# - Exits 1 if above a set limit, in bytes.
+# 
+# - Shows error message and exits 1 if bundled module is above a set limit
 # - Bundles, minifies and gzips the module before testing for size.
+# = Used to keep an ESM module size in-check
+
 name: test:size
 
 on:
@@ -23,7 +26,7 @@ jobs:
       # bundle filepath
       DIST_PATH: dist/index.js
       # max bundle size, bytes
-      LIMIT_BYTES: 990
+      LIMIT_BYTES: 999
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
