@@ -40,12 +40,16 @@ jobs:
     - run: echo SIZE=$(wc -c < $DIST_PATH.gz | xargs) >> "$GITHUB_ENV"
       name: Get compressed size
       id: getsize
+      # print size
     - run: echo "::notice title=size::minified & gzipped size is ${SIZE} bytes";
       name: Print compressed size
+      # if size > limit, print error message, exit 1
     - run: |
         echo "::error title=too big::exceeds limit of ${LIMIT_BYTES} bytes" 
         >&2 && exit 1
       if: steps.getsize.outputs.size > env.LIMIT_BYTES
-    - run: |
-        echo "::notice title=is ok::within limit of: ${LIMIT_BYTES} bytes"
+      name: Print limit exceeded error message
+      # if size <= limit, print sucess message
+    - run: echo "::notice title=is ok::within limit of ${LIMIT_BYTES} bytes"
       if: steps.getsize.outputs.size <= env.LIMIT_BYTES
+      name: Print within limit success message
