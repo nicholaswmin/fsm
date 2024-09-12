@@ -42,7 +42,7 @@ jobs:
       # print bundle size
       # test size < limit, if above, print error message & exit 1
     - run: |
-        && echo "::notice title=size::minified & gzipped size is: ${SIZE} bytes" 
+        echo "::notice title=size::minified & gzipped size is: ${SIZE} bytes" 
         && test "${SIZE}" -lt "${LIMIT_BYTES}"
         && echo "::notice title=is ok::within limit of: ${LIMIT_BYTES} bytes" 
         || (echo "::error title=too big::exceeds limit of: ${LIMIT_BYTES} bytes" 
