@@ -36,21 +36,21 @@ jobs:
       name: Bundle & minify module
       # compress bundle
     - run: gzip "$DIST_PATH"
-      name: Gzip minified bundle
-      # get compressed bundle size in bytes 
-    - run: echo size=$(wc -c < $DIST_PATH.gz | xargs) >> "$GITHUB_ENV"
+      name: Gzip minifieds bundle
+      # output bundle size in bytes, as 'sz' 
+    - run: echo sz=$(wc -c < $DIST_PATH.gz | xargs) >> "$GITHUB_ENV"
       name: Get compressed size in bytes
       id: getsize
-      # print size
-    - run: echo "::notice title=report::bundled & gzipped size is ${size} B"
+      # print sz
+    - run: echo "::notice title=report::bundled & gzipped size is ${sz} B"
       name: Print compressed size
-      # size > limit, print error message, exit 1
+      # sz > limit, print error message, exit 1
     - run: |
-        echo "::setFailed title=too big::size: ${size} B > limit: ${LIMIT_B} B"
-      if: ${{ steps.getsize.outputs.size }} > ${{ env.LIMIT_B }}
+        echo "::error title=too big::size: ${sz} B > limit: ${MAX_B} B"; exit 1
+      if: ${{ steps.getsize.outputs.sz }} > ${{ env.LIMIT_B }}
       name: Limit Exceeded Error
-      # size <= limit, print sucess message
+      # sz <= limit, print sucess message
     - run: |
-        echo "::notice title=is ok::size: ${size} B <= limit: ${LIMIT_B} B"
-      if: ${{ steps.getsize.outputs.size }} <= ${{ env.LIMIT_B }}
+        echo "::notice title=size ok::size: ${sz} B <= limit: ${MAX_B} B"
+      if: ${{ steps.getsize.outputs.sz }} <= ${{ env.MAX_B }}
       name: Print Success Message
