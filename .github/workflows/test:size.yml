@@ -20,8 +20,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-      env:
-        BYTE_LIMIT: 999
     - run: npm ci
     - run: npm i -D webpack-cli
     # Bundle & minify src/index.js 
@@ -30,5 +28,7 @@ jobs:
     - run: gzip dist/main.mjs
     # Read gzip file size, compare with env. var BYTE_LIMIT & exit 1 if greater
     - run: size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]'); test "$size" -lt "$BYTE_LIMIT" && echo "size ${size} bytes within ${BYTE_LIMIT} bytes" || (echo "size ${size} bytes > ${BYTE_LIMIT} bytes limit" >&2 && exit 1);  
+      env:
+        BYTE_LIMIT: 999
     # Cleanup
     - run: npm r -D webpack-cli; rm -rf dist/
