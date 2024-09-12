@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    name: Run lint/formatters
+    name: run ESlint
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
