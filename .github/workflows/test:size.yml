@@ -1,8 +1,9 @@
 # Tests if an ESM module filesize has gotten too big
 # 
 # - Shows error message and exits 1 if bundled module is above a set limit
-# - Bundles, minifies and gzips the module before testing for size.
-# - Settings as `.env`, found below.
+# - Detects possibly empty bundles, shows error, exits 1 as well
+# - Bundles, minifies and gzips the module before testing its size.
+# - Configure via its `.env`, found below.
 
 name: test:size
 
@@ -27,7 +28,8 @@ jobs:
       # bundle filepath
       DIST_PATH: dist/index.js
       # max bundle size, bytes
-      LIMIT_BYTES: 999
+      MAX_BYTES: 999
+      MIN_BYTES: 100
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -55,25 +57,26 @@ jobs:
       name: Get compressed size, in bytes
       id: getsize
 
-    # if size = 0, err message & exit 1
+    # if size < min, err message & exit 1
     - run: |
-        t="bundle is empty" && \
-        echo "::error title=${t}::size: ${size} B = 0 B. Bundle is empty."; \
+        t="bundle size is too small" && \
+        echo "::error title=${t}::size: ${size} B < min: ${MIN_BYTES} B." \
+        echo "::error title${t} bundle is possibly empty"
         exit 1
-      if: fromJSON(steps.getsize.outputs.size) == 0
-      name: if size = 0, Bundle Empty Error
+      if: fromJSON(steps.getsize.outputs.size) < fromJSON(env.MIN_BYTES)
+      name: Bundle Possibly Empty Error
 
-    # if size > limit, err message & exit 1
+    # if size > max, err message & exit 1
     - run: |
         t="bundle size limit exceeded" && \
-        echo "::error title=${t}::size: ${size} B > limit: ${LIMIT_BYTES} B"; \
+        echo "::error title=${t}::size: ${size} B > limit: ${MAX_BYTES} B"; \
         exit 1
-      if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.LIMIT_BYTES)
-      name: if size > limit, Size Exceeded Error
+      if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.MAX_BYTES)
+      name: Size Exceeded Error
 
     # else if size <= limit, sucess message & exit 0
     - run: |
         t="size limit OK" && \
-        echo "::notice title=${t}::size: ${size} B <= limit: ${LIMIT_BYTES} B"
-      if: fromJSON(steps.getsize.outputs.size) <= fromJSON(env.LIMIT_BYTES)
-      name: if size <= limit, Size OK
+        echo "::notice title=${t}::size: ${size} B <= limit: ${MAX_BYTES} B"
+      if: fromJSON(steps.getsize.outputs.size) <= fromJSON(env.MAX_BYTES)
+      name: Size OK Message
