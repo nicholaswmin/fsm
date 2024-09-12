@@ -19,14 +19,6 @@ jobs:
     strategy:
       matrix:
         node-version: [latest]
-    env:
-      # Settings
-      # entry module filepath
-      ENTRY_PATH: src/index.js
-      # bundle filepath
-      DIST_PATH: dist/index.js
-      # max bundle size, bytes
-      LIMIT_BYTES: 999
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -34,6 +26,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+      env:
+        # Settings
+        # entry module filepath
+        ENTRY_PATH: src/index.js
+        # bundle filepath
+        DIST_PATH: dist/index.js
+        # max bundle size, bytes
+        LIMIT_BYTES: 999
     - run: npm ci
     - run: npm i -g @vercel/ncc
       name: Install bundler (ncc)
