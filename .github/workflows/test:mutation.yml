@@ -22,6 +22,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npx -y @stryker-mutator/core run --reporters dots,clear-text
-      name: Run Stryker mutation tester
+      name: Run Stryker mutation tester with defaults
       env:
         NODE_ENV: test
