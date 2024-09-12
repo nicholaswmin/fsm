@@ -301,12 +301,6 @@ As such, `FSM` instances should be considered *immutable*.
 node --run test
 ```
 
-> mutation testing:
-
-```bash
-node --run test:mutation
-```
-
 ## Authors
 
 [@nicholaswmin][author]
