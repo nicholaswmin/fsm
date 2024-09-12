@@ -59,7 +59,8 @@ jobs:
     - run: |
         t="too many dependencies" && \
         e="Lists ${depsCount} dependencies. Max limit: ${MAX_DEPS}." && \
-        echo "::error title=${t}::${e}." && exit 1
+        echo "::error title=${t}::${e}." && 
+        echo "::error title=dependencies::${deps}." && exit 1
 
       if: fromJSON(steps.package.outputs.depsCount) > fromJSON(env.MAX_DEPS)
       name: Too Many Dependencies Error
