@@ -40,7 +40,7 @@ jobs:
     # 
     # computed by counting the number of `:` occurrences
     # in their respective package.json fields
-    - run: $dpsNo="$(npm pkg get dependencies)" 
+    - run: pwd=$(npm pkg get dependencies)
       name: get dependencies and devDependencies count
       id: packageJSON
 
