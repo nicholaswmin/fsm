@@ -55,7 +55,7 @@ The initial state is set as the 1st `state` row.
 
 > allow transitioning from one `state` to another, if allowed.
 
-These are automatically created & named using the provided transition names.   
+The transition methods are named after the provided transitions.   
 This renders an expressive & domain-specific API.
 
 For example, this: 
@@ -67,7 +67,9 @@ const turnstile = new FSM({
 })
 ```
 
-creates these transition methods:
+has 2 transitions, `coin` & `push`,
+
+hence it creates 2 identically named transition methods:
 
 ```js
 turnstile.coin()
@@ -88,7 +90,7 @@ turnstile.coin().push()
 Attempting to trigger a transition not listed under the current state:
 
 - returns `false`
-= state does not change  
+= the state does not change  
 - no hook methods are run
 
 > example: current `state:closed` only lists the `coin` transition.  
@@ -105,11 +107,16 @@ console.log('returned:', turnstile.push())
 // state: 'closed'
 ```
 
-This behavior can be overriden, like so: 
+The invalid behavior can be overriden,
+by reassigning `static FSM.onInvalid`, like so:
 
 ```js
-FSM.onInvalid = () => {
-  throw new Error('Transition not allowed')
+FSM.onInvalid = arg => {
+  if (arg === 'foo')
+    throw new Error('not allowed')
+
+  if (arg === 'bar')
+    throw new Error('its broken mate')
 }
 
 const turnstile = new FSM({
@@ -117,10 +124,14 @@ const turnstile = new FSM({
   opened: { push: 'closed' }
 })
 
-turnstile.push()
+turnstile.push('foo')
+// Error: not allowed
+
+turnstile.push('bar')
+// Error: its broken mate
 ```
 
-> note: `FSM.setOnInvalid` must be set *before* creating an instances.  
+> note: `FSM.onInvalid` must be set *before* creating an instance.    
 > It does not retroactively alter the behavior of existing instances.
 
 ## Hooks
