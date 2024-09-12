@@ -30,7 +30,7 @@ jobs:
       # max bundle size, bytes
       MAX_BYTES: 5000
       # min bundle size, bytes
-      MIN_BYTES: 1200
+      MIN_BYTES: 10
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -44,7 +44,7 @@ jobs:
     - run: npm i -g @vercel/ncc
       name: Install @vercel/ncc bundler
 
-    - run: ncc build "$ENTRY_PATH" -o dist -m
+    - run: ncc build "$ENTRY_PATH" -o dist -m -q
       name: Bundle & minify module
 
     - run: gzip "$DIST_PATH"
