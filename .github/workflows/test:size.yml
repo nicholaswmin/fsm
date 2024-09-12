@@ -36,9 +36,9 @@ jobs:
       name: Gzip minified bundle
     - run: |
         size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]');
-        echo "::notice::file size is: ${size} bytes";
+        echo "::notice title=size::file size is: ${size} bytes";
         test "$size" -lt "$BYTE_LIMIT" &&
-        echo "::notice title=size ok::size within ${BYTE_LIMIT} bytes limit" ||
+        echo "::notice title=is ok::size within ${BYTE_LIMIT} bytes limit" ||
         (echo "::error title=too big::size exceeds ${BYTE_LIMIT} bytes limit" 
         >&2 && exit 1);
       name: Compare gzipped file size with limit
