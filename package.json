@@ -24,7 +24,7 @@
     "url": "https://github.com/nicholaswmin/fsm/issues"
   },
   "homepage": "https://github.com/nicholaswmin/fsm#readme",
-  "dependencies": {
-    "express": "^4.21.0"
+  "devDependencies": {
+    "mocha": "^10.7.3"
   }
 }
