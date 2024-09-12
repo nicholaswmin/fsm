@@ -25,7 +25,7 @@ jobs:
 
     - run: npm ci
     - run: node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info test/**/*.test.js
-      name: Create LCOV file with node --test
+      name: Create LCOV file with Node Test Runner
       env:
         NODE_ENV: test
     - run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz
