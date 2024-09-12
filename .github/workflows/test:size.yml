@@ -48,8 +48,8 @@ jobs:
         echo "::error title=too big::exceeds limit of ${LIMIT_BYTES} bytes" 
         >&2 && exit 1
       if: steps.getsize.outputs.size > env.LIMIT_BYTES
-      name: Print limit exceeded error message
+      name: Print Limit Exceeded Error
       # if size <= limit, print sucess message
     - run: echo "::notice title=is ok::within limit of ${LIMIT_BYTES} bytes"
       if: steps.getsize.outputs.size <= env.LIMIT_BYTES
-      name: Print within limit success message
+      name: Print Success Message
