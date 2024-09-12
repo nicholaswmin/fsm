@@ -18,8 +18,11 @@ jobs:
         node-version: [latest]
     env:
       # Settings
+      # entry module filepath
       ENTRY_PATH: src/index.js
+      # bundle filepath
       DIST_PATH: dist/index.js
+      # max bundle size, bytes
       MAX_B: 900
     steps:
     - uses: actions/checkout@v4
