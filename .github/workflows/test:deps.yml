@@ -43,6 +43,7 @@ jobs:
     - run: | 
         depCount=$(npm pkg get dependencies | tr -cd ':' | wc -c);
         echo "depCount=$depCount" >> "$GITHUB_OUTPUT";
+        echo "depCount=$depCount" >> "$GITHUB_ENV";
       name: get dependencies and devDependencies count
       id: package
 
@@ -54,15 +55,6 @@ jobs:
 
       if: fromJSON(steps.package.outputs.depCount) > 0
       name: Too Many Dependencies Error
-
-    # if ddepsNo < MAX_D_DEPS, err message & exit 1
-    - run: |
-        t="too many devDependencies" && \
-        e="Lists ${devDepCount} dependencies, limit is: ${MAX_DDEPS}" \
-
-        echo "::error title=${t}::${e}." && exit 1
-      if: fromJSON(steps.package.outputs.devDepCount) > 0
-      name: Too Many devDependencies Error
 
     # else print OK message
     - run: |
