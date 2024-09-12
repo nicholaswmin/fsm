@@ -16,7 +16,8 @@ rendering them inherently safe, by design.[^1]
 
 This implementation allows constructing simple, robust & expressive FSMs.
 
-Minimal, bundles `~ 850 bytes`, zero dependencies.
+Minimal, bundles `~ 850 bytes` with zero dependencies.  
+Backed by a comprehensive test suite.
 
 ## Install 
 
@@ -50,8 +51,6 @@ The above FSM has the following rules:
 
 The initial state is set as the 1st `state` row.  
 
-> note: this format is formally called a [state-transition table][stt]
-
 ## Transition methods
 
 > allow transitioning from one `state` to another, if allowed.
@@ -68,14 +67,11 @@ const turnstile = new FSM({
 })
 ```
 
-creates methods:
+creates these transition methods:
 
 ```js
 turnstile.coin()
-// state: opened
-
 turnstile.push()
-// state: closed
 ```
 
 which are also be chainable:
@@ -85,7 +81,7 @@ turnstile.coin().push()
 // state: closed
 ```
 
-> note: method-chaining is only supported on `Sync` FSM.
+> note: The `Async` FSM does not support chaining.
 
 ### Invalid transitions
 
@@ -104,22 +100,41 @@ turnstile.push()
 
 ## Hooks
 
-Hooks are functions/methods, called at specific transition phases, optionally 
-altering the transition behavior.
+Hooks are methods which are called at specific transition phases,   
+optionally altering the transition behavior.
 
 Each transition adds: 
 
 - 1 transition hook
 - 1 state hook
-
-Each is named for the transition or the state prefixed with `on`,  
-i.e: `onCoin` and `onOpened` for a transition and state hook respectively.
  
-The 2nd argument `ctx` accepts an object which can implement some or all hooks.    
+To define a hook, pass an object as the 2nd argument which implements 
+the required hooks as methods.
+
+> example: define a state hook for `state:opened`.
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onOpened() {
+    console.log('turnstile is open')
+  }
+})
+
+turnstile.coin()
+// turnstile is open
+```
+
+> note: hooks are named after the transition or the state, prefixed with `on`.   
+>
+> i.e: transition `coin` names its transition hook: `onCoin`  
+> i.e: state `opened` names its state hook: `onOpened`  
 
 ### Transition hooks 
  
-> called when transition is triggered, *before* the state changes:
+> called when transition is triggered, *before* the state is changed:
 
 ```js
 const turnstile = new FSM({
@@ -220,7 +235,7 @@ const turnstile = new FSM({
     // a whatever async call ...
     await db('select * from....'')
       
-    // decided to cancel the transition
+    // cancel the transition
     return false
   }
 })
@@ -236,7 +251,8 @@ await turnstile.coin()
 
 ## Subclassing
 
-skip the `ctx` argument & just implement any hooks as subclass methods. 
+Instead of providing an object for the hooks, ditch it & just implement any 
+required hooks as subclass methods. 
 
 ```js
 class Turnstile extends FSM {
@@ -261,7 +277,10 @@ console.log(turnstile.state)
 // state: opened
 ```
 
-## API 
+> note: the `ctx` argument can be used if you prefer 
+> *Composition Over Inheritance*.
+
+## API docs
 
 ### `new FSM(states, ctx)`
 
