@@ -31,7 +31,7 @@ jobs:
         size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]'); \ 
         test "$size" -lt "$BYTE_LIMIT" && \
         echo "size ${size} bytes within ${BYTE_LIMIT} bytes limit" || \ 
-        (echo "size ${size} bytes > ${BYTE_LIMIT} bytes limit" >&2 && exit 1);  
+        (echo "size ${size} bytes > ${BYTE_LIMIT} bytes limit" >&2 && exit 1); \ 
       env:
         BYTE_LIMIT: 999
     # cleanup
