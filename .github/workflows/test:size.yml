@@ -36,7 +36,7 @@ jobs:
     - run: |
         SIZE=$(wc -c < $OUTPUT_PATH.gz | xargs);
         echo "::notice title=size::file size is: ${SIZE} bytes";
-        test $(SIZE) -lt "${BYTE_LIMIT}" &&
+        test "${SIZE}" -lt 999 &&
         echo "::notice title=is okay::size within ${LIMIT_BYTES} bytes limit" ||
         (echo "::error title=too big::size exceeds ${LIMIT_BYTES} bytes limit" 
         >&2 && exit 1);
