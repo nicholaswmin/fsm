@@ -339,9 +339,23 @@ state: { transition: 'state' }
 > each `state` can list zero, one or multiple transitions.  
 > 1st state is set as the *initial* state.  
 
-### `.state` 
+### `static FSM.onInvalid` 
+
+A method which provides behaviour for invalid transitions.  
+Can be reassigned, which allows configuring the invalid behaviour.
+
+| name        | type       | desc.                        | default        |
+|-------------|------------|------------------------------|----------------|
+| `onInvalid` | `function` | invalid transition behaviour | `return false` |
+
+
+### `fsm.state` 
 
 The current `state`. Read-only.
+
+| name     | type     | default       |
+|----------|----------|---------------|
+| `state`  | `string` | current state | 
 
 
 ## Validations
