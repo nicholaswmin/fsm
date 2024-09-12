@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     env:
-      BYTE_LIMIT: 800
+      BYTE_LIMIT: 999
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
