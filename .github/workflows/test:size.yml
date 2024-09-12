@@ -44,13 +44,16 @@ jobs:
       # print size
     - run: echo "::notice title=size::minified & gzipped size is ${SIZE} bytes"
       name: Print compressed size
-      # if size > limit, print error message, exit 1
+      # if size > limit, print error message
     - run: |
-        echo "::error title=too big::exceeds limit of ${LIMIT_BYTES} bytes" 
-        >&2 && exit 1
+        echo "::error title=error::${SIZE} bytes > ${LIMIT_BYTES} bytes limit"
       if: steps.getsize.outputs.size > env.LIMIT_BYTES
       name: Print Limit Exceeded Error
+      # if size > limit, exit 1
+    - run: exit 1
+      if: steps.getsize.outputs.size > env.LIMIT_BYTES
+      name: Exit 1
       # if size <= limit, print sucess message
-    - run: echo "::notice title=is ok::within limit of ${LIMIT_BYTES} bytes"
+    - run: echo "::notice title=ok::${SIZE} bytes <= ${LIMIT_BYTES} bytes limit"
       if: steps.getsize.outputs.size <= env.LIMIT_BYTES
       name: Print Success Message
