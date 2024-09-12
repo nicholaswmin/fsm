@@ -20,7 +20,7 @@ jobs:
       # Settings
       ENTRY_PATH: src/index.js
       DIST_PATH: dist/index.js
-      LIMIT_B: 900
+      MAX_B: 900
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
