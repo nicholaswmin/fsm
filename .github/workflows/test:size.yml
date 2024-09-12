@@ -49,7 +49,7 @@ jobs:
       name: Print compressed size
       # sz > limit, print error message, exit 1
     - run: |
-        echo "the value is ${{ steps.getsize.outputs.sz }}"
+        echo "the value is $steps.getsize.outputs.sz"
     - run: |
         echo "::error title=too big::size: ${sz} B > limit: ${MAX_B} B"; exit 1
       if: ${{ fromJSON(steps.getsize.outputs.sz) }} > 999
