@@ -34,33 +34,31 @@ jobs:
     - run: npm ci
     - run: npm i -g @vercel/ncc
       name: Install bundler (ncc)
-      # bundle and minify module
+
     - run: ncc build "$ENTRY_PATH" -o dist -m
       name: Bundle & minify module
-      # compress bundle
+
     - run: gzip "$DIST_PATH"
-      name: Gzip minifieds bundle
+      name: GZIP bundle
+
       # output bundle size in bytes, as 'size', 
       # in both output and env
     - run: | 
         size=$(wc -c < $DIST_PATH.gz | xargs);
         echo "size=$size" >> "$GITHUB_OUTPUT";
         echo "size=$size" >> "$GITHUB_ENV";
-      name: Get compressed size in bytes
+      name: Get GZIP size in bytes
       id: getsize
-      # print size
-    - run: echo "::notice title=report::bundled & gzipped size is ${size} B"
-      name: Print compressed size
-      # if size > limit, print error message, exit 1
+
     - run: |
-        echo "the value is ${{ steps.getsize.outputs.size }}"
-    - run: |
-        echo "::error title=err::size: ${size} B > limit: ${LIMIT_BYTES} B"; \
+        t="bundle size limit exceeded" && \
+        echo "::error title=${t}::size: ${size} B > limit: ${LIMIT_BYTES} B"; \
         exit 1
       if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.LIMIT_BYTES)
-      name: Limit Exceeded Error
+      name: if size > limit, Size Exceeded Error
       # if size <= LIMIT_BYTES, print sucess message
     - run: |
-        echo "::notice title=ok::size: ${size} B <= limit: ${LIMIT_BYTES} B"
+        t="size limit OK" && \
+        echo "::notice title=${t}::size: ${size} B <= limit: ${LIMIT_BYTES} B"
       if: fromJSON(steps.getsize.outputs.size) <= fromJSON(env.LIMIT_BYTES)
-      name: Print Success Message
+      name: if size <= limit, Size OK
