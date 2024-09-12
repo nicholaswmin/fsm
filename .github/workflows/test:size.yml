@@ -34,7 +34,7 @@ jobs:
     - run: gzip "$OUTPUT_PATH"
       name: Gzip minified bundle
     - run: |
-        SIZE=$("wc -c < $OUTPUT_PATH.gz | xargs");
+        SIZE=$(wc -c < $OUTPUT_PATH.gz | wc -c);
         test "${SIZE}" -lt "${BYTE_LIMIT}" &&
         echo "::notice title=is okay::size within ${LIMIT_BYTES} bytes limit" ||
         (echo "::error title=too big::size exceeds ${LIMIT_BYTES} bytes limit" 
