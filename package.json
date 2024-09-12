@@ -23,8 +23,5 @@
   "bugs": {
     "url": "https://github.com/nicholaswmin/fsm/issues"
   },
-  "homepage": "https://github.com/nicholaswmin/fsm#readme",
-  "dependencies": {
-    "@nicholaswmin/fsm": "^1.9.9"
-  }
+  "homepage": "https://github.com/nicholaswmin/fsm#readme"
 }
