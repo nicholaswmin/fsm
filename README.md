@@ -43,11 +43,29 @@ turnstile.push()
 // state: closed
 ```
 
+This: 
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+```
+
+creates an FSM with the following rules:
+
+- If `state:closed` & `transition:coin` is triggered, set `state:opened`
+- If `state:opened` & `transition:push` is triggered, set `state:closed`
+
+The initial state is set as the 1st `state` row.  
+
+> note: this input format is formally called a [state-transition table][stt]
+
 ## Transition methods
 
-> transition from one `state` to another, if allowed.
+> allow transitioning from one `state` to another, if allowed.
 
-They are created based on the transition names given in the `states` argument.   
+These are automatically created & named using the provided transition names.   
 This renders an expressive & domain-specific API.
 
 For example, this: 
