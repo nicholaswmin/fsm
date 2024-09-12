@@ -41,8 +41,8 @@ jobs:
     # computed by counting the number of `:` occurrences
     # in their respective package.json fields
     - run: | 
-        deps_no=$(npm pkg get dependencies | tr -cd ':' | wc -c);
-        ddeps_no=$(npm pkg get devDependencies | tr -cd ':' | wc -c);
+        depsNo=$(npm pkg get dependencies | tr -cd ':' | wc -c);
+        ddepsNo=$(npm pkg get devDependencies | tr -cd ':' | wc -c);
 
         "deps_no=${deps_no}" >> "$GITHUB_OUTPUT" &&
         "ddeps_no=${ddeps_no}" >> "$GITHUB_OUTPUT" &&
