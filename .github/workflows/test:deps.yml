@@ -24,7 +24,7 @@ jobs:
       # dependencies
       MAX_DEPS: 0
       #devDependencies
-      MAX_D_DEPS: 0
+      MAX_DDEPS: 0
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -67,7 +67,7 @@ jobs:
         echo "::error title=${t}::${e}." && exit 1
 
       if: fromJSON(steps.package.outputs.ddepsCount) > fromJSON(env.MAX_DDEPS)
-      name: Too Many devDpendencies Error
+      name: Too Many devDependencies Error
 
     # else print OK message
     - run: |
