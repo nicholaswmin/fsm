@@ -60,7 +60,7 @@ jobs:
         t="bundle is empty" && \
         echo "::error title=${t}::size: ${size} B = 0 B. Bundle is empty."; \
         exit 1
-      if: fromJSON(steps.getsize.outputs.size) = 0
+      if: fromJSON(steps.getsize.outputs.size) == 0
       name: if size = 0, Bundle Empty Error
 
     # if size > limit, err message & exit 1
