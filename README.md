@@ -111,10 +111,7 @@ console.log('returned:', turnstile.push())
 
 ### Configuring behaviour
 
-The invalid behavior can be configured, 
-by reassigning `static FSM.onInvalid` to a new `Function`, like so:
-
-> example: conditionally `throw new Error` instead of `return false` 
+The invalid behaviour can be configured, by reassigning `FSM.onInvalid`:
 
 ```js
 FSM.onInvalid = function() {
@@ -137,7 +134,7 @@ turnstile.push('foo')
 ```
 
 > note: `static FSM.onInvalid` must be configured *before* creating an instance.    
-> It does not retroactively alter the behavior of existing instances.
+> It does not retroactively alter the behaviour of existing instances.
 
 ## Hooks
 
@@ -240,7 +237,7 @@ turnstile.coin(50)
 // state: opened
 ```
 
-> note: `undefined`, `null`, `0` etc. are *falsy* values but not `false`.
+> note: cancellations require returning `false`, not "falsy" values.
 
 ## Passing arguments 
 
