@@ -51,10 +51,10 @@ jobs:
       name: Print Limit Exceeded Error
       # if size > limit, exit 1
     - run: exit 1
-      if: steps.getsize.outputs.size > env.LIMIT_B
+      if: steps.getsize.outputs.size > 900
       name: Exit 1
       # if size <= limit, print sucess message
     - run: |
         echo "::notice title=size ok::size: ${size} B <= limit: ${LIMIT_B} B"
-      if: steps.getsize.outputs.size <= env.LIMIT_B
+      if: steps.getsize.outputs.size <= 900
       name: Print Success Message
