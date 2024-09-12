@@ -26,10 +26,10 @@ jobs:
     - run: npm i -D webpack-cli
     # bundle & minify using webpack. 
     # entry point implicitly assumed: src/index.js
-    - run: |
-        npx webpack 
-        --mode production 
-        --output-library-type module 
+    - run: >
+        npx webpack
+        --mode production
+        --output-library-type module
         --experiments-output-module
     # gzip it
     - run: gzip dist/main.mjs
