@@ -23,7 +23,7 @@ jobs:
       # bundle filepath
       DIST_PATH: dist/index.js
       # max bundle size, bytes
-      MAX_B: 999
+      LIMIT_BYTES: 999
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -40,22 +40,27 @@ jobs:
       # compress bundle
     - run: gzip "$DIST_PATH"
       name: Gzip minifieds bundle
-      # output bundle size in bytes, as 'sz' 
-    - run: echo sz=$(wc -c < $DIST_PATH.gz | xargs) >> "$GITHUB_OUTPUT"
+      # output bundle size in bytes, as 'bytes', 
+      # in both output and env
+    - run: | 
+        bytes=$(wc -c < $DIST_PATH.gz | xargs);
+        echo "bytes=$bytes" >> "$GITHUB_OUTPUT";
+        echo "bytes=$bytes" >> "$GITHUB_ENV";
       name: Get compressed size in bytes
       id: getsize
-      # print sz
-    - run: echo "::notice title=report::bundled & gzipped size is ${sz} B"
+      # print bytes
+    - run: echo "::notice title=report::bundled & gzipped size is ${bytes} B"
       name: Print compressed size
-      # sz > limit, print error message, exit 1
+      # bytes > limit, print error message, exit 1
     - run: |
-        echo "the value is ${{ steps.getsize.outputs.sz }}"
+        echo "the value is ${{ steps.getsize.outputs.bytes }}"
     - run: |
-        echo "::error title=too big::size: ${sz} B > limit: ${MAX_B} B"; exit 1
-      if: fromJSON(steps.getsize.outputs.sz) > 900
+        echo "::error title=err::size: ${bytes} B > limit: ${LIMIT_BYTES} B"; \
+        exit 1
+      if: fromJSON(steps.getsize.outputs.bytes) > fromJSON(env.LIMIT_BYTES)
       name: Limit Exceeded Error
-      # sz <= limit, print sucess message
+      # bytes <= LIMIT_BYTES, print sucess message
     - run: |
-        echo "::notice title=size ok::size: ${sz} B <= limit: ${MAX_B} B"
-      if: fromJSON(steps.getsize.outputs.sz) <= 900
+        echo "::notice title=ok::size: ${bytes} B <= limit: ${LIMIT_BYTES} B"
+      if: fromJSON(steps.getsize.outputs.bytes) <= fromJSON(env.LIMIT_BYTES)
       name: Print Success Message
