@@ -62,7 +62,7 @@ jobs:
     - run: |
         t="bundle size is too small" && \
         echo "::error title=${t}::size: ${size} B < min: ${MIN_BYTES} B." \
-        echo "::error title${t} bundle is possibly empty"
+        echo "::error title=${t}::bundle is possibly empty?"
         exit 1
       if: fromJSON(steps.getsize.outputs.size) < fromJSON(env.MIN_BYTES)
       name: Possibly Empty Error
