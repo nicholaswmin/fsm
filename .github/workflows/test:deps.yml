@@ -54,7 +54,7 @@ jobs:
     # check runtime dependencies
     - run: |
         t="too many dependencies" && \
-        e="Lists ${depsCount} dependencies, limit is: ${MAX_DEPS}." && \
+        e="Has ${depsCount} dependencies, > max limit: ${MAX_DEPS}." && \
         echo "::error title=${t}::${e}." && exit 1
 
       if: fromJSON(steps.package.outputs.depsCount) > fromJSON(env.MAX_DEPS)
@@ -63,7 +63,7 @@ jobs:
     # check devDependencies
     - run: |
         t="too many devDependencies" && \
-        e="Lists ${ddepsCount} devDependencies, limit is: ${MAX_DDEPS}." && \
+        e="Has ${ddepsCount} devDependencies > max limit: ${MAX_DDEPS}." && \
         echo "::error title=${t}::${e}." && exit 1
 
       if: fromJSON(steps.package.outputs.ddepsCount) > fromJSON(env.MAX_DDEPS)
@@ -72,8 +72,8 @@ jobs:
     # else print OK message
     - run: |
         t="dependency count OK" && \
-        a="Lists ${depsCount} dependencies, limit is: ${MAX_DEPS}" \
-        b="Lists ${ddepsCount} devDependencies, limit is: ${MAX_DDEPS}" \
+        a="Has ${depsCount} dependencies, limit: ${MAX_DEPS}" \
+        b="Has ${ddepsCount} devDependencies, limit: ${MAX_DDEPS}" \
 
         echo "::notice title=${t}::${a}." && echo "::notice title=${t}::${b}."
 
