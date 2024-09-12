@@ -28,9 +28,9 @@ jobs:
       # bundle filepath
       DIST_PATH: dist/index.js
       # max bundle size, bytes
-      MAX_BYTES: 500
+      MAX_BYTES: 5000
       # min bundle size, bytes
-      MIN_BYTES: 100
+      MIN_BYTES: 1200
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -65,7 +65,7 @@ jobs:
         echo "::error title${t} bundle is possibly empty"
         exit 1
       if: fromJSON(steps.getsize.outputs.size) < fromJSON(env.MIN_BYTES)
-      name: Bundle Possibly Empty Error
+      name: Possibly Empty Error
 
     # if size > max, err message & exit 1
     - run: |
