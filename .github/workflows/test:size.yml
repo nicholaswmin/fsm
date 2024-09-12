@@ -31,11 +31,9 @@ jobs:
         --mode production
         --output-library-type module
         --experiments-output-module
-    # gzip it
+      name: Bundle and minify module
     - run: gzip dist/main.mjs
-    # get gzip size and compare > BYTE_LIMIT
-    #   - if no, print info message and exit 0
-    #   - if yes, print err message and exit 1
+      name: Gzip minified bundle
     - run: |
         size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]');
         echo "::notice title=size:: file size is: ${size} bytes";
@@ -43,7 +41,9 @@ jobs:
         echo "::notice title=size ok::size within ${BYTE_LIMIT} bytes limit" ||
         (echo "::error title=too big::size exceeds ${BYTE_LIMIT} bytes limit" 
         >&2 && exit 1);
+      name: Compare gzipped file size with limit
       env:
         BYTE_LIMIT: 999
     # cleanup
     - run: npm r -D webpack-cli; rm -rf dist/
+      name: Remove dependencies and dist/ files
