@@ -1,0 +1,80 @@
+# Tests for package dependencies
+# 
+# Shows error message, & exit 1 if a limit of 
+# dependencies or devDependencies is exceeded
+
+name: test:deps
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  check:
+    name: dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        node-version: [latest]
+    env:
+      # Settings
+      # max dependencies
+      MAX__DEPS: 0
+      # max dev dependencies
+      MAX_D_DEPS: 0
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - run: npm ci
+
+    # output count of dependencies & devDependencies
+    # as 'deps_count' and 'ddeps_count' on both `output` and `env`
+    # 
+    # computed by counting the number of `:` occurrences
+    # in their respective package.json fields
+    - run: | 
+        deps_count=$(npm pkg get dependencies | tr -cd ':' | wc -c | xargs;) 
+        ddeps_count=$(npm pkg get devDependences | tr -cd ':' | wc -c | xargs;) 
+
+        "deps_count=${deps_count}" >> "$GITHUB_OUTPUT" &&
+        "ddeps_count=${ddeps_count}" >> "$GITHUB_OUTPUT" &&
+
+        "deps_count=${deps_count}" >> "$GITHUB_ENV" &&
+        "ddeps_count=${ddeps_count}" >> "$GITHUB_ENV"
+      name: get dependencies and devDependencies count
+      id: packageJSON
+
+    # if deps_count < MAX_DEPS, err message & exit 1
+    - run: |
+        t="too many dependencies" && \
+        e="Lists ${deps_count} dependencies, max limit is: ${MAX_DEPS}." && \
+        echo "::error title=${t}::${e}." && exit 1
+
+      if: fromJSON(steps.packageJSON.outputs.deps_count) > 0
+      name: Too Many Dependencies Error
+
+    # if ddeps_count < MAX_D_DEPS, err message & exit 1
+    - run: |
+        t="too many devDependencies" && \
+        e="Lists ${ddeps_count} dependencies, limit is: ${MAX_D_DEPS}" \
+
+        echo "::error title=${t}::${e}." && exit 1
+      if: fromJSON(steps.packageJSON.outputs.ddeps_count) > 0
+      name: Too Many devDependencies Error
+
+    # else print OK message
+    - run: |
+        t="dependency count OK" && \
+        e="Lists ${deps_count} dependencies, limit is: ${MAX_DEPS}" \
+        e="Lists ${ddeps_count} devDependencies, limit is: ${MAX_D_DEPS}" \
+
+        echo "::notice title=${t}::${e2}." && echo "::notice title=${t}::${e1}."
+      name: Dependency Count OK
