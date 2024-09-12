@@ -28,7 +28,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm i -g ncc
+    - run: npm i -g @vercel/ncc
     - run: ncc build "$ENTRY_PATH" -o dist -m
       name: Bundle & minify module
     - run: gzip "$OUTPUT_PATH"
