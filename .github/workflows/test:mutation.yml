@@ -20,8 +20,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
+
     - run: npx -y @stryker-mutator/core run --reporters dots,clear-text
-      name: Run Stryker mutation tester with defaults
+      name: Run Stryker mutation testing
       env:
         NODE_ENV: test

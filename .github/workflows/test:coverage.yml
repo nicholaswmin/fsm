@@ -24,11 +24,14 @@ jobs:
         cache: 'npm'
 
     - run: npm ci
+
     - run: node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info test/**/*.test.js
-      name: Create LCOV file with Node Test Runner
+      name: Run tests with Node Test Runner, output LCOV file
       env:
         NODE_ENV: test
+
     - run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz
       name: Download Coveralls Universal Reporter 
+
     - run: ./coveralls report lcov.info
-      name: Use Universal Reporter to upload LCOV to Coveralls
+      name: Upload LCOV to Coveralls using Universal Reporter

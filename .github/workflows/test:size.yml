@@ -1,8 +1,8 @@
-# Tests ESM module filesize 
+# Tests if an ESM module filesize has gotten too big
 # 
 # - Shows error message and exits 1 if bundled module is above a set limit
 # - Bundles, minifies and gzips the module before testing for size.
-# = Used to keep an ESM module size in-check
+# - Settings as `.env`, found below.
 
 name: test:size
 
@@ -34,22 +34,24 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
+
     - run: npm i -g @vercel/ncc
-      name: Install bundler (ncc)
+      name: Install @vercel/ncc bundler
 
     - run: ncc build "$ENTRY_PATH" -o dist -m
       name: Bundle & minify module
 
     - run: gzip "$DIST_PATH"
-      name: GZIP bundle
+      name: Compress bundle
 
     # output bundle size in bytes, as 'size'
     - run: | 
         size=$(wc -c < $DIST_PATH.gz | xargs);
         echo "size=$size" >> "$GITHUB_OUTPUT";
         echo "size=$size" >> "$GITHUB_ENV";
-      name: Get GZIP size in bytes
+      name: Get compressed size, in bytes
       id: getsize
 
     # if size > limit, err message & exit 1
