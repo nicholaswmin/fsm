@@ -45,7 +45,7 @@ jobs:
     - run: |
         echo "::error title=too big::exceeds limit of ${LIMIT_BYTES} bytes" 
         >&2 && exit 1
-      if: steps.getsize.outputs.size > ${LIMIT_BYTES}
+      if: steps.getsize.outputs.size > ${{ LIMIT_BYTES }}
     - run: |
         echo "::notice title=is ok::within limit of: ${LIMIT_BYTES} bytes"
-      if: steps.getsize.outputs.size <= ${LIMIT_BYTES}
+      if: steps.getsize.outputs.size <= ${{ LIMIT_BYTES }}
