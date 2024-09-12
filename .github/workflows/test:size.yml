@@ -1,3 +1,5 @@
+# Tests if filesize of module exceeds a limit
+# - Bundles, minifies and gzips the module before testing.
 name: test:size
 
 on:
@@ -22,11 +24,18 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm i -D webpack-cli
-    # bundle/minify src/index.js 
-    - run: npx webpack --mode production --output-library-type module --experiments-output-module
+    # bundle & minify using webpack. 
+    # entry point implicitly assumed: src/index.js
+    - run: |
+        npx webpack 
+          --mode production 
+          --output-library-type module 
+          --experiments-output-module
     # gzip it
     - run: gzip dist/main.mjs
-    # get gzip size, compare > BYTE_LIMIT, print message, exit 1 if yes
+    # get gzip size and compare > BYTE_LIMIT
+    #   - if no, print info message and exit 0
+    #   - if yes, print err message and exit 1
     - run: |
         size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]');
         test "$size" -lt "$BYTE_LIMIT" &&
