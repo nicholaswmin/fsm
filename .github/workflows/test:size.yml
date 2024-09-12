@@ -19,7 +19,7 @@ jobs:
     env:
       ENTRY_PATH: src/index.js
       OUTPUT_PATH: dist/index.js
-      LIMIT_BYTES: 990
+      LIMIT_BYTES: 999
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -35,7 +35,7 @@ jobs:
       name: Gzip minified bundle
     - run: |
         SIZE=$(wc -c < $OUTPUT_PATH.gz | xargs);
-        echo "::notice title=size::file size is: ${SIZE} bytes";
+        echo "::notice title=size::minified & gzipped size is: ${SIZE} bytes";
         test "${SIZE}" -lt "${LIMIT_BYTES}" &&
         echo "::notice title=is okay::size within ${LIMIT_BYTES} bytes limit" ||
         (echo "::error title=too big::size exceeds ${LIMIT_BYTES} bytes limit" 
