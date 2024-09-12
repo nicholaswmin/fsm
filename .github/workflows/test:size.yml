@@ -27,7 +27,7 @@ jobs:
     # gzip it
     - run: gzip dist/main.mjs
     # get gzip size, compare > BYTE_LIMIT, print message, exit 1 if yes
-    - run: > 
+    - run: |
         size=$(wc -c < dist/main.mjs.gz | tr -d '[:space:]'); \ 
         test "$size" -lt "$BYTE_LIMIT" && \
         echo "size ${size} bytes within ${BYTE_LIMIT} bytes limit" || \ 
