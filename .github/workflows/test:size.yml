@@ -38,13 +38,13 @@ jobs:
       name: Gzip minified bundle
       # get compressed bundle size in bytes 
     - run: echo SIZE=$(wc -c < $DIST_PATH.gz | xargs) >> "$GITHUB_ENV"
-      name: Get compressed size in bytes
-      # print bundle size
-      # test size < limit, if above, print error message & exit 1
+      name: Get compressed size
+    - run: echo "::notice title=size::minified & gzipped size is ${SIZE} bytes";
+      name: Print compressed size
     - run: |
-        echo "::notice title=size::minified & gzipped size is: ${SIZE} bytes" 
-        && test "${SIZE}" -lt "${LIMIT_BYTES}"
-        && echo "::notice title=is ok::within limit of: ${LIMIT_BYTES} bytes" 
-        || (echo "::error title=too big::exceeds limit of: ${LIMIT_BYTES} bytes" 
-          >&2 && exit 1);
-      name: Compare gzipped file size
+        echo "::error title=too big::exceeds limit of ${LIMIT_BYTES} bytes" 
+        >&2 && exit 1
+      if: size > ${LIMIT_BYTES}
+    - run: |
+        echo "::notice title=is ok::within limit of: ${LIMIT_BYTES} bytes"
+      if: size <= ${LIMIT_BYTES}
