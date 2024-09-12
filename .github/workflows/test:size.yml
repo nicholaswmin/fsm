@@ -20,7 +20,7 @@ jobs:
       # Settings
       ENTRY_PATH: src/index.js
       DIST_PATH: dist/index.js
-      LIMIT_BYTES: 999
+      LIMIT_B: 999
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -46,14 +46,14 @@ jobs:
       name: Print compressed size
       # if size > limit, print error message
     - run: |
-        echo "::error title=error::${SIZE} bytes > ${LIMIT_BYTES} bytes limit"
-      if: steps.getsize.outputs.size > env.LIMIT_BYTES
+        echo "::error title=size too big::${SIZE} bytes > ${LIMIT_B} bytes"
+      if: steps.getsize.outputs.size > env.LIMIT_B
       name: Print Limit Exceeded Error
       # if size > limit, exit 1
     - run: exit 1
-      if: steps.getsize.outputs.size > env.LIMIT_BYTES
+      if: steps.getsize.outputs.size > env.LIMIT_B
       name: Exit 1
       # if size <= limit, print sucess message
-    - run: echo "::notice title=ok::${SIZE} bytes <= ${LIMIT_BYTES} bytes limit"
-      if: steps.getsize.outputs.size <= env.LIMIT_BYTES
+    - run: echo "::notice title=size ok::${SIZE} bytes <= ${LIMIT_B} bytes"
+      if: steps.getsize.outputs.size <= env.LIMIT_B
       name: Print Success Message
