@@ -21,9 +21,9 @@ jobs:
         node-version: [latest]
     env:
       # Settings
-      # max dependencies
+      # dependencies
       MAX__DEPS: 0
-      # max dev dependencies
+      #devDependencies
       MAX_D_DEPS: 0
     steps:
     - uses: actions/checkout@v4
@@ -36,45 +36,46 @@ jobs:
     - run: npm ci
 
     # output count of dependencies & devDependencies
-    # as 'deps_count' and 'ddeps_count' on both `output` and `env`
+    # as 'deps_no' and 'ddeps_no' on both `output` and `env`
     # 
     # computed by counting the number of `:` occurrences
     # in their respective package.json fields
     - run: | 
-        deps_count=$(npm pkg get dependencies | tr -cd ':' | wc -c | xargs;) 
-        ddeps_count=$(npm pkg get devDependences | tr -cd ':' | wc -c | xargs;) 
+        deps_no=$(npm pkg get dependencies | tr -cd ':' | wc -c | xargs;) \
+        ddeps_no=$(npm pkg get devDependencies | tr -cd ':' | wc -c | xargs;) \
 
-        "deps_count=${deps_count}" >> "$GITHUB_OUTPUT" &&
-        "ddeps_count=${ddeps_count}" >> "$GITHUB_OUTPUT" &&
+        "deps_no=${deps_no}" >> "$GITHUB_OUTPUT" &&
+        "ddeps_no=${ddeps_no}" >> "$GITHUB_OUTPUT" &&
 
-        "deps_count=${deps_count}" >> "$GITHUB_ENV" &&
-        "ddeps_count=${ddeps_count}" >> "$GITHUB_ENV"
+        "deps_no=${deps_no}" >> "$GITHUB_ENV" &&
+        "ddeps_no=${ddeps_no}" >> "$GITHUB_ENV"
       name: get dependencies and devDependencies count
       id: packageJSON
 
-    # if deps_count < MAX_DEPS, err message & exit 1
+    # if deps_no < MAX_DEPS, err message & exit 1
     - run: |
         t="too many dependencies" && \
-        e="Lists ${deps_count} dependencies, max limit is: ${MAX_DEPS}." && \
+        e="Lists ${deps_no} dependencies, max limit is: ${MAX_DEPS}." && \
         echo "::error title=${t}::${e}." && exit 1
 
-      if: fromJSON(steps.packageJSON.outputs.deps_count) > 0
+      if: fromJSON(steps.packageJSON.outputs.deps_no) > 0
       name: Too Many Dependencies Error
 
-    # if ddeps_count < MAX_D_DEPS, err message & exit 1
+    # if ddeps_no < MAX_D_DEPS, err message & exit 1
     - run: |
         t="too many devDependencies" && \
-        e="Lists ${ddeps_count} dependencies, limit is: ${MAX_D_DEPS}" \
+        e="Lists ${ddeps_no} dependencies, limit is: ${MAX_DDEPS}" \
 
         echo "::error title=${t}::${e}." && exit 1
-      if: fromJSON(steps.packageJSON.outputs.ddeps_count) > 0
+      if: fromJSON(steps.packageJSON.outputs.ddeps_no) > 0
       name: Too Many devDependencies Error
 
     # else print OK message
     - run: |
         t="dependency count OK" && \
-        e="Lists ${deps_count} dependencies, limit is: ${MAX_DEPS}" \
-        e="Lists ${ddeps_count} devDependencies, limit is: ${MAX_D_DEPS}" \
+        a="Lists ${deps_no} dependencies, limit is: ${MAX_DEPS}" \
+        b="Lists ${ddeps_no} devDependencies, limit is: ${MAX_DDEPS}" \
 
-        echo "::notice title=${t}::${e2}." && echo "::notice title=${t}::${e1}."
+        echo "::notice title=${t}::${a}." && echo "::notice title=${t}::${b}."
+
       name: Dependency Count OK
