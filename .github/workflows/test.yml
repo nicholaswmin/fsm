@@ -22,5 +22,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: node --run test
+      name: Run unit tests
       env:
         NODE_ENV: test

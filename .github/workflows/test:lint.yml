@@ -22,3 +22,4 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npx -y eslint **/*.js --no-config-lookup
+      name: Run ESLint with defaults
