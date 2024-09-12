@@ -43,8 +43,7 @@ jobs:
     - run: | 
         depCount=$(npm pkg get dependencies | tr -cd ':' | wc -c);\
         devDepCount=$(npm pkg get dependencies | tr -cd ':' | wc -c);\
-        echo "depCount=$depCount" >> "$GITHUB_OUTPUT";\
-        echo "devDepCount=$devDepCount" >> "$GITHUB_OUTPUT"
+        echo "depCount=$depCount" >> "$GITHUB_OUTPUT";
 
       name: get dependencies and devDependencies count
       id: packageJSON
