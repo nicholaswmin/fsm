@@ -1,6 +1,6 @@
 # Tests ESM module filesize 
-# - Fails if they become too big
-# - Bundles, minifies and gzips the module before testing.
+# - Exits 1 if above a set limit, in bytes.
+# - Bundles, minifies and gzips the module before testing for size.
 name: test:size
 
 on:
@@ -17,6 +17,7 @@ jobs:
       matrix:
         node-version: [latest]
     env:
+      # Settings
       ENTRY_PATH: src/index.js
       OUTPUT_PATH: dist/index.js
       LIMIT_BYTES: 999
@@ -29,17 +30,21 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm i -g @vercel/ncc
+      # bundle and minify module
     - run: ncc build "$ENTRY_PATH" -o dist -m
       name: Bundle & minify module
+      # compress bundle
     - run: gzip "$OUTPUT_PATH"
       name: Gzip minified bundle
+      # get compressed bundle size in bytes 
+    - run: echo SIZE=$(wc -c < $OUTPUT_PATH.gz | xargs); >> "$GITHUB_ENV"
+      name: Get compressed size in bytes
+      # print bundle size
+      # test size < limit, if above, print error message & exit 1
     - run: |
-        SIZE=$(wc -c < $OUTPUT_PATH.gz | xargs);
-        echo "::notice title=size::minified & gzipped size is: ${SIZE} bytes";
-        test "${SIZE}" -lt "${LIMIT_BYTES}" &&
-        echo "::notice title=is okay::size within ${LIMIT_BYTES} bytes limit" ||
-        (echo "::error title=too big::size exceeds ${LIMIT_BYTES} bytes limit" 
-        >&2 && exit 1);
+        && echo "::notice title=size::minified & gzipped size is: ${SIZE} bytes" 
+        && test "${SIZE}" -lt "${LIMIT_BYTES}"
+        && echo "::notice title=is ok::within limit of: ${LIMIT_BYTES} bytes" 
+        || (echo "::error title=too big::exceeds limit of: ${LIMIT_BYTES} bytes" 
+          >&2 && exit 1);
       name: Compare gzipped file size
-    # cleanup
-    - run: npm r -g ncc; rm -rf dist/
