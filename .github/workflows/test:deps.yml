@@ -71,10 +71,11 @@ jobs:
 
     # else print OK message
     - run: |
-        t="dependency count OK" && \
+        ta="dependencies count OK" && \
+        tb="devDependencies count OK" && \
         a="Has ${depsCount} dependencies, limit: ${MAX_DEPS}" \
         b="Has ${ddepsCount} devDependencies, limit: ${MAX_DDEPS}" \
 
-        echo "::notice title=${t}::${a}." && echo "::notice title=${t}::${b}."
+        echo "::notice title=${ta}::${a}." && echo "::notice title=${tb}::${b}."
 
       name: Dependency Count OK
