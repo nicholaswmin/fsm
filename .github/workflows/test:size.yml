@@ -41,7 +41,7 @@ jobs:
       name: Get compressed size
       id: getsize
       # print size
-    - run: echo "::notice title=size::minified & gzipped size is ${SIZE} bytes";
+    - run: echo "::notice title=size::minified & gzipped size is ${SIZE} bytes"
       name: Print compressed size
       # if size > limit, print error message, exit 1
     - run: |
