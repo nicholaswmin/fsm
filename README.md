@@ -49,7 +49,10 @@ The above FSM has the following rules:
 - If `state:closed` & `transition:coin` is triggered, set `state:opened`
 - If `state:opened` & `transition:push` is triggered, set `state:closed`
 
-The initial state is set as the 1st `state` row.  
+The initial state is set as the 1st row from `states`.
+
+> formally called a [state-transition table][stt],  
+> but that's too long, so we'll call it `states` in these docs.
 
 ## Transition methods
 
@@ -87,14 +90,13 @@ turnstile.coin().push()
 
 ### Invalid transitions
 
-Attempting to trigger a transition not listed under the current state:
+Triggering a transition that's not listed under the current state:
 
 - returns `false`
-= the state does not change  
+- the state does not change  
 - no hook methods are run
 
-> example: current `state:closed` only lists the `coin` transition.  
-> attempting any other transition, i.e `push`, is invalid.
+> example: current `state:closed` only lists/allows a `coin` transition.  
 
 ```js
 const turnstile = new FSM({
@@ -107,16 +109,19 @@ console.log('returned:', turnstile.push())
 // state: 'closed'
 ```
 
-The invalid behavior can be overriden,
-by reassigning `static FSM.onInvalid`, like so:
+### Configuring behaviour
+
+The invalid behavior can be configured, 
+by reassigning `static FSM.onInvalid` to a new `Function`, like so:
+
+> example: conditionally `throw new Error` instead of `return false` 
 
 ```js
-FSM.onInvalid = arg => {
+FSM.onInvalid = function() {
   if (arg === 'foo')
-    throw new Error('not allowed')
+    throw new Error('its broken, mate')
 
-  if (arg === 'bar')
-    throw new Error('its broken mate')
+  throw new Error('not allowed')
 }
 
 const turnstile = new FSM({
@@ -124,14 +129,14 @@ const turnstile = new FSM({
   opened: { push: 'closed' }
 })
 
-turnstile.push('foo')
+turnstile.push()
 // Error: not allowed
 
-turnstile.push('bar')
+turnstile.push('foo')
 // Error: its broken mate
 ```
 
-> note: `FSM.onInvalid` must be set *before* creating an instance.    
+> note: `static FSM.onInvalid` must be configured *before* creating an instance.    
 > It does not retroactively alter the behavior of existing instances.
 
 ## Hooks
@@ -376,10 +381,11 @@ node --run test
 ### Footnotes 
 
 [^1]: There are variants of state machines which can have multiple states, 
-      i.e the [*Non-deterministic finite automaton*][ndfsm], where "automaton"
-      is just a fancy term from automata theory for "automatic machine".    
+      i.e the [*Non-deterministic finite automaton*][ndfsm].  
       This documentation describes a specific type of state machine, the 
-      [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.
+      [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.  
+      "automaton" is just the fancy  academic term from automata theory 
+      meaning "automatic machine". 
 
 [^2]: Just a fancy term for: "takes an infinite number of arguments".   
       Also called function of "n-arity" where "arity" = number of arguments.   
