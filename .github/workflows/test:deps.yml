@@ -52,7 +52,7 @@ jobs:
 
     - run: |
         [[ $dNum -lt $MAX_DEPS ]] && ps="OK" || ps="ERR"\
-        [[ $ddNum -lt $MAX_DEV_DEPS ]] && ps="OK" || ds="ERR"\
+        [[ $ddNum -lt $MAX_DEV_DEPS ]] && ds="OK" || ds="ERR"\
         [[ $ps = "ok" && $ds = "ok"]] && title="👌 OK" || title="⚠️ ERR"\
 
         pl="$MAX_DEPS"
