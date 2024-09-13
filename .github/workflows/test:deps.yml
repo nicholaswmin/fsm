@@ -34,49 +34,38 @@ jobs:
 
     - run: npm ci
 
-    # output count of dependencies & devDependencies
-    # computed by counting the number of `:` occurrences
+    # get count of dependencies & devDependencies, 
+    # computed by counting the number of `:` occurrences in
+    # their package.json fields
     - run: | 
         deps=$(npm pkg get dependencies);
-        depsCount=$(echo "$deps" | tr -cd ':' | wc -c);
-        echo "depsCount=$depsCount" >> "$GITHUB_OUTPUT";
-        echo "depsCount=$depsCount" >> "$GITHUB_ENV";
+        dNum=$(echo "$deps" | tr -cd ':' | wc -c);
+        echo "dNum=$dNum" >> "$GITHUB_OUTPUT";
+        echo "dNum=$dNum" >> "$GITHUB_ENV";
         
         ddeps=$(npm pkg get devDependencies);
-        ddepsCount=$(echo "$ddeps" | tr -cd ':' | wc -c);
-        echo "ddepsCount=$ddepsCount" >> "$GITHUB_OUTPUT";
-        echo "ddepsCount=$ddepsCount" >> "$GITHUB_ENV";
+        ddNum=$(echo "$ddeps" | tr -cd ':' | wc -c);
+        echo "ddNum=$ddNum" >> "$GITHUB_OUTPUT";
+        echo "ddNum=$ddNum" >> "$GITHUB_ENV";
       name: get dependencies and devDependencies count
       id: package
 
-    # check runtime dependencies
     - run: |
-        ta="too many dependencies" && \
-        tb="dependencies" && \
-        e="Lists ${depsCount} dependencies. Max limit: ${MAX_DEPS}." && \
-        echo "::error title=${ta}::${e}." && \
-        echo "::error title=${tb}::${{ steps.package.outputs.deps }}" && \
+        echo "### Too Many Dependencies" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- Lists {dNum} dependencies. Limit: >> $GITHUB_STEP_SUMMARY;
+        echo "- Lists {ddNum} devDependencies. Limit: >> $GITHUB_STEP_SUMMARY;
+        echo "::error title=deps error"::dependencies limit exceeded"
         exit 1
-
-      if: fromJSON(steps.package.outputs.depsCount) > fromJSON(env.MAX_DEPS)
-      name: Too Many Dependencies Error
-
-    # check devDependencies
-    - run: |
-        t="too many devDependencies" && \
-        e="Lists ${ddepsCount} devDependencies. Max limit: ${MAX_DDEPS}." && \
-        echo "::error title=${t}::${e}." && exit 1
-
-      if: fromJSON(steps.package.outputs.ddepsCount) > fromJSON(env.MAX_DDEPS)
-      name: Too Many devDependencies Error
+      if: fromJSON(steps.package.outputs.dNum) > fromJSON(env.MAX_DEPS)
+      name: Error Message
 
     # else print OK message
     - run: |
-        ta="dependencies count OK" && \
-        tb="devDependencies count OK" && \
-        a="Lists ${depsCount} dependencies, limit: ${MAX_DEPS}" \
-        b="Lists ${ddepsCount} devDependencies, limit: ${MAX_DDEPS}" \
+        echo "### Dependencies OK" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- Lists {dNum} dependencies. Limit: >> $GITHUB_STEP_SUMMARY;
+        echo "- Lists {ddNum} devDependencies. Limit: >> $GITHUB_STEP_SUMMARY;
 
-        echo "::notice title=${ta}::${a}." && echo "::notice title=${tb}::${b}."
-
-      name: Dependency Count OK
+        echo "::notice title=deps OK"::dependencies are within range"
+      name: Success Message
