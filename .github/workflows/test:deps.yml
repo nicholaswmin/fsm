@@ -62,7 +62,7 @@ jobs:
         s_text=$([[ "$ok" = y ]] && echo "✅ OK" || echo "❌ over limit");
 
         echo "## Dependencies" >> $O;
-        echo "> status: $s_text" >> $O;
+        echo "> $s_text" >> $O;
         echo "" >> $OS;
         echo "|                   | current    | allowed | status   |" >> $O;
         echo "| ------------------| ---------- | ------- | -------  |" >> $O;
