@@ -60,6 +60,7 @@ jobs:
 
         ps=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "❌");
         ds=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌");
+        ti=$([[ "$ps" = "ok" && "$ds" = "ok" ]] && echo "$tok" || echo "$ter");
 
         echo "### $ti" >> $MD;
         echo "" >> $MD;
