@@ -53,7 +53,7 @@ jobs:
     - run: |
         ps=$([ "$dNum"  -lt "$MAX_DEPS" ]     && echo "✅" || echo "❌");
         ds=$([ "$ddNum" -lt "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌");
-        ti=$([ "$ps" = "ok" && "$ds" = "ok" ] && echo "✅" || echo "❌");
+        ti=$([[ "$ps" = "ok" && "$ds" = "ok" ]] && echo "✅" || echo "❌");
         pl="$MAX_DEPS";
         dl="$MAX_DEV_DEPS";
         
