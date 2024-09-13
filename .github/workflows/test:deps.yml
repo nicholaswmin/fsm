@@ -44,9 +44,9 @@ jobs:
         echo "dep=$dep" >> "$GITHUB_ENV";
         
         depDevField=$(npm pkg get devDependencies);
-        devDeps=$(echo "$depDevField" | tr -cd ':' | wc -c);
-        echo "devDeps=$devDeps" >> "$GITHUB_OUTPUT";
-        echo "devDeps=$devDeps" >> "$GITHUB_ENV";
+        devDep=$(echo "$depDevField" | tr -cd ':' | wc -c);
+        echo "devDep=$devDep" >> "$GITHUB_OUTPUT";
+        echo "devDep=$devDep" >> "$GITHUB_ENV";
       name: Compute dependency counts
       id: package
 
