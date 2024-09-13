@@ -51,13 +51,9 @@ jobs:
       id: package
 
     - run: |
-        [[ $dnum -lt 5 ]] && a="$c" || a="$d"
-
-        title="⚠️ Too many dependencies"
-        ps="OK"
-        ds="ERR"
-        pl="$MAX_DEPS"
-        dl="$MAX_DEV_DEPS"
+        [[ "$dNum" -lt "$MAX_DEPS" ]] && ps="OK" || ps="ERR"
+        [[ "$ddNum" -lt "$MAX_DEV_DEPS" ]] && ps="OK" || ds="ERR"
+        [[ "$ps" = "ok" && "$ds" = "ok"]] && title="👌 OK" || title="⚠️ ERR"
 
         echo "### $title" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
