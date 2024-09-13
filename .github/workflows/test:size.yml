@@ -1,9 +1,8 @@
-# Tests if an ESM module filesize has gotten too big
-# 
-# - Shows error message and exits 1 if bundled module is above a set limit
-# - Detects possibly empty bundles, shows error, exits 1 as well
-# - Bundles, minifies and gzips the module before testing its size.
-# - Configure via its `.env`, found below.
+# Tests if an ESM module filesize exceeds a limit,
+# after bundling, min. and gzip.
+#
+# If <= limit, outputs a notice of current size
+# If  > limit, outputs an error and exits: 1
 
 name: test:size
 

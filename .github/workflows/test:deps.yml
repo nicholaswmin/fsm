@@ -1,7 +1,6 @@
-# Tests for package dependencies
-# 
-# Shows error message, & exit 1 if a limit of 
-# dependencies or devDependencies is exceeded
+# Tests if package dependencies exceed a limit
+# If <= limit, outputs a notice of current counts
+# If  > limit, outputs an error and exits: 1
 
 name: test:deps
 
