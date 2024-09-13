@@ -21,9 +21,9 @@ jobs:
     env:
       # Settings
       # dependencies
-      MAX_DEPS: 0
+      MAX_DEP: 0
       #devDependencies
-      MAX_DEV_DEPS: 0
+      MAX_DEVDEP: 0
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -53,10 +53,11 @@ jobs:
     - run: |  
         O=$GITHUB_STEP_SUMMARY
         MD="$MAX_DEP";
-        MDD="$MAX_DEV_DEP";
+        MDD="$MAX_DEVDEP";
 
-        dep_s=$([ "$dep"  -le "$MAX_DEP" ]     && echo "✅" || echo "⚠️");
-        devDep_s=$([ "$devDep" -le "$MAX_DEVDEP" ] && echo "✅" || echo "⚠️");
+        dep_s=$([ "$dep"  -le "$MD" ]       && echo "✅" || echo "⚠️");
+        devDep_s=$([ "$devDep" -le "$MDD" ] && echo "✅" || echo "⚠️");
+
         ok=$([[ "$dep_s" = "✅" && "$devDep_s" = "✅" ]] && echo y || echo n);
         s_text=$([[ "$ok" = y ]] && echo "✅ OK" || echo "❌ over limit");
 
