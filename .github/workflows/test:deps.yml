@@ -58,8 +58,8 @@ jobs:
         pl="$MAX_DEPS";
         dl="$MAX_DEV_DEPS";
 
-        ps=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "❌");
-        ds=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌");
+        ps=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "⚠️");
+        ds=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "⚠️");
         ti=$([[ "$ps" = "ok" && "$ds" = "ok" ]] && echo "$tok" || echo "$ter");
 
         echo "### $ti" >> $MD;
@@ -70,4 +70,7 @@ jobs:
         echo "| \`devDependencies\`| \`$ddNum\`| \`$dl\` | $ds    |" >> $MD;
         echo "" >> $MD;
         echo "> consider using \`$ npx <cmd>\` for some packages?" >> $MD;
+        
+        [[ "$ps" != "ok" || "$ds" != "ok" ]] { echo >&2 "over limit"; exit 1; }
+
       name: Output Message
