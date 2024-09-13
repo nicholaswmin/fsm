@@ -54,10 +54,8 @@ jobs:
         ps=$([ "$dNum"  -lt "$MAX_DEPS" ]     && echo "✅" || echo "❌")\
         ds=$([ "$ddNum" -lt "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌")\
         ti=$([ "$ps" = "ok" && "$ds" = "ok" ] && echo "✅" || echo "❌")\
-
-        pl="$MAX_DEPS"
-        dl="$MAX_DEV_DEPS"
-
+        pl="$MAX_DEPS"\
+        dl="$MAX_DEV_DEPS"\
         echo "### $title" >> $GITHUB_STEP_SUMMARY;\
         echo "" >> $GITHUB_STEP_SUMMARY;\
         echo "|                      | current      | max       | status |"\
