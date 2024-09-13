@@ -51,10 +51,10 @@ jobs:
       id: package
 
     - run: |
-        echo "### Too Many Dependencies" >> $GITHUB_STEP_SUMMARY
+        echo "### ⚠️ Too many dependencies" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "- Lists {dNum} dependencies. Limit: >> $GITHUB_STEP_SUMMARY;
-        echo "- Lists {ddNum} devDependencies. Limit: >> $GITHUB_STEP_SUMMARY;
+        echo "- Lists `$dNum` dependencies. Limit: >> `$GITHUB_STEP_SUMMARY`;
+        echo "- Lists `$dNum` devDependencies. Limit: >> `$GITHUB_STEP_SUMMARY`;
         echo "::error title=deps error"::dependencies limit exceeded"
         exit 1
       if: fromJSON(steps.package.outputs.dNum) > fromJSON(env.MAX_DEPS)
