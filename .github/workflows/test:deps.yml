@@ -51,19 +51,22 @@ jobs:
       id: package
 
     - run: |  
-        GHS=$GITHUB_STEP_SUMMARY
-        ps=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "❌");
-        ds=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌");
-        ti=$([[ "$ps" = "ok" && "$ds" = "ok" ]] && echo "✅" || echo "❌");
+        MD=$GITHUB_STEP_SUMMARY
+
+        tok="✅ Dependencies OK";
+        ter="❌ Dependencies over limit";
         pl="$MAX_DEPS";
         dl="$MAX_DEV_DEPS";
-        
-        echo "$ps,$ds,$ti,$pl,$dl";
-        
-        echo "### $ti" >> $GITHUB_STEP_SUMMARY;
-        echo "" >> $GITHUB_STEP_SUMMARY;
-        echo "|                     | current    | max     | status |" >> $GHS;
-        echo "| ------------------- | ---------- | ------- | ------ |" >> $GHS;
-        echo "| \`dependencies\`    | \`$dNum\`  | \`$pl\` | $ps    |" >> $GHS;
-        echo "| \`devDependencies\` | \`$ddNum\` | \`$dl\` | $ds    |" >> $GHS;
+
+        ps=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "❌");
+        ds=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌");
+
+        echo "### $ti" >> $MD;
+        echo "" >> $MD;
+        echo "|                    | current   | max     | status |" >> $MD;
+        echo "| -------------------| --------- | ------- | ------ |" >> $MD;
+        echo "| \`dependencies\`   | \`$dNum\` | \`$pl\` | $ps    |" >> $MD;
+        echo "| \`devDependencies\`| \`$ddNum\`| \`$dl\` | $ds    |" >> $MD;
+        echo "" >> $MD;
+        echo "> consider using \`$ npx <cmd>\` for some packages?" >> $MD;
       name: Output Message
