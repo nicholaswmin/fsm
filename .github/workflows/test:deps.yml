@@ -51,23 +51,22 @@ jobs:
       id: package
 
     - run: |  
-        O=$GITHUB_STEP_SUMMARY
+        GHS=$GITHUB_STEP_SUMMARY
         MD="$MAX_DEP";
         MDD="$MAX_DEVDEP";
 
         dep_s=$([ "$dep"  -le "$MD" ]       && echo "✅" || echo "⚠️");
         devDep_s=$([ "$devDep" -le "$MDD" ] && echo "✅" || echo "⚠️");
-
         ok=$([[ "$dep_s" = "✅" && "$devDep_s" = "✅" ]] && echo y || echo n);
         s_text=$([[ "$ok" = y ]] && echo "✅ OK" || echo "❌ over limit");
 
-        echo "## Dependencies" >> $O;
-        echo "> $s_text" >> $O;
-        echo "" >> $OS;
-        echo "|                   | current    | allowed | status   |" >> $O;
-        echo "| ------------------| ---------- | ------- | -------  |" >> $O;
-        echo "|\`dependencies\`   |\`$dep\`   | \`$MD\` | $dep_s    |" >> $O;
-        echo "|\`devDependencies\`|\`$devDep\`| \`$MDD\`| $devDep_s |" >> $O;
+        echo "## Dependencies" >> $GHS;
+        echo "> $s_text" >> $GHS;
+        echo "" >> $GHS;
+        echo "|                   | current    | allowed | status   |" >> $GHS;
+        echo "| ------------------| ---------- | ------- | -------  |" >> $GHS;
+        echo "|\`dependencies\`   |\`$dep\`   | \`$MD\` | $dep_s    |" >> $GHS;
+        echo "|\`devDependencies\`|\`$devDep\`| \`$MDD\`| $devDep_s |" >> $GHS;
         echo "" >> $GHS;
         
         if [[ "$ok" = y ]]; then
