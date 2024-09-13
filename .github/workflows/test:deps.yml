@@ -51,28 +51,29 @@ jobs:
       id: package
 
     - run: |  
-        MD=$GITHUB_STEP_SUMMARY
+        GHS=$GITHUB_STEP_SUMMARY
 
         tok="✅ Dependencies OK";
         ter="❌ Dependencies over limit";
-        pl="$MAX_DEPS";
-        dl="$MAX_DEV_DEPS";
+        md="$MAX_DEPS";
+        mdd="$MAX_DEV_DEPS";
 
-        ps=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "⚠️");
-        ds=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "⚠️");
-        ti=$([[ "$ps" = "ok" && "$ds" = "ok" ]] && echo "$tok" || echo "$ter");
+        md_st=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "⚠️");
+        mdd_st=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "⚠️");
+        ok=$([[ "$md_s" = "✅" && "$mdd_s" = "✅" ]] && echo "y" || echo "n");
+        statustext=$([[ "$ok" = "y" ]] && echo "✅ OK" || echo "❌ over limit");
 
-        echo "### $ti" >> $MD;
-        echo "" >> $MD;
-        echo "|                    | current   | max     | status |" >> $MD;
-        echo "| -------------------| --------- | ------- | ------ |" >> $MD;
-        echo "| \`dependencies\`   | \`$dNum\` | \`$pl\` | $ps    |" >> $MD;
-        echo "| \`devDependencies\`| \`$ddNum\`| \`$dl\` | $ds    |" >> $MD;
-        echo "" >> $MD;
-        echo "> consider using \`$ npx <cmd>\` for some packages?" >> $MD;
+        echo "### Dependencies" >> $GHS;
+        echo "### $statustext" >> $GHS;
+        echo "" >> $GHS;
+        echo "|                    | current   | allowed | status  |" >> $GHS;
+        echo "| ------------------ | --------- | ------- | ------- |" >> $GHS;
+        echo "| \`dependencies\`   | \`$dNum\` | \`$md\` | $md_st  |" >> $GHS;
+        echo "| \`devDependencies\`| \`$ddNum\`| \`$mdd\`| $mdd_st |" >> $GHS;
+        echo "" >> $GHS;
         
-        if [[ "$ps" != "✅" || "$ds" != "✅" ]]; then
-          echo >&2 "over limit"; exit 1;
+        if [[ "$ok" = "y" ]]; then
+          echo >&2 "dependencies over limit, exiting 1"; exit 1;
         fi
 
       name: Output Message
