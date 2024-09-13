@@ -52,7 +52,7 @@ jobs:
         size=$(wc -c < $DIST_PATH.gz | xargs);
         echo "size=$size" >> "$GITHUB_OUTPUT";
         echo "size=$size" >> "$GITHUB_ENV";
-      name: Get compressed size, in bytes
+      name: Compute compressed size
       id: getsize
 
     # if size > max, err message & exit 1
