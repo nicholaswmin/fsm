@@ -57,14 +57,14 @@ jobs:
         pl="$MAX_DEPS";
         dl="$MAX_DEV_DEPS";
         
-        echo "$ps,$ds,$ti,$pl,$dl";\
+        echo "$ps,$ds,$ti,$pl,$dl";
         
-        echo "### $title" >> $GITHUB_STEP_SUMMARY;\
-        echo "" >> $GITHUB_STEP_SUMMARY;\
-        echo "|                      | current      | max       | status |"\
-        echo "| -------------------- | -----------  | --------- | ------ |"\
-        echo "| dependencies         | $dNum        | $pl       | $ps    |"\
-        echo "| devDependencies      | $ddNum       | $dl       | $ds    |"\
-        echo "::error title=deps error"::dependencies limit exceeded"\
+        echo "### $title" >> $GITHUB_STEP_SUMMARY;
+        echo "" >> $GITHUB_STEP_SUMMARY;
+        echo "|                      | current      | max       | status |";
+        echo "| -------------------- | -----------  | --------- | ------ |";
+        echo "| dependencies         | $dNum        | $pl       | $ps    |";
+        echo "| devDependencies      | $ddNum       | $dl       | $ds    |";
+        echo "::error title=deps error"::dependencies limit exceeded";
         exit 1
       name: Output Message
