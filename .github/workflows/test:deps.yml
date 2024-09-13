@@ -58,9 +58,7 @@ jobs:
         echo "::error title=${tb}::${{ steps.package.outputs.deps }}" && \
         exit 1
 
-      if: |
-        (fromJSON(steps.package.outputs.depsCount) > fromJSON(env.MAX_DEPS)) ||
-        (fromJSON(steps.package.outputs.ddepsCount) > fromJSON(env.MAX_DDEPS))
+      if: fromJSON(steps.package.outputs.depsCount) > fromJSON(env.MAX_DEPS)
       name: Too Many Dependencies Error
 
     # check devDependencies
