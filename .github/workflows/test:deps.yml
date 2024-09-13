@@ -55,6 +55,9 @@ jobs:
         [[ $ddNum -lt $MAX_DEV_DEPS ]] && ps="OK" || ds="ERR"\
         [[ $ps = "ok" && $ds = "ok"]] && title="👌 OK" || title="⚠️ ERR"\
 
+        pl="$MAX_DEPS"
+        dl="$MAX_DEV_DEPS"
+
         echo "### $title" >> $GITHUB_STEP_SUMMARY;\
         echo "" >> $GITHUB_STEP_SUMMARY;\
         echo "|                      | current      | max       | status |"\
