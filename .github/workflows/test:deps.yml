@@ -50,7 +50,8 @@ jobs:
       name: Compute dependency/devDependencies counts
       id: package
 
-    - run: |
+    - run: |  
+        GHS=$GITHUB_STEP_SUMMARY
         ps=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "❌");
         ds=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌");
         ti=$([[ "$ps" = "ok" && "$ds" = "ok" ]] && echo "✅" || echo "❌");
@@ -61,8 +62,8 @@ jobs:
         
         echo "### $ti" >> $GITHUB_STEP_SUMMARY;
         echo "" >> $GITHUB_STEP_SUMMARY;
-        echo "|                     | current      | max       | status |" >> $GITHUB_STEP_SUMMARY;
-        echo "| ------------------- | -----------  | --------- | ------ |" >> $GITHUB_STEP_SUMMARY;
-        echo "| \`dependencies\`    | $dNum        | $pl       | $ps    |" >> $GITHUB_STEP_SUMMARY;
-        echo "| \`devDependencies\` | $ddNum       | $dl       | $ds    |" >> $GITHUB_STEP_SUMMARY;
+        echo "|                     | current    | max     | status |" >> $GHS;
+        echo "| ------------------- | ---------- | ------- | ------ |" >> $GHS;
+        echo "| \`dependencies\`    | \`$dNum\`  | \`$pl\` | $ps    |" >> $GHS;
+        echo "| \`devDependencies\` | \`$ddNum\` | \`$dl\` | $ds    |" >> $GHS;
       name: Output Message
