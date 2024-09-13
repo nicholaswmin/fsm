@@ -71,6 +71,8 @@ jobs:
         echo "" >> $MD;
         echo "> consider using \`$ npx <cmd>\` for some packages?" >> $MD;
         
-        [[ "$ps" != "✅" || "$ds" != "✅" ]] { echo >&2 "over limit"; exit 1; }
+        if [[ "$ps" != "✅" || "$ds" != "✅" ]]; then
+          echo >&2 "over limit"; exit 1;
+        fi
 
       name: Output Message
