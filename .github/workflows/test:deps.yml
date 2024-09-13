@@ -23,7 +23,7 @@ jobs:
       # dependencies
       MAX_DEPS: 0
       #devDependencies
-      MAX_DDEPS: 0
+      MAX_DEV_DEPS: 0
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -51,21 +51,19 @@ jobs:
       id: package
 
     - run: |
-        echo "### ⚠️ Too many dependencies" >> $GITHUB_STEP_SUMMARY
+        title="⚠️ Too many dependencies"
+        ps="OK"
+        ds="ERR"
+        pl="$MAX_DEPS"
+        dl="$MAX_DEV_DEPS"
+
+        echo "### $title" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "- Lists $dNum `dependencies`. Limit: `$MAX_DEPS`" >> $GITHUB_STEP_SUMMARY;
-        echo "- Lists $dNum `devDependencies`. Limit: `$MAX_DEV_DEPS`" >> $GITHUB_STEP_SUMMARY;
+        echo "|                      | current    | max     | status |"
+        echo "| -------------------- | ---------  | ------- | ------ |"
+        echo "| \`dependencies\`     | \`$dNum\`  | \`$pl\` | $ps    |"
+        echo "| \`devDependencies\`  | \`$ddNum`  | \`$dl\` | $ds    |"
+
         echo "::error title=deps error"::dependencies limit exceeded"
         exit 1
-      if: fromJSON(steps.package.outputs.dNum) > fromJSON(env.MAX_DEPS)
-      name: Output Error Message
-
-    # else print OK message
-    - run: |
-        echo "### Dependencies OK" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "- Lists {dNum} dependencies. Limit: >> $GITHUB_STEP_SUMMARY;
-        echo "- Lists {ddNum} devDependencies. Limit: >> $GITHUB_STEP_SUMMARY;
-
-        echo "::notice title=deps OK"::dependencies are within range"
-      name: Oupit Success Message
+      name: Output Message
