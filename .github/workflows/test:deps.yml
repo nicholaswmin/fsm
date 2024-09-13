@@ -51,6 +51,8 @@ jobs:
       id: package
 
     - run: |
+        [[ $dnum -lt 5 ]] && a="$c" || a="$d"
+
         title="⚠️ Too many dependencies"
         ps="OK"
         ds="ERR"
@@ -62,7 +64,7 @@ jobs:
         echo "|                      | current    | max     | status |"
         echo "| -------------------- | ---------  | ------- | ------ |"
         echo "| \`dependencies\`     | \`$dNum\`  | \`$pl\` | $ps    |"
-        echo "| \`devDependencies\`  | \`$ddNum`  | \`$dl\` | $ds    |"
+        echo "| \`devDependencies\`  | \`$ddNum\` | \`$dl\` | $ds    |"
 
         echo "::error title=deps error"::dependencies limit exceeded"
         exit 1
