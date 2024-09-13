@@ -57,7 +57,7 @@ jobs:
 
         dep_s=$([ "$dep"  -le "$MD" ]       && echo "✅" || echo "⚠️");
         devDep_s=$([ "$devDep" -le "$MDD" ] && echo "✅" || echo "⚠️");
-        ok=$([[ "$dep_s" = "✅" && "$devDep_s" = "✅" ]] && echo "y";
+        ok=$([[ "$dep_s" = "✅" && "$devDep_s" = "✅" ]] && echo "y");
         s_text=$([[ "$ok" = "y" ]] && echo "✅ OK" || echo "❌ over limit");
 
         echo "## Dependencies" >> $GHS;
