@@ -51,7 +51,7 @@ jobs:
       id: package
 
     - run: |  
-        GHS="$GITHUB_STEP_SUMMARY";
+        GHS=$GITHUB_STEP_SUMMARY;
         MD="$MAX_DEP";
         MDD="$MAX_DEVDEP";
 
