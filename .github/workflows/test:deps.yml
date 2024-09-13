@@ -74,8 +74,8 @@ jobs:
     - run: |
         ta="dependencies count OK" && \
         tb="devDependencies count OK" && \
-        a="Has ${depsCount} dependencies, limit: ${MAX_DEPS}" \
-        b="Has ${ddepsCount} devDependencies, limit: ${MAX_DDEPS}" \
+        a="Lists ${depsCount} dependencies, limit: ${MAX_DEPS}" \
+        b="Lists ${ddepsCount} devDependencies, limit: ${MAX_DDEPS}" \
 
         echo "::notice title=${ta}::${a}." && echo "::notice title=${tb}::${b}."
 
