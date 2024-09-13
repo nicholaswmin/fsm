@@ -59,7 +59,7 @@ jobs:
         
         echo "$ps,$ds,$ti,$pl,$dl";
         
-        echo "### $title" >> $GITHUB_STEP_SUMMARY;
+        echo "### $ti" >> $GITHUB_STEP_SUMMARY;
         echo "" >> $GITHUB_STEP_SUMMARY;
         echo "|                      | current      | max       | status |";
         echo "| -------------------- | -----------  | --------- | ------ |";
