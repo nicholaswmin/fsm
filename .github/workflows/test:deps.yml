@@ -47,7 +47,7 @@ jobs:
         ddNum=$(echo "$ddeps" | tr -cd ':' | wc -c);
         echo "ddNum=$ddNum" >> "$GITHUB_OUTPUT";
         echo "ddNum=$ddNum" >> "$GITHUB_ENV";
-      name: get dependencies and devDependencies count
+      name: Compute dependency/devDependencies counts
       id: package
 
     - run: |
@@ -58,7 +58,7 @@ jobs:
         echo "::error title=deps error"::dependencies limit exceeded"
         exit 1
       if: fromJSON(steps.package.outputs.dNum) > fromJSON(env.MAX_DEPS)
-      name: Error Message
+      name: Output Error Message
 
     # else print OK message
     - run: |
@@ -68,4 +68,4 @@ jobs:
         echo "- Lists {ddNum} devDependencies. Limit: >> $GITHUB_STEP_SUMMARY;
 
         echo "::notice title=deps OK"::dependencies are within range"
-      name: Success Message
+      name: Oupit Success Message
