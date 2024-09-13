@@ -51,7 +51,7 @@ jobs:
       id: package
 
     - run: |
-        ps=$([ "$ddNum" -lt "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌")\
+        ps=$([ "$dNum"  -lt "$MAX_DEPS" ]     && echo "✅" || echo "❌")\
         ds=$([ "$ddNum" -lt "$MAX_DEV_DEPS" ] && echo "✅" || echo "❌")\
         ti=$([ "$ps" = "ok" && "$ds" = "ok" ] && echo "✅" || echo "❌")\
 
