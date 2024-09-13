@@ -38,38 +38,38 @@ jobs:
     # computed by counting the number of `:` occurrences in
     # their package.json fields
     - run: | 
-        deps=$(npm pkg get dependencies);
-        dNum=$(echo "$deps" | tr -cd ':' | wc -c);
-        echo "dNum=$dNum" >> "$GITHUB_OUTPUT";
-        echo "dNum=$dNum" >> "$GITHUB_ENV";
+        depField=$(npm pkg get dependencies);
+        dep=$(echo "$depField" | tr -cd ':' | wc -c);
+        echo "dep=$dep" >> "$GITHUB_OUTPUT";
+        echo "dep=$dep" >> "$GITHUB_ENV";
         
-        ddeps=$(npm pkg get devDependencies);
-        ddNum=$(echo "$ddeps" | tr -cd ':' | wc -c);
-        echo "ddNum=$ddNum" >> "$GITHUB_OUTPUT";
-        echo "ddNum=$ddNum" >> "$GITHUB_ENV";
-      name: Compute dependency/devDependencies counts
+        depDevField=$(npm pkg get devDependencies);
+        devDeps=$(echo "$depDevField" | tr -cd ':' | wc -c);
+        echo "devDeps=$devDeps" >> "$GITHUB_OUTPUT";
+        echo "devDeps=$devDeps" >> "$GITHUB_ENV";
+      name: Compute dependency counts
       id: package
 
     - run: |  
-        GHS=$GITHUB_STEP_SUMMARY
-        MD="$MAX_DEPS";
-        MDD="$MAX_DEV_DEPS";
+        O=$GITHUB_STEP_SUMMARY
+        MD="$MAX_DEP";
+        MDD="$MAX_DEV_DEP";
 
-        md_st=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "⚠️");
-        mdd_st=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "⚠️");
-        ok=$([[ "$md_s" = "✅" && "$mdd_s" = "✅" ]] && echo "y" || echo "n");
-        statustext=$([[ "$ok" = "y" ]] && echo "✅ OK" || echo "❌ over limit");
+        dep_s=$([ "$dep"  -le "$MAX_DEP" ]     && echo "✅" || echo "⚠️");
+        devDep_s=$([ "$devDep" -le "$MAX_DEVDEP" ] && echo "✅" || echo "⚠️");
+        ok=$([[ "$dep_s" = "✅" && "$devDep_s" = "✅" ]] && echo y || echo n);
+        s_text=$([[ "$ok" = y ]] && echo "✅ OK" || echo "❌ over limit");
 
-        echo "## Dependencies" >> $GHS;
-        echo "> status: $statustext" >> $GHS;
-        echo "" >> $GHS;
-        echo "|                    | current   | allowed | status  |" >> $GHS;
-        echo "| ------------------ | --------- | ------- | ------- |" >> $GHS;
-        echo "| \`dependencies\`   | \`$dNum\` | \`$MD\` | $md_st  |" >> $GHS;
-        echo "| \`devDependencies\`| \`$ddNum\`| \`$MDD\`| $mdd_st |" >> $GHS;
+        echo "## Dependencies" >> $O;
+        echo "> status: $s_text" >> $O;
+        echo "" >> $OS;
+        echo "|                   | current    | allowed | status   |" >> $O;
+        echo "| ------------------| ---------- | ------- | -------  |" >> $O;
+        echo "|\`dependencies\`   |\`$dep\`   | \`$MD\` | $dep_s    |" >> $O;
+        echo "|\`devDependencies\`|\`$devDep\`| \`$MDD\`| $devDep_s |" >> $O;
         echo "" >> $GHS;
         
-        if [[ "$ok" = "y" ]]; then
+        if [[ "$ok" = y ]]; then
           echo >&2 "dependencies over limit, exiting 1"; exit 1;
         fi
 
