@@ -43,13 +43,13 @@ jobs:
     - run: | 
         deps=$(npm pkg get dependencies);
         depsCount=$(echo "$deps" | tr -cd ':' | wc -c);
-        echo "deps=$(deps | tr -d ",:)" >> "$GITHUB_OUTPUT";
+        echo "deps=$(deps | tr -d ,:)" >> "$GITHUB_OUTPUT";
         echo "depsCount=$depsCount" >> "$GITHUB_OUTPUT";
         echo "depsCount=$depsCount" >> "$GITHUB_ENV";
         
         ddeps=$(npm pkg get devDependencies);
         ddepsCount=$(echo "$ddeps" | tr -cd ':' | wc -c);
-        echo "ddeps=$(ddeps | tr -d ",:)" >> "$GITHUB_OUTPUT";
+        echo "ddeps=$(ddeps | tr -d ,:)" >> "$GITHUB_OUTPUT";
         echo "ddepsCount=$ddepsCount" >> "$GITHUB_OUTPUT";
         echo "ddepsCount=$ddepsCount" >> "$GITHUB_ENV";
       name: get dependencies and devDependencies count
