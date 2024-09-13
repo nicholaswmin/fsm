@@ -51,17 +51,17 @@ jobs:
       id: package
 
     - run: |
-        [[ "$dNum" -lt "$MAX_DEPS" ]] && ps="OK" || ps="ERR"
-        [[ "$ddNum" -lt "$MAX_DEV_DEPS" ]] && ps="OK" || ds="ERR"
-        [[ "$ps" = "ok" && "$ds" = "ok"]] && title="👌 OK" || title="⚠️ ERR"
+        [[ "$dNum" -lt "$MAX_DEPS" ]] && ps="OK" || ps="ERR;"
+        [[ "$ddNum" -lt "$MAX_DEV_DEPS" ]] && ps="OK" || ds="ERR;"
+        [[ "$ps" = "ok" && "$ds" = "ok"]] && title="👌 OK" || title="⚠️ ERR";
 
-        echo "### $title" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "|                      | current    | max     | status |"
-        echo "| -------------------- | ---------  | ------- | ------ |"
-        echo "| \`dependencies\`     | \`$dNum\`  | \`$pl\` | $ps    |"
-        echo "| \`devDependencies\`  | \`$ddNum\` | \`$dl\` | $ds    |"
+        echo "### $title" >> $GITHUB_STEP_SUMMARY;
+        echo "" >> $GITHUB_STEP_SUMMARY;
+        echo "|                      | current    | max     | status |";
+        echo "| -------------------- | ---------  | ------- | ------ |";
+        echo "| \`dependencies\`     | \`$dNum\`  | \`$pl\` | $ps    |";
+        echo "| \`devDependencies\`  | \`$ddNum\` | \`$dl\` | $ds    |";
 
-        echo "::error title=deps error"::dependencies limit exceeded"
-        exit 1
+        echo "::error title=deps error"::dependencies limit exceeded";
+        exit 1;
       name: Output Message
