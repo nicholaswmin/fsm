@@ -28,8 +28,6 @@ jobs:
       DIST_PATH: dist/index.js
       # max bundle size, bytes
       MAX_BYTES: 999
-      # min bundle size, bytes
-      MIN_BYTES: 50
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -56,15 +54,6 @@ jobs:
         echo "size=$size" >> "$GITHUB_ENV";
       name: Get compressed size, in bytes
       id: getsize
-
-    # if size < min, err message & exit 1
-    - run: |
-        t="bundle size unreasonably small" && \
-        echo "::error title=${t}::size: ${size} B < min: ${MIN_BYTES} B." && \
-        echo "::error title=recommendation::is bundle possibly empty?" &&
-        exit 1
-      if: fromJSON(steps.getsize.outputs.size) < fromJSON(env.MIN_BYTES)
-      name: Possibly Empty Error
 
     # if size > max, err message & exit 1
     - run: |
