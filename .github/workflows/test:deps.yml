@@ -52,24 +52,21 @@ jobs:
 
     - run: |  
         GHS=$GITHUB_STEP_SUMMARY
-
-        tok="✅ Dependencies OK";
-        ter="❌ Dependencies over limit";
-        md="$MAX_DEPS";
-        mdd="$MAX_DEV_DEPS";
+        MD="$MAX_DEPS";
+        MDD="$MAX_DEV_DEPS";
 
         md_st=$([ "$dNum"  -le "$MAX_DEPS" ]     && echo "✅" || echo "⚠️");
         mdd_st=$([ "$ddNum" -le "$MAX_DEV_DEPS" ] && echo "✅" || echo "⚠️");
         ok=$([[ "$md_s" = "✅" && "$mdd_s" = "✅" ]] && echo "y" || echo "n");
         statustext=$([[ "$ok" = "y" ]] && echo "✅ OK" || echo "❌ over limit");
 
-        echo "### Dependencies" >> $GHS;
-        echo "### $statustext" >> $GHS;
+        echo "## Dependencies" >> $GHS;
+        echo "> status: $statustext" >> $GHS;
         echo "" >> $GHS;
         echo "|                    | current   | allowed | status  |" >> $GHS;
         echo "| ------------------ | --------- | ------- | ------- |" >> $GHS;
-        echo "| \`dependencies\`   | \`$dNum\` | \`$md\` | $md_st  |" >> $GHS;
-        echo "| \`devDependencies\`| \`$ddNum\`| \`$mdd\`| $mdd_st |" >> $GHS;
+        echo "| \`dependencies\`   | \`$dNum\` | \`$MD\` | $md_st  |" >> $GHS;
+        echo "| \`devDependencies\`| \`$ddNum\`| \`$MDD\`| $mdd_st |" >> $GHS;
         echo "" >> $GHS;
         
         if [[ "$ok" = "y" ]]; then
