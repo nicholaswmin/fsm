@@ -43,7 +43,7 @@ jobs:
         cache: 'npm'
     
     - run: |
-        parameters=("vars.TEST_SIZE_MAX_BYTES" "vars.TEST_SIZE_ENTRY_PATH") \
+        parameters=("TEST_SIZE_MAX_BYTES" "TEST_SIZE_ENTRY_PATH") \
         
         title="parameter missing" \
         err_msg="is missing, or empty" \
@@ -51,12 +51,8 @@ jobs:
         tip_msg_2="Set in: Repo Settings -> Secrets & Variables -> Actions" \
         
         for name in ${parameters[@]}; do \
-          declare var=${!name}; \
-          if [ -z ${var+x} ]; then
-              echo "::error title=${title}::'${name}' ${err_msg}."; 
-              echo "::notice title=Tip::${tip_msg_1}. ${tip_msg_2}.";
-              exit 1;
-              fi
+          var=${{ vars.$name }}; \
+          echo "$var"; \
         done
       name: Check required parameters
       
