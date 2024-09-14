@@ -51,12 +51,12 @@ jobs:
         tip_msg_2="Set from: Repository > Settings > Actions > Variables" \
         
         for name in ${parameters[@]}; do \
-          declare var=${!name} \
-          if [ -z ${var} ]; then \ 
-              echo "::error title=${title}::'${name}' ${err_msg}."; \ 
-              echo "::notice title=Tip::${tip_msg_1}. ${tip_msg_2}."; \
-              exit 1; \
-              fi \
+          declare var=${!name}; \
+          if [ -z ${var} ]; then
+              echo "::error title=${title}::'${name}' ${err_msg}."; 
+              echo "::notice title=Tip::${tip_msg_1}. ${tip_msg_2}.";
+              exit 1;
+              fi
         done
       name: Check required parameters
       
