@@ -39,8 +39,7 @@ jobs:
         BUNDLE_FILENAME: $ENTRY_FILENAME
         BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
 
-    - run: echo "$VARS_JSON"
-
+    - run: echo '${{ toJSON(github) }}'
     - run: npm ci
       name: Install module dependencies
 
