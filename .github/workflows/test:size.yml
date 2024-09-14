@@ -18,7 +18,7 @@
 # - if above limit: `error` of filesize & exit code: 1
 
 
-name: test:bundle-size
+name: test:size
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
         cache: 'npm'
     
     - run: |
-        parameters=("SIZE_LIMIT_MAX_BYTES" "SIZE_LIMIT_ENTRY_PATH") \
+        parameters=("TEST_SIZE_MAX_BYTES" "TEST_SIZE_ENTRY_PATH") \
         
         title="parameter missing" \
         err_msg="is missing, or empty" \
