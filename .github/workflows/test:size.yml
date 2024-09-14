@@ -26,7 +26,7 @@ jobs:
         cache: 'npm'
       env:
         # Required
-        MAX_BYTES: ${{ vars.MAX_BYTES || '999' }}
+        MAX_BYTES: ${{ vars.MAX_BUNDLE_BYTES || '999' }}
         ENTRY_DIR: ${{ vars.ENTRY_DIR || 'src' }}
         ENTRY_FILENAME: ${{ vars.ENTRY_PATH || 'index.js' }}
   
@@ -36,7 +36,7 @@ jobs:
         BUNDLE_FILENAME: $ENTRY_FILENAME
         BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
 
-    - run: echo '${{ toJSON(env) }}'
+    - run: echo '$MAX_BYTES'
       name: Log env
 
     - run: npm ci
