@@ -41,7 +41,7 @@ jobs:
         BUNDLE_FILENAME: $ENTRY_FILENAME
         BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
 
-    - run: echo '${{ toJSON(env) }}'
+    - run: env
     - run: npm ci
       name: Install module dependencies
 
