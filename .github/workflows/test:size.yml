@@ -69,7 +69,7 @@ jobs:
     - run: ncc build "${{ env.TEST_SIZE_ENTRY_PATH }}" -o .test_size_output -m
       name: Bundle & minify module
 
-    - run: gzip test_size_output/index.js
+    - run: gzip .test_size_output/index.js
       name: Compress bundle
 
     # output bundle size in bytes, as 'n'
