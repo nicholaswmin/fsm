@@ -2,7 +2,7 @@
 # The module is bundled, minified & compressed before testing.
 # 
 # Required Parameters:
-# > set as env. variables in repo settings
+# > set as repository env. variables in repo settings
 #
 # - `SIZE_LIMIT_MAX_BYTES` : max filesize limit, bytes, i.e `999`
 # - `SIZE_LIMIT_ENTRY_PATH`: module entry path, i.e `src/index.js`
@@ -43,15 +43,15 @@ jobs:
         cache: 'npm'
     
     - run: |
-        parameters=("TEST_SIZE_MAX_BYTES" "TEST_SIZE_ENTRY_PATH") \
+        parameters=("vars.TEST_SIZE_MAX_BYTES" "vars.TEST_SIZE_ENTRY_PATH") \
         
         title="parameter missing" \
         err_msg="is missing, or empty" \
-        tip_msg_1="Parameters must be set as environment variables" \
+        tip_msg_1="Parameters must be set as repository variables" \
         tip_msg_2="Set in: Repo Settings -> Secrets & Variables -> Actions" \
         
         for name in ${parameters[@]}; do \
-          declare var=vars.${!name}; \
+          declare var=${!name}; \
           if [ -z ${var+x} ]; then
               echo "::error title=${title}::'${name}' ${err_msg}."; 
               echo "::notice title=Tip::${tip_msg_1}. ${tip_msg_2}.";
