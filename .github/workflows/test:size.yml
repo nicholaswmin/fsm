@@ -79,6 +79,11 @@ jobs:
         echo "n=$size" >> "$GITHUB_ENV";
       name: Compute compressed bundle size
       id: getsize
+      
+    - run: | 
+        echo "n: $steps.getsize.outputs.n, env1: $env.TEST_SIZE_MAX_BYTES"
+      name: Log
+
 
     # if s > max, err message & exit 1
     - run: |
