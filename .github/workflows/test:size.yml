@@ -66,7 +66,7 @@ jobs:
     - run: npm i -g @vercel/ncc
       name: Install module bundler
 
-    - run: ncc build "${env.TEST_SIZE_ENTRY_PATH}" -o .test_size_output -m -q
+    - run: ncc build "${{ env.TEST_SIZE_ENTRY_PATH }}" -o .test_size_output -m
       name: Bundle & minify module
 
     - run: gzip test_size_output/index.js
@@ -83,7 +83,7 @@ jobs:
     # if s > max, err message & exit 1
     - run: |
         title="size limit exceeded" && \
-        message="size: ${n} B > max: ${env.TEST_SIZE_MAX_BYTES} B" \
+        message="size: ${n} B > max: ${{ env.TEST_SIZE_MAX_BYTES }} B" \
 
         echo "::error title=${title}::${message}" && exit 1;
       if: fromJSON(steps.getsize.outputs.n) > fromJSON(env.TEST_SIZE_MAX_BYTES)
@@ -92,7 +92,7 @@ jobs:
     # else if s <= max, sucess message & exit 0
     - run: |
         title="size OK" && \
-        message="size: ${n} B <= max: ${env.TEST_SIZE_MAX_BYTES} B" \
+        message="size: ${n} B <= max: ${{ env.TEST_SIZE_MAX_BYTES }} B" \
 
         echo "::notice title=${title}::${message}";
       if: fromJSON(steps.getsize.outputs.n) <= fromJSON(env.TEST_SIZE_MAX_BYTES)
