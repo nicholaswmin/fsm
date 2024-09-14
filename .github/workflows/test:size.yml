@@ -36,7 +36,7 @@ jobs:
         BUNDLE_FILENAME: $ENTRY_FILENAME
         BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
 
-    - run: echo $env
+    - run: echo "$GITHUB_CONTEXT"
       name: Log env
 
     - run: npm ci
