@@ -135,30 +135,42 @@ console.log(turnstile.push())
 
 ### Configuring behaviour
 
-The invalid behaviour can be configured, by reassigning `FSM.onInvalid`:
+The invalid behaviour can be configured by overriding `static onInvalid`:
 
 ```js
-FSM.onInvalid = function(arg) {
-  if (arg === 'foo')
-    throw new Error('bar')
-
-  throw new Error('baz')
+class NoisyFSM extends FSM {
+  static onInvalid(transition) {
+    throw Error(`cannot ${transition} from ${this.state}`)
+  }
 }
 
-const turnstile = new FSM({
+const turnstile = new NoisyFSM({
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 })
 
 turnstile.push()
-// Error: baz
-
-turnstile.push('foo')
-// Error: bar
+// Error: cannot push from: closed
 ```
 
-> note: `static FSM.onInvalid` retroactively alters the behaviour of all 
-> instances, even instances created before `onInvalid` was set.
+... `onInvalid` accepts variadic arguments: [^2]
+
+```js
+class NoisyFSM extends FSM {
+  static onInvalid(transition, arg1, arg2) {
+    console.log(arg1, arg2)
+    // ... rest of code
+  }
+}
+
+const turnstile = new NoisyFSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+
+turnstile.push('foo', 'bar')
+// foo, bar
+```
 
 ## Hooks
 
@@ -396,7 +408,7 @@ state: { transition: 'state' }
 Called when an invalid transition is fired, 
 providing behaviour for invalid transitions.  
 
-Can be overriden, reconfiguring the invalid behaviour.
+Can be overriden, which configures the invalid behaviour.
 
 | name        | type       | desc.             | default        |
 |-------------|------------|-------------------|----------------|

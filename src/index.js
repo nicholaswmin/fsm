@@ -1,14 +1,8 @@
 import valid from './schema.js'
 
 class FSM {
-  static onInvalid = s => { return false }
-  static fnName = s => `on${s.charAt(0).toUpperCase()}${s.slice(1)}`
-  static missing = ([fn]) => !Object.hasOwn(this, fn)
-
   #state
   
-  get state() { return this.#state }
-
   constructor(states, ctx = this) {
     this.states = valid.states(states)
     this.#state = Object.keys(states).at(0)
@@ -18,14 +12,30 @@ class FSM {
       .filter(this.constructor.missing, this)
       .forEach(this.add, this)
 
-    return Object.freeze(Object.assign(this, ctx))
+    Object.freeze(Object.assign(this, ctx))
+  }
+  
+  get state() { 
+    return this.#state 
+  }
+
+  static missing([fn]) { 
+    return !Object.hasOwn(this, fn) 
+  }
+  
+  static fnName(s) { 
+    return `on${s.charAt(0).toUpperCase()}${s.slice(1)}` 
+  }
+  
+  static onInvalid() { 
+    return false 
   }
   
   add([ tr, state ]) {
     this[tr] = (...args) => {
       return Object.hasOwn(this.states[this.state], tr) 
         ? this.fn(tr, ...args) 
-        : this.constructor.onInvalid?.call(this, ...args) || false
+        : this.constructor.onInvalid?.call(this, tr, ...args) || false
     }
   }   
   
