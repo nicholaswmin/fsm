@@ -25,6 +25,9 @@ jobs:
         node-version: latest
         cache: 'npm'
       env:
+        # Debug
+        VARS_JSON: ${{ toJSON(vars) }}
+
         # Required
         MAX_BYTES: ${{ vars.MAX_BUNDLE_BYTES || '999' }}
         ENTRY_DIR: ${{ vars.ENTRY_DIR || 'src' }}
@@ -36,8 +39,7 @@ jobs:
         BUNDLE_FILENAME: $ENTRY_FILENAME
         BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
 
-    - run: echo $MAX_BYTES
-      name: Log env
+      run: echo "${VARS_JSON}"
 
     - run: npm ci
       name: Install module dependencies
