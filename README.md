@@ -76,7 +76,7 @@ The above FSM simply expresses:
 Transition methods allow transitioning from one `state` to another, 
 if allowed under the `current state`.
 
-They are automatically created and named after the provided transitions, 
+They are created and named after the provided transitions, 
 which renders an expressive & domain-specific API.
 
 For example: 
@@ -102,7 +102,7 @@ turnstile.push()
 // state: closed
 ```
 
-which are also chainable:
+... which are also chainable:
 
 ```js
 turnstile.coin().push()
@@ -126,12 +126,12 @@ const turnstile = new FSM({
   opened: { push: 'closed' }
 })
 
-console.log('returned:', turnstile.push())
+console.log(turnstile.push())
 // false
 // state: 'closed'
 ```
 
-> transition was invalid, so the `state` doesn't change.
+> the transition was invalid so the `state` did not change.
 
 ### Configuring behaviour
 
@@ -157,8 +157,8 @@ turnstile.push('foo')
 // Error: bar
 ```
 
-> note: `static FSM.onInvalid` must be configured *before* creating an instance.    
-> It does not retroactively alter the behaviour of existing instances.
+> note: `static FSM.onInvalid` retroactively alters the behaviour of all 
+> instances, even instances created before `onInvalid` was set.
 
 ## Hooks
 
