@@ -52,7 +52,7 @@ jobs:
         
         for name in ${parameters[@]}; do \
           var=${!name}; \
-          echo "value: $TEST_SIZE_ENTRY_PATH";\
+          echo "value: ${TEST_SIZE_ENTRY_PATH}";\
         done
       name: Check required parameters
       
