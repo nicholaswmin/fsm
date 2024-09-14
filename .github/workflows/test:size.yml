@@ -36,13 +36,18 @@ jobs:
         ENTRY_FILENAME: ${{ vars.ENTRY_PATH || 'index.js' }}
   
         # Computed
-        ENTRY_PATH: ${{ vars.ENTRY_DIR }}/${{ vars.ENTRY_FILENAME }}
-
         BUNDLE_DIR: ${{ runner.temp }}
-        BUNDLE_FILENAME: $ENTRY_FILENAME
-        BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
+
+    - run: |
+        echo ENTRY_PATH=${{ vars.ENTRY_DIR }}/${{ vars.ENTRY_FILENAME }} \
+          >> "$GITHUB_ENV"
+        echo BUNDLE_FILENAME=${{ env.ENTRY_FILENAME }} >> "$GITHUB_ENV"
+        echo BUNDLE_PATH=${{ env.BUNDLE_DIR }}/${{ env.ENTRY_FILENAME }}
+      name: Set envs
 
     - run: env
+      name: Log envs
+
     - run: npm ci
       name: Install module dependencies
 
