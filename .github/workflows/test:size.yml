@@ -66,17 +66,17 @@ jobs:
     - run: npm i -g @vercel/ncc
       name: Install module bundler
 
-    - run: ncc build "${{ env.TEST_SIZE_ENTRY_PATH }}" -o .test_size_output -m
+    - run: ncc build "${{ env.TEST_SIZE_ENTRY_PATH }}" -o .test_size_temp -m
       name: Bundle & minify module
 
-    - run: gzip .test_size_output/index.js
+    - run: gzip .test_size_temp/index.js
       name: Compress bundle
 
     # output bundle size in bytes, as 'n'
     - run: | 
-        size=$(wc -c < .test_size_output/index.js.gz | xargs);
-        echo "s=$size" >> "$GITHUB_OUTPUT";
-        echo "s=$size" >> "$GITHUB_ENV";
+        size=$(wc -c < .test_size_temp/index.js.gz | xargs);
+        echo "n=$size" >> "$GITHUB_OUTPUT";
+        echo "n=$size" >> "$GITHUB_ENV";
       name: Compute compressed bundle size
       id: getsize
 
