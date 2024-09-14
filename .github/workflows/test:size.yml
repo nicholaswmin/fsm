@@ -44,7 +44,7 @@ jobs:
 
         echo BUNDLE_FILENAME=${{ env.ENTRY_FILENAME }} >> "$GITHUB_ENV"
 
-        echo "BUNDLE_PATH=$BUNDLE_DIR" >> "$GITHUB_ENV"
+        echo "BUNDLE_PATH=${BUNDLE_DIR}" >> "$GITHUB_ENV"
       name: Set envs
 
     - run: env
