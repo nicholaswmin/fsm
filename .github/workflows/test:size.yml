@@ -51,7 +51,7 @@ jobs:
         tip_msg_2="Set in: Repo Settings -> Secrets & Variables -> Actions" \
         
         for name in ${parameters[@]}; do \
-          echo "vars.$var"; \
+          echo vars.$name; \
         done
       name: Check required parameters
       
