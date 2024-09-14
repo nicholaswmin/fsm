@@ -12,8 +12,8 @@
 Finite-state machines are modelling constructs which allow expressing a piece 
 of logic [*declaratively*][declaratively].   
 
-They can only exist in *one*, *always-valid* state at any given time, 
-rendering them inherently safe, by design.[^1]
+They can only exist in one, always-valid state at any given time, 
+rendering them *inherently safe*, by design.[^1]
 
 This implementation allows constructing simple, robust & expressive FSMs.
 
@@ -347,7 +347,7 @@ console.log(turnstile.state)
 
 ### Composition over Inheritance
 
-The `ctx` argument can still be used when using *Composition Over Inheritance*.
+The `ctx` argument can still be used for *Composition over Inheritance*.
 
 ```js
 class Turnstile {
