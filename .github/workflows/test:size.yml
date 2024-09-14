@@ -52,7 +52,7 @@ jobs:
         
         for name in ${parameters[@]}; do \
           var=${!name}; \
-          echo "value: $var";\
+          echo "value: $name";\
         done
       name: Check required parameters
       
