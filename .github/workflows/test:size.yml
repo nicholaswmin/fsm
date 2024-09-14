@@ -17,19 +17,6 @@ jobs:
     name: esm_size
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    
-    env:
-      # Required
-      MAX_BYTES: ${{ vars.MAX_BYTES || '999' }}
-      ENTRY_DIR: ${{ vars.ENTRY_DIR || 'src' }}
-      ENTRY_FILENAME: ${{ vars.ENTRY_PATH || 'index.js' }}
-
-      # Computed
-      ENTRY_PATH: $ENTRY_DIR/$ENTRY_FILENAME
-      BUNDLE_DIR: ${{ runner.temp }}
-      BUNDLE_FILENAME: $ENTRY_FILENAME
-      BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
-
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js - latest
@@ -37,7 +24,18 @@ jobs:
       with:
         node-version: latest
         cache: 'npm'
-        
+      env:
+        # Required
+        MAX_BYTES: ${{ vars.MAX_BYTES || '999' }}
+        ENTRY_DIR: ${{ vars.ENTRY_DIR || 'src' }}
+        ENTRY_FILENAME: ${{ vars.ENTRY_PATH || 'index.js' }}
+  
+        # Computed
+        ENTRY_PATH: $ENTRY_DIR/$ENTRY_FILENAME
+        BUNDLE_DIR: ${{ runner.temp }}
+        BUNDLE_FILENAME: $ENTRY_FILENAME
+        BUNDLE_PATH: $BUNDLE_DIR/$ENTRY_FILENAME
+
     - run: echo $env
       name: Log env
 
