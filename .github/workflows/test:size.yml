@@ -15,6 +15,7 @@ on:
 jobs:
   test:
     name: esm_size
+    environment: CI 
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -24,6 +25,7 @@ jobs:
       with:
         node-version: latest
         cache: 'npm'
+
       env:
         # Debug
         VARS_JSON: ${{ toJSON(env) }}
