@@ -51,7 +51,7 @@ jobs:
         tip_msg_2="Set from: Repository > Settings > Actions > Variables" \
         
         for name in ${parameters[@]}; do \
-          declare var=env.${!name}; \
+          declare var=vars.${!name}; \
           if [ -z ${var+x} ]; then
               echo "::error title=${title}::'${name}' ${err_msg}."; 
               echo "::notice title=Tip::${tip_msg_1}. ${tip_msg_2}.";
@@ -66,7 +66,7 @@ jobs:
     - run: npm i -g @vercel/ncc
       name: Install module bundler
 
-    - run: ncc build "${{ env.TEST_SIZE_ENTRY_PATH }}" -o .test_size_temp -m
+    - run: ncc build "${{ vars.TEST_SIZE_ENTRY_PATH }}" -o .test_size_temp -m
       name: Bundle & minify module
 
     - run: gzip .test_size_temp/index.js
@@ -81,26 +81,26 @@ jobs:
       id: getsize
       
     - run: | 
-        echo "n: $steps.getsize.outputs.n, env1: $env.TEST_SIZE_MAX_BYTES"
+        echo "n: $steps.getsize.outputs.n, env1: $vars.TEST_SIZE_MAX_BYTES"
       name: Log
 
 
     # if s > max, err message & exit 1
     - run: |
         title="size limit exceeded" && \
-        message="size: ${n} B > max: ${{ env.TEST_SIZE_MAX_BYTES }} B" \
+        message="size: ${n} B > max: ${{ vars.TEST_SIZE_MAX_BYTES }} B" \
 
         echo "::error title=${title}::${message}" && exit 1;
-      if: fromJSON(steps.getsize.outputs.n) > fromJSON(env.TEST_SIZE_MAX_BYTES)
+      if: fromJSON(steps.getsize.outputs.n) > fromJSON(vars.TEST_SIZE_MAX_BYTES)
       name: Throw Error
 
     # else if s <= max, sucess message & exit 0
     - run: |
         title="size OK" && \
-        message="size: ${n} B <= max: ${{ env.TEST_SIZE_MAX_BYTES }} B" \
+        message="size: ${n} B <= max: ${{ vars.TEST_SIZE_MAX_BYTES }} B" \
 
         echo "::notice title=${title}::${message}";
-      if: fromJSON(steps.getsize.outputs.n) <= fromJSON(env.TEST_SIZE_MAX_BYTES)
+      if: fromJSON(steps.getsize.outputs.n) <= fromJSON(vars.TEST_SIZE_MAX_BYTES)
       name: Output OK Message
 
     - run: | 
