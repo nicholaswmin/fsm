@@ -36,7 +36,7 @@ jobs:
         ENTRY_FILENAME: ${{ vars.ENTRY_PATH || 'index.js' }}
   
         # Computed
-        ENTRY_PATH:  ${{ ENTRY_FILENAME }}
+        ENTRY_PATH:  ${{ env.ENTRY_FILENAME }}
 
         BUNDLE_DIR: ${{ runner.temp }}
         BUNDLE_FILENAME: $ENTRY_FILENAME
