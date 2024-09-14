@@ -48,7 +48,7 @@ jobs:
         title="parameter missing" \
         err_msg="is missing, or empty" \
         tip_msg_1="Parameters must be set as environment variables" \
-        tip_msg_2="Set from: Repository > Settings > Actions > Variables" \
+        tip_msg_2="Set in: Repo Settings -> Secrets & Variables -> Actions" \
         
         for name in ${parameters[@]}; do \
           declare var=vars.${!name}; \
