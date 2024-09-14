@@ -14,58 +14,68 @@ on:
 
 jobs:
   test:
-    name: size
+    name: esm_size
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    strategy:
-      matrix:
-        node-version: [latest]
+    
     env:
-      # Settings
-      # entry module filepath
-      ENTRY_PATH: src/index.js
-      # bundle filepath
-      DIST_PATH: dist/index.js
-      # max bundle size, bytes
-      MAX_BYTES: 999
+      # Required
+      MAX_BYTES: ${{ vars.MAX_BYTES || '999' }}
+      ENTRY_DIR: ${{ vars.ENTRY_DIR || 'src' }}
+      ENTRY_FILENAME: ${{ vars.ENTRY_PATH || 'index.js' }}
+
+      # Computed
+      ENTRY_PATH: ${{ env.ENTRY_DIR }}/${{env.ENTRY_FILENAME}}
+      BUNDLE_DIR: ${{ runner.temp }}
+      BUNDLE_FILENAME: ${{ env.ENTRY_FILENAME }}
+      BUNDLE_PATH: ${{ env.BUNDLE_DIR }}/${{ env.BUNDLE_FILENAME }}
+
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js - latest
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: latest
         cache: 'npm'
+        
+    - run: echo $env
+      name: Log env
 
     - run: npm ci
+      name: Install module dependencies
 
     - run: npm i -g @vercel/ncc
-      name: Install @vercel/ncc bundler
+      name: Install bundler
 
-    - run: ncc build "$ENTRY_PATH" -o dist -m -q
+    - run: ncc build $ENTRY_PATH -o $TEMP_DIR -m -q
       name: Bundle & minify module
 
-    - run: gzip "$DIST_PATH"
-      name: Compress bundle
+    - run: gzip $TEMP_DIR/$ENTRY_FILENAME
+      name: Compress minified bundle
 
-    # output bundle size in bytes, as 'size'
     - run: | 
-        size=$(wc -c < $DIST_PATH.gz | xargs);
-        echo "size=$size" >> "$GITHUB_OUTPUT";
-        echo "size=$size" >> "$GITHUB_ENV";
-      name: Compute compressed size
-      id: getsize
+        echo bytes=$(wc -c < $TEMP_DIR/bundle.js.gz | xargs) \
+          >> "$GITHUB_OUTPUT";
+      name: Compute compressed bundle filesize
+      id: size
 
     # if size > max, err message & exit 1
     - run: |
-        t="bundle size max limit exceeded" && \
-        echo "::error title=${t}::size: ${size} B > max: ${MAX_BYTES} B"; \
+        title="Error: bundled size over limit"
+        msg="size: $bytes bytes > max: $MAX_BYTES bytes"
+
+        echo "::error title=$title::$msg"
         exit 1
-      if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.MAX_BYTES)
+      if: |
+        fromJSON(steps.size.outputs.bytes) > fromJSON(vars.MAX_BYTES)
       name: Size Exceeded Error
 
     # else if size <= max, sucess message & exit 0
     - run: |
-        t="size limit OK" && \
-        echo "::notice title=${t}::size: ${size} B <= max: ${MAX_BYTES} B"
+        title="Success: bundled size within limit"
+        msg="size: $bytes bytes <= max: $MAX_BYTES bytes"
+
+
+        echo "::notice title=$title::$msg"
       if: fromJSON(steps.getsize.outputs.size) <= fromJSON(env.MAX_BYTES)
-      name: Size OK Message
+      name: Success Message
