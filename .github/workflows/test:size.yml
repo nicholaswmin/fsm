@@ -1,10 +1,24 @@
-# Tests if an ESM module filesize exceeds a limit,
-# after bundling, min. and gzip.
+# Tests if an ES module size exceeds a limit.  
+# The module is bundled, minified & compressed before testing.
+# 
+# Required Parameters:
+# > set as env. variables in repo settings
 #
-# If <= limit, outputs a notice of current size
-# If  > limit, outputs an error and exits: 1
+# - `SIZE_LIMIT_MAX_BYTES` : max filesize limit, bytes, i.e `999`
+# - `SIZE_LIMIT_ENTRY_PATH`: module entry path, i.e `src/index.js`
+#
+# Uses:
+#
+# - bundler: `@vercel/ncc`
+# - compressor: `gzip`
+#
+# Outputs:
+#
+# - if below limit: `notice` of filesize & exit code: 0 
+# - if above limit: `error` of filesize & exit code: 1
 
-name: test:size
+
+name: test:bundle-size
 
 on:
   push:
@@ -20,14 +34,6 @@ jobs:
     strategy:
       matrix:
         node-version: [latest]
-    env:
-      # Settings
-      # entry module filepath
-      ENTRY_PATH: src/index.js
-      # bundle filepath
-      DIST_PATH: dist/index.js
-      # max bundle size, bytes
-      MAX_BYTES: 999
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -35,37 +41,64 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-
+    
+    - run: |
+        parameters=("SIZE_LIMIT_MAX_BYTES" "SIZE_LIMIT_ENTRY_PATH") \
+        
+        title="parameter missing" \
+        err_msg="is missing, or empty" \
+        tip_msg_1="Parameters must be set as environment variables" \
+        tip_msg_2="Set from: Repository > Settings > Actions > Variables" \
+        
+        for name in ${parameters[@]}; do \
+          declare var=${!name} \
+          if [ -z ${var} ]; then \ 
+              echo "::error title=${title}::'${name}' ${err_msg}."; \ 
+              echo "::notice title=Tip::${tip_msg_1}. ${tip_msg_2}."; \
+              exit 1; \
+              fi \
+        done
+      name: Check required parameters
+      
     - run: npm ci
+      name: Install module dependencies
 
     - run: npm i -g @vercel/ncc
-      name: Install @vercel/ncc bundler
+      name: Install module bundler
 
-    - run: ncc build "$ENTRY_PATH" -o dist -m -q
+    - run: ncc build "$SIZE_LIMIT_ENTRY_PATH" -o .test_size_output -m -q
       name: Bundle & minify module
 
-    - run: gzip "$DIST_PATH"
+    - run: gzip test_size_output/index.js
       name: Compress bundle
 
-    # output bundle size in bytes, as 'size'
+    # output bundle size in bytes, as 'n'
     - run: | 
-        size=$(wc -c < $DIST_PATH.gz | xargs);
-        echo "size=$size" >> "$GITHUB_OUTPUT";
-        echo "size=$size" >> "$GITHUB_ENV";
-      name: Compute compressed size
+        size=$(wc -c < .test_size_output/index.js.gz | xargs);
+        echo "s=$size" >> "$GITHUB_OUTPUT";
+        echo "s=$size" >> "$GITHUB_ENV";
+      name: Compute compressed bundle size
       id: getsize
 
-    # if size > max, err message & exit 1
+    # if s > max, err message & exit 1
     - run: |
-        t="bundle size max limit exceeded" && \
-        echo "::error title=${t}::size: ${size} B > max: ${MAX_BYTES} B"; \
-        exit 1
-      if: fromJSON(steps.getsize.outputs.size) > fromJSON(env.MAX_BYTES)
-      name: Size Exceeded Error
+        title="size limit exceeded" && \
+        message="size: ${n} B > max: ${TEST_SIZE_MAX_BYTES} B" \
 
-    # else if size <= max, sucess message & exit 0
+        echo "::error title=${title}::${message}" && exit 1;
+      if: fromJSON(steps.getsize.outputs.n) > fromJSON(env.TEST_SIZE_MAX_BYTES)
+      name: Throw Error
+
+    # else if s <= max, sucess message & exit 0
     - run: |
-        t="size limit OK" && \
-        echo "::notice title=${t}::size: ${size} B <= max: ${MAX_BYTES} B"
-      if: fromJSON(steps.getsize.outputs.size) <= fromJSON(env.MAX_BYTES)
-      name: Size OK Message
+        title="size OK" && \
+        message="size: ${n} B <= max: ${TEST_SIZE_MAX_BYTES} B" \
+
+        echo "::notice title=${title}::${message}";
+      if: fromJSON(steps.getsize.outputs.n) <= fromJSON(env.TEST_SIZE_MAX_BYTES)
+      name: Output OK Message
+
+    - run: | 
+        npm uninstall -g @vercel/ncc;
+        rm -rf .test_size_output;
+      name: Cleanup
