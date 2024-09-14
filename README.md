@@ -10,7 +10,8 @@
 > The change from one state to another is called a `transition`.
 
 Finite-state machines are modelling constructs which allow expressing a piece 
-of logic *declaratively*.   
+of logic [*declaratively*][declaratively].   
+
 They can only exist in *one*, *always-valid* state at any given time, 
 rendering them inherently safe, by design.[^1]
 
@@ -65,24 +66,20 @@ turnstile.push()
 // state: closed
 ```
 
-The above FSM has the following rules:
+The above FSM simply expresses:
 
 - If `state:closed` & `transition:coin` is triggered, set `state:opened`
 - If `state:opened` & `transition:push` is triggered, set `state:closed`
 
-The initial state is set as the 1st row from `states`.
-
-> formally called a [state-transition table][stt],  
-> but that's too long, so we'll call it `states` in these docs.
-
 ## Transition methods
 
-> allow transitioning from one `state` to another, if allowed.
+Transition methods allow transitioning from one `state` to another, 
+if allowed under the `current state`.
 
-The transition methods are named after the provided transitions.   
-This renders an expressive & domain-specific API.
+They are automatically created and named after the provided transitions, 
+which renders an expressive & domain-specific API.
 
-For example, this: 
+For example: 
 
 ```js
 const turnstile = new FSM({
@@ -91,9 +88,12 @@ const turnstile = new FSM({
 })
 ```
 
-has 2 transitions, `coin` & `push`,
+... has 2 transitions: 
 
-hence it creates 2 identically named transition methods:
+- `coin`  
+- `push`
+
+... therefore it creates 2 identically named transition methods:
 
 ```js
 turnstile.coin()
@@ -102,14 +102,12 @@ turnstile.push()
 // state: closed
 ```
 
-which are also be chainable:
+which are also chainable:
 
 ```js
 turnstile.coin().push()
 // state: closed
 ```
-
-> note: The `Async` FSM does not support chaining.
 
 ### Invalid transitions
 
@@ -119,7 +117,8 @@ Triggering a transition that's not listed under the current state:
 - the state does not change  
 - no hook methods are run
 
-> example: current `state:closed` only lists/allows a `coin` transition.  
+> example: state `closed` only lists a `coin` transition, so attempting 
+> `push` while `state:closed` is invalid:
 
 ```js
 const turnstile = new FSM({
@@ -128,9 +127,11 @@ const turnstile = new FSM({
 })
 
 console.log('returned:', turnstile.push())
-// returned: false
+// false
 // state: 'closed'
 ```
+
+> transition was invalid, so the `state` doesn't change.
 
 ### Configuring behaviour
 
@@ -200,7 +201,7 @@ turnstile.coin()
 
 ### Transition hooks 
  
-> called when transition is triggered, *before* the state is changed:
+> called when a transition is triggered, *before* the state is changed:
 
 ```js
 const turnstile = new FSM({
@@ -278,7 +279,7 @@ const turnstile = new FSM({
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 }, {
-  onCoin: () => console.log(arg1, arg2)
+  onCoin: (one, two) => console.log(one, two)
 })
 
 turnstile.insertCoin('foo', 'bar')
@@ -289,7 +290,7 @@ turnstile.insertCoin('foo', 'bar')
 
 ## Asynchronous transitions
 
-Asynchronous FSMs can be constructed from the exported `Async` FSM:
+Asynchronous FSMs can be constructed using `Async` FSM.
 
 ```js
 import { Async as FSM } from '@nicholaswmin/fsm'
@@ -318,8 +319,8 @@ await turnstile.coin()
 
 ## Subclassing
 
-Just implement any required hooks as subclass methodd and 
-don't pass a 2nd `ctx` argument.
+Just implement any required hooks as subclass methods and don't pass a 2nd 
+`ctx` argument.
 
 ```js
 class Turnstile extends FSM {
@@ -346,8 +347,7 @@ console.log(turnstile.state)
 
 ### Composition over Inheritance
 
-The `ctx` argument can still be used if you prefer 
-*Composition Over Inheritance*.
+The `ctx` argument can still be used when using *Composition Over Inheritance*.
 
 ```js
 class Turnstile {
@@ -425,14 +425,20 @@ the error.
 Additionally, this implementation freezes it's internals to guard against
 accidental modifications by reference, via it's arguments. 
 
-As such, `FSM` instances should be considered *immutable*.
+As such, `FSM` instances should be considered [*immutable*][imut].
 
 ## Test 
 
-> unit-tests & coverage:
+> unit tests:
 
 ```bash
-node --run test
+node --test
+```
+
+> test coverage:
+
+```bash
+node --test --experimental-test-coverage
 ```
 
 ## Contributing
@@ -453,8 +459,9 @@ node --run test
       i.e the [*Non-deterministic finite automaton*][ndfsm].  
       This documentation describes a specific type of state machine, the 
       [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.  
-      "automaton" is just the fancy academic term from automata theory 
-      meaning "automatic machine". 
+      
+      *"automaton"* is just the fancy academic term from automata theory 
+      meaning *"automatic machine"*. 
 
 [^2]: Just a fancy term for: "takes an infinite number of arguments".   
       Also called function of "n-arity" where "arity" = number of arguments.   
@@ -469,11 +476,13 @@ node --run test
 [covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
 [cov]: https://coveralls.io/github/nicholaswmin/fsm
 
+[declaratively]: https://en.wikipedia.org/wiki/Declarative_programming
 [turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 [stt]: https://en.wikipedia.org/wiki/State-transition_table
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
+[imut]: https://en.wikipedia.org/wiki/Immutable_object
 
 [contr-guide]: ./.github/CONTRIBUTING.md
 [author]: https://github.com/nicholaswmin
