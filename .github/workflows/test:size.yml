@@ -26,7 +26,7 @@ jobs:
         cache: 'npm'
       env:
         # Debug
-        VARS_JSON: ${{ toJSON(vars) }}
+        VARS_JSON: ${{ toJSON(env) }}
 
         # Required
         MAX_BYTES: ${{ vars.MAX_BUNDLE_BYTES || '999' }}
