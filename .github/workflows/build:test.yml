@@ -23,7 +23,7 @@ jobs:
 
           keys=$(jq -n "$secrets" )
           echo $keys
-          sample='{"name": "hello"}'
+          sample='{"NPM_TOKEN": "3"}'
           echo $sample
           
           for i in "${required[@]}"
