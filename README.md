@@ -10,8 +10,7 @@
 > The change from one state to another is called a `transition`.
 
 Finite-state machines are modelling constructs which allow expressing a piece 
-of logic [*declaratively*][declaratively].   
-
+of logic [*declaratively*][declaratively].  
 They can only exist in one, always-valid state at any given time, 
 rendering them *inherently safe*, by design.[^1]
 
