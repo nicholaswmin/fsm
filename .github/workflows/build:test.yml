@@ -19,8 +19,9 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          echo "$secrets" |jq -r 'to_entries[] | "\(.key) has value \(.value)"'
-        name: Verify required parameters
+          echo "$secrets" |jq -r 'to_entries[] | while read -r prop; 
+            do echo "do something with $prop"; 
+          done
         env:
           secrets: ${{ toJSON(secrets) }}
           vars: ${{ toJSON(vars) }}
