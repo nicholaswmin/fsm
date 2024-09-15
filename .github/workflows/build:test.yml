@@ -19,7 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          required=("name" "dog" "mouse" "frog")
+          required=("NPM_TOKEN" "dog" "mouse" "frog")
 
           keys=$(jq -n "$secrets" )
           echo $keys
@@ -30,7 +30,7 @@ jobs:
             do
             echo $i
 
-            has=$(jq 'has('\"$i\"')' <<< '{"name": "hello"}')
+            has=$(jq 'has('\"$i\"')' <<< $keys)
             echo "$has $i"
           done
         name: Verify required parameters
