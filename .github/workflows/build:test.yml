@@ -26,7 +26,7 @@ jobs:
 
           for i in "${required[@]}"
             do
-            $ echo "$keys" | jq -c '.[] | select(.genre | contains("$i"))'
+            $ echo "$keys" | jq -c '.[] | select(.key | contains("$i"))'
           done
         name: Verify required parameters
         env:
