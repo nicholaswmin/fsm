@@ -26,7 +26,11 @@ jobs:
 
           for i in "${required[@]}"
           do
-            [[ " ${keys[@]} " =~ " ${i} " ]] && echo "$i present" || echo "$i NOT present"; 
+            if [[ ${array[*]} =~ (^|[[:space:]])"$i"($|[[:space:]]) ]]; then
+                echo "Yes";
+            else
+                echo "No";
+            fi
           done
         name: Verify required parameters
         env:
