@@ -41,8 +41,7 @@ jobs:
             done
           }
           
-          required=("NPM_TOKEN" "github_token" "mouse")
-
+          validate $secrets ("NPM_TOKEN" "github_token" "mouse") "secrets"
 
         name: Verify required parameters
         env:
