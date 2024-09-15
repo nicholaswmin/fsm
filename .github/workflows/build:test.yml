@@ -24,11 +24,8 @@ jobs:
           keys=$(jq -n "$secrets" | jq 'to_entries | .[].value' --raw-output)
           for i in "${required[@]}"
             do
-              if [[ ${keys[*]} =~ (^|[[:space:]])"$i"($|[[:space:]]) ]]; then
-                  echo "Yes";
-              else
-                  echo "No";
-              fi
+              echo $keys
+              echi $i
           done
         name: Verify required parameters
         env:
