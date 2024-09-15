@@ -25,8 +25,9 @@ jobs:
           for i in "${required[@]}"
             do
             has=$(jq 'has('\"$i\"')' <<< $keys)
-            if [ $has ]; then
-              echo "$i is present"            
+            val=$(jq 'select('\"$i\"')' <<< $keys)
+            if [ $has == true ]; then
+              echo "$i is present: value: $val"            
             fi
           done
         name: Verify required parameters
