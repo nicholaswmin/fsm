@@ -19,7 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          for i in ${{ join(env.secrets, ' ') }}
+          for i in ${{ join(env, ' ') }}
           do
             echo $i
           done
