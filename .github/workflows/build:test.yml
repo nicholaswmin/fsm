@@ -27,7 +27,7 @@ jobs:
           for i in "${required[@]}"
             do
             has=$("$keys" | jq 'map(has("$i"))')
-            echo "$has $i"
+            echo "$has"
           done
         name: Verify required parameters
         env:
