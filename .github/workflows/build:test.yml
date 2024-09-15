@@ -26,12 +26,14 @@ jobs:
 
           for i in "${required[@]}"
           do
-            echo $i;
-            if [[ ${array[*]} =~ (^|[[:space:]])"$i"($|[[:space:]]) ]]; then
-                echo "Yes";
-            else
-                echo "No";
-            fi
+            for j in "${keys[@]}"
+            do
+              if [[ ${j} = ${i} ]]; then
+                  echo "Yes";
+              else
+                  echo "No";
+              fi
+            done
           done
         name: Verify required parameters
         env:
