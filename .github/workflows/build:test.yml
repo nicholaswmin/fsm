@@ -31,8 +31,8 @@ jobs:
               exists=$(jq 'has('\"$i\"')' <<< $keys)
               value=$(jq  ".$i" <<< $keys)
 
-              if [ $exists == true ]; then
-                if [ -z "${value}" ]; then
+              if [ $exists == true ]; then;
+                if [ -z "${value}" ]; then;
                   echo "::error title="param. empty"::"$i exists but is empty"
                   exit 1
                 fi
