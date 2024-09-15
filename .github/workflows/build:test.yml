@@ -20,6 +20,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: |
           keys=$(jq -n "$secrets" | jq 'to_entries | .[].value' --raw-output)
+          echo $keys
         name: Verify required parameters
         env:
           secrets: ${{ toJSON(secrets) }}
