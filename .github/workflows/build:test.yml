@@ -21,8 +21,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: |
           err_title="Missing parameters"
-          err_msg_1="Expected: NPM_TOKEN=npm_xxx "
-          err_msg_2="Expected: to be found on Environment: CI."
+          err_msg_1="Expected to find secret: NPM_TOKEN=npm_xxx, "
+          err_msg_2="on Environment: CI."
 
           tip_title="Setting secrets/variables"
           tip_msg_1="Add in: Repository Settings > Secrets/Variables > Actions."
