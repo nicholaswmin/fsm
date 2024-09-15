@@ -19,8 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          keys=echo "$secrets" | jq -r 'to_entries[]
-          echo $keys
+          keys=echo "$secrets" | jq -r to_entries[]
         name: Verify required parameters
         env:
           secrets: ${{ toJSON(secrets) }}
