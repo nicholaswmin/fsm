@@ -19,7 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          declare -a required=("NPM_TOKEN" "github_token" "element3")
+          declare -a required=("COVERALLS_REPO_TOKEN" "github_token" "element3")
 
           keys=$(jq -n "$secrets" | jq 'keys')
           echo $keys
