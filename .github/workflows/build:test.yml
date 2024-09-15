@@ -24,8 +24,12 @@ jobs:
           keys=$(jq -n "$secrets" | jq 'to_entries | .[].value' --raw-output)
           for i in "${required[@]}"
             do
-              echo $keys
-              echo $i
+              if [[ " ${keys[*]} " == *"$i"* ]];
+              then
+                  echo "YES, your arr contains $i"
+              else
+                  echo "NO, your arr does not contain $i"
+              fi
           done
         name: Verify required parameters
         env:
