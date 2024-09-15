@@ -19,10 +19,8 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          echo "$secrets" | jq -r 'to_entries[] | \
-          while IFS=, read -r x y; 
-          do echo "x=$x, y=$y";
-          done
+          keys=echo "$secrets" | jq -r 'to_entries[]
+          echo $keys
         name: Verify required parameters
         env:
           secrets: ${{ toJSON(secrets) }}
