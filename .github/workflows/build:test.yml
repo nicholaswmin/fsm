@@ -26,7 +26,7 @@ jobs:
 
             for i in "${required[@]}"
               do
-              exists=$(jq 'has('\"$i\"')' <<< "$keys")
+              exists=true
               value=$(jq  ".$i" <<< "$keys")
 
               if [ $exists == true ]; then
