@@ -19,11 +19,8 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          for i in ${{ join(env, ' ') }}
-          do
-            echo $i
-            echo "varasda"
-          done
+          ${{ join(env.secrets ' ') }} | jq -r 'to_entries[] | [.key, .value.a1] | @tsv'
+
         name: Verify required parameters
         env:
           secrets: ${{ toJSON(secrets) }}
