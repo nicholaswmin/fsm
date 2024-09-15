@@ -26,12 +26,7 @@ jobs:
 
           for i in "${required[@]}"
             do
-              if [[ $(jq -n $keys | 'map(select(.key == "$i"))') ]];
-              then
-                  echo "YES, your arr contains $i"
-              else
-                  echo "NO, your arr does not contain $i"
-              fi
+            $ echo "$keys" | jq -c '.[] | select(.genre | contains("$i"))'
           done
         name: Verify required parameters
         env:
