@@ -26,6 +26,7 @@ jobs:
 
           for i in "${required[@]}"
           do
+            echo $i;
             if [[ ${array[*]} =~ (^|[[:space:]])"$i"($|[[:space:]]) ]]; then
                 echo "Yes";
             else
