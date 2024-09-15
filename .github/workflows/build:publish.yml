@@ -1,5 +1,10 @@
 # From https://docs.npmjs.com/generating-provenance-statements
 # `$ npm publish` with established provenance 
+# 
+# Required Parameters
+# - On environment: `CI`
+#   - Secret: `NPM_TOKEN`: An npm access token with read/write permissions
+
 name: Publish Package to npmjs
 on:
   release:
@@ -17,6 +22,20 @@ jobs:
         with:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
+      - run: |
+          err_title="Missing parameters"
+          err_msg_1="Expected: NPM_TOKEN=npm_xxx "
+          err_msg_2="Expected: to be found on Environment: CI"
+
+          tip_title="Setting secrets/variables"
+          tip_msg_1="Visit: Repository Settings > Secrets/Variables > Actions"
+          tip_msg_2="environment: CI must exist, containing above secrets/vars" 
+
+          echo "::error title=${err_title}::${err_msg_1}. ${err_msg_1}."
+          echo "::notice title=${tip_title}::${tip_msg_1}. ${tip_msg_2}."
+          exit 1
+        if: startsWith(secrets.NPM_TOKEN, 'npm')
+        name: Verify parameters
       - run: npm ci
       - run: npm publish --provenance --access public
         env:
