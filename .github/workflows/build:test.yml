@@ -19,9 +19,9 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          echo "$secrets" | jq -r 'to_entries[] | while IFS=, read -r x y; 
-          do
-          echo "x=$x, y=$y"
+          echo "$secrets" | jq -r 'to_entries[] | \
+          while IFS=, read -r x y; 
+          do echo "x=$x, y=$y";
           done
         name: Verify required parameters
         env:
