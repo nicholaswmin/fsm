@@ -20,8 +20,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: |
           validate() {
-            keys=$(jq -n "$1")
-            required="$2"
+            declare -a keys=("${!1}")
+            declare -a required=("${!2}")
+
             name="$3"
               
             echo $required
