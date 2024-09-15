@@ -470,10 +470,14 @@ node --test --experimental-test-coverage
 [^1]: There are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm].  
       This documentation describes a specific type of state machine, the 
-      [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.  
+      [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.
       
-      *"automaton"* is just the fancy academic term from automata theory 
-      meaning *"automatic machine"*. 
+      This documentation specifically avoids the formal terminology from 
+      Automata Theory because it's littered with high-horse bullshido that
+      tend to confuse rather than clarify.
+    
+      *"automaton"* is the fancy academic term from automata theory 
+      meaning *"automatic machine"*. Thanks?
 
 [^2]: Just a fancy term for: "takes an infinite number of arguments".   
       Also called function of "n-arity" where "arity" = number of arguments.   
