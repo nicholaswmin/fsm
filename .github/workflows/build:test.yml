@@ -19,15 +19,12 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          
-          ## now loop through the above array
-          for i in "${secrets[@]}"
+          for i in ${{ join(secrets, ' ') }}
           do
             if [ -z "${!i}" ]; then
-            echo "::error title="Missing req. secret: '{i}'"
-              fi
+              echo "::error title="Missing req. secret: '{i}'"
+            fi
           done
-        if: ${{ !startsWith(env.NPM_TOKEN, 'npm') }}
         name: Verify required parameters
         env:
           secrets: ${{ toJSON(secrets) }}
