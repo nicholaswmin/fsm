@@ -19,21 +19,32 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          required=("NPM_TOKEN" "github_token" "mouse")
-          keys=$(jq -n "$secrets" )
+          function JSONHasValidKey() {
+            $1 $2 $3
+            
+            keys=$(jq -n "$1" )
+            required=$2
+            name=$3
 
-          for i in "${required[@]}"
-            do
-            exists=$(jq 'has('\"$i\"')' <<< $keys)
-            value=$(jq  ".$i" <<< $keys)
-            if [ $exists == true ]; then
-              if [ -z "${value}" ]; then
-                echo "$i exists but has empty value. Throw."
+            for i in "${required[@]}"
+              do
+              exists=$(jq 'has('\"$i\"')' <<< $keys)
+              value=$(jq  ".$i" <<< $keys)
+              if [ $exists == true ]; then
+                if [ -z "${value}" ]; then
+                  echo "::error title="$param. empty"::"$i exists but is empty"
+                  exit 1
+                fi
+              else
+                echo "::error title="$param. missing"::"$i missing from $name"
+                exit 1
               fi
-            else
-              echo "$i does not exist. Throw."
-            fi
-          done
+            done
+          }
+          
+          required=("NPM_TOKEN" "github_token" "mouse")
+
+          JSONHasValidKey $secrets $required "secrets"
         name: Verify required parameters
         env:
           secrets: ${{ toJSON(secrets) }}
