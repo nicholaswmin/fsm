@@ -19,11 +19,8 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          keys=$(jq -n "$secrets" | jq 'to_entries | .[].value' --raw-output)
-          for i in "${keys[@]}"
-          do
-            echo "${i} <--"
-          done
+          keys=$(jq -n "$secrets" | jq 'to_entries | map(select(.key != "null"))[] | (.key, .value.type)' --raw-output)
+          echo $keys
         name: Verify required parameters
         env:
           secrets: ${{ toJSON(secrets) }}
