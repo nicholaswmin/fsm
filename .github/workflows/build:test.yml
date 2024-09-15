@@ -30,13 +30,14 @@ jobs:
               do
               exists=$(jq 'has('\"$i\"')' <<< $keys)
               value=$(jq  ".$i" <<< $keys)
+
               if [ $exists == true ]; then
                 if [ -z "${value}" ]; then
-                  echo "::error title="$param. empty"::"$i exists but is empty"
+                  echo "::error title="param. empty"::"$i exists but is empty"
                   exit 1
                 fi
               else
-                echo "::error title="$param. missing"::"$i missing from $name"
+                echo "::error title="param. missing"::"$i missing from $name"
                 exit 1
               fi
             done
