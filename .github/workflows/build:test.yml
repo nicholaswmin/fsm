@@ -19,7 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          echo "$secrets" |jq -r 'to_entries[] | while read -r prop; 
+          echo "$secrets" | jq -r 'to_entries[] | while read -r prop; 
             do echo "do something with $prop"; 
           done
         env:
