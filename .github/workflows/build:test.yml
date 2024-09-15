@@ -23,10 +23,12 @@ jobs:
 
           keys=$(jq -n "$secrets" )
           echo $keys
+          sample='{"name": "hello"}'
+          echo $sample
           
           for i in "${required[@]}"
             do
-            has=$(jq 'has("$i")' <<< $keys)
+            has=$(jq 'has("$i")' <<< $sample)
             echo "$has $i"
           done
         name: Verify required parameters
