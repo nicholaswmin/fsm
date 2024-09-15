@@ -25,7 +25,7 @@ jobs:
           for i in "${required[@]}"
             do
             has=$(jq 'has('\"$i\"')' <<< $keys)
-            if [ $has == true ]; then
+            if [ $has ]; then
               echo "$i is present"            
             fi
           done
