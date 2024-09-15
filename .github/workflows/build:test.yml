@@ -23,7 +23,9 @@ jobs:
             keys=$(jq -n "$1")
             required="$2"
             name="$3"
-
+              
+            echo $keys
+            
             for i in "${required[@]}"
               do
               exists=$(jq 'has('\"$i\"')' <<< "$keys")
