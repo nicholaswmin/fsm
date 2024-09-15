@@ -19,7 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          ${{ join(env.secrets ' ') }} | jq -r 'to_entries[] | [.key, .value.a1] | @tsv'
+          $ jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' ${{ join(env.secrets ' ') }}
 
         name: Verify required parameters
         env:
