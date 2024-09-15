@@ -22,13 +22,14 @@ jobs:
       - run: |
           err_title="Missing parameters"
           err_msg_1="Expected to find secret: 'NPM_TOKEN'"
-          err_msg_2="on Environment:' 'CI'."
+          err_msg_2="on Environment: 'CI'."
 
           tip_title="Setting secrets/variables"
-          tip_msg_1="Add in: Repository Settings > Secrets/Variables > Actions."
+          tip_msg_1="Go to: Repository Settings > Secrets/Variables > Actions."
+          tip_msg_2="Ensure Environment exists & sets the missing secrets/vars."
 
           echo "::error title=${err_title}::${err_msg_1} ${err_msg_2}."
-          echo "::notice title=${tip_title}::${tip_msg_1}."
+          echo "::notice title=${tip_title}::${tip_msg_1} ${tip_msg_2}"
           exit 1
         if: ${{ startsWith(env.NPM_TOKEN, 'npm') }}  ✅
         name: Verify required parameters
