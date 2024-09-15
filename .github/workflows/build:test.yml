@@ -19,15 +19,15 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          validate() {         
-            keys=$(jq -n $1)
+          validate() {
+            keys=$(jq -n "$1")
             required="$2"
             name="$3"
 
             for i in "${required[@]}"
               do
-              exists=$(jq 'has('\"$i\"')' <<< $keys)
-              value=$(jq  ".$i" <<< $keys)
+              exists=$(jq 'has('\"$i\"')' <<< "$keys")
+              value=$(jq  ".$i" <<< "$keys")
 
               if [ $exists == true ]; then
                 if [ -z "${value}" ]; then
