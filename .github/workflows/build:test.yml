@@ -25,11 +25,10 @@ jobs:
           err_msg_2="Expected: to be found on Environment: CI."
 
           tip_title="Setting secrets/variables"
-          tip_msg_1="Visit: Repository Settings > Secrets/Variables > Actions."
-          tip_msg_2="environment: CI must exist, containing above secrets/vars." 
+          tip_msg_1="Add in: Repository Settings > Secrets/Variables > Actions."
 
-          echo "::error title=${err_title}::${err_msg_1}. ${err_msg_1}."
-          echo "::notice title=${tip_title}::${tip_msg_1}. ${tip_msg_2}."
+          echo "::error title=${err_title}::${err_msg_1}. ${err_msg_2}."
+          echo "::notice title=${tip_title}::${tip_msg_1}."
           exit 1
         if: ${{ startsWith(env.NPM_TOKEN, 'npm') }}  ✅
         name: Verify required parameters
