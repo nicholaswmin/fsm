@@ -21,7 +21,7 @@ jobs:
       - run: |
           required=("NPM_TOKEN" "dog" "mouse" "frog")
 
-          keys=$(jq -n "$secrets" | jq 'to_entries | .[].key' --raw-output)
+          keys=$(jq -n "$secrets" | jq 'to_entries')
           for i in "${required[@]}"
             do
               if [[ " ${keys[*]} " == *"$i"* ]];
