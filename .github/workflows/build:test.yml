@@ -24,7 +24,7 @@ jobs:
             required="$2"
             name="$3"
               
-            echo $keys
+            echo $required
             
             for i in "${required[@]}"
               do
