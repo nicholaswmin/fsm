@@ -22,6 +22,8 @@ jobs:
           declare -a required=("NPM_TOKEN" "github_token" "element3")
 
           keys=$(jq -n "$secrets" | jq 'keys')
+          echo $keys
+
           for i in "${required[@]}"
           do
             [[ " ${keys[@]} " =~ " ${i} " ]] && echo "$i present" || echo "$i NOT present"; 
