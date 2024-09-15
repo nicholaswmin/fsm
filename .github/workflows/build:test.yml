@@ -21,7 +21,7 @@ jobs:
       - run: |
           for i in ${{ join(env.secrets, ' ') }}
           do
-            echo "vari-${i}"
+            echo $i
           done
         name: Verify required parameters
         env:
