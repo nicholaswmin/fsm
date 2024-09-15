@@ -19,10 +19,12 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
+          declare -a required=("NPM_TOKEN" "github_token" "element3")
+
           keys=$(jq -n "$secrets" | jq 'to_entries | map(select(.key != "null"))[] | (.key)' --raw-output)
-          for i in "${keys[@]}"
+          for i in "${required[@]}"
           do
-            echo "${i} iteration";
+            [[ " ${keys[@]} " =~ " ${i} " ]] && echo "$i present" || echo "$i NOT present"; 
           done
         name: Verify required parameters
         env:
