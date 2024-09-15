@@ -21,7 +21,7 @@ jobs:
       - run: |
           required=("NPM_TOKEN" "dog" "mouse" "frog")
 
-          keys=$(jq -n "$secrets" | jq '.')
+          keys=$(jq -r "$secrets")
           echo $keys
 
           for i in "${required[@]}"
