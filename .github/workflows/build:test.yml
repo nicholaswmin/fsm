@@ -19,9 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          validate() {
-            $1 $2 $3
-            
+          validate() {            
             keys=$(jq -n "$1")
             required=$2
             name=$3
