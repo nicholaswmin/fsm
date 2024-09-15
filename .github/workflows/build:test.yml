@@ -19,13 +19,9 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          required=("NPM_TOKEN" "dog" "mouse" "frog")
-
+          required=("NPM_TOKEN" "github_token" "mouse")
           keys=$(jq -n "$secrets" )
-          echo $keys
-          sample='{"NPM_TOKEN": "3"}'
-          echo $sample
-          
+
           for i in "${required[@]}"
             do
             echo $i
