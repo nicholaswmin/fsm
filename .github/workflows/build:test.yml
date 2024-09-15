@@ -24,10 +24,9 @@ jobs:
 
           for i in "${required[@]}"
             do
-            echo $i
-
-            has=$(jq 'has('\"$i\"')' <<< $keys)
-            echo "$has $i"
+            if [ ! $(jq 'has('\"$i\"')' <<< $keys) ]; then
+              echo "$i is missing"            
+            fi
           done
         name: Verify required parameters
         env:
