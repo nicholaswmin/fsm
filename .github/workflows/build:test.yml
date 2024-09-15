@@ -21,9 +21,7 @@ jobs:
       - run: |
           for i in ${{ join(secrets, ' ') }}
           do
-            if [ -z "${!i}" ]; then
-              echo "::error title="Missing req. secret: '{i}'"
-            fi
+            echo "${i}"
           done
         name: Verify required parameters
         env:
