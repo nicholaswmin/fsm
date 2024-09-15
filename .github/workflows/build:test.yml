@@ -25,8 +25,8 @@ jobs:
             echo $3
 
             keys=$(jq -n "$1")
-            required=$2
-            name=$3
+            required="$2"
+            name="$3"
 
             for i in "${required[@]}"
               do
