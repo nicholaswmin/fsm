@@ -23,13 +23,12 @@ jobs:
 
           keys=$(jq -n "$secrets" | jq 'to_entries')
           echo $keys
+
           for i in "${required[@]}"
             do
-              if [[ " ${keys[*]} " == *"$i"* ]];
+              if [[ $(jq -e 'has("$i")') ]];
               then
                   echo "YES, your arr contains $i"
-                  value=  $(jq -n "$secrets" | jq '.["$i"]')
-                  echo "${value}"
               else
                   echo "NO, your arr does not contain $i"
               fi
