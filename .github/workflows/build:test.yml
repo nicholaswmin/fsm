@@ -22,6 +22,7 @@ jobs:
           for i in ${{ join(env, ' ') }}
           do
             echo $i
+            echo "varasda"
           done
         name: Verify required parameters
         env:
