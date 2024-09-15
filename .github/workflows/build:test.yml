@@ -19,7 +19,7 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          keys=$(jq -n "$secrets" | jq 'to_entries | map(select(.key != "null"))[] | (.key, .value)' --raw-output)
+          keys=$(jq -n "$secrets" | jq 'to_entries | map(select(.key != "null"))[] | (.key)' --raw-output)
           for i in "${keys[@]}"
           do
             echo "${i} iteration";
