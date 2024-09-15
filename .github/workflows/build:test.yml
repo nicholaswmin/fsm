@@ -19,20 +19,19 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          err_title="Missing parameters"
-          err_msg_1="Cannot find secret: 'NPM_TOKEN'"
-
-          tip_title="Setting secrets/variables"
-          tip_msg_1="Go to: Repository Settings > Secrets/Variables > Actions."
-          tip_msg_2="Ensure default environment sets the missing secrets/vars."
-
-          echo "::error title=${err_title}::${err_msg_1} ${err_msg_2}."
-          echo "::notice title=${tip_title}::${tip_msg_1} ${tip_msg_2}"
-          exit 1
+          
+          ## now loop through the above array
+          for i in "${secrets[@]}"
+          do
+            if [ -z "${!i}" ]; then
+            echo "::error title="Missing req. secret: '{i}'"
+              fi
+          done
         if: ${{ !startsWith(env.NPM_TOKEN, 'npm') }}
         name: Verify required parameters
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          secrets: ${{ toJSON(secrets) }}
+          vars: ${{ toJSON(vars) }}
 
       - run: |
           ok_title="Package Published!"

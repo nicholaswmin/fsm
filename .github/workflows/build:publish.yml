@@ -23,18 +23,12 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          err_title="Missing parameters"
-          err_msg_1="Expected: NPM_TOKEN=npm_xxx "
-          err_msg_2="Expected: to be found on Environment: CI"
-
-          tip_title="Setting secrets/variables"
-          tip_msg_1="Visit: Repository Settings > Secrets/Variables > Actions"
-          tip_msg_2="environment: CI must exist, containing above secrets/vars" 
-
-          echo "::error title=${err_title}::${err_msg_1}. ${err_msg_1}."
-          echo "::notice title=${tip_title}::${tip_msg_1}. ${tip_msg_2}."
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error title="Missing req. secret: 'NPM_TOKEN'"
+          fi
+          echo "::error title="Missing req. secret: 'NPM_TOKEN'"
           exit 1
-        if: startsWith(secrets.NPM_TOKEN, 'npm')
+        if: env.NPM_TOKEN = null
         name: Verify parameters
       - run: npm ci
       - run: npm publish --provenance --access public
