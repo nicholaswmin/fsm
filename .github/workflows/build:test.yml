@@ -24,10 +24,14 @@ jobs:
 
           for i in "${required[@]}"
             do
-            has=$(jq 'has('\"$i\"')' <<< $keys)
-            val=$(jq  ".$i" <<< $keys)
-            if [ $has == true ]; then
-              echo "$i is present: value: $val"            
+            exists=$(jq 'has('\"$i\"')' <<< $keys)
+            value=$(jq  ".$i" <<< $keys)
+            if [ $exists == true ]; then
+              if [ -z "${value}" ]; then
+                echo "$i exists but has empty value. Throw."
+              fi
+            else
+              echo "$i does not exist. Throw."
             fi
           done
         name: Verify required parameters
