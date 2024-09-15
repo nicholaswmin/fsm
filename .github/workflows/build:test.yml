@@ -26,7 +26,7 @@ jobs:
 
           for i in "${required[@]}"
             do
-              if [[ $(jq -n $keys | map(select(.key == "$i"))') ]];
+              if [[ $(jq -n $keys 'map(select(.key == "$i"))') ]];
               then
                   echo "YES, your arr contains $i"
               else
