@@ -25,7 +25,7 @@ jobs:
           for i in "${required[@]}"
             do
               echo $keys
-              echi $i
+              echo $i
           done
         name: Verify required parameters
         env:
