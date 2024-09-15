@@ -19,9 +19,9 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          for i in ${{ join(secrets, ' ') }}
+          for i in ${{ join(env.secrets, ' ') }}
           do
-            echo "var-${i}"
+            echo "vari-${i}"
           done
         name: Verify required parameters
         env:
