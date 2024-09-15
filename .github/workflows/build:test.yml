@@ -24,7 +24,7 @@ jobs:
 
           for i in "${required[@]}"
             do
-            if [ ! $(jq 'has('\"$i\"')' <<< $keys) ]; then
+            if [ $(jq 'has('\"$i\"')' <<< $keys) ]; then
               echo "$i is missing"            
             fi
           done
