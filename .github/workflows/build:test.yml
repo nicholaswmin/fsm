@@ -30,7 +30,7 @@ jobs:
             do
             echo $i
 
-            has=$(jq 'has("${i}")' <<< '{"name": "hello"}')
+            has=$(jq 'has(\"${i}\")' <<< '{"name": "hello"}')
             echo "$has $i"
           done
         name: Verify required parameters
