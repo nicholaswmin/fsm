@@ -19,12 +19,9 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          validate() {
-            haystack="$1"
-            needles="$2"
-
-            keys=$(jq -n "$haystack")
-            required="$needles"
+          validate() {         
+            keys=$(jq -n $1)
+            required="$2"
             name="$3"
 
             for i in "${required[@]}"
