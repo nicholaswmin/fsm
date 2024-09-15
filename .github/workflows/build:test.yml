@@ -21,12 +21,12 @@ jobs:
       - run: |
           required=("NPM_TOKEN" "dog" "mouse" "frog")
 
-          keys=$(jq -n "$secrets" | jq 'to_entries')
+          keys=$(jq -n "$secrets" | jq '.')
           echo $keys
 
           for i in "${required[@]}"
             do
-            echo "$secrets" | jq 'map(has("$i"))'
+            echo "$keys" | jq 'map(has("$i"))'
           done
         name: Verify required parameters
         env:
