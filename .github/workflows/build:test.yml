@@ -19,23 +19,16 @@ jobs:
           node-version: latest
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          declare -a required=("COVERALLS_REPO_TOKEN" "github_token" "element3")
+          required=("NPM_TOKEN" "dog" "mouse" "frog")
 
-          keys=$(jq -n "$secrets" | jq 'to_entries | .[].key')
-          echo $keys
-
+          keys=$(jq -n "$secrets" | jq 'to_entries | .[].value' --raw-output)
           for i in "${required[@]}"
-          do
-            for j in "${keys[@]}"
             do
-              echo $j
-              echo $i
-              if [[ $j == $i ]]; then
+              if [[ ${keys[*]} =~ (^|[[:space:]])"$i"($|[[:space:]]) ]]; then
                   echo "Yes";
               else
                   echo "No";
               fi
-            done
           done
         name: Verify required parameters
         env:
