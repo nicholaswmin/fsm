@@ -28,7 +28,7 @@ jobs:
           
           for i in "${required[@]}"
             do
-            has=$(jq -r 'has($i)' <<< $sample)
+            has=$(jq -r 'has("$i")' <<< $sample)
             echo "$has $i"
           done
         name: Verify required parameters
