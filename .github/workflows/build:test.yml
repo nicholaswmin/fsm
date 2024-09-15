@@ -29,7 +29,7 @@ jobs:
           echo "::error title=${err_title}::${err_msg_1} ${err_msg_2}."
           echo "::notice title=${tip_title}::${tip_msg_1} ${tip_msg_2}"
           exit 1
-        if: ${{ ! startsWith(env.NPM_TOKEN, 'npm') }}  ✅
+        if: ${{ !startsWith(env.NPM_TOKEN, 'npm') }}
         name: Verify required parameters
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
