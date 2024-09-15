@@ -1,13 +1,15 @@
 import valid from './schema.js'
 
 class FSM {
+  static parsed
   #state
   
-  constructor(states, ctx = this) {
-    this.states = valid.states(states)
-    this.#state = Object.keys(states).at(0)
+  constructor(states, ctx = this) { 
+    const parsed = FSM.constructor.parsed
+    this.states = valid.states(parsed?.states || states)
+    this.#state =  parsed?.state || Object.keys(states).at(0)
 
-    Object.values(states)
+    Object.values(this.states)
       .flatMap(Object.entries, this)
       .filter(this.constructor.missing, this)
       .forEach(this.add, this)
@@ -45,6 +47,22 @@ class FSM {
     this[this.constructor.fnName(state)]?.(...args)
     
     return this
+  }
+  
+  toJSON() {
+    return {
+      name: this.constructor.name,
+      states: this.states,
+      state: this.#state
+    }
+  }
+  
+  static parse(json, ctx) {
+    this.constructor.parsed = JSON.parse(json)
+    const instance = new this(null, ctx)
+    this.constructor.parsed = null
+    
+    return instance
   }
 }
 

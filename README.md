@@ -32,9 +32,12 @@ Backed by a comprehensive test suite.
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Subclassing](#subclassing)
   * [Composition over Inheritance](#composition-over-inheritance)
-- [API docs](#api-docs)
-  * [`new FSM(states, ctx)`](#-new-fsm-states--ctx--)
+- [Serialising & Deserialising](#serialising-to-json)
+  * [Subclassing for improved ergonomics](#composition-over-inheritance)
+- [API](#api)
+  * [`new FSM(states, hooks)`](#-new-fsm-states--hooks--)
   * [`static FSM.onInvalid`](#-static-fsmoninvalid-)
+  * [`static FSM.parse(json, hooks)`](#-static-fsm.parse-)
   * [`fsm.state`](#-fsmstate-)
 - [Validations](#validations)
 - [Tests](#test)
@@ -333,7 +336,7 @@ await turnstile.coin()
 ## Subclassing
 
 Just implement any required hooks as subclass methods and don't pass a 2nd 
-`ctx` argument.
+`hooks` argument.
 
 ```js
 class Turnstile extends FSM {
@@ -360,7 +363,7 @@ console.log(turnstile.state)
 
 ### Composition over Inheritance
 
-The `ctx` argument can still be used for *Composition over Inheritance*.
+The `hooks` argument can still be used for *Composition over Inheritance*.
 
 ```js
 class Turnstile {
@@ -383,16 +386,103 @@ console.log(turnstile.fsm.state)
 // state: opened
 ```
 
-## API docs
+### Serialising to JSON
 
-### `new FSM(states, ctx)`
+Serialise it to [JSON][json] using [JSON.stringify)][JSON.stringify], 
+
+```js
+const turnstile = new FSM({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+
+turnstile.coin()
+// state: opened
+
+const json = JSON.stringify(turnstile)
+// do whatever, save in DB, file ..
+```
+
+... revive it back to it's last state using `FSM.parse(json)`:
+
+```js
+const revived = FSM.parse(json)
+// state: opened 
+
+revived.push()
+// state: closed
+```
+
+The caveat is that any preregistered [hooks](#transition-hooks) are *not* 
+automatically re-registered.
+
+Although you can re-register them manually, like so:
+
+```js
+// assume hooks = object with hook functions/methods
+const revived = FSM.parse(json, hooks)
+```
+
+this can quickly become unergonomic. 
+
+So ...
+
+## Use subclassing when serialising
+
+Subclassing makes much more sense & doesn't need to re-registering anything.
+
+Just `JSON.stringify()` and `.parse()` it back:
+
+```js
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+  
+  onCoin() {
+    console.log('got a coin')
+  }
+
+  onPush() {
+    console.log('pushed ..')
+  }
+}
+
+const turnstile = new Turnstile()
+
+turnstile.coin()
+// got a coin
+// state: opened
+
+const json = JSON.stringify(turnstile)
+const revived = Turnstile.parse(json)
+// state: opened
+
+revived.push()
+// pushed ..
+// state: closed
+```
+
+> note: make sure you `Turnstile.parse(json)`, on the child class, rather than 
+> `FSM.parse(json)` using the generic `FSM`; which still works because of the 
+> Liskov Principle and all that but ultimately is not what you'd want.
+
+Beyond a certain point, you'd want to be subclassing anyway.
+
+
+## API
+
+### `new FSM(states, hooks)`
 
 Construct an `FSM`
 
 | name     | type     | desc.                           | default  |
 |----------|----------|---------------------------------|----------|
 | `states` | `object` | a [state-transition table][stt] | required |
-| `ctx`    | `object` | implements transition hooks     | `this`   |
+| `hooks`  | `object` | implements transition hooks     | `this`   |
 
 `states` must have the following shape:
 
@@ -404,6 +494,7 @@ state: { transition: 'state' }
 > The 1st state in `states` is set as the *initial* state.  
 > each `state` can list `zero`, `one` or `many` transitions.    
 
+
 ### `static FSM.onInvalid` 
 
 Called when an invalid transition is fired, 
@@ -414,6 +505,35 @@ Can be overriden, which configures the invalid behaviour.
 | name        | type       | desc.             | default        |
 |-------------|------------|-------------------|----------------|
 | `onInvalid` | `function` | invalid behaviour | `return false` |
+
+
+### `static FSM.parse(json, hooks)` 
+
+Deserialise/revive an instance from it's [JSON][json].   
+You can serialise an instance using: `JSON.stringify(fsm)`
+
+| name     | type     | desc.                             | default  |
+|----------|----------|-----------------------------------|----------|
+| `json`   | `string` | result of `JSON.stringify(fsm)`   | required |
+| `hooks`  | `object` | implements transition hooks       | optional |
+
+> note: use subclassing so you won't ever need to pass a `hooks` argument
+
+> note: use the correponding `ChildClass.parse` when deserialising.
+
+### `JSON.stringify(fsm)`
+
+Returns a [JSON][json] of the FSM, for storing in a database, file, freezer ..
+The JSON contains the in stance type in case you need to look it up for
+choosing the correct class for parsing/deserialising:
+
+```js
+const turnstile = new Turnstile()
+
+turnstile.coin()
+
+// { "name":"Turnstile", "states": {"closed ...
+```
 
 
 ### `fsm.state` 
@@ -438,7 +558,8 @@ the error.
 Additionally, this implementation freezes it's internals to guard against
 accidental modifications by reference, via it's arguments. 
 
-As such, `FSM` instances should be considered [*immutable*][imut].
+As such, `FSM` instances should be considered unmodifiable, and 
+at least externally, as [*immutable*][imut].
 
 ## Test 
 
@@ -457,6 +578,10 @@ node --test --experimental-test-coverage
 ## Contributing
 
 [Contribution guide][contr-guide]
+
+## Todos
+
+[Todos][todos]
 
 ## Authors
 
@@ -500,7 +625,11 @@ node --test --experimental-test-coverage
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
 [imut]: https://en.wikipedia.org/wiki/Immutable_object
+[JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+[json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[workers]: https://nodejs.org/api/worker_threads.html
 
 [contr-guide]: ./.github/CONTRIBUTING.md
+[todo]: ./.github/TODO.md
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
