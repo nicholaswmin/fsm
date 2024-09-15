@@ -28,7 +28,9 @@ jobs:
           do
             for j in "${keys[@]}"
             do
-              if [[ ${j} = ${i} ]]; then
+              echo $j
+              echo $i
+              if [[ $j == $i ]]; then
                   echo "Yes";
               else
                   echo "No";
