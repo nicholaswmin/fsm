@@ -1,26 +1,28 @@
 ## Contributing
 
-This project does not accept contributions apart from bug fixes and 
-security disclosures. It's feature-complete.
+feature-complete but bug & security fixes welcome:
 
-## Test 
+follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom]
 
-The test suite is more important than the code.
+## minimal
 
-Required: `95%` unit-test coverage,`94%` is failing, `96%` nobody cares. 
+- no `dependencies`, no `devDependencies`. ever.
+- no `v2`. No new features.
+- feature-poor & uncomplicated.
+- bundle size hovering `1 KB`.
+- always published with [provenance][provenance]
 
-This is the only `no-go` metric. The CI linters, mutation testers etc.
-are just a heads up.
+## robust
 
-### Validations
+- strict validations.
+  -  don't clean up arguments: i.e `trim()` etc. 
+    `throw` error instead. require that user fixes it.
+- clear, descriptive and unambigous errors:
+  - mention property path if argument is a complex object.
+  - distinguish `TypeError`, `RangeError`.
+  - mention actual value & what was expected.
 
-Input arguments with a potential to cause runtime errors *must*  be strictly 
-validated for `typeof`, `undefined` and ranges, where ranges means: 
-`array`/`string` must not be empty, `object` must have keys etc.
-
-Require specific formats and throws a noisy error immediately if something is 
-amiss.
-
-[github-flow]: https://docs.github.com/en/get-started/using-github/github-flow
+[gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
+[provenance]: https://docs.npmjs.com/generating-provenance-statements
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
 [sv]: https://semver.org/

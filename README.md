@@ -223,10 +223,6 @@ turnstile.coin()
 const turnstile = new FSM({
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
-}, {
-  onCoin() {
-    console.log('got a coin, state:', this.state)
-  }
 })
 
 turnstile.onCoin()
@@ -442,24 +438,16 @@ class Turnstile extends FSM {
     })
   }
   
-  onCoin() {
-    console.log('got a coin')
-  }
-
-  onPush() {
-    console.log('pushed ..')
-  }
+  onPush() { console.log('got a coin') }
 }
 
 const turnstile = new Turnstile()
 
 turnstile.coin()
-// got a coin
 // state: opened
 
 const json = JSON.stringify(turnstile)
 const revived = Turnstile.parse(json)
-// state: opened
 
 revived.push()
 // pushed ..
@@ -558,8 +546,8 @@ the error.
 Additionally, this implementation freezes it's internals to guard against
 accidental modifications by reference, via it's arguments. 
 
-As such, `FSM` instances should be considered unmodifiable, and 
-at least externally, as [*immutable*][imut].
+As such, `FSM` instances, while obviously not strictly [*immutable*][imut], 
+are non-modifiable.
 
 ## Test 
 
@@ -598,18 +586,37 @@ node --test --experimental-test-coverage
       This documentation describes a specific type of state machine, the 
       [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.
       
-      This documentation specifically avoids the formal terminology from 
-      Automata Theory because it's littered with high-horse bullshido that
-      tend to confuse rather than clarify.
+      This documentation specifically avoids the formal terminology from   
+      Automata Theory because it's really just bunch of outdated terminology  
+      that makes simple concepts sound much harder than they are.
     
-      *"automaton"* is the fancy academic term from automata theory 
-      meaning *"automatic machine"*. Thanks?
+      *"automaton"* is the academic term from automata theory meaning 
+      *"automatic machine"*. ..yes, me smart, big words.
 
-[^2]: Just a fancy term for: "takes an infinite number of arguments".   
+[^2]: Means: "takes an infinite number of arguments".   
       Also called function of "n-arity" where "arity" = number of arguments.   
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
       n-ary/variadic: `f = (...args) => {}`
+      
+[^3]: The SOLID principles emphasize *preferring* (not replace) Composition over 
+      Inheritance because inheritance creates a strong `is-a` coupling 
+      relationship that ends up doing too much or even results in a wrong 
+      behavior, like the canonical 
+      [Circle/Ellipsis problem][circle-ellipsis].
+      
+      In the case of FSMs *none* of the above apply. 
+      
+      - A light switch `is-an` example of an FSM, like a `Duck` `is-an` animal.
+      - A turnstile `is-a` clear & unambigous FSM. 
+      
+      An FSM subclass can be entirely replaced with it's parent without any 
+      change in behavior, at all, which satisfies the Liskov principle.
+      
+      Additionally, the FSM creates it's methods dynamically, based on `states`; 
+      you're not polluting the child with unused methods.
+
+      There isn't much of an argument to make for Composition in this case.
       
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
@@ -628,6 +635,7 @@ node --test --experimental-test-coverage
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [workers]: https://nodejs.org/api/worker_threads.html
+[circle-ellipsis]: https://en.wikipedia.org/wiki/Circle%E2%80%93ellipse_problem
 
 [contr-guide]: ./.github/CONTRIBUTING.md
 [todo]: ./.github/TODO.md
