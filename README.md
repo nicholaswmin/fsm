@@ -562,10 +562,6 @@ node --test --experimental-test-coverage
 
 [Contribution guide][contr-guide]
 
-## Todos
-
-[Todos][todos]
-
 ## Authors
 
 [@nicholaswmin][author]
@@ -614,6 +610,5 @@ node --test --experimental-test-coverage
 [mixin]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends#mix-ins
 
 [contr-guide]: ./.github/CONTRIBUTING.md
-[todo]: ./.github/TODO.md
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
