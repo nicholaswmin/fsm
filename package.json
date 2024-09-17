@@ -8,9 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test --experimental-test-coverage",
-    "test:size": "node --run build:min; echo $(wc -c < dist/index.js.br) bytes",
-    "build:min": "rm -r -f dist; npx @vercel/ncc build -m -q; brotli -f dist/*"
+    "test": "node --test --experimental-test-coverage"
   },
   "repository": {
     "type": "git",
