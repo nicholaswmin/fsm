@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.11.2",
   "description": "finite-state machine",
-  "main": "src/index.js",
+  "exports": "./src/index.js",
   "engines": {
     "node": ">=22"
   },

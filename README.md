@@ -457,8 +457,6 @@ revived.push()
 > note: you parse on your own class `Turnstile.parse(json)`, instead of the 
 > parent `FSM.parse(json)`.
 
-Beyond a certain point, you'd want to be subclassing anyway.[^3]
-
 If your class is already a `ChildClass`, consider using a [`Mixin`][mixin].
 
 
@@ -589,37 +587,13 @@ node --test --experimental-test-coverage
       that tend to make simple concepts sound much harder than they are.
     
       *"automaton"* is the academic term from automata theory meaning 
-      *"automatic machine"*. ..ok, me smart, knows big words.
+      *"automatic machine"*.
 
 [^2]: Simply means it takes an infinite number of arguments.    
       Also called function of "n-arity" where "arity" = number of arguments.   
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
       n-ary/variadic: `f = (...args) => {}`
-      
-[^3]: The SOLID principles emphasize *preferring* (not replacing) 
-      Composition over Inheritance because inheritance creates a strong `is-a` 
-      coupling relationship that ends up doing too much or even results in a 
-      runtime error; the standard [Circle/Ellipsis problem][circle-ellipsis].
-      
-      That's universally accepted but in the case of FSMs *none* of the
-      above apply:
-      
-      - A Turnstile `is-an` FSM, like a `Duck` `is-an` `Animal`.
-      - .. or a `Light Switch` `is-an` `FSM`, like a `Car` `is-a` `Vehicle`.
-      
-      In fact there's no "light" switch in the real-world,
-      it's a switch that happens to control some light fixture.
-      A switch is by every conceivable definition first & foremost an FSM.
-      
-      Modelling it as an FSM via inheritance is 100% semantically correct;
-      at the same time it fully satisfies the Liskov Principle.
-      
-      This FSM creates it's methods dynamically, based on it's `states`.
-      You're not polluting the child with "unused" methods any more you would
-      have, had you chosen any other relationship model.
-
-      In short: Composition works too but strongly consider using Inheritance.
       
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
@@ -638,7 +612,6 @@ node --test --experimental-test-coverage
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [workers]: https://nodejs.org/api/worker_threads.html
-[circle-ellipsis]: https://en.wikipedia.org/wiki/Circle%E2%80%93ellipse_problem
 [mixin]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends#mix-ins
 
 [contr-guide]: ./.github/CONTRIBUTING.md
