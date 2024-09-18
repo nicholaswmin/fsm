@@ -1,8 +1,11 @@
 import test from 'node:test'
 
-import { Sync as FSM } from '../../../src/index.js'
+import { Sync as FSM } from '../../src/index.js'
 
-test('deserializing - subclass', async t => {
+test('static #parse(json)', async t => {
+  t.before(() => process.env.ALLOW_METHOD_MOCKS = '1')
+  t.after(() => delete process.env.ALLOW_METHOD_MOCKS)   
+
   let turnstile, onPush = t.mock.fn()
 
   class Turnstile extends FSM {
@@ -13,15 +16,11 @@ test('deserializing - subclass', async t => {
       })
     }
     
-    onPush(...args) {
-      return onPush(...args)
-    }
+    onPush() {}
   }
   
   await t.beforeEach( t => {  
-    onPush.mock.resetCalls()
-
-    turnstile = new Turnstile()
+    turnstile = new Turnstile()    
   })
     
   await t.test('#ChildClass.parse(json)', async t => { 
@@ -31,6 +30,8 @@ test('deserializing - subclass', async t => {
       turnstile.coin()
 
       revived = Turnstile.parse(JSON.stringify(turnstile))
+      
+      onPush = t.mock.method(revived, 'onPush')
     })
     
     await t.test('preserves type', t => {

@@ -23,22 +23,19 @@ Backed by a comprehensive test suite.
 - [Example](#example)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
-  * [Configurable behaviour](#configuring-behaviour)
+  * [Configure invalid behaviour](#configure-invalid-behaviour)
 - [Hooks](#transition-hooks)
   * [Transition hooks](#transition-hooks)
     + [Transition cancellations](#transition-cancellations)
   * [State hooks](#state-hooks)
   * [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
-- [Subclassing](#subclassing)
-  * [Composition over Inheritance](#composition-over-inheritance)
 - [Serialising & Deserialising](#serialising-to-json)
-  * [Prefer Subclassing](#prefer-subclassing)
 - [API](#api)
-  * [`new FSM(states, hooks)`](#-new-fsm-states--hooks--)
+  * [`new FSM(states, hooks)`](#-new-fsm-states)
+  * [`fsm.state`](#-fsmstate-)
   * [`static FSM.onInvalid`](#-static-fsmoninvalid-)
   * [`static FSM.parse(json, hooks)`](#-static-fsm.parse-)
-  * [`fsm.state`](#-fsmstate-)
 - [Validations](#validations)
 - [Tests](#test)
 - [Contributing](#contributing)
@@ -58,10 +55,16 @@ npm i @nicholaswmin/fsm
 ```js
 import { Sync as FSM } from '@nicholaswmin/fsm'
 
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+}
+
+const turnstile = new Turnstile()
 
 turnstile.coin()
 // state: opened
@@ -80,16 +83,20 @@ The above FSM simply expresses:
 Transition methods allow transitioning from one `state` to another, 
 if allowed under the `current state`.
 
-They are created and named after the provided transitions, 
+They are automaticaly created & named after the provided transitions, 
 which renders an expressive & domain-specific API.
 
-For example: 
+For example, the following FSM: 
 
 ```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+}
 ```
 
 ... has 2 transitions: 
@@ -97,11 +104,14 @@ const turnstile = new FSM({
 - `coin`  
 - `push`
 
-... therefore it creates 2 identically named transition methods:
+... therefore it has 2 identically-named methods:
 
 ```js
+const turnstile = new Turnstile()
+
 turnstile.coin()
 // state: opened
+
 turnstile.push()
 // state: closed
 ```
@@ -125,10 +135,16 @@ Triggering a transition that's not listed under the current state:
 > `push` while `state:closed` is invalid:
 
 ```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+}
+
+const turnstile = new Turnstile()
 
 console.log(turnstile.push())
 // false
@@ -137,21 +153,28 @@ console.log(turnstile.push())
 
 > the transition was invalid so the `state` did not change.
 
-### Configuring behaviour
+### Configure invalid behaviour
 
-The invalid behaviour can be configured by overriding `static onInvalid`:
+The invalid behaviour can be configured by overriding `static onInvalid`.
+
+> Example: throw an `Error` instead of silently ignoring the invalid 
+> transition:
 
 ```js
-class NoisyFSM extends FSM {
+class NoisyTurnstile extends FSM {
   static onInvalid(transition) {
     throw Error(`cannot ${transition} from ${this.state}`)
   }
+
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
 }
 
-const turnstile = new NoisyFSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
+const turnstile = new Turnstile()
 
 turnstile.push()
 // Error: cannot push from: closed
@@ -160,17 +183,20 @@ turnstile.push()
 ... `onInvalid` accepts variadic arguments: [^2]
 
 ```js
-class NoisyFSM extends FSM {
+class Turnstile extends FSM {
   static onInvalid(transition, arg1, arg2) {
     console.log(arg1, arg2)
-    // ... rest of code
+  }
+  
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
   }
 }
 
-const turnstile = new NoisyFSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
+const turnstile = new Turnstile()
 
 turnstile.push('foo', 'bar')
 // foo, bar
@@ -181,105 +207,118 @@ turnstile.push('foo', 'bar')
 Hooks are methods which are called at specific transition phases,   
 optionally altering the transition behavior.
 
-Each transition adds: 
+A valid transition attempt will call:
 
-- 1 transition hook
-- 1 state hook
- 
-To define a hook, pass an object as the 2nd argument which implements 
-the required hooks as methods.
+### A *transition hook*
 
-If an appropriately named hook is found, it's called, otherwise it's ignored.
+> named `on<transition-name>`
 
-> example: a hook that gets called when `state:opened`.
+i.e 
+
+- transition: `coin` calls method `onCoin`
+- transition: `push` calls method `onPush`
+
+> transition hooks are always called *before* the state is changed.
+
+If the transition completes & the state changes, it then calls:
+
+### A *state hook*
+
+> named `on<state-name>`
+
+- state `opened` calls method `onOpened`
+- state `closed` calls method `onClosed`
+
+
+> note: hooks are only called if they exist. They are optional.
+
+### Example
 
 ```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onOpened() {
-    console.log('turnstile is open')
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+    
+    // transition hooks
+
+    onCoin() {
+      console.log('got a coin')
+    }
+    
+    onPush() {
+      console.log('pushed')
+    }
+    
+    // state hooks
+
+    onOpened() {
+      console.log('its open')
+    }
+    
+    onClosed() {
+      console.log('now closed')
+    }
   }
-})
-
-turnstile.coin()
-// state: opened
-
-// turnstile is open
+}
 ```
 
-> note: hooks must be named after the transition or the state, prefixed 
-> with `on`.   
->
-> i.e: transition `coin` looks for a transition hook named: `onCoin`  
-> i.e: state `opened` looks for a state hook named: `onOpened`  
-
-### Transition hooks 
- 
-> called when a transition is triggered, *before* the state is changed:
+then: 
 
 ```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
+const turnstile = new Turnstile()
 
-turnstile.onCoin()
-// got a coin, state: closed
-
-console.log(turnstile.state)
+turnstile.coin()
+// - got a coin
 // state: opened
+// - its open
+
+
+turnstile.push()
+// - pushed
+// state: closed
+// - now closed
 ```
 
 ### Transition cancellations
 
-Transition hooks may cancel a transition by explicitly returning `false`.
+Transition hooks may cancel thex transition by explicitly returning  `false`.
+
+- A cancelled transition does not change the *state*.  
+- The `state hook` method is not called.
+
+
+> example: the following turnstile only works with `50c` coins:
 
 ```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+  
   onCoin(coin) {
     return coin >= 50
   }
-})
+}
+
+const turnstile = new Turnstile()
 
 turnstile.coin(30)
 // state: closed 
+// - state didnt change,
+//   still closed!
 
 turnstile.coin(50)
 // state: opened
+// - now it did ...
 ```
 
-> note: cancellations require returning `false`, not "falsy" values.
-
-
-### State hooks 
-
-> called when a transition completes, *after* the state changes:
-
-```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onClosed() {
-    console.log('closed')
-  },
-  onOpened() {
-    console.log('opened')
-  }
-})
-
-turnstile.coin()
-// opened!
-
-turnstile.push()
-// closed!
-
-```
+> note: cancellations must return `false`, not "falsy" values.
 
 ## Passing arguments 
 
@@ -287,14 +326,22 @@ Transition methods can pass arguments to relevant hooks, assumed to be
 variadic: [^2]
 
 ```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onCoin: (one, two) => console.log(one, two)
-})
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+  
+  onCoin(one, two) {
+    return console.log(one, two)
+  }
+}
 
-turnstile.insertCoin('foo', 'bar')
+const turnstile = new Turnstile()
+
+turnstile.coin('foo', 'bar')
 
 // foo, bar
 
@@ -302,37 +349,45 @@ turnstile.insertCoin('foo', 'bar')
 
 ## Asynchronous transitions
 
-Asynchronous FSMs can be constructed using `Async` FSM.
+The exact same process, just use exported `Async` FSMs and mark hooks
+as [`async`][async] functions.
 
 ```js
 import { Async as FSM } from '@nicholaswmin/fsm'
 
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  async onCoin: coins => {
-    // a whatever async call ...
-    await db('select * from....'')
+class Turnstile extends FSM {
+  constructor() {
+    super({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
+  }
+  
+  async onCoin(coins) {
+    // assume it's an async call ...
+    await db('select * from....')
       
-    // cancel the transition
+    // .. decided to cancel
     return false
   }
-})
+}
+
+const turnstile = new Turnstile()
 
 console.log(turnstile.state)
 // state: closed
+// - transition cancelled, 
+//   state stays the same
 
 await turnstile.coin()
-// state: closed 
+// state: closed
 ```
 
-> note: transition hooks *must* be marked as `async`
+> note: transition hooks *must* be marked as `async` & properly `await`-ed.
 
-## Subclassing
+### Serialising to JSON
 
-Just implement any required hooks as subclass methods and don't pass a 2nd 
-`hooks` argument.
+Business as-usual, with [JSON.stringify][JSON.stringify]:
 
 ```js
 class Turnstile extends FSM {
@@ -346,117 +401,37 @@ class Turnstile extends FSM {
   onCoin() {
     console.log('got a coin')
   }
+
+  onCoin() {
+    console.log('pushed ..')
+  }
 }
 
 const turnstile = new Turnstile()
 
 turnstile.coin()
-// got a coin
-
-console.log(turnstile.state)
-// state: opened
-```
-
-### Composition over Inheritance
-
-The `hooks` argument can still be used for *Composition over Inheritance*.
-
-```js
-class Turnstile {
-  constructor() {
-    this.fsm = new FSM({
-      closed: { coin: 'opened' },
-      opened: { push: 'closed' }
-    }, {
-      onCoin: () => {
-        console.log('got a coin')
-      }
-    })
-  }
-}
-
-turnstile.fsm.coin()
-// got a coin
-
-console.log(turnstile.fsm.state)
-// state: opened
-```
-
-### Serialising to JSON
-
-Use [JSON.stringify][JSON.stringify]:
-
-```js
-const turnstile = new FSM({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
-
-turnstile.coin()
+// got a coin ..
 // state: opened
 
 const json = JSON.stringify(turnstile)
-// do whatever, save in DB, file ..
+// save it somewhere ..
 ```
 
-... & revive using `FSM.parse(json)`:
+... & revive using `<FSM>.parse(json)`:
 
 ```js
-const revived = FSM.parse(json)
-// state: opened 
-
-revived.push()
-// state: closed
-```
-
-The caveat is that any preregistered [hooks](#transition-hooks) are *not* 
-automatically re-registered.
-
-Although you can re-register them manually, like so:
-
-```js
-// assume hooks = object with hook functions/methods
-const revived = FSM.parse(json, hooks)
-```
-
-it's just too cumbersome.  
-
-Subclassing makes this process straightforward. 
-
-## Prefer subclassing 
-
-Subclassing works right out of the box, no need to re-register anything.
-
-Just `JSON.stringify()` and `.parse()` it back:
-
-```js
-class Turnstile extends FSM {
-  constructor() {
-    super({
-      closed: { coin: 'opened' },
-      opened: { push: 'closed' }
-    })
-  }
-  
-  onPush() { console.log('pushed ,,') }
-}
-
-const turnstile = new Turnstile()
-
-turnstile.coin()
-// state: opened
-
-const json = JSON.stringify(turnstile)
 const revived = Turnstile.parse(json)
+// state: opened 
 
 revived.push()
 // pushed ..
 // state: closed
 ```
 
-> note: ensure you use `Turnstile.parse(json)`, rather than `FSM.parse(json)`.
-
-If your class is already a `ChildClass`, consider using a [`Mixin`][mixin].
+> note: `<FSM>.parse` is a placeholder.  
+>
+> Use the subclass you captured the `json` from to parse it back. 
+> i.e: `Turnstile.parse`, or `Elevator.parse` etc ... 
 
 
 ## API
@@ -481,6 +456,15 @@ state: { transition: 'state' }
 > each `state` can list `zero`, `one` or `many` transitions.    
 
 
+### `fsm.state` 
+
+The current `state`. Read-only.    
+Available on `this`.
+
+| name     | type     | default       |
+|----------|----------|---------------|
+| `state`  | `string` | current state | 
+
 ### `static FSM.onInvalid` 
 
 Called when an invalid transition is fired, 
@@ -492,26 +476,39 @@ Can be overriden, which configures the invalid behaviour.
 |-------------|------------|-------------------|----------------|
 | `onInvalid` | `function` | invalid behaviour | `return false` |
 
+#### Arguments
 
-### `static FSM.parse(json, hooks)` 
+| name         | type       | desc.             |
+|--------------|------------|-------------------|
+| `transition` | `String`   | transition name   |
+
+
+### `static FSM.parse(json)` 
 
 Deserialise/revive an instance from it's [JSON][json].   
 You can serialise an instance using: `JSON.stringify(fsm)`
 
+
+#### Arguments
+
 | name     | type     | desc.                             | default  |
 |----------|----------|-----------------------------------|----------|
 | `json`   | `string` | result of `JSON.stringify(fsm)`   | required |
-| `hooks`  | `object` | implements transition hooks       | optional |
 
 > note: use subclassing so you won't ever need to pass a `hooks` argument
 
 > note: use the correponding `ChildClass.parse` when deserialising.
 
-### `JSON.stringify(fsm)`
+### `JSON.stringify(<fsm>)`
 
-Returns a [JSON][json] of the FSM, for storing in a database, file, freezer ..
-The JSON contains the in stance type in case you need to look it up for
-choosing the correct class for parsing/deserialising:
+#### Arguments
+
+| name      | type  | desc.                                  |
+|-----------|-------|----------------------------------------|
+| `<fsm>`   | `FSM` | An `FSM` instance                      |
+| ...       | ...   | rest of `JSON.stringify` arguments ... |
+
+Returns a [JSON][json] of the FSM.
 
 ```js
 const turnstile = new Turnstile()
@@ -521,14 +518,7 @@ turnstile.coin()
 // { "name":"Turnstile", "states": {"closed ...
 ```
 
-
-### `fsm.state` 
-
-The current `state`. Read-only.
-
-| name     | type     | default       |
-|----------|----------|---------------|
-| `state`  | `string` | current state | 
+> `json.name` can be used for looking-up the correct class for parsing.
 
 
 ## Validations
@@ -604,6 +594,7 @@ node --test --experimental-test-coverage
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
 [imut]: https://en.wikipedia.org/wiki/Immutable_object
+[async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [workers]: https://nodejs.org/api/worker_threads.html

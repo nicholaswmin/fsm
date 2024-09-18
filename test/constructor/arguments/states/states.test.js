@@ -6,7 +6,11 @@ test('#argument: "states"', async t => {
   await t.test('missing', async t => {
     await t.test('throws descriptive TypeError', t => {
       t.assert.throws(() => {
-        new FSM()
+        new (class Turnstile extends FSM {
+          constructor() {
+            super()
+          }
+        })()
       }, {
         name: 'TypeError',
         message: /exp. object/ 

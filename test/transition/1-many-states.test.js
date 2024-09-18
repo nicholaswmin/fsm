@@ -16,13 +16,19 @@ import { Sync as FSM } from '../../src/index.js'
 
 test('#transitionFn(), 1:* transition:states', async t => {
   let turnstile
+  
+  class Turnstile extends FSM {
+    constructor() {
+      super({
+        closed: { coin: 'opened', break: 'broken' },
+        opened: { push: 'closed'                  },
+        broken: { fix : 'closed', push:  'opened' }
+      })
+    }
+  }
 
   t.before(() => {
-    turnstile = new FSM({ 
-      closed: { coin: 'opened', break: 'broken' },
-      opened: { push: 'closed'                  },
-      broken: { fix : 'closed', push:  'opened' }
-    })
+    turnstile = new Turnstile()
   })
 
   await t.test('instantiates', t => {  

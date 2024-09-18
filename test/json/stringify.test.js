@@ -3,9 +3,23 @@ import test from 'node:test'
 import { Sync as FSM } from '../../src/index.js'
 
 test('serialising', async t => {
-  const turnstile = new FSM({ 
-    closed:   { coin: 'opened' },
-    opened:   { push: 'closed' }
+  t.before(() => process.env.ALLOW_METHOD_MOCKS = '0')
+  t.after(() => delete process.env.ALLOW_METHOD_MOCKS)   
+
+  let turnstile 
+
+  class Turnstile extends FSM {
+    constructor() {
+      super({
+        closed: { coin: 'opened', break: 'broken' },
+        opened: { push: 'closed'                  },
+        broken: { fix : 'closed', push:  'opened' }
+      })
+    }
+  }
+  
+  t.beforeEach(() => {
+    turnstile = new Turnstile()
   })
   
   await t.test('calling JSON.stringify(fsm)', async t => {  
@@ -25,16 +39,9 @@ test('serialising', async t => {
   })
   
   await t.test('2 instances produce equal json', t => {  
-    const turnstile1 = new FSM({ 
-      closed:   { coin: 'opened' },
-      opened:   { push: 'closed' }
-    })
-    
-    const turnstile2 = new FSM({ 
-      closed:   { coin: 'opened' },
-      opened:   { push: 'closed' }
-    })
-    
+    const turnstile1 = new Turnstile(), 
+          turnstile2 = new Turnstile()
+
     turnstile1.coin()
     turnstile2.coin()
     

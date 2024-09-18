@@ -4,11 +4,17 @@ import { Sync as FSM } from '../../src/index.js'
 test('#constructor adds transition methods', async t => {
   let turnstile
 
+  class Turnstile extends FSM {
+    constructor() {
+      super({
+        closed: { coin: 'opened' },
+        opened: { push: 'closed'  }
+      })
+    }
+  }
+
   t.beforeEach(() => {
-    turnstile = new FSM({ 
-      closed: { coin: 'opened' },
-      opened: { push: 'closed' }
-    })
+    turnstile = new Turnstile()
   })
  
   await t.test('instantiates', t => {
@@ -16,18 +22,22 @@ test('#constructor adds transition methods', async t => {
   })
 
   await t.test('adds transition-methods', async t => {
+    const { NODE_ENV } = process.env
+
     t.assert.strictEqual(typeof turnstile.coin, 'function')
 
     await t.test('for each transition', t => {
       t.assert.strictEqual(typeof turnstile.push, 'function')
     })
-
-    await t.test('transition-methods cannot be modified', async t => {  
-      t.assert.throws(() => {
-        delete turnstile.coin
-      }, {
-        name: 'TypeError',
-        message: /Cannot delete/ 
+      
+    await t.test('When NODE_ENV not equals "test"', async t => {  
+      await t.test('transition-methods cannot be modified', async t => {  
+        t.assert.throws(() => {
+          delete turnstile.coin
+        }, {
+          name: 'TypeError',
+          message: /Cannot delete/ 
+        })
       })
     })
   })

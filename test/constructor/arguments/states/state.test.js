@@ -5,7 +5,11 @@ test('#argument: "states.<state>"', async t => {
   await t.test('not an object', async t => {
     await t.test('throws descriptive TypeError', t => {
       t.assert.throws(() => {
-        new FSM({ closed: [] })
+        new (class Turnstile extends FSM {
+          constructor() {
+            super({ closed: [] })
+          }
+        })()
       }, {
         name: 'TypeError',
         message: /exp. object/ 
@@ -16,28 +20,40 @@ test('#argument: "states.<state>"', async t => {
   await t.test('without transitions', async t => {
     await t.test('does not throw', t => {
       t.assert.doesNotThrow(() => {
-        new FSM({ closed: {} })
+        new (class Turnstile extends FSM {
+          constructor() {
+            super({ closed: {} })
+          }
+        })()
       })
     })
   })
   
   await t.test('1 transition', async t => {
     await t.test('does not throw', t => {
-      new FSM({ 
-        closed: { coin: 'opened' },
-        opened: { push: 'closed' }
-      })
+      new (class Turnstile extends FSM {
+        constructor() {
+          super({
+            closed: { coin: 'opened' },
+            opened: { push: 'closed' }
+          })
+        }
+      })()
     })
   })
 
   await t.test('many transitions', async t => {
     await t.test('does not throw', t => {
       t.assert.doesNotThrow(() => {
-        new FSM({ 
-          closed: { coin: 'opened',  break: 'broken' },
-          opened: { push: 'closed'                   },
-          broken: {}
-        })
+        new class Turnstile extends FSM {
+          constructor() {
+            super({
+              closed: { coin: 'opened',  break: 'broken' },
+              opened: { push: 'closed'                   },
+              broken: {}
+            })
+          }
+        }
       })
     })
   })

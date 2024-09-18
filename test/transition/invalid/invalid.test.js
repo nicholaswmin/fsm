@@ -1,21 +1,29 @@
 import test from 'node:test'
 import { Sync as FSM } from '../../../src/index.js'
 
-const resetCalls = ({ mock }) => mock.resetCalls()
-
 test('#transitionFn() transition not allowed from current state ', async t => {
-  let turnstile = null, hooks = {
-    onCoin: t.mock.fn(), onPush: t.mock.fn(), 
-    onClosed: t.mock.fn(), onOpened: t.mock.fn()
+  t.before(() => process.env.ALLOW_METHOD_MOCKS = '1')
+  t.after(() => delete process.env.ALLOW_METHOD_MOCKS)   
+
+  let turnstile, onCoin, onOpened
+  
+  class Turnstile extends FSM {
+    constructor() {
+      super({
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
+      })
+    }
+    
+    onCoin()   {}
+    onOpened() {}
   }
   
   t.beforeEach(() => {
-    Object.values(hooks).forEach(resetCalls)
-
-    turnstile = new FSM({ 
-      closed: { coin: 'opened' },
-      opened: { push: 'closed' }
-    }, hooks)
+    turnstile = new Turnstile()
+    
+    onCoin = t.mock.method(turnstile, 'onCoin')
+    onOpened = t.mock.method(turnstile, 'onOpened')
   })
 
   await t.test('instantiates', t => {  
@@ -38,8 +46,8 @@ test('#transitionFn() transition not allowed from current state ', async t => {
       
       await t.test('calls relevant hooks', t => {
         turnstile.coin() 
-        t.assert.strictEqual(hooks.onCoin.mock.callCount(), 1)
-        t.assert.strictEqual(hooks.onOpened.mock.callCount(), 1)
+        t.assert.strictEqual(onCoin.mock.callCount(), 1)
+        t.assert.strictEqual(onOpened.mock.callCount(), 1)
       })
     })
     
@@ -58,8 +66,8 @@ test('#transitionFn() transition not allowed from current state ', async t => {
       })
       
       await t.test('does not call hooks', t => {
-        t.assert.strictEqual(hooks.onCoin.mock.callCount(), 0)
-        t.assert.strictEqual(hooks.onOpened.mock.callCount(), 0)
+        t.assert.strictEqual(onCoin.mock.callCount(), 0)
+        t.assert.strictEqual(onOpened.mock.callCount(), 0)
       })
     })
   })

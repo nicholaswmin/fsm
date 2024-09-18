@@ -6,10 +6,14 @@ test('#argument: "states.<state>.<transition>"', async t => {
   await t.test('not a string', async t => {
     await t.test('throws descriptive TypeError', t => {
       t.assert.throws(() => {
-        new FSM({ 
-          closed: { coin: 'opened' },
-          opened: { push: {}       }
-        })
+        new (class Turnstile extends FSM {
+          constructor() {
+            super({
+              closed: { coin: 'opened' },
+              opened: { push: {}       }
+            })
+          }
+        })()
       }, {
         name: 'TypeError',
         message: /str/ 
@@ -20,10 +24,14 @@ test('#argument: "states.<state>.<transition>"', async t => {
   await t.test('empty string', async t => {
     await t.test('throws descriptive RangeError', t => {
       t.assert.throws(() => {
-        new FSM({ 
-          closed: { coin: 'opened' },
-          opened: { push: ''       }
-        })
+        new (class Turnstile extends FSM {
+          constructor() {
+            super({
+              closed: { coin: 'opened' },
+              opened: { push: ''       }
+            })
+          }
+        })()
       }, {
         name: 'RangeError',
         message: /empty/ 
@@ -35,10 +43,14 @@ test('#argument: "states.<state>.<transition>"', async t => {
     await t.test('between characters', async t => {
       await t.test('throws descriptive RangeError', t => {
         t.assert.throws(() => {
-          new FSM({ 
-            closed: { coin: 'ope ned' },
-            opened: { push: 'closed'  }
-          })
+          new (class Turnstile extends FSM {
+            constructor() {
+              super({
+                closed: { coin: 'ope ned' },
+                opened: { push: 'closed'  }
+              })
+            }
+          })()
         }, {
           name: 'RangeError',
           message: /has spaces/ 
@@ -50,10 +62,14 @@ test('#argument: "states.<state>.<transition>"', async t => {
     await t.test('at beginning & end', async t => {
       await t.test('throws descriptive RangeError', t => {
         t.assert.throws(() => {
-          new FSM({ 
-            closed: { coin: 'opened ' },
-            opened: { push: 'closed'  }
-          })
+          new (class Turnstile extends FSM {
+            constructor() {
+              super({
+                closed: { coin: 'opened ' },
+                opened: { push: 'closed'  }
+              })
+            }
+          })()
         }, {
           name: 'RangeError',
           message: /has spaces/ 

@@ -5,11 +5,17 @@ test('#transitionFn() 1:1 transition:state', async t => {
   let turnstile
   
   await t.test('calling 2 distinct & allowed transitions', async t => {
+    class Turnstile extends FSM {
+      constructor() {
+        super({
+          closed: { coin: 'opened' },
+          opened: { push: 'closed' }
+        })
+      }
+    }
+
     t.beforeEach(() => {
-      turnstile = new FSM({ 
-        closed: { coin: 'opened' },
-        opened: { push: 'closed' }
-      })
+      turnstile = new Turnstile()
     })
 
     await t.test('instantiates', t => {  

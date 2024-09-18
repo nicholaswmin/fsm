@@ -4,7 +4,7 @@ class FSM {
   static parsed
   #state
   
-  constructor(states, ctx = this) { 
+  constructor(states) { 
     const parsed = FSM.constructor.parsed
     this.states = valid.states(parsed?.states || states)
     this.#state =  parsed?.state || Object.keys(states).at(0)
@@ -13,8 +13,9 @@ class FSM {
       .flatMap(Object.entries, this)
       .filter(this.constructor.missing, this)
       .forEach(this.add, this)
-
-    Object.freeze(Object.assign(this, ctx))
+    
+    if (+process.env.ALLOW_METHOD_MOCKS !== 1)
+      Object.freeze(this)
   }
   
   get state() { 
@@ -39,7 +40,7 @@ class FSM {
         ? this.fn(tr, ...args) 
         : this.constructor.onInvalid?.call(this, tr, ...args) || false
     }
-  }   
+  }
   
   transition(tr, ...args) {
     const state = this.states[this.#state][tr]
@@ -57,9 +58,13 @@ class FSM {
     }
   }
   
-  static parse(json, ctx) {
+  static extend(superclass) {
+    return Object.assign()
+  }
+  
+  static parse(json) {
     this.constructor.parsed = JSON.parse(json)
-    const instance = new this(null, ctx)
+    const instance = new this()
     this.constructor.parsed = null
     
     return instance
