@@ -58,10 +58,6 @@ class FSM {
     }
   }
   
-  static extend(superclass) {
-    return Object.assign()
-  }
-  
   static parse(json) {
     this.constructor.parsed = JSON.parse(json)
     const instance = new this()
