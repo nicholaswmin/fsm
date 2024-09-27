@@ -471,7 +471,7 @@ node --test --experimental-test-coverage
 
 [^1]: While there are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm],   
-      this documentation describes a specific type of state machine,  
+      this documentation describes a specific type of state machine,
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
       
       Formal terminology from Automata Theory is avoided; it's confusing
@@ -482,8 +482,7 @@ node --test --experimental-test-coverage
       *"automatic machine"*.
 
 [^2]: Describes a function that takes an non-finite/infinite no of arguments.   
-
-      Also called functions of "n-arity" where "arity" = number of arguments. 
+      Also called functions of *"n-arity"* where "arity" = number of arguments. 
       
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
