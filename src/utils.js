@@ -6,6 +6,10 @@ export default {
   },
 
   Object: {
+    lacksOwnEntryProperty: function([key]) {
+      return !Object.hasOwn(this, key) 
+    },
+
     denumerateKeys: function(obj, keys = []) {
       Object.keys(obj)
         .filter(key => keys.includes(key))

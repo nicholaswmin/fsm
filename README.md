@@ -16,8 +16,7 @@ rendering them *inherently safe*, by design.[^1]
 
 This implementation allows constructing simple, robust & expressive FSMs.
 
-Minimal, bundles `~ 850 bytes` with zero dependencies.  
-Backed by a comprehensive test suite.
+Minimal, bundles `~ 850 bytes`. Zero dependencies.  
 
 - [Install](#install)
 - [Example](#example)

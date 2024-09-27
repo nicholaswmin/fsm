@@ -1,30 +1,22 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 test('#transitionFn() calls hooks', async t => {
-  let turnstile 
-  
-  t.before(() => process.env.ALLOW_METHOD_MOCKS = '1')
-  
-  t.after(() => process.env.ALLOW_METHOD_MOCKS = '0')     
-
-  class Turnstile extends FSM {
-    constructor() {
-      super({
-        closed: { coin: 'opened' },
-        opened: { push: 'closed' }
-      })
-    }
-    
-    onCoin() { }
-    onPush() {}
-
-    onOpened() {}
-    onClosed() {}
-  }
+  let turnstile, hooks
 
   t.beforeEach(() => {
-    turnstile = new Turnstile()
+    hooks = {
+      onCoin() {},
+      onPush() {},
+  
+      onOpened() {},
+      onClosed() {}
+    }
+
+    turnstile = fsm({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    }, hooks)
   })
   
   await t.test('calling transition method', async t => {     
@@ -34,7 +26,7 @@ test('#transitionFn() calls hooks', async t => {
       let onCoin
       
       t.beforeEach(() => {
-        onCoin = t.mock.method(turnstile, 'onCoin', captureState)
+        onCoin = t.mock.method(hooks, 'onCoin', captureState)
         turnstile.coin('foo', 'bar')
       })
 
@@ -58,7 +50,8 @@ test('#transitionFn() calls hooks', async t => {
 
       await t.test('with access to instance "this"', t => {
         const { mock } = onCoin
-        t.assert.strictEqual(mock.calls[0].this.constructor.name, 'Turnstile')
+
+        t.assert.strictEqual(mock.calls[0].this.constructor.name, 'Object')
       })
     })
     
@@ -91,7 +84,7 @@ test('#transitionFn() calls hooks', async t => {
 
       await t.test('with access to instance "this"', t => {
         const { mock } = onOpened
-        t.assert.strictEqual(mock.calls[0].this.constructor.name, 'Turnstile')
+        t.assert.strictEqual(mock.calls[0].this.constructor.name, 'Object')
       })
     })
     

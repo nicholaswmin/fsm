@@ -1,5 +1,5 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../../src/index.js'
+import { fsm } from '../../../src/index.js'
 
 test('#transitionFn() configuring invalid transition behavior', async t => {
   t.before(() => process.env.ALLOW_METHOD_MOCKS = '1')
@@ -7,21 +7,22 @@ test('#transitionFn() configuring invalid transition behavior', async t => {
 
   await t.test('attemping an invalid transition', async t => {
     await t.test('calls the invalid method', async t => {
-      let turnstile = null, onInvalid = t.mock.fn()
-      
-      class Turnstile extends FSM {
-        static onInvalid(...args) { onInvalid.call(this, ...args) }
-
-        constructor() {
-          super({
-            closed: { coin: 'opened' },
-            opened: { push: 'closed'  }
-          })
-        }
-      }
+      let turnstile, hooks, onInvalid = t.mock.fn()
 
       t.before(() => {
-        turnstile = new Turnstile()
+        hooks = {
+          onCoin() {},
+          onPush() {},
+      
+          onOpened() {},
+          onClosed() {},
+          onInvalid
+        }
+    
+        turnstile = fsm({
+          closed: { coin: 'opened' },
+          opened: { push: 'closed' }
+        }, hooks)
 
         turnstile.push('foo', 'bar')
       })
@@ -45,30 +46,28 @@ test('#transitionFn() configuring invalid transition behavior', async t => {
 
       await t.test('has access to instance "this"', t => {
         t.assert.strictEqual(
-          onInvalid.mock.calls[0].this.constructor.name, 'Turnstile'
+          onInvalid.mock.calls[0].this.constructor.name, 'Object'
         )
       })
     })
     
 
     await t.test('overriding the method to throw', async t => {
-      let NoisyTurnstile = null, turnstile = null
+      let turnstile, hooks
 
       t.before(() => {
-        class NoisyTurnstile extends FSM {
-          static onInvalid() {
-            throw new Error('not allowed')
-          }
-
-          constructor() {
-            super({
-              closed: { coin: 'opened' },
-              opened: { push: 'closed'  }
-            })
+        hooks = {
+          onCoin() {},
+          onOpened() {},
+          onInvalid() {
+            throw Error('not allowed')
           }
         }
-        
-        turnstile = new NoisyTurnstile()
+    
+        turnstile = fsm({
+          closed: { coin: 'opened' },
+          opened: { push: 'closed' }
+        }, hooks)
       })
       
       await t.test('throws the error', async t => {
@@ -86,23 +85,19 @@ test('#transitionFn() configuring invalid transition behavior', async t => {
     
 
     await t.test('overriding the method to return true', async t => {
-      let NoisyTurnstile = null, turnstile = null, returned = null
+      let turnstile, hooks, returned
 
       t.before(() => {
-        class ShadyTurnstile extends FSM {
-          static onInvalid() {
-            return true
-          }
-          
-          constructor() {
-            super({
-              closed: { coin: 'opened' },
-              opened: { push: 'closed'  }
-            })
-          }
+        hooks = {
+          onCoin() {},
+          onOpened() {},
+          onInvalid() { return true }
         }
-        
-        turnstile = new ShadyTurnstile()
+    
+        turnstile = fsm({
+          closed: { coin: 'opened' },
+          opened: { push: 'closed' }
+        }, hooks)
         
         returned = turnstile.push()
       })
@@ -119,23 +114,21 @@ test('#transitionFn() configuring invalid transition behavior', async t => {
   
   
   await t.test('deleting the method on the original class', async t => {
-    let turnstile = null, returned = null
-
-    class Turnstile extends FSM {
-      static onInvalid(...args) { onInvalid.call(this, ...args) }
-
-      constructor() {
-        super({
-          closed: { coin: 'opened' },
-          opened: { push: 'closed'  }
-        })
-      }
-    }
+    let turnstile, hooks, returned
 
     t.before(() => {
-      delete Turnstile.onInvalid
+      hooks = {
+        onCoin() {},
+        onOpened() {},
+        onInvalid() { return true }
+      }
+      
+      delete hooks.onInvalid
 
-      turnstile = new Turnstile()
+      turnstile = fsm({
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
+      }, hooks)
 
       returned = turnstile.push()
     })

@@ -1,25 +1,24 @@
 import test from 'node:test'
 
-import { Sync as FSM } from '../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 test('serialising', async t => {
-  t.before(() => process.env.ALLOW_METHOD_MOCKS = '0')
-  t.after(() => delete process.env.ALLOW_METHOD_MOCKS)   
+  let turnstile, hooks
 
-  let turnstile 
-
-  class Turnstile extends FSM {
-    constructor() {
-      super({
-        closed: { coin: 'opened', break: 'broken' },
-        opened: { push: 'closed'                  },
-        broken: { fix : 'closed', push:  'opened' }
-      })
-    }
-  }
-  
   t.beforeEach(() => {
-    turnstile = new Turnstile()
+    hooks = {
+      onCoin() {},
+      onPush() {},
+  
+      onOpened() {},
+      onClosed() {}
+    }
+
+    turnstile = fsm({
+      closed: { coin: 'opened', break: 'broken' },
+      opened: { push: 'closed'                  },
+      broken: { fix : 'closed', push:  'opened' }
+    }, hooks)
   })
   
   await t.test('calling JSON.stringify(fsm)', async t => {  
@@ -39,8 +38,17 @@ test('serialising', async t => {
   })
   
   await t.test('2 instances produce equal json', t => {  
-    const turnstile1 = new Turnstile(), 
-          turnstile2 = new Turnstile()
+    const turnstile1 = fsm({
+      closed: { coin: 'opened', break: 'broken' },
+      opened: { push: 'closed'                  },
+      broken: { fix : 'closed', push:  'opened' }
+    })
+
+    const turnstile2 = fsm({
+      closed: { coin: 'opened', break: 'broken' },
+      opened: { push: 'closed'                  },
+      broken: { fix : 'closed', push:  'opened' }
+    })
 
     turnstile1.coin()
     turnstile2.coin()

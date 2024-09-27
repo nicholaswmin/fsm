@@ -1,26 +1,22 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 test('#transitionFn() transition hook cancels transition', async t => {
   t.before(() => process.env.ALLOW_METHOD_MOCKS = '1')
   t.after(() => delete process.env.ALLOW_METHOD_MOCKS)   
 
-  let turnstile
-  
-  class Turnstile extends FSM {
-    constructor() {
-      super({
-        closed: { coin: 'opened' },
-        opened: { push: 'closed' }
-      })
-    }
-    
-    async onCoin() {}
-    async onOpened() {}
-  }
+  let turnstile, hooks
 
   t.beforeEach(() => {
-    turnstile = new Turnstile()
+    hooks = {
+      onCoin() {},
+      onOpened() {}
+    }
+
+    turnstile = fsm({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    }, hooks)
   })
   
   await t.test('instantiates', t => {  
@@ -42,8 +38,8 @@ test('#transitionFn() transition hook cancels transition', async t => {
       let onCoin, onOpened
 
       t.beforeEach(() => {
-        onCoin = t.mock.method(turnstile, 'onCoin', () => false)
-        onOpened = t.mock.method(turnstile, 'onOpened')
+        onCoin = t.mock.method(hooks, 'onCoin', () => false)
+        onOpened = t.mock.method(hooks, 'onOpened')
 
         turnstile.coin()
       })
