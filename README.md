@@ -14,7 +14,7 @@ of logic [*declaratively*][declaratively].
 They can only exist in one, always-valid state at any given time, 
 rendering them *inherently safe*, by design.[^1]
 
-This implementation constructs simple, robust & expressive FSMs. 
+This implementation constructs simple, robust & expressive FSMs.   
 Minimal, bundles `~ 850 bytes` without dependencies.  
 
 - [Usage](#usage)
@@ -317,7 +317,7 @@ await turnstile.coin()
 
 ### Serialising to JSON
 
-Business as-usual, with [JSON.stringify][JSON.stringify]:
+Business as-usual, simply use `JSON.stringify`:
 
 ```js
 const hooks = {
