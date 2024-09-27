@@ -15,6 +15,7 @@ They can only exist in one, always-valid state at any given time,
 rendering them *inherently safe*, by design.[^1]
 
 This implementation constructs simple, robust & expressive FSMs.   
+
 Minimal, bundles `~ 850 bytes` without dependencies.  
 
 - [Usage](#usage)
@@ -71,8 +72,6 @@ The above FSM simply expresses:
 - If `state: closed` & `transition: coin` is triggered, set `state: opened`
 - If `state: opened` & `transition: push` is triggered, set `state: closed`
 
-> ... or formally defined as the [state-transition table][stt].
-
 ## Transition methods
 
 Transition methods allow transitioning from one `state` to another, 
@@ -104,6 +103,8 @@ turnstile.coin()
 turnstile.push()
 // state: closed
 ```
+
+... which actually trigger those transitions.
 
 ### Invalid transitions
 
@@ -317,9 +318,11 @@ await turnstile.coin()
 
 ### Serialising to JSON
 
-Business as-usual, simply use `JSON.stringify`:
+Simply use `JSON.stringify(fsm)`:
 
 ```js
+// pull hooks in own object
+// so we can reuse them when reviving
 const hooks = {
   onCoin() { console.log('got a coin') }
   onPush() { console.log('pushed ...') }
@@ -337,11 +340,9 @@ const json = JSON.stringify(turnstile)
 // save it somewhere ..
 ```
 
-... & revive using `fsm(JSON)`:
+... & revive using `fsm(json)`:
 
 ```js
-// dont forget to pass any hooks
-
 const revived = fsm(json, hooks)
 // state: opened 
 
@@ -440,9 +441,6 @@ invalidly typed or unreasonable inputs.
 Validation errors contain exact paths and clear, unambiguous descriptions of 
 the error.
 
-Additionally, this implementation freezes it's internals to guard against
-accidental modifications by reference, via it's arguments. 
-
 ## Test 
 
 > unit tests:
@@ -471,11 +469,10 @@ node --test --experimental-test-coverage
 
 ### Footnotes 
 
-[^1]: There are variants of state machines which can have multiple states, 
-      i.e the [*Non-deterministic finite automaton*][ndfsm].  
-      
-      This documentation describes a specific type of state machine, the 
-      [*Deterministic finite automaton*][dfsm] which can only exist in 1 state.
+[^1]: While there are variants of state machines which can have multiple states, 
+      i.e the [*Non-deterministic finite automaton*][ndfsm],   
+      this documentation describes a specific type of state machine,  
+      the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
       
       Formal terminology from Automata Theory is avoided; it's confusing
       for the average reader and tends to make simple concepts sound harder 
@@ -484,9 +481,10 @@ node --test --experimental-test-coverage
       *"automaton"* is the academic term from automata theory meaning 
       *"automatic machine"*.
 
-[^2]: Simply means it takes an infinite number of arguments.   
+[^2]: Describes a function that takes an non-finite/infinite no of arguments.   
 
-      Also called function of "n-arity" where "arity" = number of arguments.   
+      Also called functions of "n-arity" where "arity" = number of arguments. 
+      
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
       n-ary/variadic: `f = (...args) => {}`
