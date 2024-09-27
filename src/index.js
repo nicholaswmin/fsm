@@ -18,17 +18,27 @@ const parseContextArguments = _ctx => _ctx
   ? Object.defineProperty(_ctx, 'fsm', { value: {} })
   : new FSM()
 
-const defineTransitionMethods = function([ transition, state ]) {
+const defineTransitionMethod = function([ transition, state ]) {
   if (typeof this[transition] !== 'undefined')
     throw TypeError(`Cannot overwrite existing transition func.: ${transition}`)
 
   return Object.defineProperty(this, transition, { 
     value: (...args) => {
-      return Object.hasOwn(this.fsm.states[this.fsm._state], transition) 
-        ? this[utils.String.onify(transition)]?.(...args) === false 
-          ? this 
-          : this.fsm.transition(transition, ...args)
-        : this.onInvalid?.call(this, transition, ...args) || false
+      const currentState = this.fsm.states[this.fsm._state]
+      const canTransition = Object.hasOwn(currentState, transition) 
+      const transitionFn = this[utils.String.onify(transition)]
+
+      if (!canTransition)
+        return this.onInvalid?.call(this, transition, ...args) || false
+      
+      const transitionResult = transitionFn?.(...args)
+      const transitionIfAllowed = res => res === false 
+        ? this 
+        : this.fsm.transition(transition, ...args) 
+
+      return transitionResult?.then 
+        ? transitionResult.then(transitionIfAllowed)
+        : transitionIfAllowed(transitionFn?.(...args))
     }
   })
 }
@@ -86,7 +96,7 @@ const fsm = (_states, _ctx) => {
 
   Object.values(states)
     .flatMap(Object.entries, ctx)
-    .forEach(defineTransitionMethods, ctx)
+    .forEach(defineTransitionMethod, ctx)
 
   return ctx
 }
