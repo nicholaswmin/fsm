@@ -127,6 +127,8 @@ An FSM will always expose the following API:
 - A `state` property, reflecting the *current state*.
 - Transition methods, for triggering *transitions* between states.
 
+> example: transitioning between states
+
 ```js
 const turnstile = fsm({
   closed: { coin: 'opened' },
