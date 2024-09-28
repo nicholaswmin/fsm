@@ -1,9 +1,10 @@
 # Security
 
-Report any vulnerabilities by opening a Github Issue but don't actually 
-post the vulnerability on the Issue itself.
+Vulnerabilities should be reported via the following process:
 
-State that it's a vulnerability report and I'll reply with an email you can 
-contact me on.
+- Open a Github Issue on it's repo and mention it's about a vulnerability.
+  - DO NOT post the actual vulnerability on the Issue.
+- The authors will reply on the Github Issue with a private phone/email you can 
+  contact them on to discuss further.
 
-Only the latest major versions receive such fixes.
+> note: only the latest version receives bug/security fixes.
