@@ -37,7 +37,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
   * [`fsm(json, hooks)`](#fsmjson-hooks)
   * [`fsm.state`](#fsmstate)
   * [`JSON.stringify(fsm)`](#jsonstringifyfsm)
-  * [`mixin.onInvalid`](#mixinoninvalid)
+  * [`hooks.onInvalid`](#hooksoninvalid)
 - [Validations](#validations)
 - [Tests](#test)
 - [Contributing](#contributing)
@@ -460,7 +460,7 @@ Available on `this`.
 |----------|----------|---------------|
 | `state`  | `string` | current state | 
 
-### `mixin.onInvalid` 
+### `hooks.onInvalid` 
 
 Called when an invalid transition is fired, 
 providing behaviour for invalid transitions.  
