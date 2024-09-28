@@ -370,29 +370,22 @@ const turnstile = fsm({
   opened: { push: 'closed' }
 }, {
   async onCoin(coins) {
-    // some async call ...
-    await db('select * from....')
-      
-    // .. decided to cancel
-    return false
+    // simulate async call ...
+    await new Promise(res => setTimeout(res, 2000))
   }
 })
 
-turnstile.coin('foo', 'bar')
-// foo, bar
-
-console.log(turnstile.state)
-// state: closed
-// - transition cancelled, 
-//   state stays the same
-
 await turnstile.coin()
+// .. 
+// .. after 2 seconds
+// ..
 // state: closed
+
 ```
 
 ## Serialising to JSON
 
-Simply use `JSON.stringify(fsm)`:
+Just use `JSON.stringify(fsm)`:
 
 ```js
 // pull hooks in own object,
