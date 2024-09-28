@@ -20,11 +20,11 @@ Minimal, bundles `< 1KB` with zero dependencies,
 published with [provenance][provenance].
 
 - [Install](#install)
-- [Basic Example](#example)
+- [Basic Example](#basic-example)
   + [Configuration](#configuration)
   + [Current state](#current-state)
   + [Transitions between states](#transitions-between-states)
-- [Existing objects to FSMs](#fsms-from-existing-objects)
+- [Creating FSMs from existing objects](#creating-fsms-from-existing-objects)
 - [Hook methods](#hook-methods)
   * [Transition hooks](#transition-hooks)
   * [State hooks](#state-hooks)
@@ -132,7 +132,7 @@ console.log(turnstile.state)
 // state: broken
 ```
 
-More on [invalid transitions](#invalid-transitions).
+The invalid transition behaviour [can be customised](#custom-invalid-behavior).
 
 ## Creating FSMs from existing objects
 
