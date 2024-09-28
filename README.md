@@ -82,8 +82,9 @@ The 2nd argument can optionally takes an existing `Object`
 which is transformed into an FSM.
 
 This is an intentional design decision which allows sublcasses to become
-FSM's without requiring to inherit again; which is not possible anyway since 
-there isn't a notion of multiple-inheritance in JavaScript:
+FSM's without requiring to inherit again; which is not possible anyway.
+
+JavaScript does not support multiple-inheritance:
 
 > example: An `EventEmitter` subclass which also behaves as an FSM:
 
@@ -112,8 +113,11 @@ turnstile.emit('msg', 'foo')
 
 turnstile.coin()
 
-// state: opened
+console.log(turnstile.state)
+// "opened"
 ```
+
+> this is similar to a [mixin][mixin] pattern.
 
 ## Transition methods
 
@@ -550,7 +554,7 @@ node --test --experimental-test-coverage
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [workers]: https://nodejs.org/api/worker_threads.html
-[mixin]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends#mix-ins
+[mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
 
 [contr-guide]: ./.github/CONTRIBUTING.md
 [author]: https://github.com/nicholaswmin
