@@ -78,8 +78,8 @@ The above FSM simply expresses:
 
 ## Converting existing objects to FSMs
 
-The 2nd argument can optionally takes an existing `Object`
-which is transformed into an FSM.
+The 2nd argument optionally takes an existing `Object` which is transformed 
+into an FSM.
 
 This is an intentional design decision allowing sublcasses to behave like
 FSM's without requiring them to inherit again; which is not possible anyway 
