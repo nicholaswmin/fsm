@@ -82,7 +82,7 @@ The above FSM simply expresses:
 The 2nd argument can take any existing `Object` & transform it into an FSM.
 
 This feature allows classes/objects to behave like FSM's, even if they are 
-already subclassing something else.
+already subclasses.
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
