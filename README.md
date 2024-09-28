@@ -20,7 +20,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
 
 - [Usage](#usage)
 - [Example](#example)
-- [Create FSMs from existing objects](#create-fsms-from-existing-objects)
+- [Converting objects to FSMs](#converting-existing-objects-to-fsms)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
   * [Configure invalid behaviour](#configure-invalid-behaviour)
@@ -76,15 +76,16 @@ The above FSM simply expresses:
 - If `state: closed` & `transition: coin` is triggered, set `state: opened`
 - If `state: opened` & `transition: push` is triggered, set `state: closed`
 
-## Attaching FSM behaviours to existing objects
+## Converting existing objects to FSMs
 
-The 2nd argument takes an `Object` which is transformed into an FSM.
+The 2nd argument can optionally takes an existing `Object`
+which is transformed into an FSM.
 
 This is an intentional design decision which allows sublcasses to become
 FSM's without requiring to inherit again; which is not possible anyway since 
-JS doesnt support multiple-inheritance.
+there isn't a notion of multiple-inheritance in JavaScript:
 
-> example: An `EventEmitter` subclass; which also behaves as an FSM:
+> example: An `EventEmitter` subclass which also behaves as an FSM:
 
 ```js
 import EventEmitter from 'node:events'
