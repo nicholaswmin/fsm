@@ -120,9 +120,6 @@ console.log(turnstile.state)
 
 > this is a similar concept as using a [Mixin][mixin].
 
-> Composition also makes sense here; the problem is that it namespaces it's 
-> API behind the property it's instantiated onto which feels a bit.. meh..
-
 ## Transition methods
 
 Transition methods allow transitioning from one `state` to another, 
