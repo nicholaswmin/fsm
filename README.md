@@ -24,7 +24,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
 - [Minimal API](#minimal-api)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
-  * [Configure invalid behaviour](#configure-invalid-behaviour)
+  * [Custom invalid behaviour](#custom-invalid-behaviour)
 - [Hooks](#hooks)
   * [Transition hooks](#hooks)
     + [Transition cancellations](#transition-cancellations)
@@ -206,7 +206,7 @@ console.log(turnstile.push())
 
 > the transition was invalid so the `state` did not change.
 
-### Configure invalid behaviour
+### Custom invalid behaviour
 
 The invalid behaviour can be configured by passing an object implementing 
 an `onInvalid` method.
