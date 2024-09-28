@@ -19,12 +19,12 @@ This implementation constructs simple, robust & expressive FSMs.
 Minimal, bundles `< 1KB` with zero dependencies, 
 published with [provenance][provenance].
 
-- [Usage](#usage)
+- [Install](#install)
 - [Basic Example](#example)
+  + [Configuration](#configuration)
+  + [Current state](#current-state)
+  + [Transitions between states](#transitions-between-states)
 - [Existing objects to FSMs](#fsms-from-existing-objects)
-- [Transition methods](#transition-methods)
-  * [Invalid transitions](#invalid-transitions)
-  * [Custom invalid behaviour](#custom-invalid-behaviour)
 - [Hook methods](#hook-methods)
   * [Transition hooks](#transition-hooks)
   * [State hooks](#state-hooks)
@@ -44,7 +44,7 @@ published with [provenance][provenance].
 - [Authors](#authors)
 - [License](#license)
 
-## Usage 
+## Install 
 
 ```bash
 npm i @nicholaswmin/fsm
@@ -72,8 +72,12 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-Construct FSM's by passing an object describing the `states` and the
-available `transitions` for each:
+### Configuration
+
+Requires passing an object describing: 
+
+- The `states` 
+- The available `transitions` for each `state`.
 
 ```js
 const turnstile = fsm({
@@ -82,21 +86,23 @@ const turnstile = fsm({
 })
 ```
 
-which boils down to:
+which means:
 
 - If state: `closed` & transition: `coin` is triggered, set state: `opened`
 - If state: `opened` & transition: `push` is triggered, set state: `closed`
 
+### Current state
 
-Read the *current state* using `fsm.state`:
+Use property `fsm.state` for getting the current state:
 
 ```js
 console.log(turnstile.state)
 //  state: closed
 ```
 
-Trigger *transitions* between *states* by calling a 
-[transition method](#transition-methods):
+### Transitions between states
+
+Call a valid [transition method](#transition-methods) to change the state:
 
 ```js
 // trigger "coin" transition
@@ -108,35 +114,33 @@ console.log(turnstile.state)
 
 > note: transition methods are named after the user-provided transitions.
 
-Attempting transitions which aren't listed under the *current state*, 
-does nothing; The current state simply stays the same.
+If the transition method is not listed as valid for the current-state, 
+no transition takes place & the state stays the same: 
 
 ```js
-// initial state: broken 
-// Only valid transition is `glue()`.
 const turnstile = fsm({
   broken: { glue: 'closed' },
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 })
+// state: broken 
 
-// calling an invalid transition ...
+// try 'coin' transition
 turnstile.coin()
-// returns false
 
-// and does not change the state ...
 console.log(turnstile.state)
-// state: closed
+// state: broken
 ```
 
-More on [attempting invalid transitions](#invalid-transitions).
+More on [invalid transitions](#invalid-transitions).
 
 ## Creating FSMs from existing objects
 
-The 2nd argument accepts an `Object` which is wired-up to work as an FSM, 
+The 2nd argument of `fsm()` accepts an `Object` which is wired-up as an FSM, 
 without using inheritance/`extends`.
 
-This allows the object to inherit from something else, if needed.[^2]
+This allows an existing object, which might be `extending` another class, 
+to also behave like an FSM's.[^2]
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
@@ -154,14 +158,13 @@ class Turnstile extends EventEmitter {
   }
 }
 
-
 const turnstile = new Turnstile()
 
 // ... does EventEmitter things
 
 turnstile.emit('foo', 'bar')
 
-// ... does FSM things
+// ... also does FSM things
 
 turnstile.coin()
 
@@ -170,53 +173,6 @@ console.log(turnstile.state)
 ```
 
 > the above is a similar concept to using a [Mixin][mixin].
-
-## Transition methods
-
-Transition methods are created & named after the provided transitions.    
-This renders an expressive & domain-specific API.
-
-i.e: The following FSM specifies 2 transitions: `coin` & `push`.
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
-```
-
-This creates 2 identically-named transition methods:
-
-```js
-turnstile.coin()
-// state: opened
-
-turnstile.push()
-// state: closed
-```
-
-## Invalid transitions
-
-Triggering a transition that's not listed under the current state:
-
-- returns `false`
-- the state does not change  
-- no hook methods are run
-
-> example: state `closed` only lists a `coin` transition, so attempting 
-> `push` while `state:closed` is invalid:
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
-
-console.log(turnstile.push())
-// false
-// state: 'closed'
-// no change
-```
 
 ## Custom invalid behaviour
 
