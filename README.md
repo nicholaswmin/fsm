@@ -170,7 +170,7 @@ const turnstile = fsm({
 - `coin`  
 - `push`
 
-... which creates **2** identically-named methods:
+... this creates 2 identically-named methods:
 
 ```js
 turnstile.coin()
@@ -182,7 +182,7 @@ turnstile.push()
 
 ... for triggering those transitions.
 
-### Invalid transitions
+## Invalid transitions
 
 Triggering a transition that's not listed under the current state:
 
@@ -206,7 +206,7 @@ console.log(turnstile.push())
 
 > the transition was invalid so the `state` did not change.
 
-### Custom invalid behaviour
+## Custom invalid behaviour
 
 The invalid behaviour can be configured by passing an object implementing 
 an `onInvalid` method.
@@ -246,32 +246,33 @@ turnstile.push('foo', 'bar')
 
 ## Hooks
 
-Hooks are methods which are called at specific transition phases,   
+Hooks are optional methods, called at specific transition phases,   
 optionally altering the transition behavior.
 
-A valid transition attempt will call:
+There's 2 types of hooks.
 
-### A *transition hook*
+### *Transition hooks*
 
-> named `on<transition-name>`
+- Called *before* the state is changed.
+- Can optionally [cancel a transition](#transition-cancellations)
+- Follow naming convention: `on<transition-name>`, where `<transition-name>`
+  is the actual transition name.
 
-i.e 
+i.e:
 
 - transition: `coin` calls method `onCoin`
 - transition: `push` calls method `onPush`
 
-> transition hooks are always called *before* the state is changed.
+### *State hooks*
 
-If the transition completes & the state changes, it then calls:
+- Called *after* the state is changed.
+- Follow naming convention: `on<state-name>`, where `<state-name>`
+  is the actual state name.
 
-### A *state hook*
-
-> named `on<state-name>`
+i.e:
 
 - state `opened` calls method `onOpened`
 - state `closed` calls method `onClosed`
-
-> note: hooks are only called if they are implemented/defined.
 
 ### Example
 
@@ -319,7 +320,6 @@ Transition hooks can cancel the transition by explicitly returning `false`.
 
 - A cancelled transition does not change the *state*.  
 - The `state hook` method is not called.
-
 
 > example: the following turnstile only works with `50c` coins:
 
