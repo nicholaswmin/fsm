@@ -322,7 +322,7 @@ Simply use `JSON.stringify(fsm)`:
 
 ```js
 // pull hooks in own object
-// so we can reuse them when reviving
+// we'll reuse them when reviving
 const hooks = {
   onCoin() { console.log('got a coin') }
   onPush() { console.log('pushed ...') }
@@ -340,7 +340,7 @@ const json = JSON.stringify(turnstile)
 // save it somewhere ..
 ```
 
-... & revive using `fsm(json)`:
+... revive using `fsm(json)`:
 
 ```js
 const revived = fsm(json, hooks)
