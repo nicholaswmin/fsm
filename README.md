@@ -32,7 +32,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
   * [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising & Deserialising](#serialising-to-json)
-- [API](#api)
+- [API specs](#api)
   * [`fsm(states, hooks)`](fsmstates-hooks)
   * [`fsm(json, hooks)`](#fsmjson-hooks)
   * [`fsm.state`](#fsmstate)
@@ -314,7 +314,7 @@ turnstile.push()
 // - now closed
 ```
 
-### Transition cancellations
+## Transition cancellations
 
 Transition hooks can cancel the transition by explicitly returning `false`.
 
@@ -392,7 +392,7 @@ await turnstile.coin()
 // state: closed
 ```
 
-### Serialising to JSON
+## Serialising to JSON
 
 Simply use `JSON.stringify(fsm)`:
 
