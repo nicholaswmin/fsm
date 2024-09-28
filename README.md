@@ -20,6 +20,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
 
 - [Usage](#usage)
 - [Example](#example)
+- [Create FSMs from existing objects](#create-fsms-from-existing-objects)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
   * [Configure invalid behaviour](#configure-invalid-behaviour)
@@ -65,12 +66,53 @@ turnstile.coin()
 
 turnstile.push()
 // state: closed
+
+console.log(turnstile.state)
+// "closed"
 ```
 
 The above FSM simply expresses:
 
 - If `state: closed` & `transition: coin` is triggered, set `state: opened`
 - If `state: opened` & `transition: push` is triggered, set `state: closed`
+
+## Attaching FSM behaviours to existing objects
+
+The 2nd argument takes an `Object` which is transformed into an FSM.
+
+This is an intentional design decision which allows sublcasses to become
+FSM's without requiring to inherit again; which is not possible anyway since 
+JS doesnt support multiple-inheritance.
+
+> example: An `EventEmitter` subclass; which also behaves as an FSM:
+
+```js
+import EventEmitter from 'node:events'
+import { fsm } from './src/index.js'
+
+class Turnstile extends EventEmitter {
+  constructor() {
+    super()
+    fsm({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    }, this) // `this` as 2nd arg.
+  }
+}
+
+const turnstile = new Turnstile()
+
+// ... it's an EventEmitter
+
+turnstile.once('msg', msg => console.log('emitted:', msg))
+turnstile.emit('msg', 'foo')
+
+// ... and an FSM
+
+turnstile.coin()
+
+// state: opened
+```
 
 ## Transition methods
 
