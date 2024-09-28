@@ -236,7 +236,7 @@ There's `2` types of hooks, *transition hooks* and *state hooks*.
 Hooks can be implemented on any object; the object should be passed as the 2nd 
 argument to `fsm`.
 
-## *Transition hooks*
+## Transition hooks
 
 - Called *before* the state is changed.
 - Can [cancel a transition](#transition-cancellations).
@@ -244,7 +244,7 @@ argument to `fsm`.
   where `<transition-name>` is the transition name.
   - i.e: transition: `coin` will attempt calling a method: `onCoin`
 
-## *State hooks*
+## State hooks
 
 - Called *after* the state is changed.
 - Must be named: `on<state-name>`, 

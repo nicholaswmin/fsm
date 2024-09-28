@@ -4,6 +4,16 @@
 > “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to 
 > be interpreted as described in [RFC 2119][rfc2119].
 
+
+- [Overview](#overview)
+- [Philosophy](#philosophy)
+  * [Minimal](#minimal)
+  * [Robust](#robust)
+- [Publishing new versions](#publishing-to--npm-)
+- [Authors](#authors)
+
+## Overview
+
 Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom]
 
 This package is feature-complete.  
@@ -29,9 +39,9 @@ Bug & security reports or fixes are welcome.
   - must distinguish `TypeError`, `RangeError`.
   - must mention actual value & what was expected.
   
-## Publishing a new version
+## Publishing new versions
 
-> short guide on pubishing a new version, with build provenance.
+> short guide on how to do `npm publish`, with build provenance.
 
 1. Merge Pull Request to `main`.
 2. Increment `npm package.json` version:
@@ -52,7 +62,11 @@ git commit -am "build: version bump"
 5. The `build:publish.yml` Github Actions workflow will then run `npm publish` 
    with build provenance when the Github Release is saved/published.
 
+## Authors
 
+[@nicholaswmin][nicholaswmin]
+
+[nicholaswmin]: https://github.com/nicholaswmin
 [gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
 [provenance]: https://docs.npmjs.com/generating-provenance-statements
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
