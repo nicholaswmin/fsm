@@ -82,7 +82,7 @@ The above FSM simply expresses:
 The 2nd argument can take any existing `Object` & transform it into an FSM.
 
 This feature allows classes/objects to behave like FSM's, even if they are 
-already subclasses.
+already subclassing something else. [^3]
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
@@ -557,6 +557,10 @@ node --test --experimental-test-coverage
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
       n-ary/variadic: `f = (...args) => {}`
       
+[^3]: Javascript does not support multiple inheritance.  
+      This is usually for the better, since it tends to create inflexibly 
+      strong relationships; yet there are still cases where it's the most 
+      appropriate choice.
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
