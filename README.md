@@ -30,8 +30,8 @@ Minimal, bundles `~ 850 bytes` without dependencies.
     + [Transition cancellations](#transition-cancellations)
     + [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
-- [Serialising & Deserialising](#serialising-to-json)
-- [API specs](#api)
+- [Serialising to JSON](#serialising-to-json)
+- [API](#api)
   * [`fsm(states, hooks)`](fsmstates-hooks)
   * [`fsm(json, hooks)`](#fsmjson-hooks)
   * [`fsm.state`](#fsmstate)
@@ -478,11 +478,12 @@ JSON.stringify(turnstile)
 
 ## Validations
 
-This implementation attempts to shift errors at *contruction time* rather 
+This implementation attempts to catch errors at *contruction time* rather 
 than *run time*.  
 
 It does so by validating it's state-transition table against `undefined`, 
 invalidly typed or unreasonable inputs.
+
 Validation errors contain exact paths and clear, unambiguous descriptions of 
 the error.
 
@@ -527,7 +528,7 @@ node --test --experimental-test-coverage
       
 [^2]: Javascript does not support multiple inheritance.  
       This is usually for the better, since it tends to create inflexibly 
-      strong relationships; yet there are still cases where it's the most 
+      strong relationships; but there are still cases where it's the most 
       appropriate choice.
       
 [^3]: Describes a function that takes an non-finite/infinite no of arguments.   
