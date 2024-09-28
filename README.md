@@ -16,7 +16,8 @@ rendering them *inherently safe*, by design.[^1]
 
 This implementation constructs simple, robust & expressive FSMs.   
 
-Minimal, bundles `< 1KB`, zero dependencies.  
+Minimal, bundles `< 1KB` with zero dependencies, 
+published with [provenance][provenance].
 
 - [Usage](#usage)
 - [Basic Example](#example)
@@ -559,6 +560,7 @@ node --test --experimental-test-coverage
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [workers]: https://nodejs.org/api/worker_threads.html
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
+[provenance]: https://docs.npmjs.com/generating-provenance-statements
 
 [contr-guide]: ./.github/CONTRIBUTING.md
 [author]: https://github.com/nicholaswmin
