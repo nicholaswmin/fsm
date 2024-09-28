@@ -116,7 +116,7 @@ console.log(turnstile.state)
 // "opened"
 ```
 
-> this is simila, but not identical, to the [mixin pattern][mixin].
+> this is similar, but not identical, to the [mixin pattern][mixin].
 
 ## Transition methods
 
