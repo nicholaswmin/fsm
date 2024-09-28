@@ -78,12 +78,12 @@ The above FSM simply expresses:
 
 ## Converting existing objects to FSMs
 
-The 2nd argument optionally takes an existing `Object` which is transformed 
-into an FSM.
+The 2nd argument can take any existing `Object` & transform it into an FSM.
 
-This is an intentional design decision allowing sublcasses to behave like
-FSM's without requiring them to inherit again; which is not possible anyway 
-since JavaScript has no support for multiple inheritance.
+This is a feature which allows sublcasses to behave like FSM's 
+without requiring them to inherit again;
+which is not possible anyway since JavaScript has no support for 
+multiple inheritance.
 
 > example: An `EventEmitter` subclass which also behaves as an `FSM`:
 
@@ -101,9 +101,11 @@ class Turnstile extends EventEmitter {
   }
 }
 
+// ... Turnstile is:
+
 const turnstile = new Turnstile()
 
-// ... it's an EventEmitter
+// ... an EventEmitter
 
 turnstile.once('msg', msg => console.log('emitted:', msg))
 turnstile.emit('msg', 'foo')
