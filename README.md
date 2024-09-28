@@ -21,15 +21,14 @@ Minimal, bundles `~ 850 bytes` without dependencies.
 - [Usage](#usage)
 - [Basic Example](#example)
 - [Existing objects to FSMs](#converting-existing-objects-to-fsms)
-- [Minimal API](#minimal-api)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
   * [Custom invalid behaviour](#custom-invalid-behaviour)
-- [Hooks](#hooks)
-  * [Transition hooks](#hooks)
+- [Hook methods](#hook-methods)
+  * [Transition hooks](#transition-hooks)
+  * [State hooks](#state-hooks)
     + [Transition cancellations](#transition-cancellations)
-  * [State hooks](#hooks)
-  * [Passing arguments](#passing-arguments)
+    + [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising & Deserialising](#serialising-to-json)
 - [API specs](#api)
@@ -72,17 +71,34 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-The above FSM simply expresses:
+The above FSM expresses:
 
-- If `state: closed` & `transition: coin` is triggered, set `state: opened`
-- If `state: opened` & `transition: push` is triggered, set `state: closed`
+- If state: `closed` & transition: `coin` is triggered, set state: `opened`
+- If state: `opened` & transition: `push` is triggered, set state: `closed`
+
+FSM's have a `fsm.state` property, reflecting it's *current state*.
+
+```js
+console.log(turnstile.state)
+//  state: closed
+```
+
+FSM's have transition methods, to *transition* between *states*.
+
+```js
+// trigger "coin" transition
+turnstile.coin()
+
+console.log(turnstile.state)
+// state: opened
+```
 
 ## Converting existing objects to FSMs
 
 The 2nd argument can take any existing `Object` & transform it into an FSM.
 
-This feature allows classes/objects to behave like FSM's, even if they are 
-already subclassing something else. [^2]
+This feature allows attaching behavior to classes which are already subclassing 
+something else. [^2]
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
@@ -116,43 +132,12 @@ console.log(turnstile.state)
 // "opened"
 ```
 
-> this is a similar concept as using a [Mixin][mixin].
-
-## Minimal API
-
-An FSM will always expose the following API:
-
-- A `state` property, reflecting the *current state*.
-- Transition methods, for triggering *transitions* between states.
-
-> example: transitioning between states
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
-
-console.log(fsm.state) 
-// "closed"
-
-// trigger a transition
-fsm.coin() 
-
-console.log(fsm.state) 
-// "opened"
-
-// trigger another transition
-fsm.push() 
-  
-console.log(fsm.state) 
-// "closed"
-```
+> a similar concept to using a [Mixin][mixin].
 
 ## Transition methods
 
-They are automaticaly created & named after the provided transitions, 
-which renders an expressive & domain-specific API.
+Transition methods are automaticaly created & named after the provided 
+transitions, which renders an expressive & domain-specific API.
 
 For example, the following FSM: 
 
@@ -200,9 +185,8 @@ const turnstile = fsm({
 console.log(turnstile.push())
 // false
 // state: 'closed'
+// no change
 ```
-
-> the transition was invalid so the `state` did not change.
 
 ## Custom invalid behaviour
 
@@ -242,35 +226,28 @@ turnstile.push('foo', 'bar')
 // foo, bar
 ```
 
-## Hooks
+## Hook methods
 
-Hooks are optional methods, called at specific transition phases, 
-optionally altering the transition behavior.
+Hooks are optional methods which are called at specific transition phases.  
+There's `2` types of hooks, *transition hooks* and *state hooks*.  
 
-There's 2 types of hooks.
+Hooks can be implemented on any object; the object should be passed as the 2nd 
+argument to `fsm`.
 
-### *Transition hooks*
+## *Transition hooks*
 
 - Called *before* the state is changed.
-- Can optionally [cancel a transition](#transition-cancellations)
-- Follow naming convention: `on<transition-name>`, where `<transition-name>`
-  is the actual transition name.
+- Can [cancel a transition](#transition-cancellations).
+- Must be named: `on<transition-name>`, 
+  where `<transition-name>` is the transition name.
+  - i.e: transition: `coin` will attempt calling a method: `onCoin`
 
-i.e:
-
-- transition: `coin` calls method `onCoin`
-- transition: `push` calls method `onPush`
-
-### *State hooks*
+## *State hooks*
 
 - Called *after* the state is changed.
-- Follow naming convention: `on<state-name>`, where `<state-name>`
-  is the actual state name.
-
-i.e:
-
-- state `opened` calls method `onOpened`
-- state `closed` calls method `onClosed`
+- Must be named: `on<state-name>`, 
+  where `<state-name>` is the state name.
+  - i.e: state: `opened` will attempt calling a method: `onOpened`
 
 ### Example
 
@@ -279,22 +256,22 @@ const turnstile = fsm({
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 }, {
-  // transition hooks
-
+  // "coin" transition hook 
   onCoin: function() {
     console.log('got a coin')
   },
   
+  // "push" transition hook 
   onPush: function() {
     console.log('pushed')
   },
-  
-  // state hooks
 
+  // state: "opened" hook 
   onOpened: function() {
     console.log('its open')
   },
   
+  // state: "closed" hook 
   onClosed: function() {
     console.log('now closed')
   }
@@ -302,13 +279,13 @@ const turnstile = fsm({
 
 turnstile.coin()
 // - got a coin
-// state: opened
+// - state: opened
 // - its open
 
 
 turnstile.push()
 // - pushed
-// state: closed
+// - state: closed
 // - now closed
 ```
 
@@ -317,9 +294,9 @@ turnstile.push()
 Transition hooks can cancel the transition by explicitly returning `false`.
 
 - A cancelled transition does not change the *state*.  
-- The `state hook` method is not called.
+- The subsequent `state hook` method is not called.
 
-> example: the following turnstile only works with `50c` coins:
+> example: a turnstile which only works with `50c` coins:
 
 ```js
 const turnstile = fsm({
@@ -361,8 +338,8 @@ turnstile.coin('foo', 'bar')
 
 ## Asynchronous transitions
 
-Just mark any passed async methods as [`async`][async] 
-or return a [`Promise`][promise].
+Just mark methods as [`async`][async] or return a [`Promise`][promise].  
+Then simply: `await fsm.transition()`.
 
 ```js
 const turnstile = fsm({
@@ -370,25 +347,24 @@ const turnstile = fsm({
   opened: { push: 'closed' }
 }, {
   async onCoin(coins) {
-    // simulate async call ...
-    await new Promise(res => setTimeout(res, 1000))
+    // simulate 2 second async delay ...
+    await new Promise(res => setTimeout(res, 2000))
   }
 })
 
 await turnstile.coin()
-// .. 
-// .. a second passes
-// ..
+// 
+// 2 seconds pass ...
+//
 // state: closed
-
 ```
 
 ## Serialising to JSON
 
-Just use `JSON.stringify(fsm)`:
+Simple; just use `JSON.stringify(fsm)`:
 
 ```js
-// pull hooks in own object,
+// set hooks in own object now,
 // for reusing when reviving
 const hooks = {
   onCoin() { console.log('got a coin') }
@@ -419,7 +395,7 @@ revived.push()
 // state: closed
 ```
 
-## API Specs
+## API
 
 ### `fsm(states, hooks)`
 
@@ -546,7 +522,6 @@ node --test --experimental-test-coverage
       Formal terminology from Automata Theory is avoided; it's confusing
       for the average reader and tends to make simple concepts sound harder 
       than they are.
-    
       *"automaton"* is the academic term from automata theory meaning 
       *"automatic machine"*.
       
