@@ -20,7 +20,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
 
 - [Usage](#usage)
 - [Basic Example](#example)
-- [Existing objects to FSMs](#converting-existing-objects-to-fsms)
+- [Existing objects to FSMs](#fsms-from-existing-objects)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
   * [Custom invalid behaviour](#custom-invalid-behaviour)
@@ -95,7 +95,7 @@ console.log(turnstile.state)
 // state: opened
 ```
 
-## Converting existing objects to FSMs
+## FSMs from existing objects
 
 The 2nd argument can take any existing `Object` & transform it into an FSM.
 
