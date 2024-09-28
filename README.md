@@ -21,6 +21,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
 - [Usage](#usage)
 - [Basic Example](#example)
 - [Existing objects to FSMs](#converting-existing-objects-to-fsms)
+- [Minimal API](#minimal-api)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
   * [Configure invalid behaviour](#configure-invalid-behaviour)
@@ -107,8 +108,7 @@ const turnstile = new Turnstile()
 
 // ... an EventEmitter
 
-turnstile.once('msg', msg => console.log('emitted:', msg))
-turnstile.emit('msg', 'foo')
+turnstile.emit('foo', 'bar')
 
 // ... and an FSM
 
@@ -120,10 +120,36 @@ console.log(turnstile.state)
 
 > this is a similar concept as using a [Mixin][mixin].
 
-## Transition methods
+## Minimal API
 
-Transition methods allow transitioning from one `state` to another, 
-if allowed under the `current state`.
+An FSM will always expose the following API:
+
+- A `state` property, reflecting the *current state*.
+- Transition methods, for triggering *transitions* between states.
+
+```js
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+
+console.log(fsm.state) 
+// "closed"
+
+// trigger a transition
+fsm.coin() 
+
+console.log(fsm.state) 
+// "opened"
+
+// trigger another transition
+fsm.push() 
+  
+console.log(fsm.state) 
+// "closed"
+```
+
+## Transition methods
 
 They are automaticaly created & named after the provided transitions, 
 which renders an expressive & domain-specific API.
@@ -398,7 +424,7 @@ revived.push()
 // state: closed
 ```
 
-## API
+## API Specs
 
 ### `fsm(states, hooks)`
 
