@@ -315,7 +315,7 @@ turnstile.push()
 
 ### Transition cancellations
 
-Transition hooks may cancel thex transition by explicitly returning  `false`.
+Transition hooks can cancel the transition by explicitly returning `false`.
 
 - A cancelled transition does not change the *state*.  
 - The `state hook` method is not called.
