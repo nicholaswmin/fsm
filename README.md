@@ -371,13 +371,13 @@ const turnstile = fsm({
 }, {
   async onCoin(coins) {
     // simulate async call ...
-    await new Promise(res => setTimeout(res, 2000))
+    await new Promise(res => setTimeout(res, 1000))
   }
 })
 
 await turnstile.coin()
 // .. 
-// .. after 2 seconds
+// .. a second passes
 // ..
 // state: closed
 
