@@ -9,15 +9,14 @@
 > `states` at any given time.   
 > The change from one state to another is called a `transition`.
 
-Finite-state machines are modelling constructs which allow expressing a piece 
-of logic [*declaratively*][declaratively].  
-They can only exist in one, always-valid state at any given time, 
-rendering them *inherently safe*, by design.[^1]
+Finite-state machines are constructs that allow expressing a piece of logic 
+[*declaratively*][declaratively].  
+They can only exist in 1, always-valid state at any given time, rendering 
+them *safe*, by design.[^1]
 
 This implementation constructs simple, robust & expressive FSMs.   
 
-Minimal, bundles `< 1KB` with zero dependencies, 
-published with [provenance][provenance].
+Minimal, `< 1KB` without dependencies, published with [provenance][provenance].
 
 - [Install](#install)
 - [Basic Example](#basic-example)
@@ -52,7 +51,7 @@ npm i @nicholaswmin/fsm
 
 ## Basic example
 
-> example: modelling a [turnstile][turn] mechanism
+> example: modelling a [turnstile][turn] mechanism as an FSM.
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
@@ -76,21 +75,20 @@ console.log(turnstile.state)
 
 FSMs must define a [state-transition table][stt] upfront, which:
 
-- Lists all possible `states`.
-  - Each `state` lists all allowed `transitions`.
-  - Each `transition` points to a `target state`.
+- Lists possible `states`.
+- Each `state` lists it's allowed `transitions`.
+- Each `transition` specifies a new `state`.
 
-> The above can be represented with an `Object` that matches 
-> the following shape:
+> Our [STT] can be described with a simple Object, like so:
 
 ```js
 {
-  state_A: { transition_B: 'target_state_B' },
-  state_B: { transition_A: 'target_state_A' }
+  stateA: { transitionB: 'stateB' },
+  stateB: { transitionA: 'stateA' }
 }
 ```
 
-> Concrete example: A [Turnstile][turn] Gate
+> A concrete example: the [turnstile][turn] example again.
 
 ```js
 const turnstile = fsm({
@@ -99,23 +97,24 @@ const turnstile = fsm({
 })
 ```
 
-The turnstyle: 
+The above turnstile: 
 
 - Has 2 possible *states*: `closed` or `opened`. 
-- Has 2 possible *transitions*: `coin` and `push`.    
-- Has initial `state: closed`.
+- Has 2 possible *transitions*: `coin` and `push`.  
+- Starts out with `state: closed`
 
-- While current `state: closed`:
-  - Can only trigger `coin` transition, & change to `state: opened`.
+and:
 
-- While current `state: opened`:
-  - Can only trigger `push` transition, & change to `state: closed`.
+When `state: closed`:
+- Can trigger `coin` transition, moving it to: `state: opened`.
 
-### Trigger transitions
+When `state: opened`:
+- Can trigger `push` transition, moving it to: `state: closed`.
 
-A *transition* can be triggered simply by calling it as a method.
+### Trigger transitions / change state
 
-i.e `fsm.coin()` triggers the `coin` transition.
+A *transition* can be triggered simply by calling it as a method.   
+For example: `fsm.coin()` triggers the `coin` transition.
 
 If the `current state` lists the transition as allowed, 
 the transition completes and the state changes:
@@ -154,17 +153,15 @@ console.log(turnstile.state)
 // state: broken
 ```
 
-The invalid transition behaviour [can be customised](#custom-invalid-behavior),
-in case you need to i.e `throw new Error('abc')` instead.
-
-> note: *transition methods* are named after the provided *transitions*.
+Invalid transition behaviour [can be customised](#custom-invalid-behavior)
 
 ## Creating FSMs from existing objects
 
 The 2nd argument of `fsm(json, obj)` accepts an `Object` which is wired-up 
-as an FSM, without using inheritance/`extends`.
+as an FSM,  
+without using inheritance/`extends`.
 
-This allows an existing object, which might be `extending` another class, 
+This allows existing objects, which might be `extending` other classes, 
 to also behave like an FSM's.[^2]
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
@@ -568,7 +565,7 @@ node --test --experimental-test-coverage
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [workers]: https://nodejs.org/api/worker_threads.html
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
-[provenance]: https://docs.npmjs.com/generating-provenance-statements
+[provenance]: https://search.sigstore.dev/?logIndex=134861482
 
 [contr-guide]: ./.github/CONTRIBUTING.md
 [author]: https://github.com/nicholaswmin
