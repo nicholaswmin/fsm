@@ -85,7 +85,7 @@ without requiring them to inherit again;
 which is not possible anyway since JavaScript has no support for 
 multiple inheritance.
 
-> example: An `EventEmitter` subclass which also behaves as an `FSM`:
+> example: A class behaving as both an `EventEmitter` & an `FSM`:
 
 ```js
 import EventEmitter from 'node:events'
@@ -118,7 +118,10 @@ console.log(turnstile.state)
 // "opened"
 ```
 
-> this is similar, but not identical, to the [mixin pattern][mixin].
+> this is a similar concept as using a [Mixin][mixin].
+
+> Composition also makes sense here; the problem is that it namespaces it's 
+> API behind the property it's instantiated onto which feels a bit.. meh..
 
 ## Transition methods
 
