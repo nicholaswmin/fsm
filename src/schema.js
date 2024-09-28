@@ -11,7 +11,13 @@ state = function([ name, state ], i, arr) {
   Object.entries(is.object(state, name)).map(transition, this)
 }
 
-export default {
+export default {  
+  state: function(states, v) {
+    Object.keys(states).includes(v) || has.err.range(v, 'missing')
+    
+    return v
+  },
+
   states: function (v) {
     const clone = structuredClone(v)
     Object.entries(is.empty(is.object(v, 'states'), 'states'))

@@ -1,13 +1,13 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 test('#constructor adds transition methods', async t => {
   let turnstile
 
   t.beforeEach(() => {
-    turnstile = new FSM({ 
+    turnstile = fsm({
       closed: { coin: 'opened' },
-      opened: { push: 'closed' }
+      opened: { push: 'closed'  }
     })
   })
  
@@ -16,18 +16,22 @@ test('#constructor adds transition methods', async t => {
   })
 
   await t.test('adds transition-methods', async t => {
+    const { NODE_ENV } = process.env
+
     t.assert.strictEqual(typeof turnstile.coin, 'function')
 
     await t.test('for each transition', t => {
       t.assert.strictEqual(typeof turnstile.push, 'function')
     })
-
-    await t.test('transition-methods cannot be modified', async t => {  
-      t.assert.throws(() => {
-        delete turnstile.coin
-      }, {
-        name: 'TypeError',
-        message: /Cannot delete/ 
+      
+    await t.test('When NODE_ENV not equals "test"', async t => {  
+      await t.test('transition-methods cannot be modified', async t => {  
+        t.assert.throws(() => {
+          delete turnstile.coin
+        }, {
+          name: 'TypeError',
+          message: /Cannot delete/ 
+        })
       })
     })
   })
@@ -35,7 +39,7 @@ test('#constructor adds transition methods', async t => {
 
   await t.test('transition-method defined in multiple states', async t => {
     t.beforeEach(() => {
-      turnstile = new FSM({ 
+      turnstile = fsm({ 
         closed: { coin: 'opened', break: 'broken' },
         opened: { push: 'closed'                  },
         broken: { fix : 'closed', push:  'opened' }
@@ -57,7 +61,7 @@ test('#constructor adds transition methods', async t => {
         opened: { push: 'closed' }
       }
 
-      turnstile = new FSM(args)
+      turnstile = fsm(args)
 
       args.opened.coin = 'foo'
     })

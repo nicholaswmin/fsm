@@ -1,11 +1,11 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../../../src/index.js'
+import { fsm } from '../../../../src/index.js'
 
 test('#argument: "states.<state>"', async t => {
   await t.test('not an object', async t => {
     await t.test('throws descriptive TypeError', t => {
       t.assert.throws(() => {
-        new FSM({ closed: [] })
+        fsm({ closed: [] })
       }, {
         name: 'TypeError',
         message: /exp. object/ 
@@ -16,14 +16,14 @@ test('#argument: "states.<state>"', async t => {
   await t.test('without transitions', async t => {
     await t.test('does not throw', t => {
       t.assert.doesNotThrow(() => {
-        new FSM({ closed: {} })
+        fsm({ closed: {} })
       })
     })
   })
   
   await t.test('1 transition', async t => {
     await t.test('does not throw', t => {
-      new FSM({ 
+      fsm({
         closed: { coin: 'opened' },
         opened: { push: 'closed' }
       })
@@ -33,7 +33,7 @@ test('#argument: "states.<state>"', async t => {
   await t.test('many transitions', async t => {
     await t.test('does not throw', t => {
       t.assert.doesNotThrow(() => {
-        new FSM({ 
+        fsm({
           closed: { coin: 'opened',  break: 'broken' },
           opened: { push: 'closed'                   },
           broken: {}

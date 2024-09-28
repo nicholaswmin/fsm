@@ -1,11 +1,11 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 test('#constructor initial state', async t => {
   let turnstile
 
   t.beforeEach(() => {
-    turnstile = new FSM({ 
+    turnstile = fsm({ 
       closed: { coin: 'opened' },
       opened: { push: 'closed' }
     })

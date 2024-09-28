@@ -1,5 +1,5 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 // This is a non-standard, a bit awkward test, meant to test cases
 // where there could be multiple, identically-named transitions, 
@@ -15,14 +15,10 @@ import { Sync as FSM } from '../../src/index.js'
 // This is a valid use-case.
 
 test('#transitionFn(), 1:* transition:states', async t => {
-  let turnstile
-
-  t.before(() => {
-    turnstile = new FSM({ 
-      closed: { coin: 'opened', break: 'broken' },
-      opened: { push: 'closed'                  },
-      broken: { fix : 'closed', push:  'opened' }
-    })
+  const turnstile = fsm({
+    closed: { coin: 'opened', break: 'broken' },
+    opened: { push: 'closed'                  },
+    broken: { fix : 'closed', push:  'opened' }
   })
 
   await t.test('instantiates', t => {  

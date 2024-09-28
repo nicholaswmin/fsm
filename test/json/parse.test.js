@@ -1,40 +1,35 @@
 import test from 'node:test'
 
-import { Sync as FSM } from '../../../src/index.js'
+import { fsm } from '../../src/index.js'
 
-test('deserializing - subclass', async t => {
-  let turnstile, onPush = t.mock.fn()
-
-  class Turnstile extends FSM {
-    constructor() {
-      super({
-        closed: { coin: 'opened' },
-        opened: { push: 'closed' }
-      })
-    }
-    
-    onPush(...args) {
-      return onPush(...args)
-    }
-  }
+test('from JSON', async t => {
+  let turnstile
   
-  await t.beforeEach( t => {  
-    onPush.mock.resetCalls()
-
-    turnstile = new Turnstile()
+  t.beforeEach( t => {  
+    turnstile = fsm({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    })
   })
     
-  await t.test('#ChildClass.parse(json)', async t => { 
-    let revived
+  await t.test('#fsm(json)', async t => { 
+    let revived, hooks, onPush
 
     t.beforeEach(async t => {  
+      hooks = {
+        onPush: t.mock.fn(),
+        onOpened: t.mock.fn()
+      }
+
       turnstile.coin()
 
-      revived = Turnstile.parse(JSON.stringify(turnstile))
+      revived = fsm(JSON.stringify(turnstile), hooks)
+      
+      onPush = t.mock.method(hooks, 'onPush')
     })
     
     await t.test('preserves type', t => {
-      t.assert.strictEqual(revived.constructor.name, 'Turnstile')
+      t.assert.strictEqual(revived.constructor.name, 'Object')
     })
     
     await t.test('preserves state', t => {

@@ -1,17 +1,22 @@
 import test from 'node:test'
-import { Sync as FSM } from '../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 test('#transitionFn() transition hook cancels transition', async t => {
-  let turnstile = null, onCoin = t.mock.fn(), onOpened = t.mock.fn()
+  t.before(() => process.env.ALLOW_METHOD_MOCKS = '1')
+  t.after(() => delete process.env.ALLOW_METHOD_MOCKS)   
+
+  let turnstile, hooks
 
   t.beforeEach(() => {
-    onCoin.mock.resetCalls()
-    onOpened.mock.resetCalls()
+    hooks = {
+      onCoin() {},
+      onOpened() {}
+    }
 
-    turnstile = new FSM({ 
+    turnstile = fsm({
       closed: { coin: 'opened' },
       opened: { push: 'closed' }
-    }, { onCoin, onOpened })
+    }, hooks)
   })
   
   await t.test('instantiates', t => {  
@@ -22,7 +27,6 @@ test('#transitionFn() transition hook cancels transition', async t => {
     await t.test('calling transition method', async t => {  
       t.beforeEach(() => turnstile.coin())
 
-      
       await t.test('transitions to defined state', t => {  
         t.assert.strictEqual(turnstile.state, 'opened')
       })
@@ -31,8 +35,12 @@ test('#transitionFn() transition hook cancels transition', async t => {
   
   await t.test('transition hook explicitly returns false', async t => {      
     await t.test('calling transition method', async t => {  
-      t.before(() => {
-        onCoin.mock.mockImplementationOnce(() => false)
+      let onCoin, onOpened
+
+      t.beforeEach(() => {
+        onCoin = t.mock.method(hooks, 'onCoin', () => false)
+        onOpened = t.mock.method(hooks, 'onOpened')
+
         turnstile.coin()
       })
 

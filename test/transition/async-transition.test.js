@@ -1,26 +1,17 @@
 import test from 'node:test'
-import { Async as FSM } from '../../src/index.js'
-
-const resetCalls = ({ mock }) => mock.resetCalls()
+import { fsm } from '../../src/index.js'
 
 test('async #transitionFn()', async t => {
-  let turnstile = null,
-    hooks = { 
-      onCoin: t.mock.fn(), 
-      onOpened: t.mock.fn(), 
-      onPush: t.mock.fn() 
-    }
-
-  t.beforeEach(() => {
-    Object.values(hooks).forEach(resetCalls)
-
-    turnstile = new FSM({
-      closed: { coin: 'opened' },
-      opened: { push: 'closed' }
-    }, hooks)
-  })
+  let turnstile, hooks, onCoin, onPush, onOpened
 
   await t.test('transitioning via await transition-method', async t => {
+    t.beforeEach(() => {
+      turnstile = fsm({
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
+      })
+    })
+
     await t.test('instantiates', t => {
       t.assert.strictEqual(turnstile.state, 'closed')
     })
@@ -38,34 +29,67 @@ test('async #transitionFn()', async t => {
   })
 
   await t.test('async transition hook returns false', async t => {
-    await t.test('calling transition method', async t => {
-      t.before(() => {
-        hooks.onCoin.mock.mockImplementationOnce(() => {
-          return new Promise(resolve =>
-            setTimeout(resolve.bind(null, false), 1))
-        })
-      })
+    t.beforeEach(() => {
+      hooks = {
+        async onCoin() {},
+        async onPush() {},
+        async onOpened() {}
+      }
 
+      turnstile = fsm({
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
+      }, hooks)
+
+      onOpened = t.mock.method(hooks, 'onOpened')
+      onPush = t.mock.method(hooks, 'onPush')
+      onCoin = t.mock.method(hooks, 'onCoin', async function () {
+        await new Promise(resolve => setTimeout(resolve, 20))
+
+        return false
+      })
+      
+      return turnstile.coin()
+    })
+
+    await t.test('calling transition method', async t => {
       await t.test('state does not change', async t => {
-        await turnstile.coin()
         t.assert.strictEqual(turnstile.state, 'closed')
       })
 
       await t.test('state hook is not called', t => {
-        t.assert.strictEqual(hooks.onOpened.mock.callCount(), 0)
+        t.assert.strictEqual( onOpened.mock.callCount(), 0)
       })
     })
   })
 
   await t.test('async invalid hook', async t => {
     await t.test('behavior set to throw Error', async t => {
-      t.before(() => {
-        FSM.onInvalid = async () => {
-          await new Promise(resolve =>
-            setTimeout(resolve.bind(null, false), 1))
-          
-          throw Error('not allowed')
-        }
+      t.beforeEach(() => {
+        turnstile = fsm({
+          closed: { coin: 'opened' },
+          opened: { push: 'closed' }
+        }, {
+          onInvalid: async function() {
+            await new Promise(resolve => setTimeout(resolve, 20))
+            
+            throw new Error('not allowed')
+          },
+
+          async onCoin() {},
+          async onPush() {},
+          async onOpened() {}
+        })
+
+        onOpened = t.mock.method(turnstile, 'onOpened')
+        onPush = t.mock.method(turnstile, 'onPush')
+        onCoin = t.mock.method(turnstile, 'onCoin', async function () {
+          await new Promise(resolve => setTimeout(resolve, 20))
+  
+          return false
+        })
+        
+        turnstile.coin()
       })
 
       await t.test('rejects with error', async t => {  
@@ -81,8 +105,8 @@ test('async #transitionFn()', async t => {
       })
 
       await t.test('state hook is not called', t => {
-        t.assert.strictEqual(hooks.onOpened.mock.callCount(), 0)
-        t.assert.strictEqual(hooks.onPush.mock.callCount(), 0)
+        t.assert.strictEqual(onOpened.mock.callCount(), 0)
+        t.assert.strictEqual(onPush.mock.callCount(), 0)
       })
     })
   })
