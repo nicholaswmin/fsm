@@ -72,20 +72,30 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-The above FSM expresses:
+Construct FSM's by passing an object describing the `states` and the
+available `transitions` for each:
+
+```js
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+```
+
+which boils down to:
 
 - If state: `closed` & transition: `coin` is triggered, set state: `opened`
 - If state: `opened` & transition: `push` is triggered, set state: `closed`
 
 
-`fsm.state` indicates the *current state*:
+Read the *current state* using `fsm.state`:
 
 ```js
 console.log(turnstile.state)
 //  state: closed
 ```
 
-You can trigger *transitions* between *states* by calling a 
+Trigger *transitions* between *states* by calling a 
 [transition method](#transition-methods):
 
 ```js
@@ -98,36 +108,35 @@ console.log(turnstile.state)
 
 > note: transition methods are named after the user-provided transitions.
 
-Attempting transitions which are not defined as available under 
-the *current state*, does nothing.   
-The current state stays the same.
+Attempting transitions which aren't listed under the *current state*, 
+does nothing; The current state simply stays the same.
 
 ```js
+// initial state: broken 
+// Only valid transition is `glue()`.
 const turnstile = fsm({
   broken: { glue: 'closed' },
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 })
 
-// initial state: broken
-
-// not defined as valid while state: broken
+// calling an invalid transition ...
 turnstile.coin()
-// false
+// returns false
 
+// and does not change the state ...
 console.log(turnstile.state)
-// state: broken
-// no change
+// state: closed
 ```
 
 More on [attempting invalid transitions](#invalid-transitions).
 
-## FSMs from existing objects
+## Creating FSMs from existing objects
 
-The 2nd argument can take any existing `Object` & transform it into an FSM.
+The 2nd argument accepts an `Object` which is wired-up to work as an FSM, 
+without using inheritance/`extends`.
 
-This allows classes which are already subclassing something else to also 
-behave like FSMs. [^2]
+This allows the object to inherit from something else, if needed.[^2]
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
@@ -145,15 +154,14 @@ class Turnstile extends EventEmitter {
   }
 }
 
-// ... Turnstile is:
 
 const turnstile = new Turnstile()
 
-// ... an EventEmitter
+// ... does EventEmitter things
 
 turnstile.emit('foo', 'bar')
 
-// ... and an FSM
+// ... does FSM things
 
 turnstile.coin()
 
@@ -165,10 +173,10 @@ console.log(turnstile.state)
 
 ## Transition methods
 
-Transition methods are automaticaly created & named after the provided 
-transitions, which renders an expressive & domain-specific API.
+Transition methods are created & named after the provided transitions.    
+This renders an expressive & domain-specific API.
 
-For example, the following FSM: 
+i.e: The following FSM specifies 2 transitions: `coin` & `push`.
 
 ```js
 const turnstile = fsm({
@@ -177,12 +185,7 @@ const turnstile = fsm({
 })
 ```
 
-... specifies 2 transitions: 
-
-- `coin`  
-- `push`
-
-... this creates 2 identically-named methods:
+This creates 2 identically-named transition methods:
 
 ```js
 turnstile.coin()
@@ -191,8 +194,6 @@ turnstile.coin()
 turnstile.push()
 // state: closed
 ```
-
-... for triggering those transitions.
 
 ## Invalid transitions
 
@@ -219,11 +220,10 @@ console.log(turnstile.push())
 
 ## Custom invalid behaviour
 
-The invalid behaviour can be configured by passing an object implementing 
+The invalid behaviour can be configured by passing an object which implements 
 an `onInvalid` method.
 
-> Example: throw an `Error` instead of silently ignoring the invalid 
-> transition:
+> Example: throwing an `Error` on invalid transitions:
 
 ```js
 const turnstile = fsm({
@@ -258,10 +258,8 @@ turnstile.push('foo', 'bar')
 ## Hook methods
 
 Hooks are optional methods which are called at specific transition phases.  
-There's `2` types of hooks, *transition hooks* and *state hooks*.  
 
-Hooks can be implemented on any object; the object should be passed as the 2nd 
-argument to `fsm`.
+There's `2` types of hooks, **transition hook8s** and **state hooks**.  
 
 ## Transition hooks
 
@@ -277,14 +275,12 @@ argument to `fsm`.
 - Must be named: `on<state-name>`, 
   where `<state-name>` is the state name.
   - i.e: state: `opened` will attempt calling a method: `onOpened`
-
-### Example
+  
+Hooks should be implemented as object methods; the object should then be passed 
+as the 2nd argument to `fsm`:
 
 ```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
+const hooks = {
   // "coin" transition hook 
   onCoin: function() {
     console.log('got a coin')
@@ -295,16 +291,21 @@ const turnstile = fsm({
     console.log('pushed')
   },
 
-  // state: "opened" hook 
+  // "opened" state hook 
   onOpened: function() {
     console.log('its open')
   },
   
-  // state: "closed" hook 
+  // "closed" state hook 
   onClosed: function() {
     console.log('now closed')
   }
-})
+}
+
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, hooks)
 
 turnstile.coin()
 // - got a coin
