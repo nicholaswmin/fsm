@@ -19,7 +19,7 @@ This implementation constructs simple, robust & expressive FSMs.
 Minimal, bundles `~ 850 bytes` without dependencies.  
 
 - [Usage](#usage)
-- [Example](#example)
+- [Basic Example](#example)
 - [Existing objects to FSMs](#converting-existing-objects-to-fsms)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
@@ -51,7 +51,7 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> example: a [turnstile mechanism][turn]
+> example: modelling a [turnstile mechanism][turn]
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
@@ -81,12 +81,11 @@ The above FSM simply expresses:
 The 2nd argument can optionally takes an existing `Object`
 which is transformed into an FSM.
 
-This is an intentional design decision which allows sublcasses to become
-FSM's without requiring to inherit again; which is not possible anyway.
+This is an intentional design decision allowing sublcasses to behave like
+FSM's without requiring them to inherit again; which is not possible anyway 
+since JavaScript has no support for multiple inheritance.
 
-JavaScript does not support multiple-inheritance.
-
-> example: An `EventEmitter` subclass which also behaves as an FSM:
+> example: An `EventEmitter` subclass which also behaves as an `FSM`:
 
 ```js
 import EventEmitter from 'node:events'
@@ -98,7 +97,7 @@ class Turnstile extends EventEmitter {
     fsm({
       closed: { coin: 'opened' },
       opened: { push: 'closed' }
-    }, this) // `this` as 2nd arg.
+    }, this) // pass `this` here
   }
 }
 
