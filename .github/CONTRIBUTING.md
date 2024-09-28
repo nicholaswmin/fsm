@@ -28,6 +28,30 @@ Bug & security reports or fixes are welcome.
   - must mention property path if argument is a complex object.
   - must distinguish `TypeError`, `RangeError`.
   - must mention actual value & what was expected.
+  
+## Publishing a new version
+
+> short guide on pubishing a new version, with build provenance.
+
+1. Merge Pull Request to `main`.
+2. Increment `npm package.json` version:
+
+```bash
+npm version patch
+```
+> or: `minor`, `major`
+
+3. Push to `main` with commit message:
+
+```bash
+git commit -am "build: version bump"
+```
+
+4. Create a Github Release using the same version tag/number as the `version`
+   from `package.json`.
+5. The `build:publish.yml` Github Actions workflow will then run `npm publish` 
+   with build provenance when the Github Release is saved/published.
+
 
 [gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
 [provenance]: https://docs.npmjs.com/generating-provenance-statements
