@@ -9,7 +9,7 @@
 - [Philosophy](#philosophy)
   * [Minimal](#minimal)
   * [Robust](#robust)
-- [Publishing new versions](#publishing-to--npm-)
+- [Publishing new versions](#publishing-new-versions)
 - [Authors](#authors)
 
 ## Overview
