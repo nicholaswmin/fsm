@@ -83,7 +83,7 @@ console.log(turnstile.state)
 //  state: closed
 ```
 
-FSM's have transition methods, to *transition* between *states*.
+[transition methods](#transition-methods), to *transition* between *states*.
 
 ```js
 // trigger "coin" transition
