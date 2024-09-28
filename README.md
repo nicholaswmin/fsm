@@ -81,10 +81,8 @@ The above FSM simply expresses:
 
 The 2nd argument can take any existing `Object` & transform it into an FSM.
 
-This is a feature which allows sublcasses to behave like FSM's 
-without requiring them to inherit again;
-which is not possible anyway since JavaScript has no support for 
-multiple inheritance.
+This feature allows classes/objects to behave like FSM's, even if they are 
+already subclassing something else.
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
