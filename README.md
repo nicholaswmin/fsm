@@ -389,7 +389,7 @@ Just use `JSON.stringify(fsm)`:
 
 ```js
 // pull hooks in own object,
-// for reuseing when reviving
+// for reusing when reviving
 const hooks = {
   onCoin() { console.log('got a coin') }
   onPush() { console.log('pushed ...') }
