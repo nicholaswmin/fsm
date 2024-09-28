@@ -50,9 +50,9 @@ published with [provenance][provenance].
 npm i @nicholaswmin/fsm
 ```
 
-## Example
+## Basic example
 
-> example: modelling a [turnstile mechanism][turn]
+> example: modelling a [turnstile][turn] mechanism
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
@@ -77,16 +77,16 @@ The above FSM expresses:
 - If state: `closed` & transition: `coin` is triggered, set state: `opened`
 - If state: `opened` & transition: `push` is triggered, set state: `closed`
 
-FSM's have: 
 
-An `fsm.state` property, reflecting it's *current state*.
+`fsm.state` indicates the *current state*:
 
 ```js
 console.log(turnstile.state)
 //  state: closed
 ```
 
-[Transition methods](#transition-methods), which *transition* between *states*.
+You can trigger *transitions* between *states* by calling a 
+[transition method](#transition-methods):
 
 ```js
 // trigger "coin" transition
@@ -95,6 +95,32 @@ turnstile.coin()
 console.log(turnstile.state)
 // state: opened
 ```
+
+> note: transition methods are named after the user-provided transitions.
+
+Attempting transitions which are not defined as available under 
+the *current state*, does nothing.   
+The current state stays the same.
+
+```js
+const turnstile = fsm({
+  broken: { glue: 'closed' },
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+
+// initial state: broken
+
+// not defined as valid while state: broken
+turnstile.coin()
+// false
+
+console.log(turnstile.state)
+// state: broken
+// no change
+```
+
+More on [attempting invalid transitions](#invalid-transitions).
 
 ## FSMs from existing objects
 
