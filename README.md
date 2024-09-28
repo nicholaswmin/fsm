@@ -16,7 +16,7 @@ rendering them *inherently safe*, by design.[^1]
 
 This implementation constructs simple, robust & expressive FSMs.   
 
-Minimal, bundles `~ 850 bytes` without dependencies.  
+Minimal, bundles `< 1KB`, zero dependencies.  
 
 - [Usage](#usage)
 - [Basic Example](#example)
