@@ -165,12 +165,12 @@ const turnstile = fsm({
 })
 ```
 
-... has **2** transitions: 
+... specifies 2 transitions: 
 
 - `coin`  
 - `push`
 
-... therefore it has **2** identically-named methods:
+... which creates **2** identically-named methods:
 
 ```js
 turnstile.coin()
@@ -180,7 +180,7 @@ turnstile.push()
 // state: closed
 ```
 
-... which actually trigger those transitions.
+... for triggering those transitions.
 
 ### Invalid transitions
 
