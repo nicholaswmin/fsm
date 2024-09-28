@@ -401,6 +401,7 @@ const turnstile = fsm({
 }, hooks)
 
 turnstile.coin()
+// got a coin
 // state: opened
 
 const json = JSON.stringify(turnstile)
@@ -414,6 +415,7 @@ const revived = fsm(json, hooks)
 // state: opened 
 
 revived.push()
+// pushed ..
 // state: closed
 ```
 
