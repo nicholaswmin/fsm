@@ -20,7 +20,7 @@ Minimal, bundles `~ 850 bytes` without dependencies.
 
 - [Usage](#usage)
 - [Example](#example)
-- [Converting objects to FSMs](#converting-existing-objects-to-fsms)
+- [Existing objects to FSMs](#converting-existing-objects-to-fsms)
 - [Transition methods](#transition-methods)
   * [Invalid transitions](#invalid-transitions)
   * [Configure invalid behaviour](#configure-invalid-behaviour)
@@ -84,7 +84,7 @@ which is transformed into an FSM.
 This is an intentional design decision which allows sublcasses to become
 FSM's without requiring to inherit again; which is not possible anyway.
 
-JavaScript does not support multiple-inheritance:
+JavaScript does not support multiple-inheritance.
 
 > example: An `EventEmitter` subclass which also behaves as an FSM:
 
@@ -117,7 +117,7 @@ console.log(turnstile.state)
 // "opened"
 ```
 
-> this is similar to a [mixin][mixin] pattern.
+> this is simila, but not identical, to the [mixin pattern][mixin].
 
 ## Transition methods
 
