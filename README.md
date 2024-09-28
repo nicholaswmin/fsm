@@ -215,7 +215,7 @@ turnstile.push('foo', 'bar')
 
 Hooks are optional methods which are called at specific transition phases.  
 
-There's `2` types of hooks, **transition hook8s** and **state hooks**.  
+There's `2` types: **transition hooks** and **state hooks**.  
 
 ## Transition hooks
 
