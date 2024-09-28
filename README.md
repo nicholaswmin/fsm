@@ -76,14 +76,16 @@ The above FSM expresses:
 - If state: `closed` & transition: `coin` is triggered, set state: `opened`
 - If state: `opened` & transition: `push` is triggered, set state: `closed`
 
-FSM's have a `fsm.state` property, reflecting it's *current state*.
+FSM's have: 
+
+An `fsm.state` property, reflecting it's *current state*.
 
 ```js
 console.log(turnstile.state)
 //  state: closed
 ```
 
-[transition methods](#transition-methods), to *transition* between *states*.
+[Transition Methods](#transition-methods), to *transition* between *states*.
 
 ```js
 // trigger "coin" transition
