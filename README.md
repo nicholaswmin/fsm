@@ -72,12 +72,25 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-### Configuration
+### Defining FSMs
 
-Requires passing an object describing: 
+FSMs must define a [state-transition table][stt] upfront, which:
 
-- The `states` 
-- The available `transitions` for each `state`.
+- Lists all possible `states`.
+  - Each `state` lists all allowed `transitions`.
+  - Each `transition` points to a `target state`.
+
+> The above can be represented with an `Object` that matches 
+> the following shape:
+
+```js
+{
+  state_A: { transition_B: 'target_state_B' },
+  state_B: { transition_A: 'target_state_A' }
+}
+```
+
+> Concrete example: A [Turnstile][turn] Gate
 
 ```js
 const turnstile = fsm({
@@ -86,36 +99,42 @@ const turnstile = fsm({
 })
 ```
 
-which means:
+The turnstyle: 
 
-- If state: `closed` & transition: `coin` is triggered, set state: `opened`
-- If state: `opened` & transition: `push` is triggered, set state: `closed`
+- Has 2 possible *states*: `closed` or `opened`. 
+- Has 2 possible *transitions*: `coin` and `push`.    
+- Has initial `state: closed`.
 
-### Current state
+- While current `state: closed`:
+  - Can only trigger `coin` transition, & change to `state: opened`.
 
-Use property `fsm.state` for getting the current state:
+- While current `state: opened`:
+  - Can only trigger `push` transition, & change to `state: closed`.
+
+### Trigger transitions
+
+A *transition* can be triggered simply by calling it as a method.
+
+i.e `fsm.coin()` triggers the `coin` transition.
+
+If the `current state` lists the transition as allowed, 
+the transition completes and the state changes:
 
 ```js
-console.log(turnstile.state)
-//  state: closed
-```
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+// state: closed
 
-### Transitions between states
-
-Call a valid [transition method](#transition-methods) to change the state:
-
-```js
-// trigger "coin" transition
+// triggering the "coin" transition
 turnstile.coin()
 
-console.log(turnstile.state)
 // state: opened
 ```
 
-> note: transition methods are named after the user-provided transitions.
-
-If the transition method is not listed as valid for the current-state, 
-no transition takes place & the state stays the same: 
+If the `current state` does not list the transition as allowed, 
+no `transition` takes place so the `state` stays the same:
 
 ```js
 const turnstile = fsm({
@@ -125,19 +144,25 @@ const turnstile = fsm({
 })
 // state: broken 
 
-// try 'coin' transition
+// triggering the "coin" transition
+
 turnstile.coin()
+
+// does nothing ...
 
 console.log(turnstile.state)
 // state: broken
 ```
 
-The invalid transition behaviour [can be customised](#custom-invalid-behavior).
+The invalid transition behaviour [can be customised](#custom-invalid-behavior),
+in case you need to i.e `throw new Error('abc')` instead.
+
+> note: *transition methods* are named after the provided *transitions*.
 
 ## Creating FSMs from existing objects
 
-The 2nd argument of `fsm()` accepts an `Object` which is wired-up as an FSM, 
-without using inheritance/`extends`.
+The 2nd argument of `fsm(json, obj)` accepts an `Object` which is wired-up 
+as an FSM, without using inheritance/`extends`.
 
 This allows an existing object, which might be `extending` another class, 
 to also behave like an FSM's.[^2]
