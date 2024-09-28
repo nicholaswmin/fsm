@@ -82,7 +82,7 @@ The above FSM simply expresses:
 The 2nd argument can take any existing `Object` & transform it into an FSM.
 
 This feature allows classes/objects to behave like FSM's, even if they are 
-already subclassing something else. [^3]
+already subclassing something else. [^2]
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
@@ -226,7 +226,7 @@ turnstile.push()
 // Error: cannot push from: closed
 ```
 
-... `onInvalid` accepts variadic arguments: [^2]
+... `onInvalid` accepts variadic arguments: [^3]
 
 ```js
 const turnstile = fsm({
@@ -343,7 +343,7 @@ turnstile.coin(50)
 ## Passing arguments 
 
 Transition methods can pass arguments to relevant hooks, assumed to be
-variadic: [^2]
+variadic: [^3]
 
 ```js
 const turnstile = fsm({
@@ -549,18 +549,18 @@ node --test --experimental-test-coverage
     
       *"automaton"* is the academic term from automata theory meaning 
       *"automatic machine"*.
-
-[^2]: Describes a function that takes an non-finite/infinite no of arguments.   
+      
+[^2]: Javascript does not support multiple inheritance.  
+      This is usually for the better, since it tends to create inflexibly 
+      strong relationships; yet there are still cases where it's the most 
+      appropriate choice.
+      
+[^3]: Describes a function that takes an non-finite/infinite no of arguments.   
       Also called functions of *"n-arity"* where "arity" = number of arguments. 
       
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
       n-ary/variadic: `f = (...args) => {}`
-      
-[^3]: Javascript does not support multiple inheritance.  
-      This is usually for the better, since it tends to create inflexibly 
-      strong relationships; yet there are still cases where it's the most 
-      appropriate choice.
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
