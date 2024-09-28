@@ -397,8 +397,8 @@ await turnstile.coin()
 Simply use `JSON.stringify(fsm)`:
 
 ```js
-// pull hooks in own object
-// we'll reuse them when reviving
+// pull hooks in own object,
+// for reuseing when reviving
 const hooks = {
   onCoin() { console.log('got a coin') }
   onPush() { console.log('pushed ...') }
