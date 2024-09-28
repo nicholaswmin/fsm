@@ -99,8 +99,8 @@ console.log(turnstile.state)
 
 The 2nd argument can take any existing `Object` & transform it into an FSM.
 
-This feature allows attaching behavior to classes which are already subclassing 
-something else. [^2]
+This allows classes which are already subclassing something else to also 
+behave like FSMs. [^2]
 
 > example: A class behaving as both an `EventEmitter` & an `FSM`:
 
@@ -134,7 +134,7 @@ console.log(turnstile.state)
 // "opened"
 ```
 
-> a similar concept to using a [Mixin][mixin].
+> the above is a similar concept to using a [Mixin][mixin].
 
 ## Transition methods
 
