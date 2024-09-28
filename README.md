@@ -85,7 +85,7 @@ console.log(turnstile.state)
 //  state: closed
 ```
 
-[Transition Methods](#transition-methods), to *transition* between *states*.
+[Transition methods](#transition-methods), which *transition* between *states*.
 
 ```js
 // trigger "coin" transition
