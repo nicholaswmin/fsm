@@ -4,25 +4,20 @@
 
 > a [finite-state machine][fsm] 
 
-> A state machine, is a mathematical model of computation.  
-> It is an abstract machine that can be in one of a finite number of
-> `states` at any given time.   
+> A state machine, is a mathematical model of computation.  § 
+> It is an abstract machine that can be in one of a finite number of `states`.  
 > The change from one state to another is called a `transition`.
 
-Finite-state machines are constructs that allow expressing a piece of logic 
+Finite-state machines are constructs which allow expressing a piece of logic 
 [*declaratively*][declaratively].  
-They can only exist in 1, always-valid state at any given time, rendering 
-them *safe*, by design.[^1]
-
-This implementation constructs simple, robust & expressive FSMs.   
 
 Minimal, `< 1KB` without dependencies, published with [provenance][provenance].
 
 - [Install](#install)
 - [Basic Example](#basic-example)
   + [Defining an FSM](#defining-fsms)
-  + [Transition between states](#transitions-between-states)
-  + [Current state](#current-state)
+  + [Transitioning between states](#transitions-between-states)
+  + [Getting the current state](#current-state)
 - [Creating FSMs from existing objects](#creating-fsms-from-existing-objects)
 - [Transition hooks](#transition-hooks)
 - [State hooks](#state-hooks)
@@ -31,7 +26,7 @@ Minimal, `< 1KB` without dependencies, published with [provenance][provenance].
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
 - [API](#api)
-  * [`fsm(states, hooks)`](fsmstates-hooks)
+  * [`fsm(states, hooks)`](#fsmstates-hooks)
   * [`fsm(json, hooks)`](#fsmjson-hooks)
   * [`fsm.state`](#fsmstate)
   * [`JSON.stringify(fsm)`](#jsonstringifyfsm)
@@ -99,13 +94,13 @@ const turnstile = fsm({
 })
 ```
 
-The above turnstile: 
+This turnstile: 
 
 - Has 2 possible *states*: `closed` or `opened`. 
 - Has 2 possible *transitions*: `coin` and `push`.  
 - Starts out with `state: closed`
 
-and:
+and these rules:
 
 When `state: closed`:
 - Can trigger `coin` transition, moving it to: `state: opened`.
@@ -113,15 +108,13 @@ When `state: closed`:
 When `state: opened`:
 - Can trigger `push` transition, moving it to: `state: closed`.
 
-
 ### Transition between states
 
 A *transition* can be triggered by calling it as a method.   
 i.e: `fsm.coin()` triggers the `coin` transition.
 
-
-If the `current state` lists the transition as allowed, 
-the transition completes and the state changes:
+If the `current state` **lists the transition**, the transition completes and 
+the state succesfuly changes:
 
 ```js
 const turnstile = fsm({
@@ -135,10 +128,11 @@ turnstile.coin()
 
 // state: opened
 
+// good!
 ```
 
-If a triggered transition isn't allowed under the `current state`, 
-the `transition` is cancelled & the `state` stays the same.
+If a triggered transition **is not listed** under the `current state`, the 
+`transition` is silently cancelled & the `state` stays the same:
 
 ```js
 const turnstile = fsm({
@@ -156,9 +150,11 @@ turnstile.coin()
 
 console.log(turnstile.state)
 // state: broken
+
+// oops, state is still "broken"
 ```
 
-Invalid transition behaviour [can be customised](#custom-invalid-behavior)
+The transition behaviour [can be customised](#custom-invalid-behavior)
 
 ## Transform existing objects to FSMs
 
