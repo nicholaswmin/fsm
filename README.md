@@ -20,15 +20,14 @@ Minimal, `< 1KB` without dependencies, published with [provenance][provenance].
 
 - [Install](#install)
 - [Basic Example](#basic-example)
-  + [Configuration](#configuration)
+  + [Defining an FSM](#defining-fsms)
+  + [Transition between states](#transitions-between-states)
   + [Current state](#current-state)
-  + [Transitions between states](#transitions-between-states)
 - [Creating FSMs from existing objects](#creating-fsms-from-existing-objects)
-- [Hook methods](#hook-methods)
-  * [Transition hooks](#transition-hooks)
-  * [State hooks](#state-hooks)
-    + [Transition cancellations](#transition-cancellations)
-    + [Passing arguments](#passing-arguments)
+- [Transition hooks](#transition-hooks)
+- [State hooks](#state-hooks)
+  * [Transition cancellations](#transition-cancellations)
+  * [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
 - [API](#api)
@@ -111,10 +110,10 @@ When `state: closed`:
 When `state: opened`:
 - Can trigger `push` transition, moving it to: `state: closed`.
 
-### Trigger transitions / change state
+### Transition between states
 
-A *transition* can be triggered simply by calling it as a method.   
-For example: `fsm.coin()` triggers the `coin` transition.
+A *transition* can be triggered by calling it as a method.   
+i.e: `fsm.coin()` triggers the `coin` transition.
 
 If the `current state` lists the transition as allowed, 
 the transition completes and the state changes:
@@ -132,8 +131,10 @@ turnstile.coin()
 // state: opened
 ```
 
-If the `current state` does not list the transition as allowed, 
-no `transition` takes place so the `state` stays the same:
+Excellent. State changed from `closed` to `opened`.
+
+However, if the `current state` does not list the transition as allowed, 
+no `transition` takes place therefore the `state` stays the same:
 
 ```js
 const turnstile = fsm({
@@ -153,7 +154,8 @@ console.log(turnstile.state)
 // state: broken
 ```
 
-Invalid transition behaviour [can be customised](#custom-invalid-behavior)
+Invalid transition behaviour [can be customised](#custom-invalid-behavior),   
+in case you need something more noisy, like throwing an `Error`.
 
 ## Creating FSMs from existing objects
 
