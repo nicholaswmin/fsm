@@ -77,7 +77,7 @@ In our case, it's an object which:
 - Each `state` lists it's allowed `transitions`.
 - Each `transition` points to a new `state`.
 
-and has the following shape:
+it has the following shape:
 
 ```js
 {
