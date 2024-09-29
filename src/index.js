@@ -1,11 +1,19 @@
 import valid from './schema.js'
 import utils from './utils.js'
 
+class InvalidTransitionError extends Error {}
+
 class FSM {
   constructor() {
     return Object.defineProperty(this, 'fsm', { value: {} })
   }
 }
+
+const throwInvalidTransition = function(state, transition) {
+  const message = `current state: ${state} has no transition: ${transition}`
+
+  throw new InvalidTransitionError(message)
+} 
 
 const parseStateArguments = _states => typeof _states === 'string' 
   ? JSON.parse(_states) 
@@ -29,7 +37,8 @@ const defineTransitionMethod = function([ transition, state ]) {
       const transitionFn = this[utils.String.onify(transition)]
 
       if (!canTransition)
-        return this.onInvalid?.call(this, transition, ...args) || false
+        return this.onInvalid?.call(this, transition, ...args) 
+          || throwInvalidTransition(this.fsm._state, transition)
       
       const transitionResult = transitionFn?.call(this, ...args)
       const transitionIfAllowed = res => res === false 
