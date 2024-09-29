@@ -6,7 +6,7 @@
 
 
 - [Overview](#overview)
-- [Philosophy](#philosophy)
+- [Attributes](#attributes)
   * [Minimal](#minimal)
   * [Robust](#robust)
 - [Publishing new versions](#publishing-new-versions)
@@ -16,34 +16,29 @@
 
 Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom]
 
-This package is feature-complete.  
-Bug & security reports or fixes are welcome.
+This package is feature-complete, however 
+bug reports, bug fixes, security reports and/or fixes are welcome.
 
-## Philosophy
-
-### Minimal
+## General attributes
 
 - must have zero `dependencies`
 - should have zero `devDependencies`.
 - should be feature-poor & uncomplicated.
 - must have a bundle size hovering `1 KB`.
+- must not clean up arguments: i.e `trim()` etc. 
+  `throw` error instead. require that user fixes it.
+- must have clear, descriptive & unambigous error messages.
+- must mention property path if argument is a complex object.
+- must distinguish `TypeError`, `RangeError`.
+- must mention actual value & what was expected.
 - must be published with [provenance][provenance]
-
-### Robust
-
 - must have validations.
-  -  must not clean up arguments: i.e `trim()` etc. 
-    `throw` error instead. require that user fixes it.
-- must have clear, descriptive and unambigous errors:
-  - must mention property path if argument is a complex object.
-  - must distinguish `TypeError`, `RangeError`.
-  - must mention actual value & what was expected.
   
 ## Publishing new versions
 
 > short guide on how to do `npm publish`, with build provenance.
 
-1. Merge Pull Request to `main`.
+1. Ensure all tests pass.
 2. Increment `npm package.json` version:
 
 ```bash
@@ -51,15 +46,17 @@ npm version patch
 ```
 > or: `minor`, `major`
 
-3. Push to `main` with commit message:
+3. Push to the current branch with commit message:
+
 
 ```bash
 git commit -am "build: version bump"
 ```
 
-4. Create a Github Release using the same version tag/number as the `version`
+4. Merge to `main`.
+5. Create a Github Release using the same version tag/number as the `version`
    from `package.json`.
-5. The `build:publish.yml` Github Actions workflow will then run `npm publish` 
+6. The `build:publish.yml` Github Actions workflow will then run `npm publish` 
    with build provenance when the Github Release is saved/published.
 
 ## Authors
