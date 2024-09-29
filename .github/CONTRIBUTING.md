@@ -1,9 +1,7 @@
 ## Contributing
 
-> The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, 
-> “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to 
-> be interpreted as described in [RFC 2119][rfc2119].
-
+> The key words “MUST”, “SHOULD”, are to be
+> interpreted as described in [RFC 2119][rfc2119].
 
 - [Overview](#overview)
 - [Attributes](#attributes)
