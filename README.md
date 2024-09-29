@@ -19,12 +19,14 @@ Minimal, `< 1KB` without dependencies, published with [provenance][provenance].
   + [Transitioning between states](#transitions-between-states)
   + [Getting the current state](#current-state)
 - [Creating FSMs from existing objects](#creating-fsms-from-existing-objects)
-- [Transition hooks](#transition-hooks)
-- [State hooks](#state-hooks)
++ [Getting the current state](#current-state)
+  * [Transition hooks](#transition-hooks)
+  * [State hooks](#state-hooks)
   * [Transition cancellations](#transition-cancellations)
   * [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
+- [Reviving from JSON](#reviving-fromo-json)
 - [API](#api)
   * [`fsm(states, hooks)`](#fsmstates-hooks)
   * [`fsm(json, hooks)`](#fsmjson-hooks)
@@ -154,7 +156,7 @@ console.log(turnstile.state)
 // oops, state is still "broken"
 ```
 
-The transition behaviour [can be customised](#custom-invalid-behavior)
+The transition behaviour [can be customised](#custom-invalid-behavior).
 
 ## Transform existing objects to FSMs
 
