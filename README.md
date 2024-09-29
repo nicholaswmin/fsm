@@ -47,7 +47,7 @@ npm i @nicholaswmin/fsm
 
 ## Basic example
 
-> example: modelling a [turnstile][turn] mechanism as an FSM.
+> modelling a [turnstile][turn] gate as an FSM:
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
@@ -74,19 +74,10 @@ FSMs must define a [state-transition table][stt] upfront.
 In our case, it's an object which:
 
 - Lists possible `states`.
-- Each `state` lists it's allowed `transitions`.
-- Each `transition` points to a new `state`.
+- Lists the allowed `transitions` of each `state`.
+- Lists the intended end `state` for each `transition`.
 
-it has the following shape:
-
-```js
-{
-  stateA: { transitionB: 'stateB' },
-  stateB: { transitionA: 'stateA' }
-}
-```
-
-> A concrete example: 
+> A concrete example:
 > the [turnstile][turn] gate:
 
 ```js
@@ -248,7 +239,7 @@ Pass an object implementing hook methods as 2nd parameter of `fsm(stable, obj)`:
 Must be named: `on<transition-name>`, replacing `<transition-name>` with the 
 actual transition name.
 
-> example: implementing both transition hooks:
+> implementing both transition hooks:
 
 ```js
 const turnstile = fsm({
@@ -277,7 +268,7 @@ turnstile.push()
 
 Must be named: `on<state-name>`, replacing `<state-name>` with the state name.
 
-> example: implement both state hooks:
+> implementing both state hooks:
 
 ```js
 const turnstile = fsm({
@@ -307,8 +298,7 @@ Transition hooks can cancel the transition by explicitly returning `false`.
 - Cancelled transitions don't change the *state*.  
 - Subsequent `state hook` methods are not called.
 
-> example: a turnstile requiring `50c` coins 
-> to let people through:
+> a turnstile that requires a `50c` coins to operate.
 
 ```js
 const turnstile = fsm({
