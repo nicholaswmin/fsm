@@ -47,7 +47,7 @@ npm i @nicholaswmin/fsm
 
 ## Basic example
 
-> modelling a [turnstile][turn] gate as an FSM:
+> modelling a [turnstile][turn] mechanism as an FSM.
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
@@ -74,10 +74,18 @@ FSMs must define a [state-transition table][stt] upfront.
 In our case, it's an object which:
 
 - Lists possible `states`.
-- Lists the allowed `transitions` of each `state`.
-- Lists the intended end `state` for each `transition`.
+- Lists each state's allowed `transitions`.
+- Each `transition` points to a new `state`.
 
-> A concrete example:
+it has the following shape:
+
+```js
+{
+  stateA: { transitionB: 'stateB' },
+  stateB: { transitionA: 'stateA' }
+}
+```
+
 > the [turnstile][turn] gate:
 
 ```js

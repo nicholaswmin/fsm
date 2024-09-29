@@ -6,9 +6,7 @@
 
 
 - [Overview](#overview)
-- [Attributes](#attributes)
-  * [Minimal](#minimal)
-  * [Robust](#robust)
+- [General](#general-attributes)
 - [Publishing new versions](#publishing-new-versions)
 - [Authors](#authors)
 
@@ -21,8 +19,8 @@ bug reports, bug fixes, security reports and/or fixes are welcome.
 
 ## General attributes
 
-- must have zero `dependencies`
-- should have zero `devDependencies`.
+- must have 0 `dependencies`
+- should have 0 `devDependencies`.
 - should be feature-poor & uncomplicated.
 - must have a bundle size hovering `1 KB`.
 - must not clean up arguments: i.e `trim()` etc. 
