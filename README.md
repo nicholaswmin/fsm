@@ -6,18 +6,17 @@
 > a finite number of `states`.   
 > The change from one `state` to another `state` is called a `transition`.
 
-This package constructs simple & robust FSM's,
-which express their logic [*declaratively*][declaratively] & *safely*.[^1]
+This package constructs simple FSM's that express their
+logic [*declaratively*][declaratively] & *safely*.[^1]
     
-bundles `< 1KB`, zero-dependencies, published with [provenance][provenance].
+Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 ### Basic
 
 - [Install](#install)
 - [Example](#example)
-- [Defining an FSM](#defining-an-fsm)
-- [State transitions](#trigger-transitions)
-- [Invalid transitions](#invalid-transitions)
+- [Define transitions](#defining-an-fsm)
+- [Trigger transitions](#trigger-transitions)
 
 ### Advanced
 
@@ -62,6 +61,9 @@ npm i @nicholaswmin/fsm
 
 > modelling a [turnstile][turn] mechanism as an FSM.
 
+A locked gate that unlocks by dropping a coin.   
+You can then push through it, after which it locks again.
+
 ```js
 import { fsm } from '@nicholaswmin/fsm'
 
@@ -80,23 +82,23 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-The `turnstile` example:
+The turnstile defines: 
 
-Defines 2 possible `states`: `open` & `closed`.
+2 possible `states`: 
+
+- `state: open`
+- `state: closed`
+
+each `state` defines a single `transition`:
 
 - `state: closed` allows `transition: coin`, which sets: `state: opened`
 - `state: opened` allows `transition: push`, which sets: `state: closed`
 
-then, it:
-
-- triggers `coin` which sets: `state: opened`
-- triggers `push` which sets: `state: closed`
-
 ## Trigger transitions
 
-A *transition* can be triggered by calling it as a method. 
+A `transition` can be triggered by calling it as a method. 
 
-> i.e: assuming `foobar` transitions:
+> i.e: assuming `foo`, `bar` transitions:
 
 ```js
 const turnstile = fsm({
@@ -109,6 +111,20 @@ turnstile.foo()
 // state: opened
 turnstile.bar()
 // state: closed
+```
+
+## Get current state
+
+The *current* `state` can be read via the `fsm.state` property:
+
+```js
+const turnstile = fsm({
+  closed: { foo: 'opened' },
+  opened: { bar: 'closed' }
+})
+
+console.log(turnstile.state)
+// "closed"
 ```
 
 ## Invalid transitions 
@@ -131,14 +147,16 @@ The invalid behaviour can be [customised](#custom-invalid-behaviour).
 
 ## Transform existing objects to FSMs
 
-Subclasses which `extend` other classes, cannot use further inheritance to 
-implement FSM behaviours since multiple inheritance is not supported in JS.[^2]
+You can pass your own objects to setup as FSM's.
 
-In these cases you can pass the object as 2nd argument of: `fsm(stable, obj)` 
-and the FSM setup will take place on the provided object instead of an 
-internal one.
+Some cases, for example subclasses which `extend` other classes, 
+cannot use further inheritance to implement FSM behaviours in addition to their
+current behaviour, since multiple inheritance is not supported in JS.[^2]
 
-> example: `Turnstile` below functions as both an [`EventEmitter`][ee] & `FSM`:
+In these cases (or similar others), pass the object as 2nd argument 
+of: `fsm(states, obj)` & the FSM will be setup on the provided object.
+
+> example: A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
 
 ```js
 class Turnstile extends EventEmitter {
