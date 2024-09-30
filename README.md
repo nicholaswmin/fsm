@@ -235,7 +235,7 @@ They must be defined as `obj` methods, the 2nd argument of `fsm(states, obj)`.
 - Called *before* the state is changed.
 - Can [cancel a transition](#transition-cancellations).
 
-Must be named: `on<transition-name>`, 
+Must be named: `on<transition-name>`,   
 where `<transition-name>` is the actual transition name.
 
 > implementing both transition hooks:
@@ -265,7 +265,7 @@ turnstile.push()
 
 - Called *after* the state is changed.
 
-Must be named: `on<state-name>`,
+Must be named: `on<state-name>`,  
 where `<state-name>` is the actual state name.
 
 > implementing both state hooks:
