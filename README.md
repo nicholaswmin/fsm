@@ -32,7 +32,6 @@ declaratively & safely.[^1]
 - [`fsm(states, hooks)`](#fsmstates-hooks)
 - [`fsm(json, hooks)`](#fsmjson-hooks)
 - [`fsm.state`](#fsmstate)
-- [`hooks.onInvalid`](#hooksoninvalid)
 
 ### Meta
 
