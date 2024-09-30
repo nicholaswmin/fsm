@@ -328,7 +328,7 @@ await turnstile.coin()
 
 ## Serialising to JSON
 
-Convert to JSON using `JSON.stringify`:
+Convert to JSON using [`JSON.stringify`][JSON.stringify]:
 
 ```js
 const hooks = {
