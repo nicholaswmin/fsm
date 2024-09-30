@@ -532,11 +532,11 @@ node --test --experimental-test-coverage
 
 [^1]: A finite-state machine can only exist in *one* and *always-valid* state.
 
-      Definining a state-machine requires defining all it's possible states 
-      and the rules under which it can transition to each state.
+      It requires defining all possible states & the rules under which it can 
+      transition from one state to another.
 
-      Software in mission-critical or safety-critical industries *require* the 
-      use of FSM models.  
+      Software in safety-critical industries *require* the use of FSM models  
+      as part of their certification.  
       You haven't been decapitated by an elevator (yet) because it's FSM 
       only allows `state: moving` from `state: doors-closed`.
 
