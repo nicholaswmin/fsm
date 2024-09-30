@@ -87,8 +87,6 @@ each `state` defines & allows a single `transition`:
 
 > note: a state can have zero, one, or many transitions.
 
-## Trigger transitions
-
 Transitions are triggered by calling them as a method. 
 
 > i.e: assuming `foo`, `bar` transitions:
@@ -117,8 +115,6 @@ const turnstile = fsm({
 console.log(turnstile.state)
 // "closed"
 ```
-
-## Invalid transitions 
 
 Triggering a `transition` that's not listed in current `state` will 
 throw an `InvalidTransitionError`:
