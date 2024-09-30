@@ -29,11 +29,11 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
   
 ### API
 
-- [`fsm(states, hooks)`](#-fsm-states--hooks--)
-- [`fsm(json, hooks)`](#-fsm-json--hooks--)
-- [`fsm.state`](#-fsmstate-)
-- [`hooks.onInvalid`](#-hooksoninvalid-)
-- [`JSON.stringify(fsm)`](#-jsonstringifyfsm)
+- [`fsm(states, hooks)`](#fsmstates-hooks)
+- [`fsm(json, hooks)`](#fsmjson-hooks)
+- [`fsm.state`](#fsmstate)
+- [`hooks.onInvalid`](#hooksoninvalid)
+- [`JSON.stringify(fsm)`](#jsonstringifyfsm)
 
 ### Meta
 
