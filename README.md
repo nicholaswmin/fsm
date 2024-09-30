@@ -107,7 +107,7 @@ turnstile.foo()
 turnstile.bar()
 ```
 
-Transitions can only be triggered if current `state` lists them,  
+Transitions can only be triggered if the current `state` lists them,  
 otherwise a `TransitionError` is thrown:
 
 ```js
@@ -135,7 +135,7 @@ console.log(turnstile.state)
 
 ## FSM as a `mixin`
 
-Passing an object as 2nd argument to: `fsm(states, obj)` sets FSM behaviour
+Passing an object as 2nd argument to: `fsm(states, obj)` sets the FSM behaviour
 on the provided object.
 
 This is similar to using a [`mixin`][mixin], useful in cases like subclassing 
