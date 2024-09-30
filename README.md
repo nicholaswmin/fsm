@@ -175,7 +175,7 @@ Hooks are optional methods, called at specific transition phases.
 They must be set as `hooks` methods; an `Object` passed as 2nd argument of 
 `fsm(states, hooks)`.
 
-## Transition hooks
+### Transition hooks
 
 Called *before* the state is changed & can optionally 
 [cancel a transition](#transition-cancellations).
@@ -204,7 +204,7 @@ turnstile.push()
 // "got pushed"
 ```
 
-## State hooks
+### State hooks
 
 Called *after* the state is changed.
 
@@ -232,7 +232,7 @@ turnstile.push()
 ```
 
 
-## Hook arguments 
+### Hook arguments 
 
 Transition methods can pass arguments to relevant hooks, assumed to be
 variadic: [^3]
