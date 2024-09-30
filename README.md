@@ -86,7 +86,7 @@ Each step is explained below:
 
 ## Define
 
-Define an FSM with 2 possible `states`, each listing a single `transition`:
+An FSM with 2 possible `states`, each listing a single `transition`:
 
 ```js
 const turnstile = fsm({
@@ -100,21 +100,20 @@ const turnstile = fsm({
 
 ## Transition
 
-Trigger a transition by calling it as a method:
-
-> i.e: assuming `foo`, `bar` transitions instead of `coin`, `push`:
+A `transition` can be called as a method:
 
 ```js
 const turnstile = fsm({
-  closed: { foo: 'opened' },
-  opened: { bar: 'closed' }
+  // defined 'coin' transition
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
 })
 
-turnstile.foo()
-turnstile.bar()
+turnstile.coin()
+// state: opened
 ```
 
-If current `state` does not list the transition, a `TransitionError` is thrown:
+The current `state` must list the transition, otherwise an `Error` is thrown:
 
 ```js
 const turnstile = fsm({
