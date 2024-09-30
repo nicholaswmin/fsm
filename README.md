@@ -163,46 +163,6 @@ turnstile.coin()
 
 > the above is a similar concept to using a [Mixin][mixin].
 
-## Custom invalid behaviour
-
-The invalid behaviour can be configured by passing an object which implements 
-an `onInvalid` method.
-
-> example: log a warning & fail silently, without throwing an `Error`:
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onInvalid: function(transition) {
-    console.warn(`cannot ${transition} from ${this.state}`)
-    
-    return false
-  }
-})
-
-turnstile.push()
-// warning: cannot push from: closed
-// false
-```
-
-It also accepts variadic arguments: [^3]
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onInvalid: function(transition, arg1, arg2) {
-    console.log(arg1, arg2)
-  }
-})
-
-turnstile.push('foo', 'bar')
-// foo, bar
-```
-
 ## Hook methods
 
 Hooks are optional methods, called at specific transition phases.  
@@ -317,6 +277,46 @@ const turnstile = fsm({
 })
 
 turnstile.coin('foo', 'bar')
+// foo, bar
+```
+
+
+## Custom invalid behaviour
+
+The invalid behaviour can be configured by implementing an `onInvalid` hook:
+
+> example: log a warning & fail silently, without throwing an `Error`:
+
+```js
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onInvalid: function(transition) {
+    console.warn(`cannot ${transition} from ${this.state}`)
+    
+    return false
+  }
+})
+
+turnstile.push()
+// warning: cannot push from: closed
+// false
+```
+
+It also accepts variadic arguments: [^3]
+
+```js
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onInvalid: function(transition, arg1, arg2) {
+    console.log(arg1, arg2)
+  }
+})
+
+turnstile.push('foo', 'bar')
 // foo, bar
 ```
 
