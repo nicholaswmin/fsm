@@ -366,16 +366,19 @@ Construct an `FSM`
 | `states` | `object` | a [state-transition table][stt] | required |
 | `hooks`  | `object` | implements transition hooks     | `this`   |
 
-`states` must have the following shape:
+`states` must have the following abstract shape:
 
 ```js
-state: { transition: 'next-state' },
+state: { 
+  transition: 'next-state',
+  transition: 'next-state' 
+},
 state: { transition: 'next-state' }
 ```
 
 - The 1st state in `states` is set as the *initial* state.    
 - Each `state` can list `zero`, `one` or `many` transitions.   
-- The `next-state` must exist a `state`.  
+- The `next-state` must exist as a `state`.  
 
 ### `fsm(json, hooks)` 
 
