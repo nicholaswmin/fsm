@@ -168,7 +168,7 @@ turnstile.coin()
 The invalid behaviour can be configured by passing an object which implements 
 an `onInvalid` method.
 
-> example: fail silently without throwing an `Error`:
+> example: log a warning & fail silently, without throwing an `Error`:
 
 ```js
 const turnstile = fsm({
@@ -187,7 +187,7 @@ turnstile.push()
 // false
 ```
 
-... `onInvalid` also accepts variadic arguments: [^3]
+... it also accepts variadic arguments: [^3]
 
 ```js
 const turnstile = fsm({
@@ -207,8 +207,8 @@ turnstile.push('foo', 'bar')
 
 Hooks are optional methods, called at specific transition phases.  
 
-They must be defined as `obj` methods, the 2nd argument of `fsm(states, obj)`
-and named accordingly.
+They must be set as `hooks` methods; the 2nd argument of `fsm(states, hooks)` & 
+named accordingly.
 
 ## Transition hooks
 
