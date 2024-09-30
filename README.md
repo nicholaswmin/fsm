@@ -489,12 +489,12 @@ node --test --experimental-test-coverage
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.
       
-[^2]: FSMs are rare and perfect candidates for *inheritance* since an object
-      `is-an FSM` but since Javascript doesn't support *multiple inheritance*,
+[^2]: FSMs are rare and perfect candidates for *inheritance* because usually
+      something `is-an` FSM. Javascript doesn't support *multiple inheritance*,
       inheriting an `FSM` would exclude inheriting other behaviours.
 
       *Composition* is also problematic because it namespaces the API of the 
-      behaviour & doesn't feel idiomatic or semantically correct.
+      behaviour which causes it to lose it's expressiveness.
 
       i.e `light.fsm.turnOn` feels misplaced compared to `light.turnOn`.
       
