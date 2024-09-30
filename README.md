@@ -302,9 +302,7 @@ turnstile.push()
 
 ## Asynchronous transitions
 
-Mark relevant hooks as [`async`][async] or return a [`Promise`][promise].  
-
-Then `await` the transition:
+Mark relevant hooks as [`async`][async] and `await` the transition:
 
 ```js
 const turnstile = fsm({
