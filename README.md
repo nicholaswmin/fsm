@@ -514,9 +514,8 @@ This is feature-complete but for any bug/security fixes, read:
 [^2]: FSMs are rare and perfect candidates for *inheritance* since an object
       `is-an FSM`. 
       
-      Javascript doesn't support *multiple inheritance* so expecting to inherit 
-      from this package an `FSM` would exclude inheriting other desired 
-      behaviours.
+      Javascript doesn't support *multiple inheritance* so inheriting an `FSM` 
+      would exclude inheriting other desired behaviours.
 
       *Composition* namespaces the API of the composited behaviour which doesn't 
       feel idiomatic when it comes to FSMs.  
