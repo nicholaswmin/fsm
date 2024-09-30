@@ -55,16 +55,24 @@ npm i @nicholaswmin/fsm
 ```js
 import { fsm } from '@nicholaswmin/fsm'
 
+// 1) define an FSM
+
 const turnstile = fsm({
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 })
 
+// 2) trigger "coin" transition
+
 turnstile.coin()
 // state: opened
 
+// 3) trigger "push" transition
+
 turnstile.push()
 // state: closed
+
+// 4) log current state
 
 console.log(turnstile.state)
 // "closed"
