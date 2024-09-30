@@ -15,7 +15,6 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [Install](#install)
 - [Example](#example)
-- [Trigger transitions](#trigger-transitions)
 
 ### Advanced
 
