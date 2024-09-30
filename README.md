@@ -49,7 +49,7 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> A classic FSM example: A [turnstile][turn] that unlocks with a coin.  
+> A [turnstile][turn] that unlocks with a coin.  
 > When unlocked you can push through it after which it locks again:
 
 ```js
