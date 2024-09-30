@@ -32,7 +32,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 - [`fsm(json, hooks)`](#-fsm-json--hooks--)
 - [`fsm.state`](#-fsmstate-)
 - [`hooks.onInvalid`](#-hooksoninvalid-)
-- [`JSON.stringify(<fsm>)`](#-jsonstringify--fsm---)
+- [`JSON.stringify(fsm)`](#-jsonstringifyfsm)
 
 ### Meta
 
@@ -436,7 +436,7 @@ Can be overriden, which configures the invalid behaviour.
 | `transition` | `String`   | transition name   |
 
 
-### `JSON.stringify(<fsm>)`
+### `JSON.stringify(fsm)`
 
 Returns a [JSON][json] of the FSM.
 
