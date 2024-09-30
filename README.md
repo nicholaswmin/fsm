@@ -48,13 +48,13 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> A [turnstile][turn] that unlocks with a coin.  
-> When unlocked you can push through it after which it locks again:
+> A [turnstile][turn] gate that opens with a coin.  
+> When opened you can push through it; after which it closes again:
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
 
-// 1) define an FSM
+// 1) define states & transitions
 
 const turnstile = fsm({
   closed: { coin: 'opened' },
