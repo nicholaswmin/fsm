@@ -81,7 +81,7 @@ const turnstile = fsm({
 })
 ```
 
-defines 2 possible `states`, each allowing a single `transition`.
+defines an FSM with 2 possible `states`, each allowing a single `transition`.
 
 - `state: closed`: allows `transition: coin` which sets: `state: opened`
 - `state: opened`: allows `transition: push` which sets: `state: closed`
