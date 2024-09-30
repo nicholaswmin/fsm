@@ -511,9 +511,8 @@ This is feature-complete but for any bug/security fixes, read:
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.
       
-[^2]: Javascript does not support *multiple inheritance*.  
-      Inheritance is commonly misused & tends to create inflexibly strong 
-      relationships; yet there are cases where it's semantically correct.
+[^2]: Javascript does not support *multiple inheritance*, a commonly misused 
+      mechanism that easily leads to various modelling issues.
       
       Composition, the usual alternative, namespaces the API of the composited 
       behaviour which doesn't feel idiomatic when it comes to FSMs.
