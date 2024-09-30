@@ -384,7 +384,7 @@ state: { transition: 'next-state' }
 
 ### `fsm(json, hooks)` 
 
-Deserialise/revive an instance from it's [JSON][json].   
+Revive an instance from it's [JSON][json].   
 
 #### Arguments
 
@@ -400,7 +400,7 @@ The current `state`. Read-only.
 |----------|----------|---------------|
 | `state`  | `string` | current state | 
 
-### `hooks.onInvalid` 
+### `hooks.onInvaxlid` 
 
 Called when an invalid transition is triggered.  
 Can be overriden, which configures the invalid behaviour.
