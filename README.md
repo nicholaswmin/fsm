@@ -38,7 +38,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 ### Meta
 
 - [Validations](#validations)
-- [Test](#test)s
+- [Test](#test)
 - [Authors](#authors)
 - [License](#license)
 
@@ -50,9 +50,8 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> modelling a [turnstile][turn] mechanism as an FSM.
-
-A gate that unlocks with a coin. After pushing through it, it locks again:
+> Modelling a [turnstile][turn] mechanism as an FSM.  
+> A gate that unlocks with a coin. After pushing through it, it locks again:
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
