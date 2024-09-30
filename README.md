@@ -106,11 +106,15 @@ A `transition` can be called as a method:
 const turnstile = fsm({
   // defined 'coin' transition
   closed: { coin: 'opened' },
+  // defined 'push' transition
   opened: { push: 'closed' }
 })
 
 turnstile.coin()
 // state: opened
+
+turnstile.push()
+// state: closed
 ```
 
 The current `state` must list the transition, otherwise an `Error` is thrown:
