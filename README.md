@@ -11,12 +11,12 @@ which express their logic [*declaratively*][declaratively] & *safely*.[^1]
     
 bundles `< 1KB`, zero-dependencies, published with [provenance][provenance].
 
-- [Install](#install)
-
 ### Basic
 
-- [Basic example](#basic-example)
-- [Triggering transitions](#triggering-transitions)
+- [Install](#install)
+- [Example](#example)
+- [Defining an FSM](#defining-an-fsm)
+- [State transitions](#trigger-transitions)
 - [Invalid transitions](#invalid-transitions)
 
 ### Advanced
@@ -58,7 +58,7 @@ bundles `< 1KB`, zero-dependencies, published with [provenance][provenance].
 npm i @nicholaswmin/fsm
 ```
 
-## Basic example
+## Example
 
 > modelling a [turnstile][turn] mechanism as an FSM.
 
@@ -80,18 +80,23 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-The above:
+The `turnstile` example:
 
 Defines 2 possible `states`: `open` & `closed`.
 
-- `state: closed` allows `transition: coin`, which sets `state: opened`
-- `state: opened` allows `transition: push`, which sets `state: closed`
+- `state: closed` allows `transition: coin`, which sets: `state: opened`
+- `state: opened` allows `transition: push`, which sets: `state: closed`
 
-## Triggering transitions
+then, it:
+
+- triggers `coin` which sets: `state: opened`
+- triggers `push` which sets: `state: closed`
+
+## Trigger transitions
 
 A *transition* can be triggered by calling it as a method. 
 
-> i.e: with `foobar` transitions:
+> i.e: assuming `foobar` transitions:
 
 ```js
 const turnstile = fsm({
@@ -100,18 +105,16 @@ const turnstile = fsm({
 })
 
 // state: closed
-
 turnstile.foo()
 // state: opened
-
 turnstile.bar()
 // state: closed
 ```
 
 ## Invalid transitions 
 
-A `transition` can only be triggered if the state defines it.   
-Otherwise an `InvalidTransitionError` is thrown.
+Triggering a `transition` that's not listed in current `state` will 
+throw an `InvalidTransitionError`:
 
 ```js
 const turnstile = fsm({
@@ -123,6 +126,8 @@ turnstile.push()
 // InvalidTransitionError: 
 // current state: "closed" has no transition: "push"
 ```
+
+The invalid behaviour can be [customised](#custom-invalid-behaviour).
 
 ## Transform existing objects to FSMs
 
