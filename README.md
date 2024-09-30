@@ -390,8 +390,6 @@ const json = JSON.stringify(turnstile)
 // save it somewhere ..
 ```
 
-### Reviving from JSON
-
 ... and revive using `fsm(json)`:
 
 ```js
