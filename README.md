@@ -108,7 +108,7 @@ turnstile.bar()
 ```
 
 Transitions can only be triggered if listed under current `state`,
-otherwise they throw a `TransitionError`:
+otherwise a `TransitionError` is thrown:
 
 ```js
 const turnstile = fsm({
