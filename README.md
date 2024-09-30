@@ -131,8 +131,8 @@ Some cases, for example subclasses which `extend` other classes,
 cannot use further inheritance to implement FSM behaviours in addition to their
 current behaviour, since multiple inheritance is not supported in JS.[^2]
 
-In these cases (or similar others), pass the object as 2nd argument 
-of: `fsm(states, obj)` & the FSM will be setup on the provided object.
+Cases like the above can pass an object as the 2nd argument to: `fsm()` 
+& the FSM will be setup on the provided object.
 
 > example: A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
 
