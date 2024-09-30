@@ -539,16 +539,14 @@ node --test --experimental-test-coverage
       You haven't been decapitated by an elevator (yet) because it's FSM model 
       does not allow transitions to `state: moving` unless `state: door-closed`.
 
-[^2]: While there are variants of state machines which can have multiple states, 
+      While there are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm],   
       this documentation describes the most common type of state machine,
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
-      
-      Formal terminology from Automata Theory is intentionally avoided since it 
-      introduces jargon that is unnecessarily confusing to the average reader.
-      
-      *"automaton"* is the academic term from automata theory meaning 
-      *"automatic machine"*, plural: *"automata"*.
+
+      *"automaton"* is an academic term from [automata theory][automata] meaning 
+      *"automatic machine"*, plural: *"automata"*. Formal terminology is 
+      intentionally avoided in this documentation.
       
 [^3]: Javascript does not support *multiple inheritance*.  
       This is usually for the better since it tends to create inflexibly 
@@ -582,8 +580,9 @@ node --test --experimental-test-coverage
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [workers]: https://nodejs.org/api/worker_threads.html
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
-[provenance]: https://search.sigstore.dev/?logIndex=134861482
+[automata]: https://en.wikipedia.org/wiki/Automata_theory
 
+[provenance]: https://search.sigstore.dev/?logIndex=134861482
 [contr-guide]: ./.github/CONTRIBUTING.md
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
