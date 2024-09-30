@@ -6,7 +6,7 @@
 > *one of a finite* number of `states`.    
 > The change from one `state` to another is called a `transition`.
 
-This package constructs stupidly-simple FSM's that express their
+This package constructs *stupidly-simple* FSM's which express their
 logic [*declaratively*][declaratively] & *safely*.[^1]
   
 `< 1KB`, zero dependencies & [build provenance][provenance].
