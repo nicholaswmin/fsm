@@ -383,9 +383,9 @@ Deserialise/revive an instance from it's [JSON][json].
 
 #### Arguments
 
-| name     | type     | desc.                             | default  |
-|----------|----------|-----------------------------------|----------|
-| `json`   | `string` | result of `JSON.stringify(fsm)`   | required |
+| name     | type     | desc.                         | default  |
+|----------|----------|-------------------------------|----------|
+| `json`   | `string` | `JSON.stringify(fsm)` result  | required |
 
 ### `fsm.state` 
 
