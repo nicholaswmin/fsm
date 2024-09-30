@@ -19,7 +19,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 ### Advanced
 
-- [Transform existing objects to FSMs](#transform-existing-objects-to-fsms)
+- [FSM as a Mixin](#transform-existing-objects-to-fsms)
 - [Hooks](#hook-methods)
 - [Cancellations](#transition-cancellations)
 - [Passing arguments](#passing-arguments)
@@ -123,9 +123,10 @@ turnstile.push()
 
 The invalid behaviour can be [customised](#custom-invalid-behaviour).
 
-## Transform existing objects to FSMs
+## FSM as a `mixin`
 
-You can pass your own objects to setup as FSM's.
+You can pass your own objects to setup as FSM's; a similar concept to using
+a [Mixin][mixin].
 
 Some cases, for example subclasses which `extend` other classes, 
 cannot use further inheritance to implement FSM behaviours in addition to their
@@ -160,8 +161,6 @@ turnstile.coin()
 
 // state: opened
 ```
-
-> the above is a similar concept to using a [Mixin][mixin].
 
 ## Hook methods
 
