@@ -31,21 +31,16 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [`fsm(states, hooks)`](#-fsm-states--hooks--)
 - [`fsm(json, hooks)`](#-fsm-json--hooks--)
-  * [Arguments](#arguments)
 - [`fsm.state`](#-fsmstate-)
 - [`hooks.onInvalid`](#-hooksoninvalid-)
-  * [Arguments](#arguments-1)
 - [`JSON.stringify(<fsm>)`](#-jsonstringify--fsm---)
-  * [Arguments](#arguments-2)
 
 ### Meta
 
 - [Validations](#validations)
-- [Test](#test)
-- [Contributing](#contributing)
+- [Test](#test)s
 - [Authors](#authors)
 - [License](#license)
-  * [Footnotes](#footnotes)
 
 ## Install 
 
@@ -89,7 +84,7 @@ each `state` defines & allows a single `transition`:
 - `state: closed` allows `transition: coin`, which sets: `state: opened`
 - `state: opened` allows `transition: push`, which sets: `state: closed`
 
-> note: a state can have multiple transitions, or none at all.
+> note: a state can have zero, one, or many transitions.
 
 ## Trigger transitions
 
