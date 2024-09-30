@@ -57,8 +57,7 @@ npm i @nicholaswmin/fsm
 
 > modelling a [turnstile][turn] mechanism as an FSM.
 
-A locked gate that unlocks by dropping a coin.   
-You can then push through it, after which it locks again.
+A gate that unlocks with a coin. You then push through it & it locks again:
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
