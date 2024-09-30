@@ -7,7 +7,7 @@
 > The change from one `state` to another is called a `transition`.
 
 This package constructs simple FSM's that express their
-logic [*declaratively*][declaratively] & *safely*.[^1]
+logic [*declaratively*][declaratively] & *safely*.[^1]  
 It bundles `< 1KB` with zero dependencies & published with 
 [provenance][provenance].
 
