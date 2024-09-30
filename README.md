@@ -485,8 +485,8 @@ node --test --experimental-test-coverage
       You haven't been decapitated by an elevator (yet) because it's sequence
       of operations is modelled as an FSM.
       
-      State-machines are actually mathematical models. 
-      Their behaviour forms the basis of [automata theory][automata].
+      State machines can be described by mathematical models; their behaviour 
+      forms the basis of [automata theory][automata].
       
 [^2]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
