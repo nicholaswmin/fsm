@@ -22,10 +22,9 @@ declaratively & safely.[^1]
 ### Advanced
 
 - [Hooks](#hook-methods)
-  - [Transition Hooks](#transition-hooks)
-  - [State Hooks](#transition-hooks)
-  - [Error Hooks](#error-hooks)
-  - [Arguments](#hook-arguments)
+  - [Transition](#transition-hooks)
+  - [State](#transition-hooks)
+  - [Error](#error-hooks)
 - [Transition cancellations](#transition-cancellations)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
