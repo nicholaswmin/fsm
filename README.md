@@ -390,7 +390,6 @@ You can serialise an instance using: `JSON.stringify(fsm)`
 ### `fsm.state` 
 
 The current `state`. Read-only.    
-Available on `this`.
 
 | name     | type     | default       |
 |----------|----------|---------------|
@@ -398,9 +397,7 @@ Available on `this`.
 
 ### `hooks.onInvalid` 
 
-Called when an invalid transition is fired, 
-providing behaviour for invalid transitions.  
-
+Called when an invalid transition is triggered.  
 Can be overriden, which configures the invalid behaviour.
 
 | name        | type       | desc.             | default        |
