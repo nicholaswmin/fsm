@@ -545,7 +545,7 @@ node --test --experimental-test-coverage
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
 
       *"automaton"* is an academic term from [automata theory][automata] meaning 
-      *"automatic machine"*, plural: *"automata"*. 
+      *"automatic machine"*, plural: *"automata"*.  
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.
       
