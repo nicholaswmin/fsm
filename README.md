@@ -519,7 +519,7 @@ This is feature-complete but for any bug/security fixes, read:
       inheriting an `FSM` would exclude inheriting other behaviours.
 
       *Composition* is also problematic because it namespaces the API of the 
-      composited behaviour which doesn't feel idiomatic when it comes to FSMs.  
+      behaviour & doesn't feel idiomatic or semantically correct.
 
       i.e `light.fsm.turnOn` feels misplaced compared to `light.turnOn`.
       
