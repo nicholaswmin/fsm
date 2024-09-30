@@ -21,8 +21,8 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [FSM as a mixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
-- [Transition cancellations](#transition-cancellations)
 - [Hook arguments](#hook-arguments)
+- [Transition cancellations](#transition-cancellations)
 - [Configurable error handling](#configurable-error-handling)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
@@ -228,6 +228,26 @@ turnstile.push()
 // "its closed"
 ```
 
+
+## Hook arguments 
+
+Transition methods can pass arguments to relevant hooks, assumed to be
+variadic: [^3]
+
+```js
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onCoin(one, two) {
+    return console.log(one, two)
+  }
+})
+
+turnstile.coin('foo', 'bar')
+// foo, bar
+```
+
 ## Transition cancellations
 
 Transition hooks can cancel the transition by returning `false`.
@@ -258,26 +278,6 @@ turnstile.coin(50)
 ```
 
 > note: cancellations must explicitly return `false`, not just [`falsy`][falsy].
-
-## Hook arguments 
-
-Transition methods can pass arguments to relevant hooks, assumed to be
-variadic: [^3]
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onCoin(one, two) {
-    return console.log(one, two)
-  }
-})
-
-turnstile.coin('foo', 'bar')
-// foo, bar
-```
-
 
 ## Configurable error handling
 
