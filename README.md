@@ -89,10 +89,12 @@ The turnstile defines:
 - `state: open`
 - `state: closed`
 
-each `state` defines a single `transition`:
+each `state` defines & allows a single `transition`:
 
 - `state: closed` allows `transition: coin`, which sets: `state: opened`
 - `state: opened` allows `transition: push`, which sets: `state: closed`
+
+> note: a state can have multiple transitions, or none at all.
 
 ## Trigger transitions
 
