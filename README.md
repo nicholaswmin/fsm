@@ -260,7 +260,8 @@ turnstile.coin('foo', 'bar')
 [Transition hooks](#transition-hooks) can cancel the transition by returning 
 `false`.
 
-Cancelled transitions don't change the *state* nor call any `state hooks`.
+Cancelled transitions don't change the *state* nor call any 
+[state hooks](#state-hooks).
 
 > cancel transition to `state: opened` if the coin is less than `50c`:
 
