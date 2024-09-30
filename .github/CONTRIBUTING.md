@@ -1,6 +1,6 @@
 ## Contributing
 
-> The key words “MUST”, “SHOULD”, are to be
+> The key words *“MUST”*, *“SHOULD”* are to be
 > interpreted as described in [RFC 2119][rfc2119].
 
 - [Overview](#overview)
