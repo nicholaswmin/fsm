@@ -81,8 +81,7 @@ console.log(turnstile.state)
 
 ## Define
 
-The following defines an FSM with 2 possible `states`,   
-each allowing a single `transition`.
+The following FSM has 2 possible `states`, each listing a single `transition`:
 
 ```js
 const turnstile = fsm({
