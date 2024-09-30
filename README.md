@@ -90,11 +90,8 @@ const turnstile = fsm({
   opened: { bar: 'closed' }
 })
 
-// state: closed
 turnstile.foo()
-// state: opened
 turnstile.bar()
-// state: closed
 ```
 
 The current `state` can be read through `fsm.state`:
