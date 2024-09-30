@@ -2,10 +2,11 @@
 
 Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom]
   
-## `npm publish` with provenance
+## Publishing
 
-> A how-to `npm publish` with [build provenance][provenance].  
-> Assumes an open PR waiting for `main` merge.
+> This package must be published with [build provenance][provenance].  
+
+Assuming an open PR waiting for `main` merge:
 
 1. Ensure local is clean, all pushed to branch and tests pass.
 2. Bump version, using:
