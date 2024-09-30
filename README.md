@@ -131,8 +131,8 @@ a [Mixin][mixin].
 Some cases, i.e subclasses which `extend` other classes, cannot use further 
 inheritance to add FSM behaviours in addition to their current behaviour.[^2]
 
-These cases can pass an object as 2nd argument to: `fsm(states, obj)` which 
-sets up the FSM on the provided object.
+Passing an object as 2nd argument to: `fsm(states, obj)` sets up the FSM on 
+the provided object.
 
 > example: A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
 
