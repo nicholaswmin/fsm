@@ -38,7 +38,6 @@ test('#transitionFn() transition not allowed from current state ', async t => {
       })
       
       await t.test('calls relevant hooks', t => {
-        turnstile.coin() 
         t.assert.strictEqual(onCoin.mock.callCount(), 1)
         t.assert.strictEqual(onOpened.mock.callCount(), 1)
       })
@@ -46,15 +45,17 @@ test('#transitionFn() transition not allowed from current state ', async t => {
     
 
     await t.test('not listed in current state', async t => {
-      let returnedValue = null
-
-      t.beforeEach(() => { returnedValue = turnstile.push() })
-
-      await t.test('returns false', t => {  
-        t.assert.strictEqual(returnedValue, false)
+      await t.test('throws a descriptive error', t => {  
+        t.assert.throws(() => {
+          turnstile.push()
+        }, {
+          message: /has no transition/
+        })
       })
 
-      await t.test('does not transition', t => { 
+      await t.test('does not transition', t => {
+        t.assert.throws(() => turnstile.push())
+
         t.assert.strictEqual(turnstile.state, 'closed')
       })
       

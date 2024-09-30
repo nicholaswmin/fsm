@@ -37,8 +37,7 @@ const defineTransitionMethod = function([ transition, state ]) {
       const transitionFn = this[utils.String.onify(transition)]
 
       if (!canTransition)
-        return this.onInvalid?.call(this, transition, ...args) 
-          || throwInvalidTransition(this.fsm._state, transition)
+        return throwInvalidTransition(this.fsm._state, transition)
       
       const transitionResult = transitionFn?.call(this, ...args)
       const transitionIfAllowed = res => res === false 

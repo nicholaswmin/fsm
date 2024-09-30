@@ -4,7 +4,7 @@ import { fsm } from '../../src/index.js'
 test('async #transitionFn()', async t => {
   let turnstile, hooks, onCoin, onPush, onOpened
 
-  await t.test('transitioning via await transition-method', async t => {
+  await t.test('transitioning', async t => {
     t.beforeEach(() => {
       turnstile = fsm({
         closed: { coin: 'opened' },
@@ -28,7 +28,7 @@ test('async #transitionFn()', async t => {
     })
   })
 
-  await t.test('async transition hook returns false', async t => {
+  await t.test('transition hook returns false', async t => {
     t.beforeEach(() => {
       hooks = {
         async onCoin() {},
@@ -63,51 +63,35 @@ test('async #transitionFn()', async t => {
     })
   })
 
-  await t.test('async invalid hook', async t => {
-    await t.test('behavior set to throw Error', async t => {
-      t.beforeEach(() => {
-        turnstile = fsm({
-          closed: { coin: 'opened' },
-          opened: { push: 'closed' }
-        }, {
-          onInvalid: async function() {
-            await new Promise(resolve => setTimeout(resolve, 20))
-            
-            throw new Error('not allowed')
-          },
-
-          async onCoin() {},
-          async onPush() {},
-          async onOpened() {}
-        })
-
-        onOpened = t.mock.method(turnstile, 'onOpened')
-        onPush = t.mock.method(turnstile, 'onPush')
-        onCoin = t.mock.method(turnstile, 'onCoin', async function () {
-          await new Promise(resolve => setTimeout(resolve, 20))
-  
-          return false
-        })
-        
-        turnstile.coin()
+  await t.test('transition not listed in current state', async t => {
+    t.beforeEach(() => {
+      turnstile = fsm({
+        closed: { coin: 'opened' },
+        opened: { push: 'closed' }
+      }, {
+        async onPush() {},
+        async onOpened() {}
       })
 
-      await t.test('rejects with error', async t => {  
-        await t.assert.rejects(() => {
-          return turnstile.push()
-        }, {
-          message: /not allowed/
-        })
-      })
-  
-      await t.test('does not transition', t => { 
-        t.assert.strictEqual(turnstile.state, 'closed')
-      })
+      onOpened = t.mock.method(turnstile, 'onOpened')
+      onPush = t.mock.method(turnstile, 'onPush')
+    })
 
-      await t.test('state hook is not called', t => {
-        t.assert.strictEqual(onOpened.mock.callCount(), 0)
-        t.assert.strictEqual(onPush.mock.callCount(), 0)
+    await t.test('rejects with descriptive error', async t => {  
+      await t.assert.rejects(async () => {
+        await turnstile.push()
+      }, {
+        message: /has no transition/
       })
+    })
+
+    await t.test('does not transition', t => { 
+      t.assert.strictEqual(turnstile.state, 'closed')
+    })
+
+    await t.test('state hook is not called', t => {
+      t.assert.strictEqual(onOpened.mock.callCount(), 0)
+      t.assert.strictEqual(onPush.mock.callCount(), 0)
     })
   })
 })
