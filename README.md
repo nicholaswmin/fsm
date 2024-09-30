@@ -379,7 +379,6 @@ state: { transition: 'state' }
 ### `fsm(json, hooks)` 
 
 Deserialise/revive an instance from it's [JSON][json].   
-You can serialise an instance using: `JSON.stringify(fsm)`
 
 #### Arguments
 
