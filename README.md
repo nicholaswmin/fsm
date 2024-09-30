@@ -545,8 +545,9 @@ node --test --experimental-test-coverage
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
 
       *"automaton"* is an academic term from [automata theory][automata] meaning 
-      *"automatic machine"*, plural: *"automata"*. Formal terminology is 
-      intentionally avoided in this documentation.
+      *"automatic machine"*, plural: *"automata"*. 
+      Formal terminology is unnecessarily complex for the purposes of this
+      documentation therefore its intentionally avoided.
       
 [^3]: Javascript does not support *multiple inheritance*.  
       This is usually for the better since it tends to create inflexibly 
