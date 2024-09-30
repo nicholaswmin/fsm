@@ -541,18 +541,17 @@ node --test --experimental-test-coverage
 
 [^2]: While there are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm],   
-      this documentation describes a specific type of state machine,
+      this documentation describes the most common type of state machine,
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
       
-      Formal terminology from Automata Theory is avoided; it's confusing
-      for the average reader and tends to make simple concepts sound harder 
-      than they are.
+      Formal terminology from Automata Theory is intentionally avoided since it 
+      introduces jargon that is unnecessarily confusing to the average reader.
       
       *"automaton"* is the academic term from automata theory meaning 
-      *"automatic machine"*.
+      *"automatic machine"*, plural: *"automata"*.
       
-[^3]: Javascript does not support multiple inheritance.  
-      This is usually for the better, since it tends to create inflexibly 
+[^3]: Javascript does not support *multiple inheritance*.  
+      This is usually for the better since it tends to create inflexibly 
       strong relationships; yet there are still some rare cases where it's 
       the most fitting choice.
       
