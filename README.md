@@ -480,8 +480,7 @@ node --test --experimental-test-coverage
       of operations is modelled as an FSM.
 
       Formally, this documentation describes a 
-      [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
-      
+      [*Deterministic finite automaton*][dfsm] which exists in only 1 state.  
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.  
       i.e: *"automaton"* is an academic term from [automata theory][automata] 
