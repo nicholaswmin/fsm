@@ -537,8 +537,8 @@ node --test --experimental-test-coverage
 
       Software in mission-critical or safety-critical industries *require* the 
       use of FSM models.  
-      You haven't been decapitated by an elevator (yet) because it's modelled 
-      as an FSM which prevents `start-moving` unless `state: doors-closed`.
+      You haven't been decapitated by an elevator (yet) because it's FSM 
+      only allows `start-moving` from `state: doors-closed`.
 
 [^2]: While there are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm],   
