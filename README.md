@@ -70,10 +70,10 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-The turnstile defines 2 possible `states`, each allowing a single `transition`:
+The above defines 2 possible `states`, each allowing a single `transition`:
 
-- `state: closed` allows `transition: coin`, which sets: `state: opened`
-- `state: opened` allows `transition: push`, which sets: `state: closed`
+- `state: closed`: allows `transition: coin` which sets: `state: opened`
+- `state: opened`: allows `transition: push` which sets: `state: closed`
 
 > note: a `state` can have zero, one, or many `transitions`.
 
