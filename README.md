@@ -72,7 +72,14 @@ console.log(turnstile.state)
 
 ## Usage
 
-The turnstile defines 2 possible `states`, each allowing a single `transition`:
+```js
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+})
+```
+
+This turnstile defines 2 possible `states`, each allowing a single `transition`:
 
 - `state: closed`: allows `transition: coin` which sets: `state: opened`
 - `state: opened`: allows `transition: push` which sets: `state: closed`
@@ -107,8 +114,6 @@ turnstile.push()
 // InvalidTransitionError: 
 // current state: "closed" has no transition: "push"
 ```
-
-The invalid behaviour can be [customised](#custom-invalid-behaviour).
 
 The current `state` can be read through `fsm.state`:
 
