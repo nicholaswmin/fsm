@@ -477,7 +477,7 @@ node --test --experimental-test-coverage
       Software in safety-critical industries *require* the use of FSM models 
       as part of their certification.  
       You haven't been decapitated by an elevator (yet) because it's FSM model 
-      does not allow transitions to `state: moving` unless `state: door-closed`.
+      only allows transitions to `state: moving` from `state: door-closed`.
 
       While there are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm],   
