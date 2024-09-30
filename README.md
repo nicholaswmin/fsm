@@ -75,7 +75,7 @@ The turnstile defines 2 possible `states`, each allowing a single `transition`:
 - `state: closed` allows `transition: coin`, which sets: `state: opened`
 - `state: opened` allows `transition: push`, which sets: `state: closed`
 
-> note: a state can have zero, one, or many transitions.
+> note: a `state` can have zero, one, or many `transitions`.
 
 Transitions are triggered by calling them as a method:
 
