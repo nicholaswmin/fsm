@@ -94,18 +94,6 @@ turnstile.foo()
 turnstile.bar()
 ```
 
-The current `state` can be read through `fsm.state`:
-
-```js
-const turnstile = fsm({
-  closed: { foo: 'opened' },
-  opened: { bar: 'closed' }
-})
-
-console.log(turnstile.state)
-// "closed"
-```
-
 Transitions that aren't listed under current `state` throw an 
 `InvalidTransitionError`:
 
@@ -122,6 +110,18 @@ turnstile.push()
 ```
 
 The invalid behaviour can be [customised](#custom-invalid-behaviour).
+
+The current `state` can be read through `fsm.state`:
+
+```js
+const turnstile = fsm({
+  closed: { foo: 'opened' },
+  opened: { bar: 'closed' }
+})
+
+console.log(turnstile.state)
+// "closed"
+```
 
 ## FSM as a `mixin`
 
