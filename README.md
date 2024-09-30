@@ -484,10 +484,11 @@ node --test --experimental-test-coverage
       this documentation describes the most common type of state machine,
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
 
-      *"automaton"* is an academic term from [automata theory][automata] meaning 
-      *"automatic machine"*, plural: *"automata"*.  
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.
+      
+      *"automaton"* is an academic term from [automata theory][automata] 
+      meaning *"automatic machine"*.
       
 [^2]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
