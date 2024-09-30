@@ -9,7 +9,7 @@
 This package constructs simple FSM's which express their logic 
 declaratively & safely.[^1]
   
-`< 1KB`, zero dependencies & [provenance][prov].
+`~1KB`, no dependencies, somewhat [opinionated](#design-goals). 
 
 ### Basic
 
@@ -404,6 +404,24 @@ node --test
 node --test --experimental-test-coverage
 ```
 
+## Design goals
+ 
+> Read before use.
+
+This is specced for an internal use-case, intentionally designed to be 
+exceptionally minimal & by extension, robust & maintenance-free.  
+It does the bare minimum in a prescriptive way. As a consequence
+it's *non-configurable*, by design. 
+
+Additionally, it attempts render itself as immutable, so attempting to modify 
+its internals would be akin to performing a tonsillectomy but going in from the 
+patient's wrong end.
+
+If it doesn't already sound like a good match, avoid it. 
+
+There's many [excellent alternatives][alternatives].  FSM constructors are 
+nothing fancy. This one is < 50 LOC.
+
 ## Contributing
 
 [Contribution Guide][contr-guide]
@@ -414,7 +432,7 @@ node --test --experimental-test-coverage
 
 ## License 
 
-[The MIT License][license]
+The [MIT License][license]
 
 ### Footnotes 
 
@@ -464,7 +482,7 @@ node --test --experimental-test-coverage
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [automata]: https://en.wikipedia.org/wiki/Automata_theory
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
-
+[alternatives]: https://www.npmjs.com/search?q=fsm
 [async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 [await]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
 [promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
@@ -474,7 +492,7 @@ node --test --experimental-test-coverage
 [falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
 
-[prov]: https://search.sigstore.dev/?logIndex=134861482
+[prov]: https://search.sigstore.dev/?logIndex=135568345
 [contr-guide]: ./.github/CONTRIBUTING.md
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
