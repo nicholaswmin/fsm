@@ -332,13 +332,13 @@ const turnstile = fsm({
   opened: { push: 'closed' }
 }, {
   async onCoin(coins) {
-    // 2 second async delay ...
+    // simulate an async delay ...
     await new Promise(res => setTimeout(res, 2000))
   }
 })
 
 await turnstile.coin()
-// waiting 2 seconds ...
+// 2 seconds pass ...
 
 // state: closed
 ```
