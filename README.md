@@ -535,7 +535,7 @@ node --test --experimental-test-coverage
       It requires defining all possible states & the rules under which it can 
       transition from one state to another.
 
-      Software in safety-critical industries *require* the use of FSM models  
+      Software in safety-critical industries *require* the use of FSM models 
       as part of their certification.  
       You haven't been decapitated by an elevator (yet) because it's FSM 
       only allows `state: moving` from `state: doors-closed`.
