@@ -286,7 +286,7 @@ turnstile.coin(50)
 
 ## Asynchronous transitions
 
-Mark relevant hooks as [`async`][async] and `await` the transition:
+Mark relevant hooks as [`async`][async] and [`await`][await] the transition:
 
 ```js
 const turnstile = fsm({
@@ -504,19 +504,21 @@ node --test --experimental-test-coverage
 [covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
 [cov]: https://coveralls.io/github/nicholaswmin/fsm
 
-[ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
 [turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 [stt]: https://en.wikipedia.org/wiki/State-transition_table
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
-[ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
-[falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
+[automata]: https://en.wikipedia.org/wiki/Automata_theory
+[mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
+
 [async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+[await]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
 [promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
-[automata]: https://en.wikipedia.org/wiki/Automata_theory
+[falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
+[ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
 
 [prov]: https://search.sigstore.dev/?logIndex=134861482
 [contr-guide]: ./.github/CONTRIBUTING.md
