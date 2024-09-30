@@ -302,7 +302,8 @@ turnstile.push()
 // false
 ```
 
-> note: `onInvalid` is passed the `transition` name as the 1st argument. 
+> note: `onInvalid` includes the `transition` name as the 1st argument.   
+> Additional arguments can be passed by the transition method call.
 
 ## Asynchronous transitions
 
