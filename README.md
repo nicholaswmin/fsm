@@ -125,8 +125,9 @@ The invalid behaviour can be [customised](#custom-invalid-behaviour).
 
 ## FSM as a `mixin`
 
-Passing an object as 2nd argument to: `fsm(states, obj)` sets the FSM on the 
-provided object, similar to a [`mixin`][mixin].
+Passing an object as 2nd argument to: `fsm(states, obj)` sets an FSM on the 
+provided object.  
+This is similar to using [`mixin`][mixin].
 
 This is helpful in cases like subclassing; where further inheritance cannot be 
 used to add FSM behaviours in addition to the extended behaviour.[^2]
