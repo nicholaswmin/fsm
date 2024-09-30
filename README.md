@@ -272,9 +272,9 @@ turnstile.push()
 
 ## Transition cancellations
 
-Transition hooks can cancel the transition by explicitly returning `false`.
+Transition hooks can cancel the transition by returning `false`.
 
-Cancelled transitions don't change the *state* or call any `state hooks`.
+Cancelled transitions don't change the *state* nor call any `state hooks`.
 
 > cancel transition to `state: opened` if the coin is less than `50c`:
 
@@ -299,7 +299,7 @@ turnstile.coin(50)
 // state: opened
 ```
 
-> note: cancellations require returning `false`, not just [`falsy`][falsy].
+> note: cancellations must explicitly return `false`, not just [`falsy`][falsy].
 
 ## Passing arguments 
 
@@ -332,7 +332,6 @@ const turnstile = fsm({
   opened: { push: 'closed' }
 }, {
   async onCoin(coins) {
-    // simulate an async delay ...
     await new Promise(res => setTimeout(res, 2000))
   }
 })
