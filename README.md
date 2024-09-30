@@ -37,7 +37,6 @@ declaratively & safely.[^1]
 - [`fsm(json, hooks)`](#fsmjson-hooks)
 - [`fsm.state`](#fsmstate)
 - [`hooks.onInvalid`](#hooksoninvalid)
-- [`JSON.stringify(fsm)`](#jsonstringifyfsm)
 
 ### Meta
 
@@ -436,22 +435,6 @@ Can be overriden, which configures the invalid behaviour.
 | name         | type       | desc.             |
 |--------------|------------|-------------------|
 | `transition` | `String`   | transition name   |
-
-
-### `JSON.stringify(fsm)`
-
-Returns a [JSON][json] of the FSM.
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
-
-JSON.stringify(turnstile)
-
-// {"state":"closed","states":{"closed" ... }
-```
 
 ## Test 
 
