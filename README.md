@@ -259,7 +259,7 @@ turnstile.coin('foo', 'bar')
 Cancelled transitions don't change the *state* nor call any 
 [state hooks](#state-hooks).
 
-> cancel transition to `state: opened` if the coin is less than `50c`:
+> example: cancel transition to `state: opened` if the coin is less than `50c`
 
 ```js
 const turnstile = fsm({
