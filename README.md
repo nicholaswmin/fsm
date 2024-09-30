@@ -107,7 +107,8 @@ turnstile.foo()
 turnstile.bar()
 ```
 
-Transitions that aren't listed under current `state` throw a `TransitionError`:
+Transitions can only be triggered if listed under current `state`,
+otherwise they throw an `TransitionError`:
 
 ```js
 const turnstile = fsm({
