@@ -479,10 +479,6 @@ node --test --experimental-test-coverage
       state modelling which is usually hacked-up haphazardly, as needed.  
       If there are modelling discrepancies, they will appear earlier since 
       invalid state transitions throw an explicit error.
-      
-      Additionally, state logic is declared in a single place rather than
-      getting lost in lines of unrelated imperative code; 
-      this vastly increases code readability and clarity of intention.
     
       Software in safety-critical industries *require* the use of FSM models 
       as part of their certification.  
@@ -490,7 +486,7 @@ node --test --experimental-test-coverage
       of operations is modelled as an FSM.
       
       State-machines are actually mathematical models. 
-      Their behaviour is the central subject of [automata theory][automata].
+      Their behaviour forms the basis of [automata theory][automata].
       
 [^2]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
