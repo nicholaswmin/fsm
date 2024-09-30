@@ -403,7 +403,7 @@ The current `state`. Read-only.
 |----------|----------|---------------|
 | `state`  | `string` | current state | 
 
-### `hooks.onInvaxlid` 
+### `hooks.onInvalid` 
 
 Called when an invalid transition is triggered.  
 Can be overriden, which configures the invalid behaviour.
