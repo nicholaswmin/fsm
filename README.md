@@ -376,8 +376,8 @@ revived.push()
 // state: closed
 ```
 
-> note: hooks methods are not serialised so they must be passed again when
-> reviving, as demonstrated above.
+> note: `hooks` are not serialised so they must be passed again when reviving, 
+> as demonstrated above.
 
 ## API
 
