@@ -182,7 +182,7 @@ const turnstile = fsm({
 })
 
 turnstile.push()
-// cannot push from: closed
+// warning: cannot push from: closed
 // false
 ```
 
