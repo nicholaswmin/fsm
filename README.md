@@ -2,7 +2,7 @@
 
 # fsm
 
-> a [finite-state machine][fsm] is an abstract machine that can be in one of 
+> A [finite-state machine][fsm] is an abstract machine that can be in one of 
 > a finite number of `states`.   
 > The change from one `state` to another `state` is called a `transition`.
 
