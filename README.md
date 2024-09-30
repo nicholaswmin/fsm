@@ -125,14 +125,11 @@ The invalid behaviour can be [customised](#custom-invalid-behaviour).
 
 ## FSM as a `mixin`
 
-You can pass your own objects to setup as FSM's; a similar concept to using
-a [Mixin][mixin].
-
-Some cases, i.e subclasses which `extend` other classes, cannot use further 
-inheritance to add FSM behaviours in addition to their current behaviour.[^2]
-
 Passing an object as 2nd argument to: `fsm(states, obj)` sets up the FSM on 
-the provided object.
+the provided object. This is a concept akin to a `mixin`[mixin].
+
+This is helpful in cases like subclassing; where further inheritance cannot be 
+used to add FSM behaviours in addition to the extended behaviour.[^2]
 
 > example: A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
 
