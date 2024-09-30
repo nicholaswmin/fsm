@@ -302,8 +302,8 @@ turnstile.push()
 // false
 ```
 
-> note: the `transition` is included as the 1st argument but additional 
-> arguments can still be passed, [as shown above](#hook-arguments)
+> note: the `transition` is set as 1st argument but
+> additional arguments can be passed, [as shown above](#hook-arguments)
 
 ## Asynchronous transitions
 
