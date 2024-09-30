@@ -369,12 +369,13 @@ Construct an `FSM`
 `states` must have the following shape:
 
 ```js
-state: { transition: 'state' },
-state: { transition: 'state' }
+state: { transition: 'next-state' },
+state: { transition: 'next-tate' }
 ```
 
-> The 1st state in `states` is set as the *initial* state.  
-> each `state` can list `zero`, `one` or `many` transitions. 
+> The 1st state in `states` is set as the *initial* state.    
+> Each `state` can list `zero`, `one` or `many` transitions.   
+> The `next-state` must exist a `state`.  
 
 ### `fsm(json, hooks)` 
 
