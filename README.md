@@ -346,7 +346,7 @@ turnstile.coin('foo', 'bar')
 
 Either mark methods as [`async`][async] or return a [`Promise`][promise].  
 
-Then simply: `await fsm.transition()`.
+Then simply `await` the transition:
 
 ```js
 const turnstile = fsm({
