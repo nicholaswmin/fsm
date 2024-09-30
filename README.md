@@ -15,7 +15,9 @@ declaratively & safely.[^1]
 
 - [Install](#install)
 - [Example](#example)
-- [Usage](#usage)
+- [Define](#define)
+- [Transition](#transition)
+- [Current state](#get-state)
 
 ### Advanced
 
@@ -77,7 +79,7 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-## Usage
+## Define
 
 The following:
 
@@ -92,6 +94,8 @@ defines an FSM with 2 possible `states`, each allowing a single `transition`.
 
 - `state: closed`: allows `transition: coin` which sets: `state: opened`
 - `state: opened`: allows `transition: push` which sets: `state: closed`
+
+## Transition
 
 Transitions are triggered by calling them as a method:
 
@@ -120,6 +124,8 @@ turnstile.push()
 // TransitionError: 
 // current state: "closed" has no transition: "push"
 ```
+
+## Current state
 
 The current `state` can be read through `fsm.state`:
 
