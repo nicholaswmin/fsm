@@ -491,8 +491,8 @@ node --test --experimental-test-coverage
       
 [^2]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
-      Javascript doesn't support *multiple inheritance* so inheriting `FSM` 
-      would create problems when inheriting other behaviours.
+      However, Javascript doesn't support *multiple inheritance* so inheriting 
+      `FSM` would create issues when inheriting other behaviours.
 
       *Composition* is also problematic since it namespaces the behaviour, 
       causing it to lose it's expressiveness.  
