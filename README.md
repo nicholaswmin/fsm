@@ -179,6 +179,8 @@ turnstile.coin()
 // state: opened
 ```
 
+> this concept is similar to a [`mixin`][mixin].
+
 ## Hook methods
 
 Hooks are optional methods, called at specific transition phases.  
