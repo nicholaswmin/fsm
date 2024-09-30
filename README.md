@@ -152,7 +152,7 @@ on the provided object.
 Useful in cases where an object must function as an FSM, in addition to some 
 other behaviour.[^2]
 
-> example: A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
+> A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
 
 ```js
 class Turnstile extends EventEmitter {
