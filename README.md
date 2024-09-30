@@ -21,7 +21,6 @@ declaratively & safely.[^1]
 
 ### Advanced
 
-- [As a mixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
   - [Transition Hooks](#transition-hooks)
   - [State Hooks](#transition-hooks)
@@ -30,7 +29,8 @@ declaratively & safely.[^1]
 - [Transition cancellations](#transition-cancellations)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
-  
+- [Use as a mixin](#fsm-as-a-mixin)
+
 ### API
 
 - [`fsm(states, hooks)`](#fsmstates-hooks)
@@ -144,43 +144,6 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-## FSM as a `mixin`
-
-Passing an `Object` as 2nd argument to: `fsm(states, obj)` assigns FSM behaviour 
-on the provided object.
-
-Useful in cases where an object must function as an FSM, in addition to some 
-other behaviour.[^2]
-
-> A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
-
-```js
-class Turnstile extends EventEmitter {
-  constructor() {
-    super()
-
-    fsm({
-      closed: { coin: 'opened' },
-      opened: { push: 'closed' }
-    }, this)
-  }
-}
-
-const turnstile = new Turnstile()
-
-// works as EventEmitter.
-
-turnstile.emit('foo')
-
-// works as an FSM as well.
-
-turnstile.coin()
-
-// state: opened
-```
-
-> this concept is similar to a [`mixin`][mixin].
-
 ## Hook methods
 
 Hooks are optional methods, called at specific transition phases.  
@@ -243,7 +206,6 @@ turnstile.coin()
 turnstile.push()
 // "its closed"
 ```
-
 
 ### Error hooks
 
@@ -378,6 +340,44 @@ revived.push()
 
 > note: `hooks` are not serialised so they must be passed again when reviving, 
 > as demonstrated above.
+
+## FSM as a `mixin`
+
+Passing an `Object` as `hooks` to: `fsm(states, hooks)` assigns FSM behaviour 
+on the provided object.
+
+Useful in cases where an object must function as an FSM, in addition to some 
+other behaviour.[^2]
+
+> A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
+
+```js
+class Turnstile extends EventEmitter {
+  constructor() {
+    super()
+
+    fsm({
+      closed: { coin: 'opened' },
+      opened: { push: 'closed' }
+    }, this)
+  }
+}
+
+const turnstile = new Turnstile()
+
+// works as EventEmitter.
+
+turnstile.emit('foo')
+
+// works as an FSM as well.
+
+turnstile.coin()
+
+// state: opened
+```
+
+> this concept is similar to a [`mixin`][mixin].
+
 
 ## API
 
