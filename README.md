@@ -19,10 +19,10 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 ### Advanced
 
 - [Transform existing objects to FSMs](#transform-existing-objects-to-fsms)
-- [Custom invalid behaviour](#custom-invalid-behaviour)
 - [Hooks](#hook-methods)
 - [Cancellations](#transition-cancellations)
 - [Passing arguments](#passing-arguments)
+- [Custom invalid behaviour](#custom-invalid-behaviour)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
   
