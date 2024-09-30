@@ -106,8 +106,8 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-Triggering a `transition` that's not listed in current `state` will 
-throw an `InvalidTransitionError`:
+Transitions that aren't listed under current `state` throw an 
+`InvalidTransitionError`:
 
 ```js
 const turnstile = fsm({
