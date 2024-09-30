@@ -15,7 +15,7 @@ declaratively & safely.[^1]
 
 - [Install](#install)
 - [Example](#example)
-  - [Define](#define)
+  - [Initialisation](#initialisation)
   - [Transition](#transition)
   - [Current state](#get-state)
 
@@ -84,7 +84,7 @@ console.log(turnstile.state)
 
 Each step is explained below:
 
-## Define
+## Initialisation
 
 An FSM with 2 possible `states`, each listing a single `transition`:
 
