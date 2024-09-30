@@ -79,7 +79,7 @@ The turnstile defines 2 possible `states`, each allowing a single `transition`:
 
 Transitions are triggered by calling them as a method:
 
-> i.e: assuming `foo`, `bar` transitions:
+> i.e: assuming `foo`, `bar` transitions instead of `coin`, `push`:
 
 ```js
 const turnstile = fsm({
