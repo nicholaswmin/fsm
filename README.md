@@ -176,8 +176,8 @@ turnstile.coin()
 
 Hooks are optional methods, called at specific transition phases.  
 
-They must be set as `hooks` methods; the 2nd argument of `fsm(states, hooks)` & 
-named accordingly.
+They must be set as `hooks` methods; an `Object` passed as 2nd argument of 
+`fsm(states, hooks)`.
 
 ## Transition hooks
 
