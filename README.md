@@ -17,6 +17,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 - [Example](#example)
 - [Define transitions](#defining-an-fsm)
 - [Trigger transitions](#trigger-transitions)
+- [Current state](#current-state)
 
 ### Advanced
 
@@ -98,7 +99,7 @@ each `state` defines & allows a single `transition`:
 
 ## Trigger transitions
 
-A `transition` can be triggered by calling it as a method. 
+Transitions are triggered by calling them as a method. 
 
 > i.e: assuming `foo`, `bar` transitions:
 
@@ -115,7 +116,7 @@ turnstile.bar()
 // state: closed
 ```
 
-## Get current state
+## Current state
 
 The *current* `state` can be read via the `fsm.state` property:
 
