@@ -321,7 +321,7 @@ turnstile.coin(50)
 // state: opened
 ```
 
-> note: cancellations require returning `false`, not just "falsy".
+> note: cancellations require returning `false`, not just [`falsy`][falsy].
 
 ## Passing arguments 
 
@@ -571,6 +571,7 @@ For bug/security fixes, read:
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
 [imut]: https://en.wikipedia.org/wiki/Immutable_object
+[falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 [promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
