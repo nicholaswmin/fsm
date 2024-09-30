@@ -512,8 +512,7 @@ This is feature-complete but for any bug/security fixes, read:
       documentation therefore its intentionally avoided.
       
 [^2]: Javascript does not support *multiple inheritance*, a commonly misused 
-      mechanism that easily leads to various modelling issues.
-      
+      mechanism that easily leads to various modelling issues.  
       Composition, the usual alternative, namespaces the API of the composited 
       behaviour which doesn't feel idiomatic when it comes to FSMs.
       
