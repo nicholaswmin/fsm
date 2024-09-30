@@ -23,8 +23,11 @@ declaratively & safely.[^1]
 
 - [As a mixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
+  - [Transition Hooks](#transition-hooks)
+  - [State Hooks](#transition-hooks)
+  - [Error Hooks](#error-hooks)
+  - [Arguments](#hook-arguments)
 - [Transition cancellations](#transition-cancellations)
-- [Configurable error handling](#configurable-error-handling)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
   
@@ -232,6 +235,33 @@ turnstile.push()
 ```
 
 
+### Error hooks
+
+The behaviour of invalid transitions can be configured by an `onInvalid` hook.
+
+> example: log a warning & fail silently, without throwing an `Error`:
+
+```js
+const turnstile = fsm({
+  closed: { coin: 'opened' },
+  opened: { push: 'closed' }
+}, {
+  onInvalid: function(transition) {
+    console.warn(`cannot ${transition} from ${this.state}`)
+    
+    return false
+  }
+})
+
+turnstile.push()
+// warning: cannot push from: closed
+// false
+```
+
+> note: the `transition` is set as 1st argument but
+> additional arguments can be passed, [as shown below](#hook-arguments)
+
+
 ### Hook arguments 
 
 Transition methods can pass arguments to relevant hooks, assumed to be
@@ -283,32 +313,6 @@ turnstile.coin(50)
 ```
 
 > note: cancellations must explicitly return `false`, not just [`falsy`][falsy].
-
-## Configurable error handling
-
-The behaviour of invalid transitions can be configured by an `onInvalid` hook.
-
-> example: log a warning & fail silently, without throwing an `Error`:
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onInvalid: function(transition) {
-    console.warn(`cannot ${transition} from ${this.state}`)
-    
-    return false
-  }
-})
-
-turnstile.push()
-// warning: cannot push from: closed
-// false
-```
-
-> note: the `transition` is set as 1st argument but
-> additional arguments can be passed, [as shown above](#hook-arguments)
 
 ## Asynchronous transitions
 
