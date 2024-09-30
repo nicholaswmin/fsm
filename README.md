@@ -362,7 +362,6 @@ turnstile.coin()
 // got a coin
 
 const json = JSON.stringify(turnstile)
-// {}
 ```
 
 ... then revive with:
