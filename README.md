@@ -237,8 +237,8 @@ and named accordingly.
 Called *before* the state is changed & can optionally 
 [cancel a transition](#transition-cancellations).
 
-Must be named: `on<transition-name>`, where `<transition-name>` is the actual 
-transition name.
+Must be named: `on<transition-name>`, where `<transition-name>` is an actual 
+`transition` name.
 
 > example:
 
@@ -267,7 +267,7 @@ turnstile.push()
 
 Called *after* the state is changed.
 
-Must be named: `on<state-name>`, where `<state-name>` is the actual state name.
+Must be named: `on<state-name>`, where `<state-name>` is an actual `state` name.
 
 > example:
 
