@@ -495,8 +495,7 @@ node --test --experimental-test-coverage
       would exclude inheriting other behaviours.
 
       *Composition* is also problematic because it namespaces the API of the 
-      behaviour which causes it to lose it's expressiveness.
-
+      behaviour which causes it to lose it's expressiveness.  
       i.e `light.fsm.turnOn` feels misplaced compared to `light.turnOn`.
       
 [^3]: Describes a function that takes an non-finite/infinite no. of arguments.   
