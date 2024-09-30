@@ -513,8 +513,8 @@ This is feature-complete but for any bug/security fixes, read:
       
 [^2]: Javascript does not support *multiple inheritance*.  
       Inheritance is commonly misused & tends to create inflexibly strong 
-      relationships; yet there are cases where it's semantically the best choice.
- 
+      relationships; yet there are cases where it's semantically correct.
+      
       Composition, the usual alternative, namespaces the API of the composited 
       behaviour which doesn't feel idiomatic when it comes to FSMs.
       
