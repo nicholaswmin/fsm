@@ -23,7 +23,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 - [Hooks](#hook-methods)
 - [Cancellations](#transition-cancellations)
 - [Passing arguments](#passing-arguments)
-- [Custom invalid behaviour](#custom-invalid-behaviour)
+- [Configurable invalid behaviour](#configurable-invalid-behaviour)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
   
@@ -279,9 +279,10 @@ turnstile.coin('foo', 'bar')
 ```
 
 
-## Custom invalid behaviour
+## Configurable invalid behaviour
 
-The invalid behaviour can be configured by implementing an `onInvalid` hook:
+The behaviour invalid transitions can be configured by implementing 
+an `onInvalid` hook:
 
 > example: log a warning & fail silently, without throwing an `Error`:
 
