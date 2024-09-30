@@ -8,8 +8,8 @@
 
 This package constructs simple FSM's that express their
 logic [*declaratively*][declaratively] & *safely*.[^1]
-    
-Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
+It bundles `< 1KB` with zero dependencies & published with 
+[provenance][provenance].
 
 ### Basic
 
