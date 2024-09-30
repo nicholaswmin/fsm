@@ -129,7 +129,7 @@ You can pass your own objects to setup as FSM's.
 
 Some cases, for example subclasses which `extend` other classes, 
 cannot use further inheritance to implement FSM behaviours in addition to their
-current behaviour, since multiple inheritance is not supported in JS.[^2]
+current behaviour.[^2]
 
 These cases can pass an object as 2nd argument to: `fsm()` & the FSM will be 
 setup on the provided object.
