@@ -98,8 +98,7 @@ turnstile.foo()
 turnstile.bar()
 ```
 
-Transitions that aren't listed under current `state` throw an 
-`InvalidTransitionError`:
+Transitions that aren't listed under current `state` throw a `TransitionError`:
 
 ```js
 const turnstile = fsm({
@@ -109,7 +108,7 @@ const turnstile = fsm({
 
 turnstile.push()
 
-// InvalidTransitionError: 
+// TransitionError: 
 // current state: "closed" has no transition: "push"
 ```
 
@@ -408,9 +407,9 @@ The current `state`. Read-only.
 Called when an invalid transition is triggered.  
 Can be overriden, which configures the invalid behaviour.
 
-| name        | type       | desc.             | default        |
-|-------------|------------|-------------------|----------------|
-| `onInvalid` | `function` | invalid behaviour | `return false` |
+| name        | type       | desc.             | default                  |
+|-------------|------------|-------------------|--------------------------|
+| `onInvalid` | `function` | invalid behaviour | throws `transitionError` |
 
 #### Arguments
 
