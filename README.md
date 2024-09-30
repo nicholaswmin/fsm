@@ -461,9 +461,7 @@ node --test --experimental-test-coverage
 
 ## Contributing
 
-This is feature-complete but for any bug/security fixes, read:
-
-[Contribution guide][contr-guide]
+[Contribution Guide][contr-guide]
 
 ## Authors
 

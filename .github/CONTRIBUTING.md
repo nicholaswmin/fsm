@@ -6,9 +6,9 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom]
 
 > This package must be published with [build provenance][provenance].  
 
-Assuming an open PR waiting for `main` merge:
+Assuming an reviewed PR ready for `main` merge:
 
-1. Ensure local is clean, all pushed to branch and tests pass.
+1. Ensure all is pushed to branch.
 2. Bump version, using:
 
 ```bash
