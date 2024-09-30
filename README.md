@@ -37,7 +37,6 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 ### Meta
 
-- [Validations](#validations)
 - [Test](#test)
 - [Authors](#authors)
 - [License](#license)
@@ -428,17 +427,6 @@ JSON.stringify(turnstile)
 
 // {"state":"closed","states":{"closed" ... }
 ```
-
-## Validations
-
-This implementation attempts to catch errors at *contruction time* rather 
-than *run time*.  
-
-It does so by validating it's state-transition table against `undefined`, 
-invalidly typed or unreasonable inputs.
-
-Validation errors contain exact paths and clear, unambiguous descriptions of 
-the error.
 
 ## Test 
 
