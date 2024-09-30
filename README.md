@@ -304,27 +304,11 @@ turnstile.push()
 // false
 ```
 
-It also accepts variadic arguments: [^3]
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-}, {
-  onInvalid: function(transition, arg1, arg2) {
-    console.log(arg1, arg2)
-  }
-})
-
-turnstile.push('foo', 'bar')
-// foo, bar
-```
-
 ## Asynchronous transitions
 
-Either mark methods as [`async`][async] or return a [`Promise`][promise].  
+Mark relevant hooks as [`async`][async] or return a [`Promise`][promise].  
 
-Then simply `await` the transition:
+Then `await` the transition:
 
 ```js
 const turnstile = fsm({
