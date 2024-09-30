@@ -23,14 +23,11 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [Transform existing objects to FSMs](#transform-existing-objects-to-fsms)
 - [Custom invalid behaviour](#custom-invalid-behaviour)
-- [Hook methods](#hook-methods)
-- [Transition hooks](#transition-hooks)
-- [State hooks](#state-hooks)
-- [Transition cancellations](#transition-cancellations)
+- [Hooks](#hook-methods)
+- [Cancellations](#transition-cancellations)
 - [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
-  * [Reviving from JSON](#reviving-from-json)
   
 ### API
 
@@ -517,6 +514,9 @@ node --test --experimental-test-coverage
 ```
 
 ## Contributing
+
+This package is feature-complete.  
+For bug/security fixes, read:
 
 [Contribution guide][contr-guide]
 
