@@ -479,9 +479,7 @@ node --test --experimental-test-coverage
       You haven't been decapitated by an elevator (yet) because it's sequence
       of operations is modelled as an FSM.
 
-      While there are variants of state machines which can have multiple states, 
-      i.e the [*Non-deterministic finite automaton*][ndfsm],   
-      this documentation describes the most common type of state machine,
+      This documentation describes the most common type of state machine,
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.  
       
       Formal terminology is unnecessarily complex for the purposes of this
