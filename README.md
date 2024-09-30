@@ -19,9 +19,8 @@ declaratively & safely.[^1]
 
 ### Advanced
 
-- [FSM as a mixin](#fsm-as-a-mixin)
+- [As a mixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
-- [Hook arguments](#hook-arguments)
 - [Transition cancellations](#transition-cancellations)
 - [Configurable error handling](#configurable-error-handling)
 - [Asynchronous transitions](#asynchronous-transitions)
@@ -258,7 +257,8 @@ turnstile.coin('foo', 'bar')
 
 ## Transition cancellations
 
-Transition hooks can cancel the transition by returning `false`.
+[Transition hooks](#transition-hooks) can cancel the transition by returning 
+`false`.
 
 Cancelled transitions don't change the *state* nor call any `state hooks`.
 
