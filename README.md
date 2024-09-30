@@ -107,7 +107,6 @@ const turnstile = fsm({
 })
 
 turnstile.push()
-
 // TransitionError: 
 // current state: "closed" has no transition: "push"
 ```
