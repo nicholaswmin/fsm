@@ -4,30 +4,28 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom]
   
 ## Publishing
 
-> This package must be published with [build provenance][provenance].  
+> must be published with [build provenance][provenance].  
 
-Assuming an reviewed PR ready for `main` merge:
+From `main` branch:
 
-1. Ensure all is pushed to branch.
-2. Bump version, using:
+1. Bump version:
 
 ```bash
 npm version patch
 ```
-> or: `minor`, `major`
+> or: `minor`, `major` depending on SemVer change
 
-3. Create a bump commit:
+then:
 
 ```bash
 git commit -am "build: version bump"
+git push origin main
 ```
 
-4. Push to branch.
-5. Merge to `main`.
-6. Create a Github Release using the same version tag/number as the `version`
+2. Create a Github Release using the same version tag/number as the `version`
    from `package.json`. 
-7. The `build:publish.yml` workflow will `npm publish` with build provenance.
-8. Ensure all looks OK 
+3. The `build:publish.yml` workflow will `npm publish` with build provenance.
+4. Ensure all looks OK (version was published to `npm`, it works etc)
 
 ## Authors
 
