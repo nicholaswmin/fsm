@@ -15,9 +15,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [Install](#install)
 - [Example](#example)
-- [Define states & transitions](#example)
 - [Trigger transitions](#trigger-transitions)
-- [Current state](#current-state)
 
 ### Advanced
 
@@ -112,8 +110,6 @@ turnstile.foo()
 turnstile.bar()
 // state: closed
 ```
-
-## Current state
 
 The *current* `state` can be read via the `fsm.state` property:
 
