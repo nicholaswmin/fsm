@@ -530,8 +530,7 @@ node --test --experimental-test-coverage
 
 ### Footnotes 
 
-[^1]: A finite-state machine can only exist in *one* and *always-valid* state.
-
+[^1]: A finite-state machine can only exist in *one* and *always-valid* state.  
       It requires defining all possible states & the rules under which it can 
       transition from one state to another.
 
