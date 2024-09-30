@@ -149,6 +149,9 @@ console.log(turnstile.state)
 Passing an `Object` as 2nd argument to: `fsm(states, obj)` assigns FSM behaviour 
 on the provided object.
 
+Useful in cases where an object must function as an FSM, in addition to it's 
+current behaviour.[^2]
+
 > example: A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
 
 ```js
