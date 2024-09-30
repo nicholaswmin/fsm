@@ -481,7 +481,14 @@ node --test --experimental-test-coverage
       State machines can be described by mathematical models; their behaviour 
       forms the basis of [automata theory][automata].
       
-[^2]: FSMs are rare but perfect candidates for *inheritance* because usually
+[^2]: A function that accepts an infinite number of arguments.   
+      Also called: functions of *"n-arity"* where "arity" = number of arguments. 
+      
+      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
+      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
+      n-ary/variadic: `f = (...args) => {}`
+      
+[^3]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
       However, Javascript doesn't support *multiple inheritance* so inheriting 
       `FSM` would create issues when inheriting other behaviours.
@@ -490,12 +497,6 @@ node --test --experimental-test-coverage
       causing it to lose it's expressiveness.  
       i.e `light.fsm.turnOn` feels misplaced compared to `light.turnOn`.
       
-[^3]: A function that accepts an infinite number of arguments.   
-      Also called: functions of *"n-arity"* where "arity" = number of arguments. 
-      
-      i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
-      binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
-      n-ary/variadic: `f = (...args) => {}`
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
