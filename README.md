@@ -232,8 +232,8 @@ They must be defined as `obj` methods, the 2nd argument of `fsm(states, obj)`.
 
 ## Transition hooks
 
-Called *before* the state is changed.  
-Can optionally [cancel a transition](#transition-cancellations).
+Called *before* the state is changed & can optionally 
+[cancel a transition](#transition-cancellations).
 
 Must be named: `on<transition-name>`, where `<transition-name>` is the actual 
 transition name.
