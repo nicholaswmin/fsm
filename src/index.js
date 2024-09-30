@@ -10,7 +10,7 @@ class FSM {
 }
 
 const throwInvalidTransition = function(state, transition) {
-  const message = `current state: ${state} has no transition: ${transition}`
+  const message = `current state: "${state}" has no transition: "${transition}"`
 
   throw new InvalidTransitionError(message)
 } 

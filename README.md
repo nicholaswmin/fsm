@@ -2,42 +2,55 @@
 
 # fsm
 
-> a [finite-state machine][fsm] 
+> a [finite-state machine][fsm] is an abstract machine that can be in one of 
+> a finite number of `states`.   
+> The change from one `state` to another `state` is called a `transition`.
 
-> A state machine, is a mathematical model of computation.  § 
-> It is an abstract machine that can be in one of a finite number of `states`.  
-> The change from one state to another is called a `transition`.
-
-Finite-state machines are constructs which allow expressing a piece of logic 
-[*declaratively*][declaratively].  
-
-Minimal, `< 1KB` without dependencies, published with [provenance][provenance].
+This package constructs simple & robust FSM's,
+which express their logic [*declaratively*][declaratively] & *safely*.[^1]
+    
+bundles `< 1KB`, zero-dependencies, published with [provenance][provenance].
 
 - [Install](#install)
-- [Basic Example](#basic-example)
-  + [Defining an FSM](#defining-fsms)
-  + [Transitioning between states](#transitions-between-states)
-  + [Getting the current state](#current-state)
-- [Creating FSMs from existing objects](#creating-fsms-from-existing-objects)
-+ [Getting the current state](#current-state)
-  * [Transition hooks](#transition-hooks)
-  * [State hooks](#state-hooks)
-  * [Transition cancellations](#transition-cancellations)
-  * [Passing arguments](#passing-arguments)
+
+### Basic
+
+- [Basic example](#basic-example)
+- [Triggering transitions](#triggering-transitions)
+- [Invalid transitions](#invalid-transitions)
+
+### Advanced
+
+- [Transform existing objects to FSMs](#transform-existing-objects-to-fsms)
+- [Custom invalid behaviour](#custom-invalid-behaviour)
+- [Hook methods](#hook-methods)
+- [Transition hooks](#transition-hooks)
+- [State hooks](#state-hooks)
+- [Transition cancellations](#transition-cancellations)
+- [Passing arguments](#passing-arguments)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
-- [Reviving from JSON](#reviving-fromo-json)
-- [API](#api)
-  * [`fsm(states, hooks)`](#fsmstates-hooks)
-  * [`fsm(json, hooks)`](#fsmjson-hooks)
-  * [`fsm.state`](#fsmstate)
-  * [`JSON.stringify(fsm)`](#jsonstringifyfsm)
-  * [`hooks.onInvalid`](#hooksoninvalid)
+  * [Reviving from JSON](#reviving-from-json)
+  
+### API
+
+- [`fsm(states, hooks)`](#-fsm-states--hooks--)
+- [`fsm(json, hooks)`](#-fsm-json--hooks--)
+  * [Arguments](#arguments)
+- [`fsm.state`](#-fsmstate-)
+- [`hooks.onInvalid`](#-hooksoninvalid-)
+  * [Arguments](#arguments-1)
+- [`JSON.stringify(<fsm>)`](#-jsonstringify--fsm---)
+  * [Arguments](#arguments-2)
+
+### Meta
+
 - [Validations](#validations)
-- [Tests](#test)
+- [Test](#test)
 - [Contributing](#contributing)
 - [Authors](#authors)
 - [License](#license)
+  * [Footnotes](#footnotes)
 
 ## Install 
 
@@ -67,95 +80,53 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-### Defining FSMs
+The above:
 
-FSMs must define a [state-transition table][stt] upfront.
+Defines 2 possible `states`: `open` & `closed`.
 
-In our case, it's an object which:
+- `state: closed` allows `transition: coin`, which sets `state: opened`
+- `state: opened` allows `transition: push`, which sets `state: closed`
 
-- Lists possible `states`.
-- Lists each state's allowed `transitions`.
-- Each `transition` points to a new `state`.
+## Triggering transitions
 
-it has the following shape:
+A *transition* can be triggered by calling it as a method. 
 
-```js
-{
-  stateA: { transitionB: 'stateB' },
-  stateB: { transitionA: 'stateA' }
-}
-```
-
-> the [turnstile][turn] gate:
+> i.e: with `foobar` transitions:
 
 ```js
 const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
+  closed: { foo: 'opened' },
+  opened: { bar: 'closed' }
 })
-```
 
-This turnstile: 
-
-- Has 2 possible *states*: `closed` or `opened`. 
-- Has 2 possible *transitions*: `coin` and `push`.  
-- Starts out with `state: closed`
-
-and these rules:
-
-When `state: closed`:
-- Can trigger `coin` transition, moving it to: `state: opened`.
-
-When `state: opened`:
-- Can trigger `push` transition, moving it to: `state: closed`.
-
-### Transition between states
-
-A *transition* can be triggered by calling it as a method.   
-i.e: `fsm.coin()` triggers the `coin` transition.
-
-If the `current state` **lists the transition**, the transition completes and 
-the state succesfuly changes:
-
-```js
-const turnstile = fsm({
-  closed: { coin: 'opened' },
-  opened: { push: 'closed' }
-})
 // state: closed
 
-// triggering the "coin" transition
-turnstile.coin()
-
+turnstile.foo()
 // state: opened
 
-// good!
+turnstile.bar()
+// state: closed
 ```
 
-If a triggered transition **is not listed** under the `current state`, the 
-`transition` is silently cancelled & the `state` stays the same:
+## Invalid transitions 
+
+A `transition` can only be triggered if the state defines it.   
+Otherwise an `InvalidTransitionError` is thrown.
 
 ```js
 const turnstile = fsm({
-  broken: { glue: 'closed' },
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 })
-// state: broken 
 
-// triggering the "coin" transition
-
-turnstile.coin()
-
-// does nothing ...
-
-console.log(turnstile.state)
-// state: broken
-
-// oops, state is still "broken"
+turnstile.push()
+// InvalidTransitionError: 
+// current state: "closed" has no transition: "push"
 ```
 
-The transition behaviour [can be customised](#custom-invalid-behavior).
+... and that's pretty much the end of this documentation for 99% of use-cases.
+
+## Advanced Usage
 
 ## Transform existing objects to FSMs
 
@@ -531,7 +502,17 @@ node --test --experimental-test-coverage
 
 ### Footnotes 
 
-[^1]: While there are variants of state machines which can have multiple states, 
+[^1]: A finite-state machine can only exist in *one* and *always-valid* state.
+
+      Definining a state-machine requires defining all it's possible states 
+      and the rules under which it can transition to each state.
+
+      Software in mission-critical or safety-critical industries *require* the 
+      use of FSM models.  
+      You haven't been decapitated by an elevator (yet) because it's modelled 
+      as an FSM.
+
+[^2]: While there are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm],   
       this documentation describes a specific type of state machine,
       the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
@@ -539,16 +520,17 @@ node --test --experimental-test-coverage
       Formal terminology from Automata Theory is avoided; it's confusing
       for the average reader and tends to make simple concepts sound harder 
       than they are.
+      
       *"automaton"* is the academic term from automata theory meaning 
       *"automatic machine"*.
       
-[^2]: Javascript does not support multiple inheritance.  
+[^3]: Javascript does not support multiple inheritance.  
       This is usually for the better, since it tends to create inflexibly 
-      strong relationships; but there are still cases where it's the most 
-      appropriate choice.
+      strong relationships; yet there are still some rare cases where it's 
+      the most fitting choice.
       
-[^3]: Describes a function that takes an non-finite/infinite no of arguments.   
-      Also called functions of *"n-arity"* where "arity" = number of arguments. 
+[^4]: Describes a function that takes an non-finite/infinite no. of arguments.   
+      Also called: functions of *"n-arity"* where "arity" = number of arguments. 
       
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
       binary: `f = (x, y) => {}`, ternary `f = (a,b,c) => {}`, 
