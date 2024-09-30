@@ -19,7 +19,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 ### Advanced
 
-- [FSM as a Mixin](#fsm-as-a-mixin)
+- [FSM as a xixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
 - [Cancellations](#transition-cancellations)
 - [Passing arguments](#passing-arguments)
@@ -130,7 +130,7 @@ console.log(turnstile.state)
 Passing an object as 2nd argument to: `fsm(states, obj)` sets FSM behaviour
 on the provided object.
 
-This is similar to using [`mixin`][mixin] and helpful in cases like subclassing;
+This is similar to using a [`mixin`][mixin], helpful in cases like subclassing;
 where further inheritance cannot be used to add FSM behaviours in addition 
 to the extended behaviour.[^2]
 
