@@ -515,8 +515,9 @@ This is feature-complete but for any bug/security fixes, read:
       `is-an FSM` but since Javascript doesn't support *multiple inheritance*,
       inheriting an `FSM` would exclude inheriting other behaviours.
 
-      *Composition* namespaces the API of the composited behaviour which doesn't 
-      feel idiomatic when it comes to FSMs.  
+      *Composition* is also problematic because it namespaces the API of the 
+      composited behaviour which doesn't feel idiomatic when it comes to FSMs.  
+
       i.e `light.fsm.turnOn` feels misplaced compared to `light.turnOn`.
       
 [^3]: Describes a function that takes an non-finite/infinite no. of arguments.   
