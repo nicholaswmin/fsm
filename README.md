@@ -478,8 +478,7 @@ node --test --experimental-test-coverage
 
 ## Contributing
 
-This package is feature-complete.  
-For bug/security fixes, read:
+This is feature-complete but for any bug/security fixes, read:
 
 [Contribution guide][contr-guide]
 
