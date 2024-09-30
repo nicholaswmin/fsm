@@ -489,16 +489,16 @@ node --test --experimental-test-coverage
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.
       
-[^2]: FSMs are rare and perfect candidates for *inheritance* because usually
+[^2]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
-      Javascript doesn't support *multiple inheritance* so inheriting an `FSM` 
-      would exclude inheriting other behaviours.
+      Javascript doesn't support *multiple inheritance* so inheriting `FSM` 
+      would create problems when inheriting other behaviours.
 
-      *Composition* is also problematic because it namespaces the API of the 
-      behaviour which causes it to lose it's expressiveness.  
+      *Composition* is also problematic since it namespaces the behaviour, 
+      causing it to lose it's expressiveness.  
       i.e `light.fsm.turnOn` feels misplaced compared to `light.turnOn`.
       
-[^3]: Describes a function that takes an non-finite/infinite no. of arguments.   
+[^3]: A function that accepts an infinite number of arguments.   
       Also called: functions of *"n-arity"* where "arity" = number of arguments. 
       
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
