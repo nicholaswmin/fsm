@@ -295,10 +295,9 @@ turnstile.push()
 
 Transition hooks can cancel the transition by explicitly returning `false`.
 
-- Cancelled transitions don't change the *state*.  
-- Subsequent `state hook` methods are not called.
+Cancelled transitions don't change the *state* or call any `state hooks`:
 
-> a turnstile that requires a `50c` coins to operate.
+> cancel the transition to `state: opened` unless the coin is `50c` or more.
 
 ```js
 const turnstile = fsm({
