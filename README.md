@@ -128,9 +128,8 @@ The invalid behaviour can be [customised](#custom-invalid-behaviour).
 You can pass your own objects to setup as FSM's; a similar concept to using
 a [Mixin][mixin].
 
-Some cases, for example subclasses which `extend` other classes, 
-cannot use further inheritance to implement FSM behaviours in addition to their
-current behaviour.[^2]
+Some cases, i.e subclasses which `extend` other classes, cannot use further 
+inheritance to add FSM behaviours in addition to their current behaviour.[^2]
 
 These cases can pass an object as 2nd argument to: `fsm()` & the FSM will be 
 setup on the provided object.
