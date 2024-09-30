@@ -472,20 +472,18 @@ node --test --experimental-test-coverage
 ### Footnotes 
 
 [^1]: A finite-state machine can only exist in *one* and *always-valid* state.  
-      It requires defining all possible states & the rules under which it can 
-      transition from one state to another.
+      It requires declaring all possible states & the rules under which it can 
+      transition from one state to another.  
 
+      This requires that careful planning is undertaken, compared to ad-hoc
+      state modelling which is usually hacked-up haphazardly, as needed.  
+      Additionally if there are modelling discrepancies, they will appear 
+      earlier since invalid state transitions throw an explicit error.
+    
       Software in safety-critical industries *require* the use of FSM models 
       as part of their certification.  
       You haven't been decapitated by an elevator (yet) because it's sequence
       of operations is modelled as an FSM.
-
-      Formally, this documentation describes a 
-      [*Deterministic finite automaton*][dfsm] which exists in only 1 state.  
-      Formal terminology is unnecessarily complex in this context, therefore
-      it's intentionally avoided.  
-      i.e: *"automaton"* is an academic term from [automata theory][automata] 
-      meaning *"automatic machine"*.
       
 [^2]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
