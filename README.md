@@ -82,6 +82,8 @@ console.log(turnstile.state)
 // "closed"
 ```
 
+Each step is explained below:
+
 ## Define
 
 Define an FSM with 2 possible `states`, each listing a single `transition`:
