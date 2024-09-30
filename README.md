@@ -9,7 +9,7 @@
 This package constructs *stupidly-simple* FSM's which express their logic 
 declaratively & safely.[^1]
   
-`< 1KB`, zero dependencies & [build provenance][provenance].
+`< 1KB`, zero dependencies & [provenance][prov].
 
 ### Basic
 
@@ -503,24 +503,21 @@ node --test --experimental-test-coverage
 [covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
 [cov]: https://coveralls.io/github/nicholaswmin/fsm
 
-[declaratively]: https://en.wikipedia.org/wiki/Declarative_programming
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
 [turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
 [stt]: https://en.wikipedia.org/wiki/State-transition_table
 [dfsm]: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [ndfsm]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
-[imut]: https://en.wikipedia.org/wiki/Immutable_object
 [falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 [promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
-[workers]: https://nodejs.org/api/worker_threads.html
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
 [automata]: https://en.wikipedia.org/wiki/Automata_theory
 
-[provenance]: https://search.sigstore.dev/?logIndex=134861482
+[prov]: https://search.sigstore.dev/?logIndex=134861482
 [contr-guide]: ./.github/CONTRIBUTING.md
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
