@@ -338,7 +338,7 @@ revived.push()
 ```
 
 > note: `hooks` are not serialised so they must be passed again when reviving, 
-> as demonstrated above.
+> as shown above.
 
 ## FSM as a `mixin`
 
