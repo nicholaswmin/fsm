@@ -482,11 +482,9 @@ node --test --experimental-test-coverage
       While there are variants of state machines which can have multiple states, 
       i.e the [*Non-deterministic finite automaton*][ndfsm],   
       this documentation describes the most common type of state machine,
-      the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
-
+      the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.  
       Formal terminology is unnecessarily complex for the purposes of this
-      documentation therefore its intentionally avoided.
-      
+      documentation therefore its intentionally avoided.  
       *"automaton"* is an academic term from [automata theory][automata] 
       meaning *"automatic machine"*.
       
