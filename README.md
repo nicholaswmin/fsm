@@ -49,10 +49,8 @@ npm i @nicholaswmin/fsm
 
 ## Example
 
-> Modelling a [turnstile][turn] mechanism as an FSM.  
-
-The turnstile unlocks with a coin.  
-When unlocked you can push through it after which it locks again:
+> A classic FSM example: A [turnstile][turn] that unlocks with a coin.  
+> When unlocked you can push through it after which it locks again:
 
 ```js
 import { fsm } from '@nicholaswmin/fsm'
@@ -80,7 +78,7 @@ a single `transition`:
 
 > note: a state can have zero, one, or many transitions.
 
-Transitions are triggered by calling them as a method. 
+Transitions are triggered by calling them as a method:
 
 > i.e: assuming `foo`, `bar` transitions:
 
