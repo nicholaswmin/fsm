@@ -549,12 +549,12 @@ node --test --experimental-test-coverage
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.
       
-[^3]: Javascript does not support *multiple inheritance*.  
+[^2]: Javascript does not support *multiple inheritance*.  
       This is usually for the better since it tends to create inflexibly 
       strong relationships; yet there are still some rare cases where it's 
       the most fitting choice.
       
-[^4]: Describes a function that takes an non-finite/infinite no. of arguments.   
+[^3]: Describes a function that takes an non-finite/infinite no. of arguments.   
       Also called: functions of *"n-arity"* where "arity" = number of arguments. 
       
       i.e: nullary: `f = () => {}`, unary: `f = x => {}`,
