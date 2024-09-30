@@ -514,7 +514,9 @@ This is feature-complete but for any bug/security fixes, read:
 [^2]: Javascript does not support *multiple inheritance*.  
       This is usually for the better since it tends to create inflexibly 
       strong relationships; yet there are still some rare cases where it's 
-      the most fitting choice.
+      the most fitting choice.  
+      A good alternative is composition but it namespaces the API of the 
+      composited behaviour which doesn't feel idiomatic when it comes to FSMs.
       
 [^3]: Describes a function that takes an non-finite/infinite no. of arguments.   
       Also called: functions of *"n-arity"* where "arity" = number of arguments. 
