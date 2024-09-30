@@ -72,6 +72,8 @@ console.log(turnstile.state)
 
 ## Usage
 
+The following:
+
 ```js
 const turnstile = fsm({
   closed: { coin: 'opened' },
@@ -79,7 +81,7 @@ const turnstile = fsm({
 })
 ```
 
-This turnstile defines 2 possible `states`, each allowing a single `transition`:
+defines 2 possible `states`, each allowing a single `transition`.
 
 - `state: closed`: allows `transition: coin` which sets: `state: opened`
 - `state: opened`: allows `transition: push` which sets: `state: closed`
