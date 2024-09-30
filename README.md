@@ -282,7 +282,7 @@ turnstile.coin(50)
 // state: opened
 ```
 
-> note: cancellations must explicitly return `false`, not just [`falsy`][falsy].
+> note: must explicitly return `false`, not just [`falsy`][falsy].
 
 ## Asynchronous transitions
 
