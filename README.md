@@ -187,8 +187,6 @@ Called *before* the state is changed & can optionally
 Must be named: `on<transition-name>`, where `<transition-name>` is an actual 
 `transition` name.
 
-> example:
-
 ```js
 const turnstile = fsm({
   closed: { coin: 'opened' },
@@ -215,8 +213,6 @@ turnstile.push()
 Called *after* the state is changed.
 
 Must be named: `on<state-name>`, where `<state-name>` is an actual `state` name.
-
-> example:
 
 ```js
 const turnstile = fsm({
