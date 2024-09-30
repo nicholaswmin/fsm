@@ -439,13 +439,6 @@ Can be overriden, which configures the invalid behaviour.
 
 ### `JSON.stringify(<fsm>)`
 
-#### Arguments
-
-| name      | type  | desc.                                  |
-|-----------|-------|----------------------------------------|
-| `<fsm>`   | `FSM` | An `FSM` instance                      |
-| ...       | ...   | rest of `JSON.stringify` arguments ... |
-
 Returns a [JSON][json] of the FSM.
 
 ```js
