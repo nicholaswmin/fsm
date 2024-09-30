@@ -373,9 +373,9 @@ state: { transition: 'next-state' },
 state: { transition: 'next-state' }
 ```
 
-> The 1st state in `states` is set as the *initial* state.    
-> Each `state` can list `zero`, `one` or `many` transitions.   
-> The `next-state` must exist a `state`.  
+- The 1st state in `states` is set as the *initial* state.    
+- Each `state` can list `zero`, `one` or `many` transitions.   
+- The `next-state` must exist a `state`.  
 
 ### `fsm(json, hooks)` 
 
