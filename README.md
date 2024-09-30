@@ -107,7 +107,7 @@ turnstile.foo()
 turnstile.bar()
 ```
 
-Transitions can only be triggered if current `state` lists them,
+Transitions can only be triggered if current `state` lists them,  
 otherwise a `TransitionError` is thrown:
 
 ```js
