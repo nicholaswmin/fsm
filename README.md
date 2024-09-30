@@ -235,7 +235,7 @@ turnstile.push()
 ### Hook arguments 
 
 Transition methods can pass arguments to relevant hooks, assumed to be
-variadic: [^3]
+variadic: [^2]
 
 ```js
 const turnstile = fsm({
@@ -346,7 +346,7 @@ Passing an `Object` as `hooks` to: `fsm(states, hooks)` assigns FSM behaviour
 on the provided object.
 
 Useful in cases where an object must function as an FSM, in addition to some 
-other behaviour.[^2]
+other behaviour.[^3]
 
 > A `Turnstile` functioning as both an [`EventEmitter`][ee] & an `FSM`:
 
