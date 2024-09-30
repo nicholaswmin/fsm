@@ -345,11 +345,9 @@ await turnstile.coin()
 
 ## Serialising to JSON
 
-Use `JSON.stringify(fsm)` to convert to JSON:
+Convert to JSON using `JSON.stringify`:
 
 ```js
-// set hooks in own object now,
-// for reusing when reviving
 const hooks = {
   onCoin() { console.log('got a coin') }
   onPush() { console.log('pushed ...') }
@@ -362,13 +360,12 @@ const turnstile = fsm({
 
 turnstile.coin()
 // got a coin
-// state: opened
 
 const json = JSON.stringify(turnstile)
-// save it somewhere ..
+// {}
 ```
 
-... and revive using `fsm(json)`:
+... then revive with:
 
 ```js
 const revived = fsm(json, hooks)
@@ -378,6 +375,9 @@ revived.push()
 // pushed ..
 // state: closed
 ```
+
+> note: hooks methods are not serialised so they must be passed again when
+> reviving, as demonstrated above.
 
 ## API
 
