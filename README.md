@@ -193,8 +193,7 @@ turnstile.coin()
 The invalid behaviour can be configured by passing an object which implements 
 an `onInvalid` method.
 
-> example: throw a `RangeError` if triggered transition is not allowed under 
-> current state.
+> example: fail silently without throwing an `Error`:
 
 ```js
 const turnstile = fsm({
@@ -202,15 +201,18 @@ const turnstile = fsm({
   opened: { push: 'closed' }
 }, {
   onInvalid: function(transition) {
-    throw RangeError(`cannot ${transition} from ${this.state}`)
+    console.warn(`cannot ${transition} from ${this.state}`)
+    
+    return false
   }
 })
 
 turnstile.push()
-// RangeError: cannot push from: closed
+// cannot push from: closed
+// false
 ```
 
-... `onInvalid` accepts variadic arguments: [^3]
+... `onInvalid` also accepts variadic arguments: [^3]
 
 ```js
 const turnstile = fsm({
