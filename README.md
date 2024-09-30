@@ -475,8 +475,7 @@ node --test --experimental-test-coverage
       It requires declaring all possible states & the rules under which it can 
       transition from one state to another.  
 
-      This requires that careful planning is undertaken, compared to ad-hoc
-      state modelling which is usually hacked-up haphazardly, as needed.  
+      This requires that careful planning is undertaken, compared to ad-hoc, haphazard state modelling.
       If there are modelling discrepancies, they will appear earlier since 
       invalid state transitions throw an explicit error.
     
