@@ -81,7 +81,8 @@ console.log(turnstile.state)
 
 ## Define
 
-The following defines an FSM:
+The following defines an FSM with 2 possible `states`,   
+each allowing a single `transition`.
 
 ```js
 const turnstile = fsm({
@@ -89,8 +90,6 @@ const turnstile = fsm({
   opened: { push: 'closed' }
 })
 ```
-
-with 2 possible `states`, each allowing a single `transition`.
 
 - `state: closed`: allows `transition: coin` which sets: `state: opened`
 - `state: opened`: allows `transition: push` which sets: `state: closed`
