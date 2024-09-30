@@ -126,7 +126,7 @@ turnstile.push()
 
 ## Current state
 
-The current `state` can be read through `fsm.state`:
+Can be read through `fsm.state`:
 
 ```js
 const turnstile = fsm({
