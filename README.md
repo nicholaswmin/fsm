@@ -124,10 +124,6 @@ turnstile.push()
 // current state: "closed" has no transition: "push"
 ```
 
-... and that's pretty much the end of this documentation for 99% of use-cases.
-
-## Advanced Usage
-
 ## Transform existing objects to FSMs
 
 Subclasses which `extend` other classes, cannot use further inheritance to 
