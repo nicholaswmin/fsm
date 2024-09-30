@@ -19,7 +19,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 ### Advanced
 
-- [FSM as a Mixin](#transform-existing-objects-to-fsms)
+- [FSM as a Mixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
 - [Cancellations](#transition-cancellations)
 - [Passing arguments](#passing-arguments)
