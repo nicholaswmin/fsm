@@ -481,8 +481,8 @@ node --test --experimental-test-coverage
 
       Formally, this documentation describes a 
       [*Deterministic finite automaton*][dfsm] which exists in only 1 state.  
-      Formal terminology is unnecessarily complex for the purposes of this
-      documentation therefore its intentionally avoided.  
+      Formal terminology is unnecessarily complex in this context, therefore
+      it's intentionally avoided.  
       i.e: *"automaton"* is an academic term from [automata theory][automata] 
       meaning *"automatic machine"*.
       
