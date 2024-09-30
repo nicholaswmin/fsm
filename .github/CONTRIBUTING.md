@@ -1,20 +1,8 @@
 ## Contributing
 
-> The key words *“MUST”*, *“SHOULD”* are to be
-> interpreted as described in [RFC 2119][rfc2119].
-
-- [Overview](#overview)
-- [Publishing new versions](#publishing-new-versions)
-- [Authors](#authors)
-
-## Overview
-
 Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom]
-
-This package is feature-complete, however 
-bug reports, bug fixes, security reports and/or fixes are welcome.
   
-## Publishing wity provenance
+## `npm publish` with provenance
 
 > A how-to `npm publish` with [build provenance][provenance].  
 > Assumes an open PR waiting for `main` merge.
