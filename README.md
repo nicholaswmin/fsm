@@ -15,9 +15,9 @@ declaratively & safely.[^1]
 
 - [Install](#install)
 - [Example](#example)
-- [Define](#define)
-- [Transition](#transition)
-- [Current state](#get-state)
+  - [Define](#define)
+  - [Transition](#transition)
+  - [Current state](#get-state)
 
 ### Advanced
 
@@ -84,7 +84,7 @@ console.log(turnstile.state)
 
 ## Define
 
-The following FSM has 2 possible `states`, each listing a single `transition`:
+Define an FSM with 2 possible `states`, each listing a single `transition`:
 
 ```js
 const turnstile = fsm({
@@ -98,7 +98,7 @@ const turnstile = fsm({
 
 ## Transition
 
-Transitions are triggered by calling them as a method:
+Trigger a transition by calling it as a method:
 
 > i.e: assuming `foo`, `bar` transitions instead of `coin`, `push`:
 
