@@ -2,8 +2,8 @@
 
 # fsm
 
-> A [finite-state machine][fsm] is an abstract machine that can be in *one* of 
-> a *finite* number of `states`.    
+> A [finite-state machine][fsm] is an abstract machine that can be in 
+> *one of a finite* number of `states`.    
 > The change from one `state` to another is called a `transition`.
 
 This package constructs simple FSM's that express their
