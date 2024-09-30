@@ -485,6 +485,9 @@ node --test --experimental-test-coverage
       You haven't been decapitated by an elevator (yet) because it's sequence
       of operations is modelled as an FSM.
       
+      State-machines are actually mathematical models. 
+      Their behaviour is the central subject of [automata theory][automata].
+      
 [^2]: FSMs are rare but perfect candidates for *inheritance* because usually
       something `is-an` FSM.  
       However, Javascript doesn't support *multiple inheritance* so inheriting 
