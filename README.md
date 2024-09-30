@@ -514,7 +514,8 @@ This is feature-complete but for any bug/security fixes, read:
 [^2]: Javascript does not support *multiple inheritance*, a commonly misused 
       mechanism that easily leads to various modelling issues.  
       On the other hand, *composition* namespaces the API of the composited 
-      behaviour which doesn't feel idiomatic when it comes to FSMs.
+      behaviour which doesn't feel idiomatic when it comes to FSMs.  
+      i.e `light.fsm.turnOn` feels misplaced compared to `light.turnOn`.
       
 [^3]: Describes a function that takes an non-finite/infinite no. of arguments.   
       Also called: functions of *"n-arity"* where "arity" = number of arguments. 
