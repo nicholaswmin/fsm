@@ -202,11 +202,13 @@ turnstile.push('foo', 'bar')
 
 ## Hook methods
 
-Hooks are optional methods, called at specific transition phases.   
-
+Hooks are optional methods, called at specific transition phases.  
 They must be defined as `obj` methods, the 2nd argument of `fsm(states, obj)`.
 
-There are 2 hook types: **transition hooks** and **state hooks**.
+There are 2 hook types:
+
+- **transition hooks** 
+- **state hooks**.
 
 ## Transition hooks
 
