@@ -22,7 +22,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 - [FSM as a mixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
 - [Cancellations](#transition-cancellations)
-- [Passing arguments](#passing-arguments)
+- [Hook arguments](#hook-arguments)
 - [Configurable invalid behaviour](#configurable-invalid-behaviour)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
@@ -259,7 +259,7 @@ turnstile.coin(50)
 
 > note: cancellations must explicitly return `false`, not just [`falsy`][falsy].
 
-## Passing arguments 
+## Hook arguments 
 
 Transition methods can pass arguments to relevant hooks, assumed to be
 variadic: [^3]
