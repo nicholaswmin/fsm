@@ -15,6 +15,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [Install](#install)
 - [Example](#example)
+- [Usage](#usage)
 
 ### Advanced
 
@@ -70,7 +71,9 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-The above defines 2 possible `states`, each allowing a single `transition`:
+## Usage
+
+The turnstile defines 2 possible `states`, each allowing a single `transition`:
 
 - `state: closed`: allows `transition: coin` which sets: `state: opened`
 - `state: opened`: allows `transition: push` which sets: `state: closed`
