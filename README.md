@@ -21,9 +21,9 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [FSM as a mixin](#fsm-as-a-mixin)
 - [Hooks](#hook-methods)
-- [Cancellations](#transition-cancellations)
+- [Transition cancellations](#transition-cancellations)
 - [Hook arguments](#hook-arguments)
-- [Configurable invalid behaviour](#configurable-invalid-behaviour)
+- [Configurable error handling](#configurable-error-handling)
 - [Asynchronous transitions](#asynchronous-transitions)
 - [Serialising to JSON](#serialising-to-json)
   
@@ -279,10 +279,9 @@ turnstile.coin('foo', 'bar')
 ```
 
 
-## Configurable invalid behaviour
+## Configurable error handling
 
-The behaviour invalid transitions can be configured by implementing 
-an `onInvalid` hook:
+The behaviour of invalid transitions can be configured by an `onInvalid` hook.
 
 > example: log a warning & fail silently, without throwing an `Error`:
 
