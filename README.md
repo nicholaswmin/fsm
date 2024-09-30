@@ -97,7 +97,7 @@ turnstile.bar()
 // state: closed
 ```
 
-The *current* `state` can be read via the `fsm.state` property:
+The current `state` can be read through `fsm.state`:
 
 ```js
 const turnstile = fsm({
