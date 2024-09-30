@@ -477,8 +477,12 @@ node --test --experimental-test-coverage
 
       This requires that careful planning is undertaken, compared to ad-hoc
       state modelling which is usually hacked-up haphazardly, as needed.  
-      Additionally if there are modelling discrepancies, they will appear 
-      earlier since invalid state transitions throw an explicit error.
+      If there are modelling discrepancies, they will appear earlier since 
+      invalid state transitions throw an explicit error.
+      
+      Additionally, state logic is declared in a single place rather than
+      getting lost in lines of unrelated imperative code; 
+      this vastly increases code readability and clarity of intention.
     
       Software in safety-critical industries *require* the use of FSM models 
       as part of their certification.  
