@@ -479,8 +479,8 @@ node --test --experimental-test-coverage
       You haven't been decapitated by an elevator (yet) because it's sequence
       of operations is modelled as an FSM.
 
-      This documentation describes the most common type of state machine,
-      the [*Deterministic finite automaton*][dfsm] which exists in only 1 state.  
+      Formally, this documentation describes a 
+      [*Deterministic finite automaton*][dfsm] which exists in only 1 state.
       
       Formal terminology is unnecessarily complex for the purposes of this
       documentation therefore its intentionally avoided.  
