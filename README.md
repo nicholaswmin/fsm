@@ -294,14 +294,15 @@ const turnstile = fsm({
   opened: { push: 'closed' }
 }, {
   async onCoin(coins) {
-    await new Promise(res => setTimeout(res, 2000))
+    // simulate something async
+    await new Promise(res => setTimeout(res.bind(null, true), 2000))
   }
 })
 
 await turnstile.coin()
 // 2 seconds pass ...
 
-// state: closed
+// state: opened
 ```
 
 ## Serialising to JSON
