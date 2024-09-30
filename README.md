@@ -187,7 +187,7 @@ turnstile.push()
 // false
 ```
 
-... it also accepts variadic arguments: [^3]
+It also accepts variadic arguments: [^3]
 
 ```js
 const turnstile = fsm({
