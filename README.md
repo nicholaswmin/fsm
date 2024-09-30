@@ -370,7 +370,7 @@ Construct an `FSM`
 
 ```js
 state: { transition: 'next-state' },
-state: { transition: 'next-tate' }
+state: { transition: 'next-state' }
 ```
 
 > The 1st state in `states` is set as the *initial* state.    
