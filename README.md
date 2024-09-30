@@ -15,7 +15,7 @@ Bundles `< 1KB`, zero dependencies, published with [provenance][provenance].
 
 - [Install](#install)
 - [Example](#example)
-- [Define transitions](#defining-an-fsm)
+- [Define states & transitions](#example)
 - [Trigger transitions](#trigger-transitions)
 - [Current state](#current-state)
 
