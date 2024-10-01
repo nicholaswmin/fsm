@@ -408,15 +408,16 @@ node --test --experimental-test-coverage
  
 > Read before use.
 
-This is specced for an internal use-case.
+This ispackage is specced for an internal use-case.
 
 It's intentionally designed to be very minimal & by extension, robust & 
-maintenance-free.  It does the bare minimum in a prescriptive way. 
+maintenance-free.    
+It does the bare minimum in a prescriptive way. 
 As a consequence it's *non-configurable*, by design. 
 
-Additionally, it attempts to render itself as immutable, so attempting to modify 
-its internals would be akin to performing a tonsillectomy but going in from the 
-patient's wrong end.
+Additionally, it defines some parts as immutable or at least read-only, so 
+attempting to modify its internals would be akin to performing a tonsillectomy 
+but going in from the patient's wrong end.
 
 If it doesn't already sound like a good match, avoid it. 
 
