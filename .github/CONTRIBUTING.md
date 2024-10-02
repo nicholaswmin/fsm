@@ -17,9 +17,10 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 ### Zero Maintenance  
 
-> Strong indicator the package is *safe* for long-term use without requiring 
-> any maintenance.  
+> The package is *safe* for long-term use without requiring any maintenance.   
 > It should work without generating any warnings, security advisories etc.
+
+Read: [Avoid Software Rot][rot]
 
 - Must not have dependencies, in any form:
   - no runtime dependencies
@@ -105,6 +106,7 @@ git push origin main
 [nicholaswmin]: https://github.com/nicholaswmin
 [sv]: https://semver.org/
 [gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
+[rot]: https://atomicobject.com/client-resources/software-rot-strategic-maintenance
 [provenance]: https://docs.npmjs.com/generating-provenance-statements
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
 [2119]: https://www.ietf.org/rfc/rfc2119.txt
