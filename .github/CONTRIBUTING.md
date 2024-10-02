@@ -1,45 +1,53 @@
 ## Contributing
 
-> The key words: *must*, *must not*, *should*, *should not* in this 
-> document are to be interpreted as described in [RFC 2119][2119].
-
-### Conventions
+- [Contributing](#contributing)
+- [Publishing new versions](#publishing-new-versions)
+- [Design philosophy](#design-philosophy)
+  * [Zero Maintenance](#zero-maintenance)
+  * [Minimal API](#minimal-api)
+  * [Robust](#robust)
 
 Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
-## Publishing new versions
+## New versions
 
-Use [github releases][gh-rel]; they auto-publish to [npm][npm] with build
-[provenance][provenance]:
+Publish a [Github Release][gh-rel].   
+It auto-publishes to [npm][npm] with build [provenance][provenance]:
+
+> example: publishing a new release:
 
 ```bash
-gh release create v1.2.3 --notes "bugfix release"
+gh release create v1.7.1
 ```
 
-Releases `v1.2.3` both on [github][repo-rels] & [npm][npm].  
+> note: use the version as a release title.
 
-> note: release tags must be in format i.e: `v1.1.1` or `1.1.1`
+Current releases can be listed using:
+
+```bash
+gh release list
+```
+
+> reminder: versioning *must* follow Semver guidelines.
 
 ## Design philosophy
 
-> Above all else, this package focuses on the following:
+These design goals are **central** to this implementation.
 
 - [Zero maintenance](#zero-maintenance)
 - [Minimal API](#minimal-api)
 - [Robust](#robust)
 
-> not generic principles; they are specific to this package.
+> The key words: *"must"*, *"must not"*, *"should"*, *"should not"* are to be 
+> interpreted as described in [RFC 2119][2119].
 
 ### Zero Maintenance  
-
-Read: [Avoid software rot][rot]
 
 > A package *safe* for long-term use without requiring any maintenance.   
 > It should work without generating any warnings, security advisories etc.
 
 - Must not have dependencies, in any form:
-  - no runtime dependencies
-  - no `devDependencies`
+  - no runtime dependencies, no `devDependencies`
   - no 3rd party services, i.e: coveralls
 - Must not use proposal-stage language features
 - Should not use Node APIs, i.e: `fs`
@@ -79,15 +87,6 @@ Read: [Avoid software rot][rot]
 - Must `throw` if a property/method will be overwriten
 - Must create immutable FSMs
 - Must throw custom `Error`s
-
-## Guidelines
-
-### Documentation
-
-- 2 lines max of description then a copy/pasteable example.
-- If "it" requires a long explanation, "it" probably sucks. Reconsider "it".
-- No opinions, personal fluff or jargon. Shut up :)
-- Test code examples before pushing.
 
 ## Authors
 
