@@ -1,44 +1,81 @@
-## Contributing
+# Contributing
+
+> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY"
+> in this document are to be interpreted as described in [RFC 2119][2119].
+
+## Conventions
 
 Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
-## Guidelines 
+## Design goals
 
-> These package doesn't expect (or accept) feature PRs. Bug fixes are welcome.  
-> These guidelines are specific to this package & included for future reference.
-  
-### General 
+> Above all else, this package focuses on the following:
 
-- Being feature-poor is the feature. Do one thing, only.
-- No configurations, at all. There's only one way, that way.
-- Stupidly simple is a plus. No abstractions.
-- Hide internal structure. Prefer read-only. 
-- Don't normalise input. Throw an error. It's OK to be annoying.
-- Don't expand the API:
-  - `JSON.stringify(fsm)` is well-known & easy to remember. 
-  - A custom: `fsm.asJSON()` must be looked-up & memorised. No thanks. 
+- [Zero maintenance](#zero-maintenance)
+- [Minimal API](#minimal-api)
+- [Robust](#robust)
 
-### Build
+### Zero Maintenance  
 
-- No dependencies. Not even `dev`. For any reason.
-- Publish with provenance, otherwise don't publish.
+> Strong indicator the package is *safe* for long-term use without requiring 
+> any maintenance.  
+> It should work without generating any warnings, security advisories etc.
 
-### Tests
+- Must not have dependencies, in any form:
+  - no runtime dependencies
+  - no `devDependencies`
+  - no 3rd party services, i.e: coveralls
+- Must not use proposal-stage language features
+- Should not use Node APIs, i.e: `fs`
+- Must use `test-runner` thresholds for coverage
+- Must add a README indicator of tests status
+- CI tests on: 
+  - `engine` Node version.
+  - `latest` Node version.
+- Should use Github Actions for CI
 
-- 100% test coverage. 
-- Assume a non-technical person is reading the tests: 
-  - Can he/she/* figure out what this is supposed to do?
+### Minimal API
+
+> An API so simple, it doesn't need to be looked up twice.
+> Does one thing only. No bells & whistles.
+
+- Must satisfy the spec
+- Must not implement extras
+- Must not allow configuration
+- Should be concise instead of detailed
+- Must use native APIs where applicable:
+  - Assume feature i.e: *"Get instance `JSON`"*:
+  - `JSON.stringify(fsm)` is idiomatic, well-known & easy to remember. Good.
+  - `fsm.asJSON()` is specific to us, must be looked-up & memorised. Bad.
+
+### Robust
+
+> The package may complain unless provided with *exact* input; however,  
+> when given like asked, it should carry out the task flawlessly.
+
+- Must catch errors at *construction time*, not *run time* 
+- Must implement a high-quality unit-test suite
+- Must have 99% test-coverage
+- Must use test-runner thresholds for coverage test
+- Must have strict argument validations.
+- Must `throw` on incorrect argument.
+- Must not sanitise or normalise input.
+- Must `throw` if a property/method will be overwriten
+- Must create immutable FSMs
+- Must throw custom `Error`s
+
+## Guidelines
 
 ### Documentation
 
-- 1-2 lines of some description then a copy/pasteable example.
-- No opinions, personal fluff or jargon. Shut up :)
+- 1 or 2 lines of description then a copy/pasteable example.
 - If "it" requires a long explanation, "it" probably sucks. Reconsider "it".
+- No opinions, personal fluff or jargon. Shut up :)
 - Test code examples before pushing.
 
 ## Publishing
 
-> Guide to publishing with [build provenance][provenance]
+> `npm publish` with [build provenance][provenance]
 
 From `main` branch:
 
@@ -47,7 +84,7 @@ From `main` branch:
 ```bash
 npm version patch
 ```
-> or: `minor`, `major` depending on SemVer change
+> or: `minor`, `major` 
 
 then:
 
@@ -66,8 +103,8 @@ git push origin main
 [@nicholaswmin][nicholaswmin]
 
 [nicholaswmin]: https://github.com/nicholaswmin
+[sv]: https://semver.org/
 [gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
 [provenance]: https://docs.npmjs.com/generating-provenance-statements
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
-[sv]: https://semver.org/
-[rfc2119]: https://www.ietf.org/rfc/rfc2119.txt
+[2119]: https://www.ietf.org/rfc/rfc2119.txt
