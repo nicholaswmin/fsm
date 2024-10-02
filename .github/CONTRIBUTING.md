@@ -15,12 +15,12 @@
 
 ## Publishing
 
-Publishing a [Github Release][gh-rel] also auto-publishes to [npm][npm] 
+Publishing a [Github Release][gh-rel] will also auto-publish to [npm][npm] 
 with build [provenance][provenance].
 
 ## Design goals
 
-> Above all else, this package focuses on the following:
+The following are goals are central to this implementation:
 
 - [Zero maintenance](#zero-maintenance)
 - [Minimal API](#minimal-api)
