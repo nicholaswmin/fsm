@@ -17,7 +17,7 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 ### Zero Maintenance  
 
-> A strong indicator the package is *safe* for long-term use without requiring 
+> Strong indicator the package is *safe* for long-term use without requiring 
 > any maintenance.  
 > It should work without generating any warnings, security advisories etc.
 
@@ -28,7 +28,7 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 - Must not use proposal-stage language features
 - Should not use Node APIs, i.e: `fs`
 - Must use `test-runner` thresholds for coverage
-- Must include 2 README badges, CI tests and test coverage
+- Must add a README indicator of tests status
 - CI tests on: 
   - `engine` Node version.
   - `latest` Node version.
