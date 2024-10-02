@@ -1,5 +1,5 @@
 import test from 'node:test'
-import { fsm } from '../../../src/index.js'
+import { fsm } from '../../src/index.js'
 
 test('#transitionFn() transition not allowed from current state ', async t => {
   let turnstile, hooks, onCoin, onOpened
@@ -49,6 +49,7 @@ test('#transitionFn() transition not allowed from current state ', async t => {
         t.assert.throws(() => {
           turnstile.push()
         }, {
+          name: 'InvalidTransitionError',
           message: /has no transition/
         })
       })
