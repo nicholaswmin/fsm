@@ -471,6 +471,6 @@ The [MIT License][license]
 
 [prov]: https://search.sigstore.dev/?logIndex=135668183
 [contr-guide]: ./.github/CONTRIBUTING.md
-[dgoals]: ./.github/CONTRIBUTING.md#contributing
+[dgoals]: ./.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
