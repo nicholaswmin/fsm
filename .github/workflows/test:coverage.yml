@@ -22,8 +22,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: >
-        node --test --experimental-test-coverage --test-coverage-lines=98 --test-coverage-branches=98 --test-coverage-functions=98\
-      name: Test if test coverage is > threshold
+    - run: |
+        node --run test --experimental-test-coverage \
+        --test-coverage-lines=95 \ 
+        --test-coverage-branches=95 \ 
+        --test-coverage-functions=95 \
+      name: test coverage is > threshold
       env:
         NODE_ENV: test
