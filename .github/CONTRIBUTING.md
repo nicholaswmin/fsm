@@ -1,8 +1,6 @@
+# Contributing
 
-## Contributing
-
-> The key words: 
-> "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY" & "OPTIONAL" 
+> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT"   
 > in this document are to be interpreted as described in [RFC 2119][2119].
 
 ## Conventions
@@ -51,7 +49,7 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 ### Robust
 
-> The package may complain unless provided with *exact* input; however, 
+> The package may complain unless provided with *exact* input; however,  
 > if that's given, it should carry out the task flawlessly.
 
 - Must catch errors at *construction time*, not *run time* 

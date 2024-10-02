@@ -9,7 +9,7 @@
 This package constructs simple FSM's which express their logic 
 declaratively & safely.[^1]
   
-`~1KB`, no dependencies, somewhat [opinionated](#design-goals). 
+`~1KB`, no dependencies, [opinionated][dgoals]
 
 ### Basic
 
@@ -471,5 +471,6 @@ The [MIT License][license]
 
 [prov]: https://search.sigstore.dev/?logIndex=135668183
 [contr-guide]: ./.github/CONTRIBUTING.md
+[dgoals]: ./.github/CONTRIBUTING.md#contributing
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
