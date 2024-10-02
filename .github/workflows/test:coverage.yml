@@ -23,10 +23,10 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: >
-        node --run test --experimental-test-coverage \
-        --test-coverage-lines=95 \ 
-        --test-coverage-branches=95 \ 
-        --test-coverage-functions=95 \
+        node --run test --experimental-test-coverage
+        --test-coverage-lines=95
+        --test-coverage-branches=95 
+        --test-coverage-functions=95 
       name: test coverage is > threshold
       env:
         NODE_ENV: test
