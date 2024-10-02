@@ -23,8 +23,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: >
-        node --run test\
-        --experimental-test-coverage\
+        node --test --experimental-test-coverage\
         --test-coverage-lines=98\ 
         --test-coverage-branches=98\ 
         --test-coverage-functions=98\
