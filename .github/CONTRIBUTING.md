@@ -1,17 +1,13 @@
 # Contributing
 
-> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY"  
-> in this document are to be interpreted as described in [RFC 2119][2119].
-
-## Conventions
-
+- [Conventions](#conventions)
 - [Publishing](#publishing)
 - [Design philosophy](#design-philosophy)
   - [Zero Maintenance](#zero-maintenance)
   - [Minimal API](#minimal-api)
   - [Robust](#robust)
 
-Follows:
+## Conventions
 
 - [Github Flow][gh-flow]
 - [Conventional Commits][ccom]
