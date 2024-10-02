@@ -470,7 +470,7 @@ The [MIT License][license]
 [falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
 
-[prov]: https://search.sigstore.dev/?logIndex=135668183
+[prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: ./.github/CONTRIBUTING.md
 [dgoals]: ./.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
