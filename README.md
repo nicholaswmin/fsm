@@ -1,4 +1,4 @@
-[![tests][testb]][tests] [![cov][covb]][cov]
+[![tests][testb]][tests] [![tests][cocov]][tests]
 
 # fsm
 
@@ -10,7 +10,7 @@
 This package constructs simple FSM's which express their logic 
 declaratively & safely.[^1]
   
-`~1KB`, zero dependencies, [opinionated][dgoals]
+`~1KB`, zero dependencies, [opinionated][dgoals]  
 
 ### Basic
 
@@ -439,9 +439,7 @@ The [MIT License][license]
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/test.yml
-
-[covb]: https://coveralls.io/repos/github/nicholaswmin/fsm/badge.svg
-[cov]: https://coveralls.io/github/nicholaswmin/fsm
+[cocov]: https://img.shields.io/badge/coverage-%3E%2095%25-green
 
 [turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine

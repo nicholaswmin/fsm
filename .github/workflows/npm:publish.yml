@@ -1,0 +1,58 @@
+# - npm publish --provenance, from a `gh release`
+# - attaches package details on the Release notes
+
+name: npm:publish
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+on:
+  release:
+      types:
+        - published
+
+jobs:
+  npm-publish:
+    runs-on: ubuntu-latest
+    env:
+      REL_VERSION: ${{ github.event.release.tag_name }}
+      REL_BODY: ${{ github.event.release.body }}
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup latest Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Set Actions Bot as Git user
+        run: |
+          bot_email="41898282+github-actions[bot]@users.noreply.github.com"
+
+          git config --global user.name github-actions[bot]
+          git config --global user.email "$bot_email"
+      
+      - name: Bump package version
+        run: |
+          npm version "$REL_VERSION" -m "build: bump %s" --allow-same-version
+
+          git pull origin HEAD:main
+          git push origin HEAD:main
+      
+      - name: Publish on npm with provenance
+        run: npm publish --provenance --access public
+ 
+      - name: Append package to Release notes
+        run: |
+          pkg_name=$(npm pkg get name | tr -d '"')
+          base_link="https://npmjs.com/package/${pkg_name}"
+          pkg_link="[${pkg_name}](${base_link})"
+          prov_link="[provenance](${base_link}#provenance)"
+
+          markdown="Published: ${pkg_link} with build ${prov_link}."
+          new_notes=$(printf "%s\n\n${REL_BODY}", "$markdown")
+
+          gh release edit "$REL_VERSION" -n "${new_notes}"
+        env:
+          GH_TOKEN: ${{ github.token }}
