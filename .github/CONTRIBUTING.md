@@ -7,9 +7,9 @@
 
 - [Publishing](#publishing)
 - [Design philosophy](#design-philosophy)
-  * [Zero Maintenance](#zero-maintenance)
-  * [Minimal API](#minimal-api)
-  * [Robust](#robust)
+  - [Zero Maintenance](#zero-maintenance)
+  - [Minimal API](#minimal-api)
+  - [Robust](#robust)
 
 Follows:
 
