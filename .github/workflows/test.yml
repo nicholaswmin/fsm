@@ -22,7 +22,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: node --run test
+    - run: |
+        node --test --experimental-test-coverage \
+          --test-coverage-branches=90 \
+          --test-coverage-functions=90 \
+          --test-coverage-lines=90 \
       name: Run unit tests
       env:
         NODE_ENV: test
