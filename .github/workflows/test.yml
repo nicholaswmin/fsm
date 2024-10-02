@@ -24,9 +24,9 @@ jobs:
     - run: npm ci
     - run: |
         node --test --experimental-test-coverage \
-          --test-coverage-branches=90 \
-          --test-coverage-functions=90 \
-          --test-coverage-lines=90 \
+          --test-coverage-branches=99 \
+          --test-coverage-functions=99 \
+          --test-coverage-lines=99 \
       name: Run unit tests
       env:
         NODE_ENV: test
