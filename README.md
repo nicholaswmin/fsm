@@ -55,6 +55,7 @@ npm i @nicholaswmin/fsm
 import { fsm } from '@nicholaswmin/fsm'
 
 // define states & transitions:
+
 const turnstile = fsm({
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
