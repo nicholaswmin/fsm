@@ -19,7 +19,7 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 Read: [Avoid Software Rot][rot]
 
-> The package is *safe* for long-term use without requiring any maintenance.   
+> *safe* for long-term use without requiring any maintenance.   
 > It should work without generating any warnings, security advisories etc.
 
 - Must not have dependencies, in any form:
@@ -38,7 +38,7 @@ Read: [Avoid Software Rot][rot]
 ### Minimal API
 
 > An API so simple, it doesn't need to be looked up twice.  
-> Does one thing only. No bells & whistles.
+> Does that one thing, only; without any bells & whistles.
 
 - Must satisfy the spec
 - Must not implement extras
@@ -51,8 +51,8 @@ Read: [Avoid Software Rot][rot]
 
 ### Robust
 
-> The package may complain unless provided with *exact* input; however,  
-> when given like asked, it should carry out the task flawlessly.
+> The package should complain unless provided with *exact* input; however,  
+> when given the input, it should carry out the task flawlessly.
 
 - Must catch errors at *construction time*, not *run time* 
 - Must implement a high-quality unit-test suite
@@ -69,7 +69,7 @@ Read: [Avoid Software Rot][rot]
 
 ### Documentation
 
-- 1 or 2 lines of description then a copy/pasteable example.
+- 2 lines max of description then a copy/pasteable example.
 - If "it" requires a long explanation, "it" probably sucks. Reconsider "it".
 - No opinions, personal fluff or jargon. Shut up :)
 - Test code examples before pushing.
