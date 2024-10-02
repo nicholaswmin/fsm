@@ -1,6 +1,6 @@
 # Contributing
 
-> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT"   
+> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY"
 > in this document are to be interpreted as described in [RFC 2119][2119].
 
 ## Conventions
