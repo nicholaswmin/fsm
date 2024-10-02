@@ -9,14 +9,14 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 ## Publishing new versions
 
-Use [Github releases][gh-rel]; they auto-publish to [npm][npm] with build
+Use [github releases][gh-rel]; they auto-publish to [npm][npm] with build
 [provenance][provenance]:
 
 ```bash
 gh release create v1.2.3 --notes "bugfix release"
 ```
 
-Releases `v1.2.3` both on [Github][repo-rels] & [npm][npm].  
+Releases `v1.2.3` both on [github][repo-rels] & [npm][npm].  
 
 > note: release tags must be in format i.e: `v1.1.1` or `1.1.1`
 
