@@ -1,13 +1,26 @@
-# Contributing
+## Contributing
 
-> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY"
-> in this document are to be interpreted as described in [RFC 2119][2119].
+> The key words: *must*, *must not*, *should*, *should not* in this 
+> document are to be interpreted as described in [RFC 2119][2119].
 
-## Conventions
+### Conventions
 
 Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
-## Design goals
+## Publishing new versions
+
+Use [Github releases][gh-rel]; they auto-publish to [npm][npm] with build
+[provenance][provenance]:
+
+```bash
+gh release create v1.2.3 --notes "bugfix release"
+```
+
+Releases `v1.2.3` both on [Github][repo-rels] & [npm][npm].  
+
+> note: release tags must be in format i.e: `v1.1.1` or `1.1.1`
+
+## Design philosophy
 
 > Above all else, this package focuses on the following:
 
@@ -15,10 +28,13 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 - [Minimal API](#minimal-api)
 - [Robust](#robust)
 
+> not generic principles; they are specific to this package.
+
 ### Zero Maintenance  
 
-> Strong indicator the package is *safe* for long-term use without requiring 
-> any maintenance.  
+Read: [Avoid software rot][rot]
+
+> A package *safe* for long-term use without requiring any maintenance.   
 > It should work without generating any warnings, security advisories etc.
 
 - Must not have dependencies, in any form:
@@ -36,22 +52,22 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 ### Minimal API
 
-> An API so simple, it doesn't need to be looked up twice.
-> Does one thing only. No bells & whistles.
+> An API so simple, it doesn't need to be looked up twice.  
+> Does that one thing, only; without any bells & whistles.
 
 - Must satisfy the spec
 - Must not implement extras
 - Must not allow configuration
 - Should be concise instead of detailed
 - Must use native APIs where applicable:
-  - Assume feature i.e: *"Get instance `JSON`"*:
+  - i.e: Assume a feature i.e: *"Get instance `JSON`"*:
   - `JSON.stringify(fsm)` is idiomatic, well-known & easy to remember. Good.
   - `fsm.asJSON()` is specific to us, must be looked-up & memorised. Bad.
 
 ### Robust
 
-> The package may complain unless provided with *exact* input; however,  
-> when given like asked, it should carry out the task flawlessly.
+> The package should complain unless provided with *exact* input; however,  
+> when given the input, it should carry out the task flawlessly.
 
 - Must catch errors at *construction time*, not *run time* 
 - Must implement a high-quality unit-test suite
@@ -68,35 +84,10 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 ### Documentation
 
-- 1 or 2 lines of description then a copy/pasteable example.
+- 2 lines max of description then a copy/pasteable example.
 - If "it" requires a long explanation, "it" probably sucks. Reconsider "it".
 - No opinions, personal fluff or jargon. Shut up :)
 - Test code examples before pushing.
-
-## Publishing
-
-> `npm publish` with [build provenance][provenance]
-
-From `main` branch:
-
-1. Bump version:
-
-```bash
-npm version patch
-```
-> or: `minor`, `major` 
-
-then:
-
-```bash
-git commit -am "build: version bump"
-git push origin main
-```
-
-2. Create a Github Release using the same version tag/number as the `version`
-   from `package.json`. 
-3. The `build:publish.yml` workflow will `npm publish` with build provenance.
-4. Ensure all looks OK (version was published to `npm`, it works etc)
 
 ## Authors
 
@@ -105,6 +96,10 @@ git push origin main
 [nicholaswmin]: https://github.com/nicholaswmin
 [sv]: https://semver.org/
 [gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
+[rot]: https://atomicobject.com/client-resources/software-rot-strategic-maintenance
 [provenance]: https://docs.npmjs.com/generating-provenance-statements
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
 [2119]: https://www.ietf.org/rfc/rfc2119.txt
+[gh-rel]: https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases
+[npm]: https://www.npmjs.com/package/@nicholaswmin/fsm?activeTab=versions
+[repo-rels]: https://github.com/nicholaswmin/fsm/releases
