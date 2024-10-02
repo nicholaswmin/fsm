@@ -1,0 +1,29 @@
+# Matches package version to release version then commits the change.
+# Publishes to `npm` with build provenance.
+
+name: npm unpublish
+on:
+  release:
+    types: [unpublished]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: npm unpublish @name/@repo/@version
+        run: |
+          version=$(echo "$TAG" | sed 's/[^0-9.]*//g')
+          name="$(npm pkg get name | tr -d '"')"
+
+          echo "$(npm unpublish $name@$version)"
+        env: 
+          TAG: ${{ github.event.release.tag_name }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

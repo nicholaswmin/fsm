@@ -23,7 +23,7 @@ jobs:
       
       - name: Match package to release version
         run: |
-          # keep only numbers & dots, "v1.2.3" => "1.2.3"
+          # i.e: "v1.2.3" => "1.2.3"
           version=$(echo "$TAG" | sed 's/[^0-9.]*//g')
 
           npm pkg set version=$version
