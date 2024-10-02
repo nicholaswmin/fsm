@@ -17,10 +17,10 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 
 ### Zero Maintenance  
 
+Read: [Avoid Software Rot][rot]
+
 > The package is *safe* for long-term use without requiring any maintenance.   
 > It should work without generating any warnings, security advisories etc.
-
-Read: [Avoid Software Rot][rot]
 
 - Must not have dependencies, in any form:
   - no runtime dependencies
