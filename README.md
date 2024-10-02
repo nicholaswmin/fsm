@@ -2,14 +2,15 @@
 
 # fsm
 
-> A [finite-state machine][fsm] is an abstract machine that can be in one of a 
-> finite number of states.    
+> A [finite-state machine][fsm]  
+>
+> ... is an abstract machine that can be in one of a finite number of states.    
 > The change from one `state` to another is called a `transition`.
 
 This package constructs simple FSM's which express their logic 
 declaratively & safely.[^1]
   
-`~1KB`, no dependencies, [opinionated][dgoals]
+`~1KB`, zero dependencies, [opinionated][dgoals]
 
 ### Basic
 
@@ -53,30 +54,26 @@ npm i @nicholaswmin/fsm
 ```js
 import { fsm } from '@nicholaswmin/fsm'
 
-// 1) define states & transitions
+// define states & transitions:
 
 const turnstile = fsm({
   closed: { coin: 'opened' },
   opened: { push: 'closed' }
 })
 
-// 2) trigger "coin" transition
-
+// transition: coin
 turnstile.coin()
 // state: opened
 
-// 3) trigger "push" transition
-
+// transition: push
 turnstile.push()
 // state: closed
-
-// 4) log current state
 
 console.log(turnstile.state)
 // "closed"
 ```
 
-Each step is explained below:
+Each step is broken down below.
 
 ## Initialisation
 
@@ -100,6 +97,7 @@ A `transition` can be called as a method:
 const turnstile = fsm({
   // defined 'coin' transition
   closed: { coin: 'opened' },
+
   // defined 'push' transition
   opened: { push: 'closed' }
 })
@@ -422,14 +420,6 @@ The [MIT License][license]
       It requires declaring all possible states & the rules under which it can 
       transition from one state to another.  
 
-      Software in safety-critical industries *require* the use of FSM models 
-      as part of their certification.  
-      You haven't been decapitated by an elevator (yet) because it's sequence
-      of operations is modelled as an FSM.
-      
-      State machines can be described by mathematical models; their behaviour 
-      forms the basis of [automata theory][automata].
-      
 [^2]: A function that accepts an infinite number of arguments.   
       Also called: functions of *"n-arity"* where "arity" = number of arguments. 
       
@@ -469,7 +459,7 @@ The [MIT License][license]
 [falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
 
-[prov]: https://search.sigstore.dev/?logIndex=135668183
+[prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: ./.github/CONTRIBUTING.md
 [dgoals]: ./.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
