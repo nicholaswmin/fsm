@@ -18,6 +18,20 @@
 Publishing a [Github Release][gh-rel] will also auto-publish to [npm][npm] 
 with build [provenance][provenance].
 
+> example: publishing a new release:
+
+```bash
+gh release create v1.7.1
+```
+
+> note: use the version as a release title.
+
+Current releases can be listed using:
+
+```bash
+gh release list
+```
+
 ## Design goals
 
 The following are goals are central to this implementation:
