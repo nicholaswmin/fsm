@@ -402,10 +402,6 @@ node --test
 node --test --experimental-test-coverage
 ```
 
-> vulnerability testing:
-
-CodeQL static analysis [runs on CI][codeql-flow].
-
 ## Contributing
 
 [Contribution Guide][contr-guide]
@@ -457,7 +453,6 @@ The [MIT License][license]
 [async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 [await]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
 [promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-[codeql-flow]: https://github.com/nicholaswmin/fsm/actions/workflows/test:codeql.yml
 [JSON.stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [json]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
