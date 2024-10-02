@@ -423,14 +423,6 @@ The [MIT License][license]
       It requires declaring all possible states & the rules under which it can 
       transition from one state to another.  
 
-      Software in safety-critical industries *require* the use of FSM models 
-      as part of their certification.  
-      You haven't been decapitated by an elevator (yet) because it's sequence
-      of operations is modelled as an FSM.
-      
-      State machines can be described by mathematical models; their behaviour 
-      forms the basis of [automata theory][automata].
-      
 [^2]: A function that accepts an infinite number of arguments.   
       Also called: functions of *"n-arity"* where "arity" = number of arguments. 
       
