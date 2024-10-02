@@ -18,13 +18,13 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 ### Zero Maintenance  
 
 > A strong indicator the package is *safe* for long-term use without requiring 
-> maintenance. 
-> It should work and won't generate warnings, security advisories etc.
+> any maintenance.  
+> It should work without generating any warnings, security advisories etc.
 
 - Must not have dependencies, in any form:
   - no runtime dependencies
   - no `devDependencies`
-  - no 3rd party service, i.e: Coveralls
+  - no 3rd party services, i.e: coveralls
 - Must not use proposal-stage language features
 - Should not use Node APIs, i.e: `fs`
 - Must use `test-runner` thresholds for coverage
