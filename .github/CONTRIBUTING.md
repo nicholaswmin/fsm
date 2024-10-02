@@ -1,15 +1,20 @@
 ## Contributing
 
-- [Contributing](#contributing)
-- [Publishing new versions](#publishing-new-versions)
+- [Publishing](#publishing)
 - [Design philosophy](#design-philosophy)
   * [Zero Maintenance](#zero-maintenance)
   * [Minimal API](#minimal-api)
   * [Robust](#robust)
 
-Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
+## Conventions
 
-## New versions
+Follows:
+
+- [Github Flow][gh-flow]
+- [Conventional Commits][ccom]
+- [Semver][sv]
+
+## Publishing
 
 Publish a [Github Release][gh-rel].   
 It auto-publishes to [npm][npm] with build [provenance][provenance]:
@@ -38,13 +43,13 @@ These design goals are **central** to this implementation.
 - [Minimal API](#minimal-api)
 - [Robust](#robust)
 
-> The key words: *"must"*, *"must not"*, *"should"*, *"should not"* are to be 
-> interpreted as described in [RFC 2119][2119].
-
 ### Zero Maintenance  
 
 > A package *safe* for long-term use without requiring any maintenance.   
 > It should work without generating any warnings, security advisories etc.
+
+> The key words: *"must"*, *"must not"*, *"should"*, *"should not"* are to be 
+> interpreted as described in [RFC 2119][2119].
 
 - Must not have dependencies, in any form:
   - no runtime dependencies, no `devDependencies`
