@@ -1,4 +1,4 @@
-name: test:mutation
+name: tests:lint
 
 on:
   push:
@@ -7,7 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  lint:
+    name: lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
@@ -23,7 +24,5 @@ jobs:
 
     - run: npm ci
 
-    - run: npx -y @stryker-mutator/core run --reporters dots,clear-text
-      name: run Stryker with defaults
-      env:
-        NODE_ENV: test
+    - run: npx -y eslint **/*.js --no-config-lookup
+      name: Run ESLint with defaults

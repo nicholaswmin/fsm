@@ -1,11 +1,11 @@
 {
   "name": "@nicholaswmin/fsm",
   "type": "module",
-  "version": "1.13.2",
-  "description": "finite-state machine",
+  "version": "1.14.1",
+  "description": "a finite-state machine",
   "exports": "./src/index.js",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.9"
   },
   "scripts": {
     "test": "node --test --experimental-test-coverage"
