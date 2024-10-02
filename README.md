@@ -404,33 +404,6 @@ node --test
 node --test --experimental-test-coverage
 ```
 
-## Design goals
- 
-> Read before use.
-
-This package was initially specced for internal use. 
-
-Above all it aims to be robust, maintenance-free & idiot-proof.
-
-It does the absolute bare-minimum and it does so in an unusually specific way.       
-If there's 5 ways to do something, it allows just 1 & even goes the extra-mile 
-to prevent using another.
-
-This vastly simplifies it & prevents misconfigurations but it also makes it 
-entirely *non-configurable*; by design.
-
-Unless if fits as an *exact* match of both your use-case & philosophy, you'll 
-find it restrictively inflexible.
-
-In addition, it attempts to render itself as immutable, so attempting to modify 
-its internals & coerce it to do what you want, would be akin to performing a 
-tonsillectomy but going in from the patient's wrong end.   
-It's not worth it. FSM constructors are nothing fancy. This one is < 50 LOC.
-
-There's a ton of [excellent alternatives][alternatives]. 
-Since FSMs tend to become structural features in a project, 
-it's best to research before use.
-
 ## Contributing
 
 [Contribution Guide][contr-guide]
