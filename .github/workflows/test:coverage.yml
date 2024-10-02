@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
-    name: unit
+  test-coverage:
+    name: test-coverage
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
@@ -27,6 +27,6 @@ jobs:
         --test-coverage-lines=95
         --test-coverage-branches=95 
         --test-coverage-functions=95 
-      name: test coverage is > threshold
+      name: Test coverage > threshold
       env:
         NODE_ENV: test
