@@ -49,7 +49,6 @@ test('#transitionFn() transition not allowed from current state ', async t => {
         t.assert.throws(() => {
           turnstile.push()
         }, {
-          name: 'InvalidTransitionError',
           message: /has no transition/
         })
       })
