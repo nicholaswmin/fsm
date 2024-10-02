@@ -37,6 +37,7 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 ### Minimal API
 
 > An API so simple, it doesn't need to be looked up twice.
+> Does one thing only. No bells & whistles.
 
 - Must satisfy the spec
 - Must not implement extras
