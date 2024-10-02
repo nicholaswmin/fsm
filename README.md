@@ -73,7 +73,7 @@ console.log(turnstile.state)
 // "closed"
 ```
 
-Each step is explained below:
+Each step is broken down below.
 
 ## Initialisation
 
