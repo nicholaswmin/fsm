@@ -18,8 +18,8 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 ### Zero Maintenance  
 
 > A strong indicator the package is *safe* for long-term use without requiring 
-> maintenance by it's authors.   
-> It will work and won't generate warnings, security advisories etc.
+> maintenance. 
+> It should work and won't generate warnings, security advisories etc.
 
 - Must not have dependencies, in any form:
   - no runtime dependencies
@@ -37,20 +37,20 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 ### Minimal API
 
 > An API so simple, it doesn't need to be looked up twice.
-> The ideal number of methods is `1`.
 
+- Must satisfy the spec
+- Must not implement extras
 - Must not allow configuration
-- Should prefer conciseness instead of detailed
-- Should not implement extra behaviour
+- Should be concise instead of detailed
 - Must use native APIs where applicable:
-  - Assume feature is: *"Get instance as `JSON`"*:
-    - `JSON.stringify(fsm)` is idiomatic, well-known & easy to remember. Good.
-    - `fsm.asJSON()` is specific to us, must be looked-up & memorised. Bad.
+  - Assume feature i.e: *"Get instance `JSON`"*:
+  - `JSON.stringify(fsm)` is idiomatic, well-known & easy to remember. Good.
+  - `fsm.asJSON()` is specific to us, must be looked-up & memorised. Bad.
 
 ### Robust
 
 > The package may complain unless provided with *exact* input; however,  
-> if that's given, it should carry out the task flawlessly.
+> when given like asked, it should carry out the task flawlessly.
 
 - Must catch errors at *construction time*, not *run time* 
 - Must implement a high-quality unit-test suite
@@ -102,8 +102,8 @@ git push origin main
 [@nicholaswmin][nicholaswmin]
 
 [nicholaswmin]: https://github.com/nicholaswmin
+[sv]: https://semver.org/
 [gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
 [provenance]: https://docs.npmjs.com/generating-provenance-statements
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
-[sv]: https://semver.org/
 [2119]: https://www.ietf.org/rfc/rfc2119.txt
