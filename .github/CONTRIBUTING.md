@@ -1,6 +1,6 @@
 # Contributing
 
-> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY"
+> The key words: "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY"  
 > in this document are to be interpreted as described in [RFC 2119][2119].
 
 ## Conventions
@@ -44,7 +44,7 @@ Follows [Github Flow][gh-flow], [Semver][sv] & [Conventional Commits][ccom].
 - Must not allow configuration
 - Should be concise instead of detailed
 - Must use native APIs where applicable:
-  - Assume feature i.e: *"Get instance `JSON`"*:
+  - i.e: Assume a feature i.e: *"Get instance `JSON`"*:
   - `JSON.stringify(fsm)` is idiomatic, well-known & easy to remember. Good.
   - `fsm.asJSON()` is specific to us, must be looked-up & memorised. Bad.
 
