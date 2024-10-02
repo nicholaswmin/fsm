@@ -16,8 +16,8 @@ Follows:
 
 ## Publishing
 
-Publish a [Github Release][gh-rel].   
-It auto-publishes to [npm][npm] with build [provenance][provenance]:
+Publishing a [Github Release][gh-rel] also auto-publishes to [npm][npm] 
+with build [provenance][provenance].
 
 > example: publishing a new release:
 
@@ -25,15 +25,13 @@ It auto-publishes to [npm][npm] with build [provenance][provenance]:
 gh release create v1.7.1
 ```
 
-> note: use the version as a release title.
+> reminder: versioning *must* follow Semver guidelines.
 
-Current releases can be listed using:
+List current releases using:
 
 ```bash
 gh release list
 ```
-
-> reminder: versioning *must* follow Semver guidelines.
 
 ## Design philosophy
 
