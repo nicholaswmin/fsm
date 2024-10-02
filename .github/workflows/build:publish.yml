@@ -2,6 +2,8 @@ name: npm publish with provenance
 on:
   release:
     types: [published]
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,6 +17,20 @@ jobs:
           node-version: 'latest'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
-      - run: npm publish --provenance --access public
+      
+      - name: Update package.json version
+        run: echo $version && npm pkg set version=$VERSION
+        env: 
+          VERSION: ${{ github.event.release.tag_name }}
+
+      - name: Commit version bump
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email 'nik.kyriakides@gmail.com'
+          git commit -am "build: version bump"
+          git push
+      
+      - name: npm publish with provenane
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
