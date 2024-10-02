@@ -32,8 +32,6 @@ with build [provenance][provenance].
 
 ### Zero Maintenance  
 
-Read: [Avoid Software Rot][rot]
-
 > *safe* for long-term use without requiring any maintenance.   
 > It should work without generating any warnings, security advisories etc.
 
@@ -173,7 +171,6 @@ These design goals are **central** to this implementation.
 [nicholaswmin]: https://github.com/nicholaswmin
 [sv]: https://semver.org/
 [gh-flow]: https://docs.github.com/en/get-started/using-github/github-flow
-[rot]: https://atomicobject.com/client-resources/software-rot-strategic-maintenance
 [provenance]: https://docs.npmjs.com/generating-provenance-statements
 [ccom]: https://www.conventionalcommits.org/en/v1.0.0/
 [2119]: https://www.ietf.org/rfc/rfc2119.txt
