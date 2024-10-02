@@ -1,4 +1,4 @@
-# unpublish if it's Github Release is deleted.
+# unpublish from npm if it's Github Release was deleted/unpublished.
 
 name: npm:unpublish
 env: 
@@ -23,16 +23,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'latest'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url:  'https://registry.npmjs.org'
 
       - name: Unpublish from npm
         run: |
           n_version=$(echo "$REL_VERSION" | sed 's/[^0-9.]*//g')
           pckg_name="$(npm pkg get name | tr -d '"')"
+
           versioned="$pckg_name"@"$n_version"
           
-          output="$(npm pkg get name | tr -d '"')"
-          
-          npm unpublish "$versioned"
+          output=$(npm unpublish "$versioned")
           
           printf "::notice title=Unpublished ${versioned}::Output: ${output}"

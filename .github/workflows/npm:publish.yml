@@ -1,5 +1,5 @@
-# npm publish from a `gh release`, with build provenance
-# adds links to npm package, provenance on the release
+# - npm publish --provenance, from a `gh release`
+# - attaches package details on the Release notes
 
 name: npm:publish
 env:

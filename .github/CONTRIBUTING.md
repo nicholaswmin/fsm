@@ -15,8 +15,8 @@
 
 ## Publishing
 
-Publishing a [Github Release][gh-rel] will also auto-publish to [npm][npm] 
-with build [provenance][provenance].
+Publish a [Github Release][gh-rel].   
+It auto-publishes to [npm][npm] with build [provenance][provenance].
 
 > example: publishing a new release:
 
