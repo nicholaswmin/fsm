@@ -402,7 +402,9 @@ node --test
 node --test --experimental-test-coverage
 ```
 
-Additionally, CodeQL static analysis also [runs on CI][codeql-flow].
+> vulnerability testing:
+
+CodeQL static analysis [runs on CI][codeql-flow].
 
 ## Contributing
 
