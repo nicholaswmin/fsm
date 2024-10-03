@@ -1,4 +1,4 @@
-[![tests][testb]][tests] [![tests][cocov]][tests]
+[![tests][testb]][tests] [![ccovt][cocov]](#tests)
 
 # fsm
 
@@ -36,7 +36,7 @@ declaratively & safely.[^1]
 
 ### Meta
 
-- [Test](#test)
+- [Tests](#tests)
 - [Authors](#authors)
 - [License](#license)
 
@@ -388,19 +388,15 @@ The current `state`. Read-only.
 |----------|----------|---------------|
 | `state`  | `string` | current state | 
 
-## Test 
+## Tests
 
 > unit tests:
 
 ```bash
-node --test
+node --run test
 ```
 
-> test coverage:
-
-```bash
-node --test --experimental-test-coverage
-```
+> these tests *require* that certain [coverage thresholds][ccov-thresh] are met.
 
 ## Contributing
 
@@ -439,7 +435,8 @@ The [MIT License][license]
 
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/tests:unit.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/tests:unit.yml
-[cocov]: https://img.shields.io/badge/coverage-%3E%2095%25-green
+[cocov]: https://img.shields.io/badge/coverage-%3E%2095%25-blue
+[ccovt]: https://github.com/nicholaswmin/fsm/blob/486a5f53d713a32fed01ee9d903bb66f90f9867a/package.json#L11
 
 [turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
@@ -456,11 +453,10 @@ The [MIT License][license]
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
 [falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
-[codeql]: https://codeql.github.com/
 
 [prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: ./.github/CONTRIBUTING.md
-[cov-thresholds]: https://github.com/nicholaswmin/fsm/blob/554c0afceb3c6f97296ab58bd716107772b443b1/.github/workflows/tests:unit.yml#L27
+[ccov-thresh]: https://github.com/nicholaswmin/fsm/blob/486a5f53d713a32fed01ee9d903bb66f90f9867a/package.json#L11
 [dgoals]: ./.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
