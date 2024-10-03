@@ -402,10 +402,12 @@ node --test
 node --test --experimental-test-coverage
 ```
 
-> CI tests
+> CI tests:
 
-- Test coverage is tested on CI as part of the unit-tests, via the native 
-  [coverage thresholds][cov-thresholds]. A min. of `95%` coverage is required.
+Test coverage is tested as part of unit-tests, via the 
+[coverage thresholds][cov-thresholds].
+
+Includes [CodeQL][codeql] scanning, at regular intervals.
   
 
 ## Contributing
@@ -462,6 +464,7 @@ The [MIT License][license]
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
 [falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
+[codeql]: https://codeql.github.com/
 
 [prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: ./.github/CONTRIBUTING.md
