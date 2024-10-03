@@ -32,16 +32,23 @@ gh release list
 
 ## Design goals
 
-The following are goals are central to this implementation:
+The following goals are *central* to this implementation:
 
 - [Zero maintenance](#zero-maintenance)
 - [Minimal API](#minimal-api)
 - [Robust](#robust)
 
+Trade-offs can be made elsewhere, if required. 
+
+> The key words *"must", *"must not"*, *"required"*, *"shall"*, *"shall not"*,   
+> *"should"*, *"should not"*, *"recommended"*, *"may"*, and *"optional"* in  
+> this document are to be interpreted as described in [RFC 2119][2119]
+
 ### Zero Maintenance  
 
-> It's *safe* for long-term use without requiring any maintenance.   
-> It should work without generating any warnings, security advisories etc.
+> Designed to be *safe* for long-term use since it does not require much
+> maintenance. It should work without generating any warnings, 
+> security advisories etc.
 
 - Must not have dependencies, in any form:
   - no runtime dependencies
@@ -61,7 +68,6 @@ The following are goals are central to this implementation:
 > An API so simple, it doesn't need to be looked up twice.  
 > Does that one thing, only; without any bells & whistles.
 
-- Must satisfy the spec
 - Must not implement extras
 - Must not allow configuration
 - Should be concise instead of detailed
@@ -72,19 +78,29 @@ The following are goals are central to this implementation:
 
 ### Robust
 
-> The package should complain unless provided with *exact* input; however,  
-> when given the input, it should carry out the task flawlessly.
+> The package should throw validation errors unless provided with *exact* input,
+> in the required format. It minimises configurability or normalising input.   
+> Any failures after "OK-ing" the input should be blamed on faulty code logic,   
+> never as a user or environment issue.
 
-- Must catch errors at *construction time*, not *run time* 
 - Must implement a high-quality unit-test suite
-- Must have 99% test-coverage
-- Must use test-runner thresholds for coverage test
-- Must have strict argument validations.
-- Must `throw` on incorrect argument.
-- Must not sanitise or normalise input.
-- Must `throw` if a property/method will be overwriten
+  - Should use plainly-worded test cases without technical
+  - Should use consistent language and test file structure
+  - Should be modular, using the file structure to split into aspects.
+  - Must test output, only. Must not test how the output was obtained.
+  - Should aim to be simple to follow, may ignore the DRY principle here.
+  - Should not be obscured by complicated setups/mocks etc
+  - Should not perform any imperative logic
+  - Should include descriptive error messages with expected & actual values
+  - Must have `> 95%` test-coverage, must fail the entire suite otherwise.
+  - Must run in `< 2 seconds`, at most.
+  - Should only test public props & methods. 
+- Must attempt catching errors, at *construction time* via strict validations
+  - Must `throw` on incorrect argument, must not attempt to normalise input
+  - Must `throw` if a property/method will be overwriten
+- Must only throw an `instanceof Error`.
 - Must create immutable FSMs
-- Must throw custom `Error`s
+- Must throw custom and descriptive `Error`s
 
 ## Authors
 

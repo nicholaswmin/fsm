@@ -402,6 +402,12 @@ node --test
 node --test --experimental-test-coverage
 ```
 
+> CI tests
+
+- Test coverage is tested on CI as part of the unit-tests, via the native 
+  [coverage thresholds][cov-thresholds]. A min. of `95%` coverage is required.
+  
+
 ## Contributing
 
 [Contribution Guide][contr-guide]
@@ -459,6 +465,7 @@ The [MIT License][license]
 
 [prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: ./.github/CONTRIBUTING.md
+[cov-thresholds]: https://github.com/nicholaswmin/fsm/blob/554c0afceb3c6f97296ab58bd716107772b443b1/.github/workflows/tests:unit.yml#L27
 [dgoals]: ./.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
