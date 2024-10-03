@@ -404,10 +404,10 @@ node --test --experimental-test-coverage
 
 > CI tests:
 
-Test coverage is checked via the native [coverage thresholds][cov-thresholds],
-as part of the unit test suite. A min. of `95%` coverage is required to pass.
+Test coverage is tested as part of unit-tests, via the 
+[coverage thresholds][cov-thresholds].
 
-Includes [CodeQL][codeql] vulnerability scanning, at regular intervals.
+Includes [CodeQL][codeql] scanning, at regular intervals.
   
 
 ## Contributing
