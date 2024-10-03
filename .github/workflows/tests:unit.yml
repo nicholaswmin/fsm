@@ -1,4 +1,4 @@
-name: tests
+name: tests:unit
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix:
-        node-version: [latest]
+        node-version: [22.9, latest]
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use NodeJS - ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
