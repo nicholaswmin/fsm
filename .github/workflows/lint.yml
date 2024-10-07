@@ -38,14 +38,15 @@ jobs:
         import globals from 'globals'
 
         export default [
-          languageOptions: {
-            sourceType: 'module',
-            globals: { ...globals.node }
-          },
-          ...js.configs.recommended
+          {
+            languageOptions: {
+              sourceType: 'module',
+              globals: { ...globals.node }
+            },
+            ...js.configs.recommended
+          }
         ]
         EOF
-
     - name: Run ESLint 
       run: npx -y eslint ./**/*.js
       env:
