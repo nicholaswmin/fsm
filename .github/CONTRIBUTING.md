@@ -1,4 +1,4 @@
-# Contributing
+# Contribution Guide
 
 - [Conventions](#conventions)
 - [Publishing](#publishing)

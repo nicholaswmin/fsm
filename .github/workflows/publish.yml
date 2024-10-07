@@ -1,0 +1,61 @@
+name: npm:publish
+on:
+  release:
+      types:
+        - published
+
+jobs:
+  npm-publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG_NAME: ${{ github.event.release.tag_name }}
+      BODY: ${{ github.event.release.body }}
+    permissions:
+      contents: write
+      id-token: write
+    
+    steps:
+      - name: Checkout ${{ github.event.release.default_branch }}
+        uses: actions/checkout@v4
+        with: 
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Setup latest Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Set Actions Bot as Git user
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Bump version to match release version
+        run: npm version "$TAG_NAME" -m "build&#58 bump" --allow-same-version
+
+      - name: Publish to npm with provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
+        
+      - name: Push to (${{ github.event.repository.default_branch }})
+        run: |
+          git pull origin HEAD:main
+          git push origin HEAD:main
+
+      - name: Update Github Release notes
+        run: |
+          package_name=$(npm pkg get name | jq -r)
+          package_url="https://npmjs.com/package/${package_name}"
+
+          package_mdlink="[${package_name}](${package_url})"
+          provenc_mdlink="[provenance](${package_url}#provenance)"
+
+          note="Published: ${package_mdlink} with build ${provenc_mdlink}."
+
+          gh release edit "${TAG_NAME}" -n "$(printf "%s\n\n ${BODY}", "$note")"
