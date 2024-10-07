@@ -29,6 +29,9 @@ jobs:
     - name: Install unpinned dependencies
       run: npm i --no-package-lock
     
+    - name: Install linting dependencies 
+      run: npm i --no-save eslint globals
+    
     - name: Create ESlint config. file 
       run: | 
         rm -rf eslint.config.js
