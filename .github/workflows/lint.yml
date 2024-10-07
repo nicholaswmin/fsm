@@ -38,11 +38,11 @@ jobs:
         import globals from 'globals'
 
         export default [
-        languageOptions: {
+          languageOptions: {
             sourceType: 'module',
             globals: { ...globals.node }
-          }
-          js.configs.recommended
+          },
+          ...js.configs.recommended
         ]
         EOF
 
