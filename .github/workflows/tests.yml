@@ -25,10 +25,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    
-    # Tests on CI should install unpinned dependencies (weird rule)
-    # From: OSSF: Package Manager Best Practices
-    # Read: https://github.com/ossf/package-manager-best-practices/blob/f51988aee8a9a1ab0436bbba61c1e94d7270683a/published/npm.md?plain=1#L297
+
+    # OSSF: Package Manager Best. Pract.: CI should install unpinned deps
     - name: Install unpinned dependencies
       run: npm install --no-package-lock
       
