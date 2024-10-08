@@ -1,4 +1,5 @@
 # unpublish from npm if it's Github Release was deleted/unpublished.
+# doesn't seem to be working
 
 name: npm:unpublish
 on:
