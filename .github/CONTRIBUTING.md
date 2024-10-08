@@ -103,8 +103,7 @@ Trade-offs may be made in any aspect except the above.
 ## Footnotes
 
 [^1]: Not a variation of [Sensible Defaults][sd].  
-      Not allowing *any* configuration is the *only guarantee* against a 
-      misconfiguration.
+      Here, we're not allowing *any* configuration.
 
 [nicholaswmin]: https://github.com/nicholaswmin
 [sv]: https://semver.org/
