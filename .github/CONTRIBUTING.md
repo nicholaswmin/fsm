@@ -103,7 +103,7 @@ Trade-offs may be made in any aspect except the above.
 ## Footnotes
 
 [^1]: Not a variation of [Sensible Defaults][sd].  
-      Here, we're not allowing *any* configuration.
+      We're not allowing *any* configuration.
 
 [nicholaswmin]: https://github.com/nicholaswmin
 [sv]: https://semver.org/
