@@ -1,0 +1,56 @@
+name: lint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        node-version: [latest]
+
+    steps:
+    
+    - name: Checkout ${{ github.head_ref || github.ref_name }} 
+      uses: actions/checkout@v4
+
+    - name: Setup Node ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install unpinned dependencies
+      run: npm i --no-package-lock
+    
+    - name: Install linting dependencies 
+      run: npm i --no-save eslint globals
+    
+    - name: Create ESlint config. file 
+      run: | 
+        rm -rf eslint.config.js
+        cat <<EOF > eslint.config.js
+
+        import js from '@eslint/js'
+        import globals from 'globals'
+
+        export default [
+          {
+            languageOptions: {
+              sourceType: 'module',
+              globals: { ...globals.node }
+            },
+            ...js.configs.recommended
+          }
+        ]
+        EOF
+    - name: Run ESLint 
+      run: npx -y eslint ./**/*.js
+      env:
+        NODE_ENV: test

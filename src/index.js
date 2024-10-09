@@ -26,7 +26,7 @@ const parseContextArguments = _ctx => _ctx
   ? Object.defineProperty(_ctx, 'fsm', { value: {} })
   : new FSM()
 
-const defineTransitionMethod = function([ transition, state ]) {
+const defineTransitionMethod = function([ transition ]) {
   if (typeof this[transition] !== 'undefined')
     return
 

@@ -1,13 +1,13 @@
 import { has, is } from './is.js'
 
-const transition = function([ input, state ], i, arr) {
+const transition = function([ input, state ]) {
   const name = `${input}.${state}`, fname = `${name}:${state}`
 
   Object.hasOwn(this, is.string(state, fname)) || 
     has.err.range(fname, 'missing')
 },
   
-state = function([ name, state ], i, arr) {
+state = function([ name, state ]) {
   Object.entries(is.object(state, name)).map(transition, this)
 }
 
