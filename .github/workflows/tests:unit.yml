@@ -1,0 +1,28 @@
+name: tests:unit
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        node-version: [22.9, latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use NodeJS - ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: node --run test
+      name: Run unit tests
+      env:
+        NODE_ENV: test

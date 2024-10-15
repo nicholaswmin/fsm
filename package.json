@@ -1,0 +1,27 @@
+{
+  "name": "@nicholaswmin/fsm",
+  "type": "module",
+  "version": "1.14.1",
+  "description": "a finite-state machine",
+  "exports": "./src/index.js",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "scripts": {
+    "test": "node --test --experimental-test-coverage --test-coverage-branches=95 --test-coverage-lines=95 --test-coverage-functions=95"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicholaswmin/fsm.git"
+  },
+  "keywords": [
+    "fsm",
+    "finite-state-machine"
+  ],
+  "author": "@nicholaswmin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicholaswmin/fsm/issues"
+  },
+  "homepage": "https://github.com/nicholaswmin/fsm#readme"
+}
