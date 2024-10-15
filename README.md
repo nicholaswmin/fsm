@@ -404,7 +404,7 @@ node --run test
 
 ## Authors
 
-[@nicholaswmin][author]
+[N.Kyriakides; @nicholaswmin][author]
 
 ## License 
 
