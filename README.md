@@ -436,7 +436,7 @@ The [MIT License][license]
 [testb]: https://github.com/nicholaswmin/fsm/actions/workflows/tests:unit.yml/badge.svg
 [tests]: https://github.com/nicholaswmin/fsm/actions/workflows/tests:unit.yml
 [cocov]: https://img.shields.io/badge/coverage-%3E%2095%25-blue
-[ccovt]: https://github.com/nicholaswmin/fsm/blob/486a5f53d713a32fed01ee9d903bb66f90f9867a/package.json#L11
+[ccovt]: https://github.com/nicholaswmin/fsm/blob/6db5c1c5ede6edb15cb1b8431a4716163a7410d4/package.json#L11
 
 [turn]: https://en.wikipedia.org/wiki/Finite-state_machine#Example:_coin-operated_turnstile
 [fsm]: https://en.wikipedia.org/wiki/Finite-state_machine
@@ -457,6 +457,6 @@ The [MIT License][license]
 [prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: ./.github/CONTRIBUTING.md
 [ccov-thresh]: https://github.com/nicholaswmin/fsm/blob/486a5f53d713a32fed01ee9d903bb66f90f9867a/package.json#L11
-[dgoals]: ./.github/CONTRIBUTING.md#design-goals
+[dgoals]: https://github.com/nicholaswmin/fsm/blob/main/.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
 [license]: ./LICENSE
