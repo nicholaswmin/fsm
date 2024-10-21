@@ -32,7 +32,8 @@ jobs:
 
           git config --global user.name github-actions[bot]
           git config --global user.email "$bot_email"
-      
+          git config --global pull.rebase true
+
       - name: Bump package version
         run: |
           npm version "$REL_VERSION" -m "build: bump %s" --allow-same-version
