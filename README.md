@@ -414,22 +414,22 @@ then from a clean `main`:
 # list current releases
 gh release list
 ``` 
---9
+
 Choose the next [Semver][semver], i.e: `1.3.1`, then:
 
 ```bash
 gh release create 1.3.1
 ```
 
-> **note:** dont preix releases/tags with `v`, just `x.x.x` is enough.
+> **note:** dont prefix releases/tags with `v`, just `x.x.x` is enough.
 
 The Github release triggers the [`npm:publish workflow`][npmpubworkflow],  
 publishing the new version to [npm][npmproj].  
 
 It then attaches a [Build Provenance][provenance] statement on the 
-[Release Notes][rel-notes]
+[Release Notes][rel-notes].
 
-Done.
+That's all.
   
 ## Authors
 
