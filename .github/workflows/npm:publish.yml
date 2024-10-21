@@ -20,10 +20,10 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
-      - name: Setup latest Node
+      - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
       
       - name: Set Actions Bot as Git user
