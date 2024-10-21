@@ -1,7 +1,9 @@
+import { is } from './is.js'
+
 const utils = {
   String: {
     onify: function(str) {
-      return `on${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase()}` 
+      return is.string(`on${str.charAt(0).toUpperCase()}${str.slice(1)}`)
     }
   },
 
