@@ -1,7 +1,7 @@
 {
   "name": "@nicholaswmin/fsm",
   "type": "module",
-  "version": "1.15.2",
+  "version": "1.15.3",
   "description": "a finite-state machine",
   "exports": "./src/index.js",
   "engines": {
