@@ -18,7 +18,7 @@ declaratively & safely.[^1]
 - [Example](#example)
   - [Initialisation](#initialisation)
   - [Transition](#transition)
-  - [Current state](#get-state)
+  - [Current state](#current-state)
 
 ### Extras
 
@@ -37,6 +37,7 @@ declaratively & safely.[^1]
 ### Meta
 
 - [Tests](#tests)
+- [Publishing](#publishing)
 - [Authors](#authors)
 - [License](#license)
 
@@ -402,6 +403,34 @@ node --run test
 
 [Contribution Guide][contr-guide]
 
+## Publishing 
+
+- collect all changes in a pull-request
+- merge to `main` when all ok
+
+then from a clean `main`:
+
+```bash
+# list current releases
+gh release list
+``` 
+--9
+Choose the next [Semver][semver], i.e: `1.3.1`, then:
+
+```bash
+gh release create 1.3.1
+```
+
+> **note:** dont preix releases/tags with `v`, just `x.x.x` is enough.
+
+The Github release triggers the [`npm:publish workflow`][npmpubworkflow],  
+publishing the new version to [npm][npmproj].  
+
+It then attaches a [Build Provenance][provenance] statement on the 
+[Release Notes][rel-notes]
+
+Done.
+  
 ## Authors
 
 [N.Kyriakides; @nicholaswmin][author]
@@ -453,6 +482,12 @@ The [MIT License][license]
 [mixin]: https://developer.mozilla.org/en-US/docs/Glossary/Mixin
 [falsy]: https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
+
+[npmproj]: https://www.npmjs.com/package/@nicholaswmin/fsm
+[semver]: https://semver.org/
+[npmpubworkflow]: https://github.com/nicholaswmin/fsm/actions/workflows/npm:publish.yml
+[provenance]: https://docs.npmjs.com/generating-provenance-statements/
+[rel-notes]: https://github.com/nicholaswmin/fsm/releases/latest
 
 [prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: https://github.com/nicholaswmin/fsm/blob/main/.github/CONTRIBUTING.md
