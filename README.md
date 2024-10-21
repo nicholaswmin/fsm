@@ -491,7 +491,7 @@ The [MIT License][license]
 
 [prov]: https://search.sigstore.dev/?logIndex=136020643
 [contr-guide]: https://github.com/nicholaswmin/fsm/blob/main/.github/CONTRIBUTING.md
-[ccov-thresh]: https://github.com/nicholaswmin/fsm/blob/486a5f53d713a32fed01ee9d903bb66f90f9867a/package.json#L11
+[ccov-thresh]: https://github.com/nicholaswmin/fsm/blob/main/package.json#L11
 [dgoals]: https://github.com/nicholaswmin/fsm/blob/main/.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
 [license]: https://raw.githubusercontent.com/nicholaswmin/fsm/refs/heads/main/LICENSE
