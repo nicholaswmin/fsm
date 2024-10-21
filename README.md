@@ -20,7 +20,7 @@ declaratively & safely.[^1]
   - [Transition](#transition)
   - [Current state](#get-state)
 
-### Advanced
+### Extras
 
 - [Hooks](#hook-methods)
 - [Transition cancellations](#transition-cancellations)
@@ -455,8 +455,8 @@ The [MIT License][license]
 [ee]: https://nodejs.org/docs/latest/api/events.html#class-eventemitter
 
 [prov]: https://search.sigstore.dev/?logIndex=136020643
-[contr-guide]: ./.github/CONTRIBUTING.md
+[contr-guide]: https://github.com/nicholaswmin/fsm/blob/main/.github/CONTRIBUTING.md
 [ccov-thresh]: https://github.com/nicholaswmin/fsm/blob/486a5f53d713a32fed01ee9d903bb66f90f9867a/package.json#L11
 [dgoals]: https://github.com/nicholaswmin/fsm/blob/main/.github/CONTRIBUTING.md#design-goals
 [author]: https://github.com/nicholaswmin
-[license]: ./LICENSE
+[license]: https://raw.githubusercontent.com/nicholaswmin/fsm/refs/heads/main/LICENSE
