@@ -8,7 +8,8 @@
 > The change from one `state` to another is called a `transition`.
 
 This package constructs simple FSM's which express their logic 
-declaratively & safely.[^1] We use this internally on production.
+declaratively & safely.[^1].  
+We use this internally on production.
   
 `~1KB`, zero dependencies, [opinionated][dgoals], and tested throught the nose;  
 it eschews fancy features for robustness, ease of use and zero-maintenace  
